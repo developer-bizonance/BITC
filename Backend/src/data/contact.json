@@ -1,0 +1,35 @@
+[
+  {
+    "id": "inq-1787315662428-101",
+    "name": "Aniket Oagle",
+    "email": "aniket@gmail.com",
+    "phone": "7766546546",
+    "city": "Amravati",
+    "enquiryType": "Faculty Development Program (FDP)",
+    "message": "testing",
+    "status": "PENDING",
+    "createdAt": "2026-08-21T12:34:22.428Z"
+  },
+  {
+    "id": "inq-1787315287837-584",
+    "name": "Sumit Dhole",
+    "email": "sumit@gmail.com",
+    "phone": "7756156165",
+    "city": "Amravati",
+    "enquiryType": "Faculty Development Program (FDP)",
+    "message": "this is for testing",
+    "status": "PENDING",
+    "createdAt": "2026-08-21T12:28:07.838Z"
+  },
+  {
+    "id": "inq-1787299443355-795",
+    "name": "Vedant Khedkar",
+    "email": "vedant@gmail.com",
+    "phone": "7767055408",
+    "city": "Amravati",
+    "enquiryType": "Corporate Training",
+    "message": "Interested to Upskill",
+    "status": "PENDING",
+    "createdAt": "2026-08-21T08:04:03.356Z"
+  }
+]

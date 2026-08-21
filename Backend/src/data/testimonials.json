@@ -1,0 +1,38 @@
+[
+  {
+    "id": "testi-1",
+    "name": "Rahul Sharma",
+    "role": "Software Engineer",
+    "company": "TCS",
+    "course": "Full Stack Development",
+    "packageAmt": "6 LPA",
+    "quote": "The MERN stack certification at BITC gave me the practical skills I needed to clear my interviews with ease.",
+    "image": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&h=150&q=80",
+    "rating": 5,
+    "createdAt": "2026-08-21T06:19:25.534Z"
+  },
+  {
+    "id": "testi-2",
+    "name": "Priya Patel",
+    "role": "Data Analyst",
+    "company": "Wipro",
+    "course": "Data Science & AI",
+    "packageAmt": "8 LPA",
+    "quote": "Excellent faculty and hands-on projects. The placement cell was very supportive throughout the process.",
+    "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&h=150&q=80",
+    "rating": 5,
+    "createdAt": "2026-08-21T06:19:25.534Z"
+  },
+  {
+    "id": "testi-3",
+    "name": "Amit Kumar",
+    "role": "Automation Engineer",
+    "company": "L&T",
+    "course": "Industrial Automation",
+    "packageAmt": "5.5 LPA",
+    "quote": "The industrial automation training was exactly what the industry demands right now.",
+    "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80",
+    "rating": 5,
+    "createdAt": "2026-08-21T06:19:25.534Z"
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "id": "blg-1",
+    "title": "The Future of AI in Software Engineering",
+    "slug": "the-future-of-ai-in-software-engineering",
+    "content": "Explore how artificial intelligence and LLMs are transforming software development, code reviews, and what practical skills engineers need in 2026.",
+    "category": "Technology",
+    "publishedAt": "2026-08-12T00:00:00.000Z",
+    "author": "Dr. Shrikant Pande",
+    "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1932&auto=format&fit=crop",
+    "createdAt": "2026-08-12T00:00:00.000Z",
+    "updatedAt": "2026-08-12T00:00:00.000Z"
+  },
+  {
+    "id": "blg-2",
+    "title": "10 Tips to Crack Your First Tech Interview",
+    "slug": "10-tips-to-crack-your-first-tech-interview",
+    "content": "Proven strategies for Data Structures & Algorithms, system design rounds, mock interviews, and behavioral questions to ace your first technical interview.",
+    "category": "Career Advice",
+    "publishedAt": "2026-08-08T00:00:00.000Z",
+    "author": "Sneha Deshmukh",
+    "image": "https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=2069&auto=format&fit=crop",
+    "createdAt": "2026-08-08T00:00:00.000Z",
+    "updatedAt": "2026-08-08T00:00:00.000Z"
+  },
+  {
+    "id": "blg-3",
+    "title": "Why Next.js & Server Components Rule Modern Web Apps",
+    "slug": "why-nextjs-is-the-future-of-react-development",
+    "content": "A deep dive into React Server Components, Streaming SSR, App Router optimization, and edge computing patterns.",
+    "category": "Web Development",
+    "publishedAt": "2026-08-05T00:00:00.000Z",
+    "author": "Dr. Vikram Joshi",
+    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop",
+    "createdAt": "2026-08-05T00:00:00.000Z",
+    "updatedAt": "2026-08-05T00:00:00.000Z"
+  },
+  {
+    "id": "blg-4",
+    "title": "Mastering Cloud DevOps: Docker, Kubernetes & CI/CD",
+    "slug": "mastering-cloud-devops-docker-kubernetes",
+    "content": "Step-by-step guide to containerizing microservices, orchestrating scalable Kubernetes clusters, and automating deployments with GitHub Actions.",
+    "category": "Cloud & DevOps",
+    "publishedAt": "2026-08-01T00:00:00.000Z",
+    "author": "DevOps Team",
+    "image": "https://images.unsplash.com/photo-1607799279861-4dd421887fb3?q=80&w=2070&auto=format&fit=crop",
+    "createdAt": "2026-08-01T00:00:00.000Z",
+    "updatedAt": "2026-08-01T00:00:00.000Z"
+  },
+  {
+    "id": "blg-5",
+    "title": "Roadmap to Becoming a Full Stack Data Scientist",
+    "slug": "roadmap-to-full-stack-data-scientist",
+    "content": "How to bridge the gap between exploratory data analysis, machine learning model training, and deploying production REST APIs with FastAPI.",
+    "category": "Data Science",
+    "publishedAt": "2026-07-28T00:00:00.000Z",
+    "author": "AI Research Lab",
+    "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
+    "createdAt": "2026-07-28T00:00:00.000Z",
+    "updatedAt": "2026-07-28T00:00:00.000Z"
+  }
+]

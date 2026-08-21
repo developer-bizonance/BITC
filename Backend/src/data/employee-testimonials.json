@@ -1,0 +1,29 @@
+[
+  {
+    "id": "emp-testi-1",
+    "name": "Ananya Mehta",
+    "role": "Faculty – Data Science",
+    "quote": "Working at BITC has been the most rewarding experience. I get to shape careers and learn alongside brilliant students every day.",
+    "image": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=150&h=150&q=80",
+    "rating": 5,
+    "createdAt": "2026-08-21T06:19:25.499Z"
+  },
+  {
+    "id": "emp-testi-2",
+    "name": "Rohan Singh",
+    "role": "Software Developer",
+    "quote": "The culture here is incredible. Innovation is encouraged, and every team member's contribution is valued.",
+    "image": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=150&h=150&q=80",
+    "rating": 5,
+    "createdAt": "2026-08-21T06:19:25.499Z"
+  },
+  {
+    "id": "emp-testi-3",
+    "name": "Kavitha Rao",
+    "role": "Placement Officer",
+    "quote": "Seeing our students land their dream jobs is the best part of my role. BITC truly cares about outcomes.",
+    "image": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&h=150&q=80",
+    "rating": 5,
+    "createdAt": "2026-08-21T06:19:25.499Z"
+  }
+]

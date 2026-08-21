@@ -1,0 +1,74 @@
+[
+  {
+    "id": "ip-1",
+    "name": "TCS",
+    "category": "IT & Services",
+    "createdAt": "2026-08-21T06:19:25.521Z"
+  },
+  {
+    "id": "ip-2",
+    "name": "Infosys",
+    "category": "IT & Services",
+    "createdAt": "2026-08-21T06:19:25.521Z"
+  },
+  {
+    "id": "ip-3",
+    "name": "Wipro",
+    "category": "IT & Services",
+    "createdAt": "2026-08-21T06:19:25.521Z"
+  },
+  {
+    "id": "ip-4",
+    "name": "HCL",
+    "category": "Tech & Consulting",
+    "createdAt": "2026-08-21T06:19:25.521Z"
+  },
+  {
+    "id": "ip-5",
+    "name": "Tech Mahindra",
+    "category": "IT & Telecom",
+    "createdAt": "2026-08-21T06:19:25.521Z"
+  },
+  {
+    "id": "ip-6",
+    "name": "Cognizant",
+    "category": "Global Services",
+    "createdAt": "2026-08-21T06:19:25.521Z"
+  },
+  {
+    "id": "ip-7",
+    "name": "Accenture",
+    "category": "Global Consulting",
+    "createdAt": "2026-08-21T06:19:25.521Z"
+  },
+  {
+    "id": "ip-8",
+    "name": "IBM",
+    "category": "Cloud & AI",
+    "createdAt": "2026-08-21T06:19:25.521Z"
+  },
+  {
+    "id": "ip-9",
+    "name": "Microsoft",
+    "category": "Product & Cloud",
+    "createdAt": "2026-08-21T06:19:25.521Z"
+  },
+  {
+    "id": "ip-10",
+    "name": "Google",
+    "category": "Tech & AI",
+    "createdAt": "2026-08-21T06:19:25.521Z"
+  },
+  {
+    "id": "ip-11",
+    "name": "Amazon",
+    "category": "E-Commerce & Cloud",
+    "createdAt": "2026-08-21T06:19:25.521Z"
+  },
+  {
+    "id": "ip-12",
+    "name": "Deloitte",
+    "category": "Consulting & Audit",
+    "createdAt": "2026-08-21T06:19:25.521Z"
+  }
+]

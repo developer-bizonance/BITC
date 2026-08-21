@@ -1,0 +1,38 @@
+[
+  {
+    "id": "gal-1",
+    "title": "Modern AI & Cloud Computing Lab",
+    "imgUrl": "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1920&auto=format&fit=crop",
+    "createdAt": "2026-08-01T00:00:00.000Z"
+  },
+  {
+    "id": "gal-2",
+    "title": "Annual Hackathon & Innovation Challenge 2026",
+    "imgUrl": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1920&auto=format&fit=crop",
+    "createdAt": "2026-08-05T00:00:00.000Z"
+  },
+  {
+    "id": "gal-3",
+    "title": "Corporate Campus Placement Drive & Interviews",
+    "imgUrl": "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1920&auto=format&fit=crop",
+    "createdAt": "2026-08-08T00:00:00.000Z"
+  },
+  {
+    "id": "gal-4",
+    "title": "Full Stack Development Workshop & Live Coding",
+    "imgUrl": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1920&auto=format&fit=crop",
+    "createdAt": "2026-08-10T00:00:00.000Z"
+  },
+  {
+    "id": "gal-5",
+    "title": "Graduation & Certificate Distribution Ceremony",
+    "imgUrl": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1920&auto=format&fit=crop",
+    "createdAt": "2026-08-12T00:00:00.000Z"
+  },
+  {
+    "id": "gal-6",
+    "title": "High-Performance Server Room & Network Infrastructure",
+    "imgUrl": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1920&auto=format&fit=crop",
+    "createdAt": "2026-08-15T00:00:00.000Z"
+  }
+]

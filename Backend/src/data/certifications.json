@@ -1,0 +1,182 @@
+[
+  {
+    "id": "cert-1",
+    "title": "MERN Stack",
+    "category": "Information Technology",
+    "duration": "6 Months",
+    "fees": "₹36,000",
+    "badge": "Integrated with AI",
+    "image": "/MERN.jpg",
+    "createdAt": "2026-08-21T06:19:25.402Z"
+  },
+  {
+    "id": "cert-2",
+    "title": "MEAN Stack",
+    "category": "Information Technology",
+    "duration": "6 Months",
+    "fees": "₹36,000",
+    "badge": "Integrated with AI",
+    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop",
+    "createdAt": "2026-08-21T06:19:25.402Z"
+  },
+  {
+    "id": "cert-3",
+    "title": "Full Stack Java",
+    "category": "Information Technology",
+    "duration": "6 Months",
+    "fees": "₹36,000",
+    "badge": "Integrated with AI",
+    "image": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800&auto=format&fit=crop",
+    "createdAt": "2026-08-21T06:19:25.402Z"
+  },
+  {
+    "id": "cert-4",
+    "title": "Full Stack Python",
+    "category": "Information Technology",
+    "duration": "6 Months",
+    "fees": "₹36,000",
+    "badge": "Integrated with AI",
+    "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800&auto=format&fit=crop",
+    "createdAt": "2026-08-21T06:19:25.402Z"
+  },
+  {
+    "id": "cert-5",
+    "title": "AI & Machine Learning",
+    "category": "Information Technology",
+    "duration": "6 Months",
+    "fees": "₹35,000",
+    "badge": "Top Rated",
+    "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop",
+    "createdAt": "2026-08-21T06:19:25.402Z"
+  },
+  {
+    "id": "cert-6",
+    "title": "Data Science",
+    "category": "Information Technology",
+    "duration": "6 Months",
+    "fees": "₹35,000",
+    "badge": "High Demand",
+    "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop",
+    "createdAt": "2026-08-21T06:19:25.402Z"
+  },
+  {
+    "id": "cert-7",
+    "title": "Cyber Security",
+    "category": "Information Technology",
+    "duration": "6 Months",
+    "fees": "₹36,000",
+    "badge": "Industry Standard",
+    "image": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&auto=format&fit=crop",
+    "createdAt": "2026-08-21T06:19:25.402Z"
+  },
+  {
+    "id": "cert-8",
+    "title": "Cloud Computing",
+    "category": "Information Technology",
+    "duration": "6 Months",
+    "fees": "₹36,000",
+    "badge": "AWS / Azure",
+    "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop",
+    "createdAt": "2026-08-21T06:19:25.402Z"
+  },
+  {
+    "id": "cert-9",
+    "title": "Digital Marketing",
+    "category": "Management",
+    "duration": "3 Months",
+    "fees": "₹20,000",
+    "badge": "Placement Assistance",
+    "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop",
+    "createdAt": "2026-08-21T06:19:25.402Z"
+  },
+  {
+    "id": "cert-10",
+    "title": "Business Analytics",
+    "category": "Management",
+    "duration": "6 Months",
+    "fees": "₹36,000",
+    "badge": "Integrated with AI",
+    "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop",
+    "createdAt": "2026-08-21T06:19:25.402Z"
+  },
+  {
+    "id": "cert-11",
+    "title": "Finance",
+    "category": "Management",
+    "duration": "6 Months",
+    "fees": "₹25,000",
+    "badge": "Career Booster",
+    "image": "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?q=80&w=800&auto=format&fit=crop",
+    "createdAt": "2026-08-21T06:19:25.402Z"
+  },
+  {
+    "id": "cert-12",
+    "title": "HR",
+    "category": "Management",
+    "duration": "3 Months",
+    "fees": "₹20,000",
+    "badge": "Recruitment Specialist",
+    "image": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=800&auto=format&fit=crop",
+    "createdAt": "2026-08-21T06:19:25.402Z"
+  },
+  {
+    "id": "cert-13",
+    "title": "Sales",
+    "category": "Management",
+    "duration": "3 Months",
+    "fees": "₹18,000",
+    "badge": "Corporate Ready",
+    "image": "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800&auto=format&fit=crop",
+    "createdAt": "2026-08-21T06:19:25.402Z"
+  },
+  {
+    "id": "cert-14",
+    "title": "UI/UX Design",
+    "category": "Design",
+    "duration": "6 Months",
+    "fees": "₹28,000",
+    "badge": "Figma & Prototyping",
+    "image": "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=800&auto=format&fit=crop",
+    "createdAt": "2026-08-21T06:19:25.402Z"
+  },
+  {
+    "id": "cert-15",
+    "title": "Graphic Design",
+    "category": "Design",
+    "duration": "3 Months",
+    "fees": "₹18,000",
+    "badge": "Adobe Suite",
+    "image": "https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=800&auto=format&fit=crop",
+    "createdAt": "2026-08-21T06:19:25.402Z"
+  },
+  {
+    "id": "cert-16",
+    "title": "Motion Graphics",
+    "category": "Design",
+    "duration": "3 Months",
+    "fees": "₹22,000",
+    "badge": "After Effects",
+    "image": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop",
+    "createdAt": "2026-08-21T06:19:25.402Z"
+  },
+  {
+    "id": "cert-17",
+    "title": "Video Editing",
+    "category": "Design",
+    "duration": "3 Months",
+    "fees": "₹20,000",
+    "badge": "Premiere Pro",
+    "image": "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=800&auto=format&fit=crop",
+    "createdAt": "2026-08-21T06:19:25.402Z"
+  },
+  {
+    "id": "cert-18",
+    "title": "Animation",
+    "category": "Design",
+    "duration": "6 Months",
+    "fees": "₹36,000",
+    "badge": "3D & 2D",
+    "image": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop",
+    "createdAt": "2026-08-21T06:19:25.402Z"
+  }
+]

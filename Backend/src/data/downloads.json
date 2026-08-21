@@ -1,0 +1,37 @@
+[
+  {
+    "id": "dl-1",
+    "title": "Full Stack Web Development Curriculum 2026-27",
+    "description": "Complete course module breakdown, tech stack syllabus, real-time project guides, and assessment criteria.",
+    "fileUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+    "createdAt": "2026-08-01T00:00:00.000Z"
+  },
+  {
+    "id": "dl-2",
+    "title": "BITC Official Placement & Recruitment Brochure",
+    "description": "Statistics, top hiring partners, average salary packages, and alumnus success stories.",
+    "fileUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+    "createdAt": "2026-08-04T00:00:00.000Z"
+  },
+  {
+    "id": "dl-3",
+    "title": "Data Science & Machine Learning Master Handbook",
+    "description": "Comprehensive study material covering Python, NumPy, Pandas, Scikit-Learn, Deep Learning, and AI projects.",
+    "fileUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+    "createdAt": "2026-08-07T00:00:00.000Z"
+  },
+  {
+    "id": "dl-4",
+    "title": "Student Admission & Scholarship Application Form",
+    "description": "Printable offline registration form for direct admission and merit-based financial aid.",
+    "fileUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+    "createdAt": "2026-08-11T00:00:00.000Z"
+  },
+  {
+    "id": "dl-5",
+    "title": "Cloud Computing & DevOps Certification Roadmap",
+    "description": "Detailed roadmap for AWS, Docker, Kubernetes, CI/CD pipelines, and Linux system administration.",
+    "fileUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+    "createdAt": "2026-08-14T00:00:00.000Z"
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "faq-1",
+    "question": "What are the eligibility criteria for enrolling in BITC programs?",
+    "answer": "Our professional certification and industrial training courses are open to students pursuing or having completed B.Tech, BE, BCA, MCA, B.Sc (IT/CS), Diploma, or working professionals looking to upskill. Basic computer literacy and logical thinking are recommended.",
+    "createdAt": "2026-08-01T00:00:00.000Z"
+  },
+  {
+    "id": "faq-2",
+    "question": "Does BITC provide 100% placement assistance?",
+    "answer": "Yes! Our dedicated Training & Placement Cell conducts resume building workshops, mock technical and HR interviews, live industry project reviews, and provides direct interview opportunities with over 150+ hiring partner companies.",
+    "createdAt": "2026-08-03T00:00:00.000Z"
+  },
+  {
+    "id": "faq-3",
+    "question": "Are the training certificates recognized in the software industry?",
+    "answer": "Absolutely. Certificates issued by BIZONANCE Industrial Training Centre (BITC) are ISO 9001:2015 certified and recognized by top tech employers and multinational IT companies across India.",
+    "createdAt": "2026-08-06T00:00:00.000Z"
+  },
+  {
+    "id": "faq-4",
+    "question": "Are flexible morning, evening, and weekend batches available for working professionals?",
+    "answer": "Yes, we offer both regular weekday batches (morning and evening sessions) as well as intensive weekend masterclasses specifically scheduled for college students and working professionals.",
+    "createdAt": "2026-08-09T00:00:00.000Z"
+  },
+  {
+    "id": "faq-5",
+    "question": "What hands-on practical experience is included in the curriculum?",
+    "answer": "Every course incorporates at least 70% practical lab training with 3+ major industrial capstone projects deployed to live cloud servers, complete with code reviews and GitHub version control practices.",
+    "createdAt": "2026-08-12T00:00:00.000Z"
+  },
+  {
+    "id": "faq-6",
+    "question": "Can I pay course fees in easy monthly installments (EMI)?",
+    "answer": "Yes, we provide 0% interest monthly installment options (EMI) and merit-based scholarship discounts for deserving students.",
+    "createdAt": "2026-08-14T00:00:00.000Z"
+  }
+]

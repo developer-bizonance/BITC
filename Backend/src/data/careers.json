@@ -1,0 +1,50 @@
+[
+  {
+    "id": "job-1",
+    "title": "Faculty – Full Stack Development",
+    "type": "Full-Time",
+    "location": "On-Site",
+    "experience": "3+ Years",
+    "department": "Academic & Training",
+    "description": "Lead MERN, Java, and Python Full Stack training batches and mentor aspiring developers.",
+    "specialities": "MERN, Java, Python",
+    "status": "Active",
+    "createdAt": "2026-08-21T11:44:58.000Z"
+  },
+  {
+    "id": "job-2",
+    "title": "Technical Trainer – Data Science",
+    "type": "Full-Time",
+    "location": "On-Site",
+    "experience": "2+ Years",
+    "department": "Academic & Training",
+    "description": "Deliver hands-on training on Python, Machine Learning, PowerBI, and SQL analytics.",
+    "specialities": "Python, Machine Learning, SQL",
+    "status": "Active",
+    "createdAt": "2026-08-21T11:44:58.000Z"
+  },
+  {
+    "id": "job-6",
+    "title": "Industry Expert",
+    "type": "Part-Time",
+    "location": "Hybrid",
+    "experience": "5+ Years",
+    "department": "Academic & Training",
+    "description": "Share industry insights and mentor students on real-world projects.",
+    "specialities": "Industry Insights, Mentorship, Tech Leadership",
+    "status": "Active",
+    "createdAt": "2026-08-21T11:44:58.000Z"
+  },
+  {
+    "id": "job-7",
+    "title": "Training and Placement Officer (TPO)",
+    "type": "Full-Time",
+    "location": "On-Site",
+    "experience": "3+ Years",
+    "department": "Placement Cell",
+    "description": "Coordinate with companies for student placements and internships.",
+    "specialities": "Corporate Relations, Placement Coordination, HR Networking",
+    "status": "Active",
+    "createdAt": "2026-08-21T11:44:58.000Z"
+  }
+]

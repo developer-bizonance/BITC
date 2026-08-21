@@ -1,0 +1,51 @@
+[
+  {
+    "id": "partner-1",
+    "name": "Sant Gadge Baba Amravati University",
+    "logo": "/univercity.png",
+    "city": "Amravati",
+    "createdAt": "2026-08-21T06:19:25.529Z"
+  },
+  {
+    "id": "partner-2",
+    "name": "Government College of Engineering, Amravati",
+    "logo": "/Govt.Engg.png",
+    "city": "Amravati",
+    "createdAt": "2026-08-21T06:19:25.529Z"
+  },
+  {
+    "id": "partner-3",
+    "name": "P. R. Pote Patil College of Engineering and Management",
+    "logo": "/PR Pote.png",
+    "city": "Amravati",
+    "createdAt": "2026-08-21T06:19:25.529Z"
+  },
+  {
+    "id": "partner-4",
+    "name": "Sipna College of Engineering & Technology",
+    "logo": "/Sipna.png",
+    "city": "Amravati",
+    "createdAt": "2026-08-21T06:19:25.529Z"
+  },
+  {
+    "id": "partner-5",
+    "name": "Prof. Ram Meghe College of Engineering & Management",
+    "logo": "/Ram Mege.png",
+    "city": "Badnera, Amravati",
+    "createdAt": "2026-08-21T06:19:25.529Z"
+  },
+  {
+    "id": "partner-6",
+    "name": "Prof. Ram Meghe Institute of Technology and Research, Badnera - Amravati",
+    "logo": "/Ram Mege.png",
+    "city": "Badnera, Amravati",
+    "createdAt": "2026-08-21T06:19:25.529Z"
+  },
+  {
+    "id": "partner-7",
+    "name": "Shri H.V.P. Mandal's College of Engineering & Technology",
+    "logo": "/HUPM.png",
+    "city": "Amravati",
+    "createdAt": "2026-08-21T06:19:25.529Z"
+  }
+]

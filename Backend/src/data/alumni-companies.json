@@ -1,0 +1,38 @@
+[
+  {
+    "id": "acomp-1",
+    "name": "Google",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
+    "createdAt": "2026-08-21T06:19:25.327Z"
+  },
+  {
+    "id": "acomp-2",
+    "name": "Microsoft",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg",
+    "createdAt": "2026-08-21T06:19:25.328Z"
+  },
+  {
+    "id": "acomp-3",
+    "name": "Amazon",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
+    "createdAt": "2026-08-21T06:19:25.328Z"
+  },
+  {
+    "id": "acomp-4",
+    "name": "Apple",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg",
+    "createdAt": "2026-08-21T06:19:25.328Z"
+  },
+  {
+    "id": "acomp-5",
+    "name": "Netflix",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg",
+    "createdAt": "2026-08-21T06:19:25.328Z"
+  },
+  {
+    "id": "acomp-6",
+    "name": "Meta",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg",
+    "createdAt": "2026-08-21T06:19:25.328Z"
+  }
+]

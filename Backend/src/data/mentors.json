@@ -1,0 +1,98 @@
+[
+  {
+    "id": "mentor-1",
+    "name": "Rahul Sharma",
+    "role": "Senior Software Engineer",
+    "company": "Google",
+    "exp": "12+ Years",
+    "skills": [
+      "React",
+      "Node.js",
+      "System Design"
+    ],
+    "area": "Full Stack Development",
+    "img": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=800",
+    "thought": "\"The best code is the code you don't have to write. Focus on building scalable, maintainable architectures that solve real user problems rather than just chasing the latest framework trends.\"",
+    "createdAt": "2026-08-21T06:19:25.525Z"
+  },
+  {
+    "id": "mentor-2",
+    "name": "Priya Patel",
+    "role": "Data Science Lead",
+    "company": "Microsoft",
+    "exp": "10+ Years",
+    "skills": [
+      "Python",
+      "TensorFlow",
+      "SQL"
+    ],
+    "area": "Data Science & AI",
+    "img": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=800",
+    "thought": "\"Data without context is just noise. The real skill in Data Science isn't just knowing the algorithms, but knowing how to ask the right questions to extract actionable business insights.\"",
+    "createdAt": "2026-08-21T06:19:25.525Z"
+  },
+  {
+    "id": "mentor-3",
+    "name": "Amit Verma",
+    "role": "Cloud Architect",
+    "company": "Amazon Web Services",
+    "exp": "14+ Years",
+    "skills": [
+      "AWS",
+      "Azure",
+      "Kubernetes"
+    ],
+    "area": "Cloud Computing",
+    "img": "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800",
+    "thought": "\"Architect for failure, and you'll never be surprised when it happens. True cloud resilience comes from anticipating bottlenecks and automating your infrastructure's recovery processes.\"",
+    "createdAt": "2026-08-21T06:19:25.525Z"
+  },
+  {
+    "id": "mentor-4",
+    "name": "Sneha Gupta",
+    "role": "Cybersecurity Consultant",
+    "company": "Deloitte",
+    "exp": "9+ Years",
+    "skills": [
+      "Penetration Testing",
+      "SIEM",
+      "Compliance"
+    ],
+    "area": "Cyber Security",
+    "img": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=800",
+    "thought": "\"Security is a continuous process, not an off-the-shelf product. It requires a mindset of healthy skepticism, constant vigilance, and understanding that humans are often the weakest link.\"",
+    "createdAt": "2026-08-21T06:19:25.525Z"
+  },
+  {
+    "id": "mentor-5",
+    "name": "Vikram Reddy",
+    "role": "UX Design Director",
+    "company": "Adobe",
+    "exp": "11+ Years",
+    "skills": [
+      "Figma",
+      "User Research",
+      "Prototyping"
+    ],
+    "area": "UI/UX Design",
+    "img": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=800",
+    "thought": "\"Design is how it works, not just how it looks and feels. Empathy for the user is your most powerful tool—always design with their frustrations and goals in mind.\"",
+    "createdAt": "2026-08-21T06:19:25.525Z"
+  },
+  {
+    "id": "mentor-6",
+    "name": "Neha Joshi",
+    "role": "Business Strategy Head",
+    "company": "McKinsey",
+    "exp": "13+ Years",
+    "skills": [
+      "Strategy",
+      "Analytics",
+      "Leadership"
+    ],
+    "area": "Business & Management",
+    "img": "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?auto=format&fit=crop&q=80&w=800",
+    "thought": "\"Execution eats strategy for breakfast. A mediocre plan executed brilliantly will always beat a brilliant plan that never makes it off the whiteboard. Build things that matter.\"",
+    "createdAt": "2026-08-21T06:19:25.525Z"
+  }
+]

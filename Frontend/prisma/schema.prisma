@@ -1,0 +1,102 @@
+// This is your Prisma schema file for Neon PostgreSQL Database
+// Learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  STUDENT
+  ADMIN
+  FACULTY
+  RECRUITER
+}
+
+enum ApplicationStatus {
+  PENDING
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  passwordHash String
+  name         String
+  phone        String?
+  role         Role          @default(STUDENT)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  applications Application[]
+}
+
+model Course {
+  id           String        @id @default(uuid())
+  slug         String        @unique
+  title        String
+  category     String
+  duration     String
+  fees         String        @default("₹30,000")
+  price        Int           @default(30000)
+  description  String
+  features     String[]
+  image        String?
+  curriculum   Json?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  inquiries    Inquiry[]
+  applications Application[]
+}
+
+model Inquiry {
+  id          String   @id @default(uuid())
+  name        String
+  email       String
+  phone       String
+  city        String?
+  enquiryType String?  @default("General Inquiry")
+  message     String
+  status      String   @default("PENDING") // PENDING, CONTACTED, CONVERTED
+  courseId    String?
+  course      Course?  @relation(fields: [courseId], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model Application {
+  id          String            @id @default(uuid())
+  userId      String
+  user        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId    String
+  course      Course            @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  status      ApplicationStatus @default(UNDER_REVIEW)
+  name        String?
+  email       String?
+  phone       String?
+  appliedAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+}
+
+model Event {
+  id        String   @id @default(uuid())
+  title     String
+  date      DateTime
+  type      String   // WORKSHOP, VISIT, CONVOCATION
+  imageUrl  String?
+  createdAt DateTime @default(now())
+}
+
+model Blog {
+  id          String    @id @default(uuid())
+  title       String
+  slug        String    @unique
+  content     String
+  author      String
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
