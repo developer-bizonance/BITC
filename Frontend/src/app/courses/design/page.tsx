@@ -160,7 +160,7 @@ export default async function DesignCoursesPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {finalCourses.map((course) => (
+            {finalCourses.map((course: any) => (
               <Card
                 key={course.id}
                 className="group p-0 gap-0 overflow-hidden rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-2xl transition-all duration-300 bg-white flex flex-col justify-between h-full relative hover:-translate-y-1.5"
@@ -207,7 +207,7 @@ export default async function DesignCoursesPage() {
 
                     {/* Highlights */}
                     <div className="space-y-1.5 mb-3">
-                      {course.highlights.map((item, j) => (
+                      {course.highlights.map((item: any, j: number) => (
                         <div key={j} className="flex items-center gap-2 text-xs text-slate-700 font-medium">
                           <CheckCircle2 className="w-3.5 h-3.5 text-purple-600 flex-shrink-0" />
                           <span className="line-clamp-1">{item}</span>
