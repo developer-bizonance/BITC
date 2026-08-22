@@ -44,7 +44,7 @@ export default function StudentSuccessStories() {
   useEffect(() => {
     async function loadTestimonials() {
       try {
-        const res = await fetch("/api/testimonials");
+        const res = await fetch("https://bitc-backend-theta.vercel.app/api/testimonials");
         if (res.ok) {
           const data = await res.json();
           if (data.testimonials && data.testimonials.length > 0) {

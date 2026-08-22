@@ -31,7 +31,7 @@ export default function IndustryPartnersGrid() {
   useEffect(() => {
     async function loadIndustryPartners() {
       try {
-        const res = await fetch("/api/industry-partners");
+        const res = await fetch("https://bitc-backend-theta.vercel.app/api/industry-partners");
         if (res.ok) {
           const data = await res.json();
           if (data.partners && data.partners.length > 0) {

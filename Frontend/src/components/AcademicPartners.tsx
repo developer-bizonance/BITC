@@ -53,7 +53,7 @@ export default function AcademicPartners() {
   useEffect(() => {
     async function loadPartners() {
       try {
-        const res = await fetch("/api/partners");
+        const res = await fetch("https://bitc-backend-theta.vercel.app/api/partners");
         if (res.ok) {
           const data = await res.json();
           if (data.partners && data.partners.length > 0) {

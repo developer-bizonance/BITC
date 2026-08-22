@@ -64,7 +64,7 @@ export default function FeaturedCertifications() {
   useEffect(() => {
     async function loadCertifications() {
       try {
-        const res = await fetch("/api/certifications");
+        const res = await fetch("https://bitc-backend-theta.vercel.app/api/certifications");
         if (res.ok) {
           const data = await res.json();
           if (data.certifications && data.certifications.length > 0) {
