@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { readJsonDb, writeJsonDb } from "../dataStore.js";
+import { readJsonDbAsync, writeJsonDbAsync } from "../dataStore.js";
 
 export interface TestimonialItem {
   id: string;
@@ -14,20 +14,19 @@ export interface TestimonialItem {
   createdAt: string;
 }
 
-// Initial In-Memory Store
-
 const router = Router();
 
 // GET /api/testimonials
-router.get("/", (_req: Request, res: Response) => {
+router.get("/", async (_req: Request, res: Response) => {
+  const testimonials = await readJsonDbAsync<TestimonialItem>("testimonials.json");
   return res.json({
     success: true,
-    testimonials: readJsonDb("testimonials.json"),
+    testimonials,
   });
 });
 
 // POST /api/testimonials (Add new testimonial)
-router.post("/", (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response) => {
   try {
     const { name, role, company, course, packageAmt, quote, image, rating } = req.body;
 
@@ -52,13 +51,15 @@ router.post("/", (req: Request, res: Response) => {
       createdAt: new Date().toISOString(),
     };
 
-    const db = readJsonDb("testimonials.json"); db.unshift(newTestimonial); writeJsonDb("testimonials.json", db);
+    const db = await readJsonDbAsync<TestimonialItem>("testimonials.json");
+    db.unshift(newTestimonial);
+    await writeJsonDbAsync("testimonials.json", db);
 
     return res.status(201).json({
       success: true,
       message: "Testimonial added successfully",
       testimonial: newTestimonial,
-      testimonials: readJsonDb("testimonials.json"),
+      testimonials: db,
     });
   } catch (error: any) {
     return res.status(500).json({ error: error?.message || "Failed to add testimonial" });
@@ -66,28 +67,29 @@ router.post("/", (req: Request, res: Response) => {
 });
 
 // PUT /api/testimonials/reorder (Reorder testimonials)
-router.put("/reorder", (req: Request, res: Response) => {
+router.put("/reorder", async (req: Request, res: Response) => {
   try {
     const { orderedIds } = req.body;
     if (!Array.isArray(orderedIds)) {
       return res.status(400).json({ error: "orderedIds must be an array" });
     }
 
+    const currentDb = await readJsonDbAsync<TestimonialItem>("testimonials.json");
     const reorderedDb: TestimonialItem[] = [];
     for (const id of orderedIds) {
-      const testi = readJsonDb("testimonials.json").find((t) => t.id === id);
+      const testi = currentDb.find((t) => t.id === id);
       if (testi) reorderedDb.push(testi);
     }
-    for (const testi of readJsonDb("testimonials.json")) {
+    for (const testi of currentDb) {
       if (!orderedIds.includes(testi.id)) reorderedDb.push(testi);
     }
 
-    writeJsonDb("testimonials.json", reorderedDb);
+    await writeJsonDbAsync("testimonials.json", reorderedDb);
 
     return res.json({
       success: true,
       message: "Testimonials reordered successfully",
-      testimonials: readJsonDb("testimonials.json"),
+      testimonials: reorderedDb,
     });
   } catch (error: any) {
     return res.status(500).json({ error: error?.message || "Failed to reorder testimonials" });
@@ -95,17 +97,18 @@ router.put("/reorder", (req: Request, res: Response) => {
 });
 
 // PUT /api/testimonials/:id (Update testimonial)
-router.put("/:id", (req: Request, res: Response) => {
+router.put("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { name, role, company, course, packageAmt, quote, image, rating } = req.body;
 
-    const index = readJsonDb("testimonials.json").findIndex((t) => t.id === id);
+    const db = await readJsonDbAsync<TestimonialItem>("testimonials.json");
+    const index = db.findIndex((t) => t.id === id);
     if (index === -1) {
       return res.status(404).json({ error: "Testimonial not found" });
     }
 
-    const current = readJsonDb("testimonials.json")[index];
+    const current = db[index];
     const updated: TestimonialItem = {
       ...current,
       name: name !== undefined ? name.trim() : current.name,
@@ -118,13 +121,14 @@ router.put("/:id", (req: Request, res: Response) => {
       rating: rating !== undefined ? Number(rating) : current.rating,
     };
 
-    const db = readJsonDb("testimonials.json"); db[index] = updated; writeJsonDb("testimonials.json", db);
+    db[index] = updated;
+    await writeJsonDbAsync("testimonials.json", db);
 
     return res.json({
       success: true,
       message: "Testimonial updated successfully",
       testimonial: updated,
-      testimonials: readJsonDb("testimonials.json"),
+      testimonials: db,
     });
   } catch (error: any) {
     return res.status(500).json({ error: error?.message || "Failed to update testimonial" });
@@ -132,20 +136,23 @@ router.put("/:id", (req: Request, res: Response) => {
 });
 
 // DELETE /api/testimonials/:id (Remove testimonial)
-router.delete("/:id", (req: Request, res: Response) => {
+router.delete("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const initialLen = readJsonDb("testimonials.json").length;
-    const db = readJsonDb("testimonials.json").filter((t) => t.id !== id); writeJsonDb("testimonials.json", db);
+    const db = await readJsonDbAsync<TestimonialItem>("testimonials.json");
+    const initialLen = db.length;
+    const updatedDb = db.filter((t) => t.id !== id);
 
-    if (readJsonDb("testimonials.json").length === initialLen) {
+    if (updatedDb.length === initialLen) {
       return res.status(404).json({ error: "Testimonial not found" });
     }
+
+    await writeJsonDbAsync("testimonials.json", updatedDb);
 
     return res.json({
       success: true,
       message: "Testimonial removed successfully",
-      testimonials: readJsonDb("testimonials.json"),
+      testimonials: updatedDb,
     });
   } catch (error: any) {
     return res.status(500).json({ error: error?.message || "Failed to delete testimonial" });

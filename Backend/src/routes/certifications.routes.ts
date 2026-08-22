@@ -1,5 +1,5 @@
-﻿import { Router, Request, Response } from "express";
-import { readJsonDb, writeJsonDb } from "../dataStore.js";
+import { Router, Request, Response } from "express";
+import { readJsonDbAsync, writeJsonDbAsync } from "../dataStore.js";
 
 export interface CertificationItem {
   id: string;
@@ -12,17 +12,15 @@ export interface CertificationItem {
   createdAt: string;
 }
 
-// Initial In-Memory Store — Only MERN Stack has image
-
 const router = Router();
 
 // GET /api/certifications
-router.get("/", (req: Request, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
   const { category } = req.query;
-  let result = readJsonDb("certifications.json");
+  let result = await readJsonDbAsync<CertificationItem>("certifications.json");
 
   if (category && typeof category === "string" && category !== "All") {
-    result = readJsonDb("certifications.json").filter(
+    result = result.filter(
       (c) => c.category.toLowerCase() === category.toLowerCase()
     );
   }
@@ -34,7 +32,7 @@ router.get("/", (req: Request, res: Response) => {
 });
 
 // POST /api/certifications (Add new certification)
-router.post("/", (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response) => {
   try {
     const { title, category, duration, fees, badge, image } = req.body;
 
@@ -53,13 +51,15 @@ router.post("/", (req: Request, res: Response) => {
       createdAt: new Date().toISOString(),
     };
 
-    const db = readJsonDb("certifications.json"); db.unshift(newCert); writeJsonDb("certifications.json", db);
+    const db = await readJsonDbAsync<CertificationItem>("certifications.json");
+    db.unshift(newCert);
+    await writeJsonDbAsync("certifications.json", db);
 
     return res.status(201).json({
       success: true,
       message: "Featured Certification added successfully",
       certification: newCert,
-      certifications: readJsonDb("certifications.json"),
+      certifications: db,
     });
   } catch (error: any) {
     return res.status(500).json({ error: error?.message || "Failed to add certification" });
@@ -67,28 +67,29 @@ router.post("/", (req: Request, res: Response) => {
 });
 
 // PUT /api/certifications/reorder (Reorder certifications)
-router.put("/reorder", (req: Request, res: Response) => {
+router.put("/reorder", async (req: Request, res: Response) => {
   try {
     const { orderedIds } = req.body;
     if (!Array.isArray(orderedIds)) {
       return res.status(400).json({ error: "orderedIds must be an array" });
     }
 
+    const currentDb = await readJsonDbAsync<CertificationItem>("certifications.json");
     const reorderedDb: CertificationItem[] = [];
     for (const id of orderedIds) {
-      const cert = readJsonDb("certifications.json").find((c) => c.id === id);
+      const cert = currentDb.find((c) => c.id === id);
       if (cert) reorderedDb.push(cert);
     }
-    for (const cert of readJsonDb("certifications.json")) {
+    for (const cert of currentDb) {
       if (!orderedIds.includes(cert.id)) reorderedDb.push(cert);
     }
 
-    writeJsonDb("certifications.json", reorderedDb);
+    await writeJsonDbAsync("certifications.json", reorderedDb);
 
     return res.json({
       success: true,
       message: "Certifications reordered successfully",
-      certifications: readJsonDb("certifications.json"),
+      certifications: reorderedDb,
     });
   } catch (error: any) {
     return res.status(500).json({ error: error?.message || "Failed to reorder certifications" });
@@ -96,17 +97,18 @@ router.put("/reorder", (req: Request, res: Response) => {
 });
 
 // PUT /api/certifications/:id (Update certification)
-router.put("/:id", (req: Request, res: Response) => {
+router.put("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { title, category, duration, fees, badge, image } = req.body;
 
-    const index = readJsonDb("certifications.json").findIndex((c) => c.id === id);
+    const db = await readJsonDbAsync<CertificationItem>("certifications.json");
+    const index = db.findIndex((c) => c.id === id);
     if (index === -1) {
       return res.status(404).json({ error: "Certification not found" });
     }
 
-    const current = readJsonDb("certifications.json")[index];
+    const current = db[index];
     const updated: CertificationItem = {
       ...current,
       title: title !== undefined ? title.trim() : current.title,
@@ -117,13 +119,14 @@ router.put("/:id", (req: Request, res: Response) => {
       image: image !== undefined ? image.trim() : current.image,
     };
 
-    const db = readJsonDb("certifications.json"); db[index] = updated; writeJsonDb("certifications.json", db);
+    db[index] = updated;
+    await writeJsonDbAsync("certifications.json", db);
 
     return res.json({
       success: true,
       message: "Certification updated successfully",
       certification: updated,
-      certifications: readJsonDb("certifications.json"),
+      certifications: db,
     });
   } catch (error: any) {
     return res.status(500).json({ error: error?.message || "Failed to update certification" });
@@ -131,20 +134,23 @@ router.put("/:id", (req: Request, res: Response) => {
 });
 
 // DELETE /api/certifications/:id (Remove certification)
-router.delete("/:id", (req: Request, res: Response) => {
+router.delete("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const initialLen = readJsonDb("certifications.json").length;
-    const db = readJsonDb("certifications.json").filter((c) => c.id !== id); writeJsonDb("certifications.json", db);
+    const db = await readJsonDbAsync<CertificationItem>("certifications.json");
+    const initialLen = db.length;
+    const updatedDb = db.filter((c) => c.id !== id);
 
-    if (readJsonDb("certifications.json").length === initialLen) {
+    if (updatedDb.length === initialLen) {
       return res.status(404).json({ error: "Certification not found" });
     }
+
+    await writeJsonDbAsync("certifications.json", updatedDb);
 
     return res.json({
       success: true,
       message: "Certification removed successfully",
-      certifications: readJsonDb("certifications.json"),
+      certifications: updatedDb,
     });
   } catch (error: any) {
     return res.status(500).json({ error: error?.message || "Failed to delete certification" });
@@ -152,4 +158,3 @@ router.delete("/:id", (req: Request, res: Response) => {
 });
 
 export default router;
-
