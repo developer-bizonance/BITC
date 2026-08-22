@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { readJsonDb, writeJsonDb } from "../dataStore.js";
+import { sendInquiryEmail } from "../lib/email.js";
 
 import prisma from "../lib/prisma.js";
 
