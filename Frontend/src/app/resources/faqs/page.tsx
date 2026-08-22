@@ -15,7 +15,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 export default async function FAQsPage() {
   let faqs: {q: string; a: string}[] = [];
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api"}/faq`, { cache: 'no-store' });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://bitc-backend-theta.vercel.app/api"}/faq`, { cache: 'no-store' });
     if (res.ok) {
       const data = await res.json();
       if (data.items) {

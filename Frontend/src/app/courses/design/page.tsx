@@ -83,7 +83,7 @@ export const dynamic = 'force-dynamic';
 export default async function DesignCoursesPage() {
   let dynamicCourses = [];
   try {
-    const res = await fetch("http://localhost:5000/api/certifications?category=Design", { cache: "no-store" });
+    const res = await fetch("https://bitc-backend-theta.vercel.app/api/certifications?category=Design", { cache: "no-store" });
     if (res.ok) {
       const data = await res.json();
       dynamicCourses = data.certifications || [];

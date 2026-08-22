@@ -68,7 +68,7 @@ export default async function SuccessStoriesPage() {
   let videoTestimonials = [];
   
   try {
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://bitc-backend-theta.vercel.app";
     const res = await fetch(`${backendUrl}/api/testimonials`, { cache: 'no-store' });
     
     if (res.ok) {

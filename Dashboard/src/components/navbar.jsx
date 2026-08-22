@@ -117,12 +117,7 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
         </div>
       )}
 
-      {/* Bottom Border Accent */}
-      <div className="absolute bottom-0 left-0 w-full flex h-[6px]">
-        <div className="w-1/3 bg-gradient-to-r from-yellow-300 to-orange-400"></div>
-        <div className="w-1/3 bg-blue-800"></div>
-        <div className="w-1/3 bg-red-600"></div>
-      </div>
+      {/* Bottom Border Accent Removed as requested */}
     </div>
   );
 };

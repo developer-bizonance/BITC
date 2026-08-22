@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default async function BlogPage() {
   let blogs: any[] = [];
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api"}/blogs`, { cache: 'no-store' });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://bitc-backend-theta.vercel.app/api"}/blogs`, { cache: 'no-store' });
     if (res.ok) {
       const data = await res.json();
       if (data.blogs) {

@@ -49,7 +49,7 @@ export default async function EventsPage() {
   let featuredEvent: any = null;
 
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api"}/events`, { cache: 'no-store' });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://bitc-backend-theta.vercel.app/api"}/events`, { cache: 'no-store' });
     if (res.ok) {
       const data = await res.json();
       if (data.events && data.events.length > 0) {

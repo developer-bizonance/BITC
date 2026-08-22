@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default async function DownloadsPage() {
   let files: {name: string; type: string; size: string; url: string}[] = [];
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api"}/downloads`, { cache: 'no-store' });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://bitc-backend-theta.vercel.app/api"}/downloads`, { cache: 'no-store' });
     if (res.ok) {
       const data = await res.json();
       if (data.items) {

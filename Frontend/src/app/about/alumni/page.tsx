@@ -62,7 +62,7 @@ function AlumniSection() {
   const [imgError, setImgError] = useState<Record<string | number, boolean>>({});
 
   useEffect(() => {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://bitc-backend-theta.vercel.app/api";
 
     async function loadAlumni() {
       try {

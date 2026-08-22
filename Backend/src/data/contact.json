@@ -1,5 +1,16 @@
 [
   {
+    "id": "inq-1787317506600-106",
+    "name": "Yuvraj Bhatkar",
+    "email": "7767055408@gmail.com",
+    "phone": "7751251521",
+    "city": "Amravati",
+    "enquiryType": "Industry Visit",
+    "message": "test drove vehicle",
+    "status": "PENDING",
+    "createdAt": "2026-08-21T13:05:06.600Z"
+  },
+  {
     "id": "inq-1787315662428-101",
     "name": "Aniket Oagle",
     "email": "aniket@gmail.com",
