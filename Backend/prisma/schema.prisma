@@ -41,8 +41,8 @@ model Course {
   title        String
   category     String
   duration     String
-  fees         String        @default("₹30,000")
-  price        Int           @default(30000)
+  fees         String        @default("₹36,000")
+  price        Int           @default(36000)
   description  String
   features     String[]
   image        String?
