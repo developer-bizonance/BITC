@@ -114,12 +114,37 @@ export default function AcademicPartners() {
 
         {/* Marquee Container */}
         <div className="relative px-1 sm:px-2 overflow-hidden py-3 group">
+          {/* Scoped CSS for Guaranteed Production Animation */}
+          <style dangerouslySetInnerHTML={{
+            __html: `
+              @keyframes bitcMarqueeScroll {
+                0% { transform: translateX(0%); }
+                100% { transform: translateX(-50%); }
+              }
+              @-webkit-keyframes bitcMarqueeScroll {
+                0% { -webkit-transform: translateX(0%); }
+                100% { -webkit-transform: translateX(-50%); }
+              }
+              .bitc-academic-marquee-track {
+                display: flex !important;
+                width: max-content !important;
+                animation: bitcMarqueeScroll 28s linear infinite !important;
+                -webkit-animation: bitcMarqueeScroll 28s linear infinite !important;
+                will-change: transform;
+              }
+              .bitc-academic-marquee-track:hover {
+                animation-play-state: paused !important;
+                -webkit-animation-play-state: paused !important;
+              }
+            `
+          }} />
+
           {/* Fading edges to make it look smooth */}
           <div className="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
           <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
           {/* Marquee Track */}
-          <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
+          <div className="flex w-max bitc-academic-marquee-track animate-marquee">
             <div className="flex gap-3 md:gap-4 px-2">
               {partnersList.map((institute, i) => renderCard(institute, i, false))}
             </div>
