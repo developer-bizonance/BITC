@@ -91,7 +91,7 @@ export default function PlacementCellPage() {
       </section>
 
       {/* 2. Key Statistics */}
-      <section className="py-16 bg-slate-100 border-y border-slate-200/80 relative z-20">
+      <section className="py-16 bg-white border-y border-slate-200/80 relative z-20">
         <div className="container max-w-[1000px] mx-auto px-4">
           <Card className="border border-slate-200/80 shadow-2xl rounded-3xl bg-white overflow-hidden">
             <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-slate-100">
@@ -115,7 +115,7 @@ export default function PlacementCellPage() {
       </section>
 
       {/* 3. Placement Activities */}
-      <section className="py-20 bg-slate-50">
+      <section className="py-20 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">How We Prepare You</h2>

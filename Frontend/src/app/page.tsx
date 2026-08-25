@@ -24,55 +24,53 @@ export default function Home() {
 
 
       {/* 1. Hero Section */}
-      <section className="relative w-full bg-white pt-16 lg:pt-24 pb-12 lg:pb-16 overflow-hidden flex items-center justify-center">
+      <section className="relative w-full bg-white min-h-[calc(100vh-62px)] py-6 sm:py-8 lg:py-10 overflow-hidden flex items-center justify-center">
         {/* Subtle background glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] opacity-30 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] opacity-25 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent pointer-events-none" />
 
-        <div className="container max-w-[1300px] mx-auto px-4 flex flex-col lg:flex-row items-center gap-10 lg:gap-12 relative z-10">
+        <div className="container max-w-[1340px] mx-auto px-4 sm:px-6 flex flex-col lg:flex-row items-center gap-8 lg:gap-10 xl:gap-12 relative z-10 w-full">
 
           {/* Left Content */}
-          <div className="w-full lg:w-[48%] flex flex-col justify-center">
-            <h1 className="text-[2.25rem] md:text-4xl lg:text-[2.75rem] xl:text-[3.25rem] font-extrabold tracking-tight mb-5 text-slate-900 leading-[1.2]">
-              Learn from Industry Experts. <br className="hidden xl:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400 leading-[1.2]">Become an Certified and Industry Ready</span>
+          <div className="w-full lg:w-[55%] xl:w-[52%] flex flex-col justify-center">
+            <h1 className="text-4xl sm:text-5xl lg:text-[2.5rem] xl:text-[2.9rem] font-extrabold tracking-tight mb-4 text-slate-900 leading-[1.2]">
+              <span className="block whitespace-nowrap">Learn from Industry Experts.</span>
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400 leading-[1.2]">Become Certified and Industry Ready</span>
             </h1>
 
-            <p className="text-base text-gray-600 mb-6 max-w-[500px] leading-relaxed">
-              At BITC, you learn directly from experienced professionals, collaborate on live projects, gain real industry exposure, earn recognized certifications, and build the confidence to launch a successful career.
+            <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-5 lg:mb-6 max-w-[500px] lg:max-w-[550px] leading-relaxed">
+              Learn directly from experienced professionals, collaborate on live projects, gain real industry exposure, earn certifications, and build the confidence to launch a successful career.
             </p>
 
             {/* Goals / Badges */}
-            <div className="flex flex-wrap items-center gap-2 mb-8">
+            <div className="flex flex-wrap items-center gap-2 lg:gap-3 mb-6 lg:mb-8">
               {["Learn", "Intern", "Certified", "Get a job"].map((goal, i) => (
-                <span key={i} className="px-3 py-1 rounded-full border border-gray-100 text-[12px] font-bold text-gray-600 bg-white shadow-sm flex items-center gap-1.5 hover:border-primary/30 transition-colors">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-orange-500" />
+                <span key={i} className="px-3 py-1 lg:px-4 lg:py-1.5 rounded-full border border-gray-100 text-[12px] lg:text-[14px] font-bold text-gray-600 bg-white shadow-xs flex items-center gap-1.5 lg:gap-2 hover:border-primary/30 transition-colors">
+                  <CheckCircle2 className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-orange-500" />
                   {goal}
                 </span>
               ))}
             </div>
 
-            <div className="flex flex-wrap items-center gap-3">
-              <Link href="#featured-certifications" className="h-12 px-7 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white text-base font-bold flex items-center justify-center hover:opacity-90 transition-all shadow-lg shadow-orange-500/25 hover:shadow-xl hover:-translate-y-0.5">
-                Explore Programs <ArrowRight className="ml-2 w-4 h-4" />
+            <div className="flex flex-wrap items-center gap-3 lg:gap-4">
+              <Link href="#featured-certifications" className="h-11 sm:h-12 lg:h-14 px-6 sm:px-7 lg:px-9 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white text-sm sm:text-base lg:text-lg font-bold flex items-center justify-center hover:opacity-90 transition-all shadow-lg shadow-orange-500/25 hover:shadow-xl hover:-translate-y-0.5">
+                Explore Programs <ArrowRight className="ml-2 w-4 h-4 lg:w-5 lg:h-5" />
               </Link>
-              <Link href="/contact" className="h-12 px-7 rounded-full bg-gray-100 text-slate-900 text-base font-bold flex items-center justify-center hover:bg-gray-200 transition-all shadow-sm">
+              <Link href="/contact" className="h-11 sm:h-12 lg:h-14 px-6 sm:px-7 lg:px-9 rounded-full bg-gray-100 text-slate-900 text-sm sm:text-base lg:text-lg font-bold flex items-center justify-center hover:bg-gray-200 transition-all shadow-xs">
                 Contact Us
               </Link>
             </div>
           </div>
 
           {/* Right Image/Graphic */}
-          <div className="w-full lg:w-[52%] relative flex justify-center lg:justify-end mt-10 lg:mt-0">
-            <div className="relative w-full max-w-[550px] lg:max-w-full xl:max-w-[650px] aspect-[4/3] lg:aspect-[16/10]">
+          <div className="w-full lg:w-[45%] xl:w-[48%] relative flex justify-center lg:justify-end items-center">
+            <div className="relative w-full max-w-[520px] lg:max-w-full xl:max-w-[680px]">
               {/* Image */}
-              <div className="w-full h-full rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden shadow-2xl shadow-primary/10 bg-gray-50 relative group">
+              <div className="w-full relative">
                 <img
-                  src="/Hero.png"
+                  src="/Hero1.png"
                   alt="Professional presenting to a team"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  className="w-full h-auto object-contain"
                 />
-                <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent mix-blend-overlay pointer-events-none" />
-                <div className="absolute inset-0 border border-gray-200/50 rounded-[1.5rem] sm:rounded-[2rem] pointer-events-none" />
               </div>
             </div>
           </div>
@@ -87,9 +85,9 @@ export default function Home() {
       {/* 5. Featured Certifications */}
       <section id="featured-certifications" className="py-12 md:py-20 bg-white">
         <div className="container max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-end mb-10">
+          <div className="flex justify-between items-end mb-5">
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-slate-dark mb-4">Our Certifications</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-slate-dark mb-1">Our Certifications</h2>
               <p className="text-gray-500 text-[16px]">Master the skills that top companies are looking for.</p>
             </div>
           </div>
@@ -197,7 +195,7 @@ export default function Home() {
       </section>
 
       {/* 7. Learning Process */}
-      <section className="py-12 md:py-20 bg-primary/5">
+      <section className="py-12 md:py-20 bg-white">
         <div className="container max-w-[1400px] mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Learning Process</h2>
@@ -241,13 +239,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 md:py-24 bg-transparent relative overflow-hidden">
-        {/* Decorative background elements */}
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-          <div className="absolute -top-[30%] -right-[10%] w-[60%] h-[60%] rounded-full bg-primary/5 blur-[120px]"></div>
-          <div className="absolute -bottom-[30%] -left-[10%] w-[60%] h-[60%] rounded-full bg-blue-500/5 blur-[120px]"></div>
-        </div>
-
+      <section className="py-16 md:py-24 bg-white relative">
         <div className="container max-w-[1400px] mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
@@ -263,8 +255,8 @@ export default function Home() {
               { stat: "12 LPA", label: "Highest Package" },
               { stat: "95%", label: "Placement Ratio" }
             ].map((item, index) => (
-              <div key={index} className="p-8 bg-white rounded-2xl shadow-md border border-slate-200/80 hover:border-primary/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/20 group">
-                <div className="text-4xl md:text-5xl font-black mb-3 transform group-hover:scale-110 transition-transform duration-500">
+              <div key={index} className="p-8 bg-slate-50 rounded-2xl border border-slate-100/90 shadow-sm hover:bg-white hover:border-primary/60 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary/10 group">
+                <div className="text-4xl md:text-5xl font-black mb-3 transform group-hover:scale-105 transition-transform duration-300">
                   <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">
                     {item.stat}
                   </span>
@@ -277,11 +269,11 @@ export default function Home() {
       </section>
 
       {/* 2. Trusted by Colleges & Companies */}
-      <section className="py-6 bg-slate-100 text-slate-800 border-y border-slate-200/80 relative overflow-hidden my-2">
+      <section className="py-6 bg-slate-50 text-slate-800 border-y border-slate-200/80 relative overflow-hidden my-2">
         <div className="container max-w-[1400px] mx-auto px-4 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10">
           <div className="flex items-center gap-2.5">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-            <p className="text-xs font-extrabold text-slate-600 uppercase tracking-widest whitespace-nowrap">
+            <p className="text-xs font-extrabold text-slate-700 uppercase tracking-widest whitespace-nowrap">
               Trusted By
             </p>
           </div>
@@ -294,7 +286,7 @@ export default function Home() {
               { name: "HCL", logo: "/logos/hcl.svg" },
               { name: "Cognizant", logo: "/logos/cognizant.svg" }
             ].map((company, i) => (
-              <div key={i} className="h-7 md:h-8 flex items-center justify-center grayscale hover:grayscale-0 opacity-80 hover:opacity-100 transition-all duration-300">
+              <div key={i} className="h-7 md:h-8 flex items-center justify-center grayscale hover:grayscale-0 opacity-85 hover:opacity-100 transition-all duration-300">
                 <img
                   src={company.logo}
                   alt={company.name}

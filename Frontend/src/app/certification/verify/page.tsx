@@ -111,7 +111,7 @@ export default function CertificateVerificationPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-slate-50 text-[15px]">
+    <div className="flex flex-col min-h-screen bg-white text-[15px]">
       
       {/* Hero Section */}
       <section className="relative w-full bg-white py-16 lg:py-24 border-b border-slate-200/80 overflow-hidden">
@@ -193,7 +193,7 @@ export default function CertificateVerificationPage() {
       </section>
 
       {/* Verification Result Display */}
-      <section className="py-16 md:py-20 bg-slate-50 relative z-10">
+      <section className="py-16 md:py-20 bg-white relative z-10">
         <div className="container max-w-[900px] mx-auto px-4">
           
           {searching && (

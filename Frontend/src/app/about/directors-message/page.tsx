@@ -32,7 +32,7 @@ export default function DirectorsMessagePage() {
     <div className="flex flex-col min-h-screen text-[15px]">
 
       {/* ── HERO ── */}
-      <section className="relative w-full pt-8 pb-16 lg:pt-10 lg:pb-24 overflow-hidden bg-slate-50">
+      <section className="relative w-full pt-8 pb-16 lg:pt-10 lg:pb-24 overflow-hidden bg-white">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-400/5 rounded-full blur-[80px] translate-y-1/3 -translate-x-1/4 pointer-events-none" />
 
@@ -106,7 +106,7 @@ export default function DirectorsMessagePage() {
       </section>
 
       {/* ── DIRECTOR'S BELIEFS ── */}
-      <section className="py-16 md:py-24 bg-slate-100 text-slate-900 border-y border-slate-200/80 relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-white text-slate-900 border-y border-slate-200/80 relative overflow-hidden">
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
             <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">What I Believe In</p>

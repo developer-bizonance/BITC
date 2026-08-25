@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function OurInfrastructurePage() {
   return (
-    <div className="flex flex-col min-h-[calc(100vh-80px)] text-[15px] items-center justify-center bg-gray-50 py-20">
+    <div className="flex flex-col min-h-[calc(100vh-80px)] text-[15px] items-center justify-center bg-white py-20">
       <div className="text-center px-4 max-w-lg">
         <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-8 text-primary">
           <Hammer className="w-12 h-12" />

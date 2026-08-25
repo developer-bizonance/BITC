@@ -99,8 +99,8 @@ export function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white shadow-sm">
-      <div className="container max-w-[1400px] mx-auto flex h-[65px] sm:h-[75px] items-center justify-between px-3 sm:px-4 lg:px-6 w-full">
+    <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white shadow-xs">
+      <div className="container max-w-[1400px] mx-auto flex h-[54px] sm:h-[62px] items-center justify-between px-3 sm:px-4 lg:px-6 w-full">
 
         {/* Left Section: Logo & Desktop Navigation */}
         <div className="flex items-center gap-6 xl:gap-8 h-full">
@@ -110,19 +110,19 @@ export function Navbar() {
               alt="BITC Logo"
               width={260}
               height={85}
-              className="h-[50px] sm:h-[65px] md:h-[75px] w-auto object-contain"
+              className="h-[38px] sm:h-[46px] md:h-[50px] w-auto object-contain"
               priority
             />
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-3 xl:gap-6 text-[14px] font-semibold text-[#191E27] h-full">
+          <nav className="hidden lg:flex items-center gap-3 xl:gap-6 text-[13.5px] font-semibold text-[#191E27] h-full">
             {Object.entries(navCategories).map(([key, cat]) => (
               <div key={key} className="relative group h-full flex items-center cursor-pointer">
-                <span className="flex items-center hover:text-primary transition-colors py-2">
+                <span className="flex items-center hover:text-primary transition-colors py-1.5">
                   {cat.label} <ChevronDown className="ml-1 h-3.5 w-3.5 text-gray-500 group-hover:rotate-180 transition-transform duration-300" />
                 </span>
-                <div className="absolute top-[75px] left-0 hidden group-hover:block w-[280px] bg-white border border-gray-100 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] rounded-2xl p-3 z-50 transition-all opacity-0 group-hover:opacity-100 animate-in fade-in slide-in-from-top-4 duration-300">
+                <div className="absolute top-full left-0 hidden group-hover:block w-[280px] bg-white border border-gray-100 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] rounded-2xl p-3 z-50 transition-all opacity-0 group-hover:opacity-100 animate-in fade-in slide-in-from-top-2 duration-300">
                   {cat.items.map((item, i) => (
                     <Link key={i} href={item.href} className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-gray-50 transition-colors group/link">
                       <div className="w-8 h-8 rounded-md bg-primary/10 text-primary flex items-center justify-center shrink-0 group-hover/link:bg-primary group-hover/link:text-white transition-colors">
@@ -164,11 +164,11 @@ export function Navbar() {
       {/* Mobile Drawer Backdrop & Overlay */}
       {mobileOpen && (
         <div 
-          className="fixed inset-0 top-[65px] sm:top-[75px] z-40 bg-slate-900/60 backdrop-blur-sm lg:hidden animate-in fade-in duration-200" 
+          className="fixed inset-0 top-[54px] sm:top-[62px] z-40 bg-slate-900/60 backdrop-blur-sm lg:hidden animate-in fade-in duration-200" 
           onClick={() => setMobileOpen(false)}
         >
           <div 
-            className="w-full max-w-[340px] mr-auto h-[calc(100vh-65px)] sm:h-[calc(100vh-75px)] bg-white shadow-2xl overflow-y-auto p-4 sm:p-6 flex flex-col justify-between animate-in slide-in-from-left duration-300"
+            className="w-full max-w-[340px] mr-auto h-[calc(100vh-54px)] sm:h-[calc(100vh-62px)] bg-white shadow-2xl overflow-y-auto p-4 sm:p-6 flex flex-col justify-between animate-in slide-in-from-left duration-300"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="space-y-3">

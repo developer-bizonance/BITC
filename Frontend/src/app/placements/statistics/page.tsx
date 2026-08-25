@@ -31,7 +31,7 @@ export default function PlacementStatisticsPage() {
       </section>
 
       {/* 2. Key Highlights */}
-      <section className="py-16 bg-slate-100 border-y border-slate-200/80 relative">
+      <section className="py-16 bg-white border-y border-slate-200/80 relative">
         <div className="container max-w-[1200px] mx-auto px-4 relative z-20">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[

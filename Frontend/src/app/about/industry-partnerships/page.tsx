@@ -49,7 +49,7 @@ export default function IndustryPartnershipsPage() {
       </section>
 
       {/* ── WHY PARTNERSHIPS MATTER ── */}
-      <section className="py-16 md:py-24 bg-gray-50">
+      <section className="py-16 md:py-24 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -72,7 +72,7 @@ export default function IndustryPartnershipsPage() {
       <IndustryPartnersGrid />
 
       {/* ── PARTNER BENEFITS ── */}
-      <section className="py-16 md:py-24 bg-slate-100 text-slate-900 border-y border-slate-200/80 relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-white text-slate-900 border-y border-slate-200/80 relative overflow-hidden">
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Partner Benefits</h2>
@@ -102,7 +102,7 @@ export default function IndustryPartnershipsPage() {
 
 
       {/* ── CORPORATE COLLABORATION ── */}
-      <section className="py-16 md:py-24 bg-gray-50 border-y border-gray-100">
+      <section className="py-16 md:py-24 bg-white border-y border-gray-100">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>

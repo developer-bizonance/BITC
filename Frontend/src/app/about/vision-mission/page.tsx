@@ -69,7 +69,7 @@ export default function VisionMissionPage() {
       </section>
 
       {/* ── 2. OUR VISION ── */}
-      <section className="py-24 bg-gray-50">
+      <section className="py-24 bg-white">
         <div className="container max-w-4xl mx-auto px-4 text-center">
           <p className="text-primary font-bold text-sm uppercase tracking-widest mb-4">Our Vision</p>
           <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-8">
@@ -125,7 +125,7 @@ export default function VisionMissionPage() {
       </section>
 
       {/* ── 4. CORE VALUES ── */}
-      <section className="py-20 md:py-28 bg-gray-50 border-y border-gray-100">
+      <section className="py-20 md:py-28 bg-white border-y border-gray-100">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-16">
             <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">What We Stand For</p>
@@ -246,7 +246,7 @@ export default function VisionMissionPage() {
       </section>
 
       {/* ── 6. OUR COMMITMENT — Promise List ── */}
-      <section className="py-20 md:py-28 bg-gray-50 border-y border-gray-100">
+      <section className="py-20 md:py-28 bg-white border-y border-gray-100">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div>

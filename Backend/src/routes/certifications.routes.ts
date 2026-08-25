@@ -46,7 +46,7 @@ router.post("/", async (req: Request, res: Response) => {
       category: category?.trim() || "Information Technology",
       duration: duration?.trim() || "6 Months",
       fees: fees?.trim() || "₹36,000",
-      badge: badge?.trim() || "Integrated with AI",
+      badge: badge?.trim() || "",
       image: image?.trim() || "",
       createdAt: new Date().toISOString(),
     };

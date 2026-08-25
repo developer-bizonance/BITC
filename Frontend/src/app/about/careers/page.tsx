@@ -43,14 +43,6 @@ interface JobOpeningItem {
   specialities?: string;
 }
 
-interface EmployeeTestimonialItem {
-  id?: string;
-  name: string;
-  role: string;
-  quote: string;
-  image: string;
-  rating?: number;
-}
 
 const defaultOpenings: JobOpeningItem[] = [
   { title: "Faculty – Full Stack Development", type: "Full-Time", location: "On-Site", experience: "3+ Years", department: "Academic & Training", specialities: "MERN, Java, Python" },
@@ -59,11 +51,6 @@ const defaultOpenings: JobOpeningItem[] = [
   { title: "T and P Office", type: "Full-Time", location: "On-Site", experience: "3+ Years", department: "Placement Cell", specialities: "Corporate Relations, Placement Coordination, HR Networking" },
 ];
 
-const defaultTestimonials: EmployeeTestimonialItem[] = [
-  { name: "Ananya Mehta", role: "Faculty – Data Science", quote: "Working at BITC has been the most rewarding experience. I get to shape careers and learn alongside brilliant students every day.", image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=150&h=150&q=80", rating: 5 },
-  { name: "Rohan Singh", role: "Software Developer", quote: "The culture here is incredible. Innovation is encouraged, and every team member's contribution is valued.", image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=150&h=150&q=80", rating: 5 },
-  { name: "Kavitha Rao", role: "Placement Officer", quote: "Seeing our students land their dream jobs is the best part of my role. BITC truly cares about outcomes.", image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&h=150&q=80", rating: 5 },
-];
 
 // All courses & certifications available across BITC website categorized
 const courseCertificationOptions = [
@@ -130,8 +117,7 @@ const courseCertificationOptions = [
 
 export default function CareersPage() {
   const [openingsList, setOpeningsList] = useState<JobOpeningItem[]>(defaultOpenings);
-  const [testimonialsList, setTestimonialsList] = useState<EmployeeTestimonialItem[]>(defaultTestimonials);
-  const [imgError, setImgError] = useState<Record<string | number, boolean>>({});
+
   const [, setLoading] = useState(false);
 
   // Apply Modal State
@@ -181,22 +167,9 @@ export default function CareersPage() {
         setLoading(false);
       }
     }
-    async function loadTestimonials() {
-      try {
-        const res = await fetch("/api/employee-testimonials");
-        if (res.ok) {
-          const data = await res.json();
-          if (data.testimonials && data.testimonials.length > 0) {
-            setTestimonialsList(data.testimonials);
-          }
-        }
-      } catch (err) {
-        console.warn("Failed to load employee testimonials, using fallback:", err);
-      }
-    }
 
     loadCareers();
-    loadTestimonials();
+
   }, []);
 
   const openApplyModal = (roleTitle?: string) => {
@@ -501,7 +474,7 @@ export default function CareersPage() {
       </section>
 
       {/* ── EMPLOYEE BENEFITS ── */}
-      <section className="py-16 md:py-24 bg-gray-50 border-y border-gray-100">
+      <section className="py-16 md:py-24 bg-white border-y border-gray-100">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Faculty & Trainer Benefits</h2>
@@ -579,7 +552,7 @@ export default function CareersPage() {
       </section>
 
       {/* ── RECRUITMENT PROCESS ── */}
-      <section className="py-16 md:py-24 bg-slate-100 text-slate-900 border-y border-slate-200/80">
+      <section className="py-16 md:py-24 bg-white text-slate-900 border-y border-slate-200/80">
         <div className="container max-w-[1000px] mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Recruitment Process</h2>
@@ -613,61 +586,6 @@ export default function CareersPage() {
         </div>
       </section>
 
-      {/* ── TESTIMONIALS ── */}
-      <section className="py-20 md:py-28 bg-gray-50 relative overflow-hidden">
-        <div className="container max-w-[1400px] mx-auto px-4 relative z-10">
-          <div className="mb-16 text-center">
-            <p className="text-primary font-bold uppercase tracking-widest text-[14px] mb-3">Faculty Voices</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-              Hear from Our <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Educators & Mentors</span>
-            </h2>
-            <p className="text-gray-500 text-[16px] max-w-2xl mx-auto">Discover what makes teaching at BITC an impactful experience.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonialsList.map((t, i) => (
-              <Card key={t.id || i} className="!p-0 !gap-0 border-0 shadow-xl shadow-gray-200/40 bg-white rounded-2xl relative overflow-hidden h-full flex flex-col">
-                <div className="absolute -top-4 right-4 text-[120px] font-serif leading-none text-gray-100 pointer-events-none select-none">
-                  &quot;
-                </div>
-
-                <CardContent className="p-6 flex flex-col flex-1 relative z-10">
-                  <div className="flex items-center gap-4 mb-5">
-                    <div className="relative">
-                      <img
-                        src={imgError[t.id || i] ? "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&h=150&q=80" : t.image}
-                        alt={t.name}
-                        onError={() => setImgError((prev) => ({ ...prev, [t.id || i]: true }))}
-                        className="w-12 h-12 rounded-full object-cover relative z-10 border-2 border-white shadow-md"
-                      />
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-slate-900 text-[15px]">{t.name}</h4>
-                      <p className="text-[12px] text-gray-500 font-semibold">{t.role}</p>
-                    </div>
-                  </div>
-
-                  <p className="text-slate-700 text-[14px] italic mb-6 leading-relaxed flex-1 relative z-10 font-medium">
-                    &quot;{t.quote}&quot;
-                  </p>
-
-                  <div className="flex items-center text-amber-400 mt-auto pt-4 border-t border-gray-100">
-                    <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
-                      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-                      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
-                      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
-                    </svg>
-                    {Array.from({ length: t.rating || 5 }).map((_, starIndex) => (
-                      <Star key={starIndex} className="h-4 w-4 fill-current mr-1" />
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ── APPLY CTA ── */}
       <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 border-t border-blue-100/80 relative overflow-hidden">

@@ -150,7 +150,7 @@ export default async function DesignCoursesPage() {
       </section>
 
       {/* Courses Grid */}
-      <section className="py-14 md:py-20 bg-slate-50/70">
+      <section className="py-14 md:py-20 bg-white/70">
         <div className="container max-w-[1360px] mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Explore Design Programs</h2>
@@ -188,17 +188,9 @@ export default async function DesignCoursesPage() {
                 <div className="p-4 flex flex-col flex-1 justify-between">
                   <div>
                     {/* Title */}
-                    <h3 className="text-base font-extrabold text-slate-900 group-hover:text-purple-600 transition-colors flex items-center leading-snug mb-1">
+                    <h3 className="text-base font-extrabold text-slate-900 group-hover:text-purple-600 transition-colors flex items-center leading-snug mb-2">
                       {course.title}
                     </h3>
-
-                    {/* AI Badge */}
-                    <div className="mb-2">
-                      <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-purple-700 bg-purple-50 border border-purple-200/80 px-2.5 py-0.5 rounded-full shadow-xs">
-                        <Sparkles className="w-3 h-3 text-purple-500" />
-                        Integrated with AI Design
-                      </span>
-                    </div>
 
                     {/* Description */}
                     <p className="text-xs text-slate-500 leading-relaxed mb-3 line-clamp-2">
@@ -233,7 +225,7 @@ export default async function DesignCoursesPage() {
                     </div>
 
                     <Link href={`/courses/${course.id}`} className="block w-full">
-                      <Button className="w-full h-10 rounded-xl bg-slate-900 hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 text-white font-bold text-xs transition-all duration-300 shadow-sm cursor-pointer flex items-center justify-center gap-2 group/btn">
+                      <Button className="w-full h-10 rounded-full bg-slate-900 hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 text-white font-bold text-xs transition-all duration-300 shadow-sm cursor-pointer flex items-center justify-center gap-2 group/btn">
                         <span>View Program</span>
                         <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
                       </Button>

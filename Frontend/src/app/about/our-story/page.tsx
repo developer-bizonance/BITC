@@ -40,7 +40,7 @@ export default function OurStoryPage() {
       </section>
 
       {/* 2. Our Beginning */}
-      <section className="py-16 md:py-24 bg-gray-50">
+      <section className="py-16 md:py-24 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="relative">
@@ -76,7 +76,7 @@ export default function OurStoryPage() {
       </section>
 
       {/* 3. The Challenge & Why BITC Was Created */}
-      <section className="py-16 md:py-24 bg-slate-100 text-slate-900 border-y border-slate-200/80 relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-white text-slate-900 border-y border-slate-200/80 relative overflow-hidden">
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">The Challenge We Identified</h2>
@@ -124,7 +124,7 @@ export default function OurStoryPage() {
       </section>
 
       {/* 4. Journey Timeline - Single Screen Horizontal Process Grid */}
-      <section className="py-14 md:py-20 bg-slate-50 relative overflow-hidden border-t border-b border-slate-200/60">
+      <section className="py-14 md:py-20 bg-white relative overflow-hidden border-t border-b border-slate-200/60">
         <div className="container max-w-[1350px] mx-auto px-4 relative z-10">
           {/* Header */}
           <div className="text-center mb-12">
@@ -222,7 +222,7 @@ export default function OurStoryPage() {
       </section>
 
       {/* 5. The Problem We Solve & Our Belief */}
-      <section className="py-16 md:py-24 bg-gray-50 border-y border-gray-100">
+      <section className="py-16 md:py-24 bg-white border-y border-gray-100">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="grid lg:grid-cols-3 gap-8">
             <Card className="bg-white border-gray-100 shadow-md hover:shadow-xl transition-shadow duration-300">

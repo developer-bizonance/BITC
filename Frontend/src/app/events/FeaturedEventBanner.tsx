@@ -65,7 +65,7 @@ export default function FeaturedEventBanner({ event }: FeaturedEventBannerProps)
   const timeLeft = useCountdown(event.rawDate);
 
   return (
-    <section className="py-16 bg-gray-50 relative z-20">
+    <section className="py-16 bg-white relative z-20">
       <div className="container max-w-[1200px] mx-auto px-4">
         <Card className="overflow-hidden border-0 shadow-2xl rounded-3xl bg-white p-0 gap-0">
           <div className="grid md:grid-cols-2">
@@ -76,6 +76,9 @@ export default function FeaturedEventBanner({ event }: FeaturedEventBannerProps)
                   src={event.image}
                   alt={event.title}
                   referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src = "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800&auto=format&fit=crop";
+                  }}
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               ) : (

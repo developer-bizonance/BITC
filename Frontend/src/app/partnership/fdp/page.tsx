@@ -36,7 +36,7 @@ export default function FDPPage() {
       </section>
 
       {/* 2. Why FDP? */}
-      <section className="py-16 lg:py-24 bg-gray-50">
+      <section className="py-16 lg:py-24 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-slate-900 mb-4">Why Invest in Faculty Development?</h2>

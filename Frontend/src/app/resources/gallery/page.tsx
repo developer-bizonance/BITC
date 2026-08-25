@@ -25,7 +25,7 @@ export default async function GalleryPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-slate-50">
+    <div className="flex flex-col min-h-screen bg-white">
       {/* Hero */}
       <section className="bg-white py-16 text-slate-900 text-center border-b border-gray-100">
         <div className="container max-w-[1200px] mx-auto px-4">

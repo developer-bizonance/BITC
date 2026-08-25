@@ -45,7 +45,7 @@ export default function AwardsRecognitionPage() {
       </section>
 
       {/* ── AWARDS GRID ── */}
-      <section className="py-16 md:py-24 bg-gray-50">
+      <section className="py-16 md:py-24 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Our Awards</h2>
@@ -77,7 +77,7 @@ export default function AwardsRecognitionPage() {
       </section>
 
       {/* ── STUDENT & PLACEMENT ACHIEVEMENTS ── */}
-      <section className="py-16 md:py-24 bg-slate-100 text-slate-900 border-y border-slate-200/80">
+      <section className="py-16 md:py-24 bg-white text-slate-900 border-y border-slate-200/80">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Student Achievements */}
@@ -167,7 +167,7 @@ export default function AwardsRecognitionPage() {
       </section>
 
       {/* ── SUCCESS MILESTONES ── */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Success Milestones</h2>

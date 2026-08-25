@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   DndContext,
   closestCenter,
@@ -12,7 +12,9 @@ import {
   SortableContext,
   sortableKeyboardCoordinates,
   rectSortingStrategy,
+  useSortable,
 } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { SortableItem } from "./uic/SortableItem";
 import {
   RefreshCw,
@@ -38,7 +40,133 @@ import {
   Check,
   ChevronDown,
   ChevronUp,
+  GripVertical,
+  Video,
+  Play,
 } from "lucide-react";
+
+const SortableCategoryItem = ({ cat, onUpdate, onDelete }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editName, setEditName] = useState(cat.name);
+  const [saving, setSaving] = useState(false);
+
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: cat.id, disabled: isEditing });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    zIndex: isDragging ? 50 : 1,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  const handleSave = async () => {
+    if (!editName.trim() || editName.trim() === cat.name) {
+      setIsEditing(false);
+      setEditName(cat.name);
+      return;
+    }
+    setSaving(true);
+    await onUpdate(cat.id, editName.trim());
+    setSaving(false);
+    setIsEditing(false);
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`flex items-center justify-between p-2.5 sm:p-3 rounded-xl border transition-all select-none ${
+        isDragging
+          ? "bg-amber-50 border-amber-400 shadow-lg ring-2 ring-amber-400/20"
+          : isEditing
+          ? "bg-white border-amber-400 ring-2 ring-amber-400/20 shadow-sm"
+          : "bg-slate-50 border-slate-200/80 hover:border-slate-300 hover:bg-white"
+      }`}
+    >
+      {isEditing ? (
+        <div className="flex items-center gap-2 flex-1 mr-1">
+          <input
+            type="text"
+            value={editName}
+            autoFocus
+            onChange={(e) => setEditName(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleSave();
+              if (e.key === "Escape") {
+                setIsEditing(false);
+                setEditName(cat.name);
+              }
+            }}
+            className="flex-1 px-3 py-1.5 bg-slate-50 border border-slate-300 rounded-lg text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500"
+          />
+          <button
+            type="button"
+            disabled={saving || !editName.trim()}
+            onClick={handleSave}
+            className="p-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors cursor-pointer disabled:opacity-50"
+            title="Save changes"
+          >
+            <Check className="w-4 h-4" />
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setIsEditing(false);
+              setEditName(cat.name);
+            }}
+            className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-200 rounded-lg transition-colors cursor-pointer"
+            title="Cancel"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      ) : (
+        <>
+          <div className="flex items-center gap-3 flex-1 min-w-0">
+            <div
+              {...attributes}
+              {...listeners}
+              className="cursor-grab active:cursor-grabbing p-1 text-slate-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-colors"
+              title="Drag to reorder category"
+            >
+              <GripVertical className="w-4 h-4" />
+            </div>
+            <span className="font-semibold text-sm text-slate-800 truncate">{cat.name}</span>
+          </div>
+
+          <div className="flex items-center gap-1 shrink-0">
+            <button
+              type="button"
+              onClick={() => {
+                setEditName(cat.name);
+                setIsEditing(true);
+              }}
+              className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer"
+              title="Edit Category Name"
+            >
+              <Pencil className="w-3.5 h-3.5" />
+            </button>
+            <button
+              type="button"
+              onClick={() => onDelete(cat.id, cat.name)}
+              className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+              title="Delete Category"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
 
 const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
   // Academic Partners State
@@ -68,13 +196,20 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
   const [certifications, setCertifications] = useState([]);
   const [certsLoading, setCertsLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All");
+  
+  // Category Management State
+  const [categories, setCategories] = useState([]);
+  const [categoriesLoading, setCategoriesLoading] = useState(false);
+  const [isManageCategoriesOpen, setIsManageCategoriesOpen] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState("");
+  const [addingCategory, setAddingCategory] = useState(false);
   const [isAddCertOpen, setIsAddCertOpen] = useState(false);
   const [certFormData, setCertFormData] = useState({
     title: "",
     category: "Information Technology",
     duration: "6 Months",
     fees: "₹36,000",
-    badge: "Integrated with AI",
+    badge: "",
     image: "",
   });
   const [submittingCert, setSubmittingCert] = useState(false);
@@ -87,7 +222,7 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
     category: "Information Technology",
     duration: "6 Months",
     fees: "₹36,000",
-    badge: "Integrated with AI",
+    badge: "",
     image: "",
   });
   const [updatingCert, setUpdatingCert] = useState(false);
@@ -119,6 +254,7 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
     quote: "",
     image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&h=150&q=80",
     rating: 5,
+    youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
   });
   const [editTestiData, setEditTestiData] = useState({
     name: "",
@@ -129,6 +265,7 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
     quote: "",
     image: "",
     rating: 5,
+    youtubeUrl: "",
   });
   const [submittingTesti, setSubmittingTesti] = useState(false);
   const [updatingTesti, setUpdatingTesti] = useState(false);
@@ -201,6 +338,25 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
     }
   };
 
+  const handleDragEndCategories = async (event) => {
+    const { active, over } = event;
+    if (over && active.id !== over.id) {
+      setCategories((items) => {
+        const oldIndex = items.findIndex((i) => i.id === active.id);
+        const newIndex = items.findIndex((i) => i.id === over.id);
+        const newItems = arrayMove(items, oldIndex, newIndex);
+        
+        fetch(`${apiUrl}/categories/reorder`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ orderedIds: newItems.map((i) => i.id) })
+        }).catch(err => console.error("Failed to save categories reorder", err));
+        
+        return newItems;
+      });
+    }
+  };
+
   const showNotification = (msg, type = "success") => {
     setNotification({ msg, type });
     setTimeout(() => setNotification(null), 4000);
@@ -254,10 +410,27 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
     }
   };
 
+  // Fetch Categories
+  const fetchCategories = async () => {
+    setCategoriesLoading(true);
+    try {
+      const res = await fetch(`${apiUrl}/categories`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.categories) setCategories(data.categories);
+      }
+    } catch (err) {
+      console.warn("Error fetching categories:", err);
+    } finally {
+      setCategoriesLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchPartners();
     fetchCertifications();
     fetchTestimonials();
+    fetchCategories();
   }, []);
 
   // Handlers for Academic Partners
@@ -365,6 +538,84 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
       showNotification("Network error while updating partner", "error");
     } finally {
       setUpdatingPartner(false);
+    }
+  };
+
+  // Handlers for Category Management
+  const handleAddCategory = async (e) => {
+    e.preventDefault();
+    if (!newCategoryName.trim()) {
+      showNotification("Please enter a category name", "error");
+      return;
+    }
+
+    setAddingCategory(true);
+    try {
+      const res = await fetch(`${apiUrl}/categories`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: newCategoryName }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setCategories(data.categories || [...categories, data.category]);
+        setNewCategoryName("");
+        showNotification("Category added successfully!");
+      } else {
+        showNotification(data.error || "Failed to add category", "error");
+      }
+    } catch (err) {
+      showNotification("Network error while adding category", "error");
+    } finally {
+      setAddingCategory(false);
+    }
+  };
+
+  const handleDeleteCategory = async (id, name) => {
+    if (!window.confirm(`Are you sure you want to remove "${name}" from Categories?`)) {
+      return;
+    }
+
+    try {
+      const res = await fetch(`${apiUrl}/categories/${id}`, {
+        method: "DELETE",
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setCategories(data.categories || categories.filter((c) => c.id !== id));
+        showNotification(`"${name}" removed successfully.`);
+      } else {
+        showNotification(data.error || "Failed to delete category", "error");
+      }
+    } catch (err) {
+      showNotification("Network error while deleting category", "error");
+    }
+  };
+
+  const handleUpdateCategory = async (id, updatedName) => {
+    try {
+      const res = await fetch(`${apiUrl}/categories/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: updatedName }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setCategories(data.categories || categories.map((c) => (c.id === id ? { ...c, name: updatedName } : c)));
+        // Refresh certifications to show updated category labels
+        fetchCertifications();
+        showNotification("Category name updated successfully!");
+      } else {
+        showNotification(data.error || "Failed to update category name", "error");
+      }
+    } catch (err) {
+      showNotification("Network error while updating category", "error");
     }
   };
 
@@ -621,10 +872,14 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
         setIsAddTestiOpen(false);
         setTestiFormData({
           name: "",
-          role: "Software Engineer at TCS",
+          role: "Software Engineer",
+          company: "TCS",
+          course: "Full Stack Development",
+          packageAmt: "6 LPA",
           quote: "",
           image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&h=150&q=80",
           rating: 5,
+          youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
         });
         showNotification("Success story added successfully!");
       } else {
@@ -648,6 +903,7 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
       quote: testi.quote || "",
       image: testi.image || "",
       rating: testi.rating || 5,
+      youtubeUrl: testi.youtubeUrl || "",
     });
     setIsEditTestiOpen(true);
   };
@@ -723,7 +979,6 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
           (c) => c.category.toLowerCase() === selectedCategory.toLowerCase()
         );
 
-  const categories = ["All", "Information Technology", "Management", "Design"];
 
   return (
     <div className="p-5 md:p-6 max-w-full mx-auto space-y-5">
@@ -883,6 +1138,14 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
               </button>
 
               <button
+                onClick={() => setIsManageCategoriesOpen(true)}
+                className="flex items-center justify-center gap-1.5 px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white rounded-xl font-bold text-xs shadow-sm shadow-amber-500/20 transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
+              >
+                <Layers className="w-3.5 h-3.5" />
+                Manage Categories
+              </button>
+              
+              <button
                 onClick={() => setIsAddCertOpen(true)}
                 className="flex items-center justify-center gap-1.5 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl font-bold text-xs shadow-sm shadow-purple-500/20 transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
               >
@@ -894,27 +1157,28 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
 
           {/* Category Filter Pills */}
           <div className="flex items-center gap-2 overflow-x-auto pb-1">
-            {categories.map((cat) => {
+            {[{ id: 'all', name: 'All' }, ...categories].map((catObj) => {
+              const catName = catObj.name;
               const count =
-                cat === "All"
+                catName === "All"
                   ? certifications.length
                   : certifications.filter(
-                      (c) => c.category.toLowerCase() === cat.toLowerCase()
+                      (c) => c.category?.toLowerCase() === catName.toLowerCase()
                     ).length;
 
-              const isSelected = selectedCategory === cat;
+              const isSelected = selectedCategory === catName;
 
               return (
                 <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
+                  key={catObj.id}
+                  onClick={() => setSelectedCategory(catName)}
                   className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                     isSelected
                       ? "bg-purple-600 text-white shadow-sm shadow-purple-500/20"
                       : "bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-slate-200/70"
                   }`}
                 >
-                  <span>{cat}</span>
+                  <span>{catName}</span>
                   <span
                     className={`px-1.5 py-0.2 rounded-full text-[10px] font-extrabold ${
                       isSelected
@@ -992,7 +1256,7 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
                             )}
 
                             {/* Badge Over Image */}
-                            {cert.badge && (
+                            {cert.badge && cert.badge !== "Integrated with AI" && (
                               <span className="absolute bottom-2 left-2 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-md">
                                 {cert.badge}
                               </span>
@@ -1140,7 +1404,7 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
                             />
                             <div className="pr-12">
                               <h3 className="font-bold text-gray-900 text-sm leading-snug">{story.name}</h3>
-                              <p className="text-xs text-gray-500 font-semibold">{story.role}</p>
+                              <p className="text-xs text-gray-500 font-semibold">{story.role} {story.company && `• ${story.company}`}</p>
                             </div>
                           </div>
 
@@ -1150,7 +1414,7 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
                           </p>
                         </div>
 
-                        {/* Rating Stars & Google Brand */}
+                        {/* Rating Stars & Badges */}
                         <div className="pt-3 border-t border-slate-100 flex items-center justify-between mt-auto pointer-events-none">
                           <div className="flex items-center text-amber-400">
                             <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -1163,9 +1427,18 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
                               <Star key={s} className="w-3.5 h-3.5 fill-current mr-0.5" />
                             ))}
                           </div>
-                          <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
-                            Verified Alumni
-                          </span>
+                          
+                          <div className="flex items-center gap-1.5">
+                            {story.youtubeUrl && (
+                              <span className="flex items-center gap-1 text-[10px] font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded-full border border-red-100">
+                                <Video className="w-3 h-3 text-red-500" />
+                                Video
+                              </span>
+                            )}
+                            <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
+                              Verified
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </SortableItem>
@@ -1415,17 +1688,31 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
-                    Category <span className="text-red-500">*</span>
-                  </label>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">
+                      Category <span className="text-red-500">*</span>
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => setIsManageCategoriesOpen(true)}
+                      className="text-[10px] font-bold text-amber-600 hover:text-amber-700 flex items-center gap-1 transition-colors cursor-pointer"
+                    >
+                      <Plus className="w-3 h-3" />
+                      Add New
+                    </button>
+                  </div>
                   <select
                     value={certFormData.category}
                     onChange={(e) => setCertFormData({ ...certFormData, category: e.target.value })}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 bg-white font-medium cursor-pointer"
                   >
-                    <option value="Information Technology">Information Technology</option>
-                    <option value="Management">Management</option>
-                    <option value="Design">Design</option>
+                    {categories.length > 0 ? (
+                      categories.map(cat => (
+                        <option key={cat.id} value={cat.name}>{cat.name}</option>
+                      ))
+                    ) : (
+                      <option value="Information Technology">Information Technology</option>
+                    )}
                   </select>
                 </div>
 
@@ -1545,17 +1832,31 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
-                    Category <span className="text-red-500">*</span>
-                  </label>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">
+                      Category <span className="text-red-500">*</span>
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => setIsManageCategoriesOpen(true)}
+                      className="text-[10px] font-bold text-amber-600 hover:text-amber-700 flex items-center gap-1 transition-colors cursor-pointer"
+                    >
+                      <Plus className="w-3 h-3" />
+                      Add New
+                    </button>
+                  </div>
                   <select
                     value={editCertData.category}
                     onChange={(e) => setEditCertData({ ...editCertData, category: e.target.value })}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-white font-medium cursor-pointer"
                   >
-                    <option value="Information Technology">Information Technology</option>
-                    <option value="Management">Management</option>
-                    <option value="Design">Design</option>
+                    {categories.length > 0 ? (
+                      categories.map(cat => (
+                        <option key={cat.id} value={cat.name}>{cat.name}</option>
+                      ))
+                    ) : (
+                      <option value="Information Technology">Information Technology</option>
+                    )}
                   </select>
                 </div>
 
@@ -1773,6 +2074,21 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
                 />
               </div>
 
+              <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                  <Video className="w-3.5 h-3.5 text-red-500" />
+                  <span>Testimonial Video (YouTube URL)</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. https://www.youtube.com/watch?v=... or https://youtu.be/..."
+                  value={testiFormData.youtubeUrl}
+                  onChange={(e) => setTestiFormData({ ...testiFormData, youtubeUrl: e.target.value })}
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 font-medium"
+                />
+                <p className="text-[11px] text-gray-400 mt-1">Paste a YouTube watch link or short link for the video side of the testimonial.</p>
+              </div>
+
               <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
                 <button
                   type="button"
@@ -1813,7 +2129,7 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
               </div>
               <div>
                 <h3 className="text-lg font-bold text-gray-900">Edit Student Success Story</h3>
-                <p className="text-xs text-gray-500">Update review, name, role or photo</p>
+                <p className="text-xs text-gray-500">Update review, name, role, video or photo</p>
               </div>
             </div>
 
@@ -1930,6 +2246,21 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
                   onChange={(e) => setEditTestiData({ ...editTestiData, image: e.target.value })}
                   className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
                 />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                  <Video className="w-3.5 h-3.5 text-red-500" />
+                  <span>Testimonial Video (YouTube URL)</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. https://www.youtube.com/watch?v=... or https://youtu.be/..."
+                  value={editTestiData.youtubeUrl}
+                  onChange={(e) => setEditTestiData({ ...editTestiData, youtubeUrl: e.target.value })}
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
+                />
+                <p className="text-[11px] text-gray-400 mt-1">Paste a YouTube watch link or short link for the video side of the testimonial.</p>
               </div>
 
               <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
@@ -2244,6 +2575,92 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
                   )}
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Manage Categories Modal */}
+      {isManageCategoriesOpen && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+            <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between bg-gradient-to-r from-amber-50 to-orange-50">
+              <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+                <Layers className="w-5 h-5 text-amber-600" />
+                Manage Categories
+              </h3>
+              <button
+                onClick={() => setIsManageCategoriesOpen(false)}
+                className="p-1.5 hover:bg-white rounded-xl text-slate-400 hover:text-slate-600 transition-colors cursor-pointer shadow-sm"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="p-6">
+              <form onSubmit={handleAddCategory} className="mb-6">
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  Add New Category <span className="text-red-500">*</span>
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Data Science"
+                    value={newCategoryName}
+                    onChange={(e) => setNewCategoryName(e.target.value)}
+                    className="flex-1 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all"
+                  />
+                  <button
+                    type="submit"
+                    disabled={addingCategory}
+                    className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold text-sm transition-all cursor-pointer shadow-md disabled:opacity-50"
+                  >
+                    {addingCategory ? "Adding..." : "Add"}
+                  </button>
+                </div>
+              </form>
+
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <label className="block text-xs font-bold text-slate-700">
+                    Existing Categories
+                  </label>
+                  <span className="text-[11px] text-slate-400 font-medium flex items-center gap-1">
+                    <GripVertical className="w-3.5 h-3.5 text-slate-400" />
+                    Drag to reorder
+                  </span>
+                </div>
+                {categoriesLoading ? (
+                  <p className="text-xs text-slate-400">Loading categories...</p>
+                ) : categories.length === 0 ? (
+                  <p className="text-xs text-slate-400 italic">No categories found.</p>
+                ) : (
+                  <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEndCategories}>
+                    <SortableContext items={categories.map((c) => c.id)} strategy={rectSortingStrategy}>
+                      <div className="max-h-[320px] overflow-y-auto space-y-2 pr-1">
+                        {categories.map((cat) => (
+                          <SortableCategoryItem
+                            key={cat.id}
+                            cat={cat}
+                            onUpdate={handleUpdateCategory}
+                            onDelete={handleDeleteCategory}
+                          />
+                        ))}
+                      </div>
+                    </SortableContext>
+                  </DndContext>
+                )}
+              </div>
+            </div>
+            
+            <div className="px-6 py-4 border-t border-slate-100 bg-slate-50 flex justify-end">
+              <button
+                type="button"
+                onClick={() => setIsManageCategoriesOpen(false)}
+                className="px-5 py-2.5 text-sm font-bold text-slate-600 hover:bg-white hover:shadow-sm rounded-xl transition-all border border-transparent hover:border-slate-200 cursor-pointer"
+              >
+                Close
+              </button>
             </div>
           </div>
         </div>

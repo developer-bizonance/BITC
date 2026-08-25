@@ -196,11 +196,16 @@ const Events = () => {
             <div key={evt.id} className="bg-white rounded-xl p-0 border border-gray-100 shadow-sm flex flex-col h-full overflow-hidden hover:shadow-md transition-shadow">
 
               {/* Image Section */}
-              <div className="w-full h-36 bg-gray-100 relative group">
+              <div className="w-full h-36 bg-gray-100 relative group overflow-hidden">
                 {evt.imageUrl ? (
                   <img
                     src={evt.imageUrl}
                     alt={evt.title}
+                    referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800&auto=format&fit=crop";
+                    }}
                     className="w-full h-full object-cover"
                   />
                 ) : (
@@ -295,6 +300,17 @@ const Events = () => {
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-1">Image URL</label>
                   <input type="text" value={form.imageUrl} onChange={(e) => setForm({ ...form, imageUrl: e.target.value })} className="w-full px-4 py-2 border rounded-xl" placeholder="https://..." />
+                  {form.imageUrl && (
+                    <div className="mt-2 h-28 w-full bg-gray-100 rounded-xl overflow-hidden relative border border-gray-200">
+                      <img
+                        src={form.imageUrl}
+                        alt="Preview"
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-cover"
+                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                      />
+                    </div>
+                  )}
                 </div>
                 <div className="flex items-center gap-2">
                   <input type="checkbox" id="addIsFeatured" checked={form.isFeatured} onChange={(e) => setForm({ ...form, isFeatured: e.target.checked })} className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
@@ -356,6 +372,17 @@ const Events = () => {
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1">Image URL</label>
                   <input type="text" value={editForm.imageUrl} onChange={(e) => setEditForm({ ...editForm, imageUrl: e.target.value })} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl" placeholder="https://..." />
+                  {editForm.imageUrl && (
+                    <div className="mt-2 h-28 w-full bg-gray-100 rounded-xl overflow-hidden relative border border-gray-200">
+                      <img
+                        src={editForm.imageUrl}
+                        alt="Preview"
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-cover"
+                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                      />
+                    </div>
+                  )}
                 </div>
                 <div className="flex items-center gap-2">
                   <input type="checkbox" id="editIsFeatured" checked={editForm.isFeatured} onChange={(e) => setEditForm({ ...editForm, isFeatured: e.target.checked })} className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />

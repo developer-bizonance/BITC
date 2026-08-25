@@ -779,7 +779,7 @@ function ApplyFormContent() {
 
 export default function ApplyPage() {
   return (
-    <div className="min-h-screen bg-slate-50 py-12 md:py-20">
+    <div className="min-h-screen bg-white py-12 md:py-20">
       <div className="container max-w-5xl mx-auto px-4">
         <div className="mb-8">
           <Link

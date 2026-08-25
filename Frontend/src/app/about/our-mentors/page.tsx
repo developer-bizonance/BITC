@@ -89,7 +89,7 @@ export default function OurMentorsPage() {
       </section>
 
       {/* ── MENTOR CARDS (Clean White Theme) ── */}
-      <section className="py-24 bg-slate-50 relative overflow-hidden border-y border-slate-200">
+      <section className="py-24 bg-white relative overflow-hidden border-y border-slate-200">
         {/* Subtle Accents */}
         <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
         <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-amber-400/5 rounded-full blur-[120px] pointer-events-none" />

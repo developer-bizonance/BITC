@@ -1,1 +1,90 @@
-[]
+[
+  {
+    "id": "1ea97d96-e0a4-4040-8f9d-63f235158ccb",
+    "title": "National Level Hackathon 2026",
+    "date": "2026-10-15T09:00:00.000Z",
+    "type": "WORKSHOP",
+    "imageUrl": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800&auto=format&fit=crop",
+    "venue": "BITC Central Campus, Amravati",
+    "speaker": "Dr. Arvind Mehta",
+    "isFeatured": false,
+    "createdAt": "2026-08-20T10:34:30.096Z"
+  },
+  {
+    "id": "5e09528a-d6f4-4616-87ac-820e830ca55c",
+    "title": "AI & Machine Learning Workshop",
+    "date": "2026-09-20T10:00:00.000Z",
+    "type": "WORKSHOP",
+    "imageUrl": "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop",
+    "venue": "BITC Innovation Lab, Block A",
+    "speaker": "Prof. Sunita Rao",
+    "isFeatured": false,
+    "createdAt": "2026-08-20T10:34:30.347Z"
+  },
+  {
+    "id": "c7a471b7-4617-419e-a37d-b675aa1215de",
+    "title": "Industrial Visit - Infosys Pune",
+    "date": "2026-09-10T00:00:00.000Z",
+    "type": "VISIT",
+    "imageUrl": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=800&auto=format&fit=crop",
+    "venue": "Infosys Campus, Pune",
+    "speaker": "Mr. Rajan Kulkarni",
+    "isFeatured": false,
+    "createdAt": "2026-08-20T10:34:30.488Z"
+  },
+  {
+    "id": "4363be06-78ca-4142-8dfd-4ee6f780365a",
+    "title": "AI & Machine Learning Workshop",
+    "date": "2025-12-10T10:00:00.000Z",
+    "type": "WORKSHOP",
+    "imageUrl": "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop",
+    "venue": "BITC Innovation Lab, Block A",
+    "speaker": "Prof. Sunita Rao",
+    "isFeatured": false,
+    "createdAt": "2026-08-20T10:32:53.367Z"
+  },
+  {
+    "id": "9f29e12a-2c2e-4d89-91ea-55ba8f91f6a3",
+    "title": "National Level Hackathon 2025",
+    "date": "2025-11-15T09:00:00.000Z",
+    "type": "WORKSHOP",
+    "imageUrl": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800&auto=format&fit=crop",
+    "venue": "BITC Central Campus, Amravati",
+    "speaker": "Dr. Arvind Mehta",
+    "isFeatured": false,
+    "createdAt": "2026-08-20T10:32:53.060Z"
+  },
+  {
+    "id": "6df65d80-449c-4af9-8a16-f52d1fcd7358",
+    "title": "Industrial Visit - TCS Nagpur",
+    "date": "2025-10-05T00:00:00.000Z",
+    "type": "VISIT",
+    "imageUrl": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=800&auto=format&fit=crop",
+    "venue": "TCS Campus, Nagpur",
+    "speaker": "Mr. Rajan Kulkarni",
+    "isFeatured": false,
+    "createdAt": "2026-08-20T10:32:53.506Z"
+  },
+  {
+    "id": "70cd5364-a0e1-4838-b14d-783e083d31e8",
+    "title": "Web Development Bootcamp 2024",
+    "date": "2024-06-20T00:00:00.000Z",
+    "type": "WORKSHOP",
+    "imageUrl": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=800&auto=format&fit=crop",
+    "venue": "BITC Computer Lab, Block B",
+    "speaker": "Mr. Sahil Patil",
+    "isFeatured": false,
+    "createdAt": "2026-08-20T10:32:53.647Z"
+  },
+  {
+    "id": "d7a36512-c15a-4329-b4b1-7a494204a159",
+    "title": "Annual Convocation Ceremony 2024",
+    "date": "2024-04-14T10:00:00.000Z",
+    "type": "CONVOCATION",
+    "imageUrl": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800&auto=format&fit=crop",
+    "venue": "BITC Main Auditorium",
+    "speaker": "Chief Guest: Mr. Prashant Desai",
+    "isFeatured": false,
+    "createdAt": "2026-08-20T10:32:53.850Z"
+  }
+]

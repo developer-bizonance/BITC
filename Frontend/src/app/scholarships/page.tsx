@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 export default function ScholarshipsPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-slate-50">
+    <div className="flex flex-col min-h-screen bg-white">
       
       {/* Hero Section */}
       <section className="relative w-full bg-white py-24 overflow-hidden border-b border-gray-100">
@@ -122,7 +122,7 @@ export default function ScholarshipsPage() {
       </section>
 
       {/* Application Process */}
-      <section className="py-20 lg:py-28 bg-slate-50">
+      <section className="py-20 lg:py-28 bg-white">
         <div className="container max-w-[1000px] mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">How to Apply</h2>

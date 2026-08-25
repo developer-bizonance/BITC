@@ -31,7 +31,6 @@ import Home from "./Home.jsx"
 import About from "./About.jsx"
 import ContactEntries from "./ContactEntries.jsx"
 import CourseApplications from "./CourseApplications.jsx"
-import EmployeeTestimonials from "./EmployeeTestimonials.jsx"
 import VideoTestimonials from "./VideoTestimonials.jsx"
 import Courses from "./Courses.jsx"
 import Events from "./Events.jsx"
@@ -93,23 +92,7 @@ const sidebarItems = [
                 title: "Our Alumni",
                 Icon: UserCheck,
             },
-            {
-                id: "employee-testimonials",
-                title: "Employee Success Stories",
-                Icon: Quote,
-            },
-        ],
-    },
-    {
-        title: "Placements",
-        Icon: Briefcase,
-        Content: VideoTestimonials,
-        subItems: [
-            {
-                id: "video-testimonials",
-                title: "Video Testimonials",
-                Icon: VideoTestimonials.Icon || Play,
-            },
+
         ],
     },
     {
@@ -345,9 +328,6 @@ function Sidebar({ isOpen: propIsOpen }) {
                                 <About
                                     activeSubTopic={activeSubTopic}
                                 />
-                            )}
-                            {activeTab === "Placements" && (
-                                <VideoTestimonials />
                             )}
                             {activeTab === "Events" && (
                                 <Events />

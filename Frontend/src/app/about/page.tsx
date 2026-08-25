@@ -46,7 +46,7 @@ export default function AboutPage() {
       </section>
 
       {/* 2. Who We Are */}
-      <section className="py-16 md:py-24 bg-gray-50">
+      <section className="py-16 md:py-24 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -108,7 +108,7 @@ export default function AboutPage() {
       </section>
 
       {/* 4. What Makes BITC Different */}
-      <section className="py-16 md:py-24 bg-slate-100 text-slate-900 border-y border-slate-200/80">
+      <section className="py-16 md:py-24 bg-white text-slate-900 border-y border-slate-200/80">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Why BITC is Different</h2>
@@ -172,7 +172,7 @@ export default function AboutPage() {
       </section>
 
       {/* 6. Our Learning Ecosystem */}
-      <section className="py-16 md:py-24 bg-gray-50 border-y border-gray-100">
+      <section className="py-16 md:py-24 bg-white border-y border-gray-100">
         <div className="container max-w-[1000px] mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12">The BITC Learning Journey</h2>
 
@@ -224,7 +224,7 @@ export default function AboutPage() {
       </section>
 
       {/* 8. Core Values & Commitment */}
-      <section className="py-16 md:py-24 bg-slate-100 text-slate-900 border-y border-slate-200/80 relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-white text-slate-900 border-y border-slate-200/80 relative overflow-hidden">
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10">
           <div className="grid lg:grid-cols-2 gap-16">
             <div>

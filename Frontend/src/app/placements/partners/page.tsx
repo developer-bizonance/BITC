@@ -90,7 +90,7 @@ export default async function HiringPartnersPage() {
       </section>
 
       {/* 2. Top Recruiters Grid */}
-      <section className="py-20 bg-gray-50 relative z-20">
+      <section className="py-20 bg-white relative z-20">
         <div className="container max-w-[1200px] mx-auto px-4">
           <Card className="border-0 shadow-2xl rounded-3xl bg-white overflow-hidden p-8 md:p-12">
             <div className="text-center mb-10">
@@ -140,7 +140,7 @@ export default async function HiringPartnersPage() {
       </section>
 
       {/* 4. Why Hire BITC Trained */}
-      <section className="py-20 bg-slate-100 text-slate-900 border-y border-slate-200/80 relative overflow-hidden">
+      <section className="py-20 bg-white text-slate-900 border-y border-slate-200/80 relative overflow-hidden">
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             

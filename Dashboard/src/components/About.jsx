@@ -40,7 +40,6 @@ import {
 } from "@dnd-kit/sortable";
 import { SortableItem } from "./uic/SortableItem";
 
-import EmployeeTestimonials from "./EmployeeTestimonials.jsx";
 
 const About = ({ activeSubTopic = "mentors" }) => {
   // Mentors State
@@ -2769,12 +2768,6 @@ const About = ({ activeSubTopic = "mentors" }) => {
       )}
 
 
-      {/* ======================================================== */}
-      {/* 5. SUB-TOPIC: EMPLOYEE TESTIMONIALS                     */}
-      {/* ======================================================== */}
-      {activeSubTopic === "employee-testimonials" && (
-        <EmployeeTestimonials />
-      )}
 
     </div>
   );

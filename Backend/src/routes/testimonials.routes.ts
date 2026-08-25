@@ -11,6 +11,7 @@ export interface TestimonialItem {
   quote: string;
   image: string;
   rating?: number;
+  youtubeUrl?: string;
   createdAt: string;
 }
 
@@ -28,7 +29,7 @@ router.get("/", async (_req: Request, res: Response) => {
 // POST /api/testimonials (Add new testimonial)
 router.post("/", async (req: Request, res: Response) => {
   try {
-    const { name, role, company, course, packageAmt, quote, image, rating } = req.body;
+    const { name, role, company, course, packageAmt, quote, image, rating, youtubeUrl } = req.body;
 
     if (!name || typeof name !== "string" || name.trim().length < 2) {
       return res.status(400).json({ error: "Student name is required." });
@@ -48,6 +49,7 @@ router.post("/", async (req: Request, res: Response) => {
       quote: quote.trim(),
       image: image?.trim() || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&h=150&q=80",
       rating: typeof rating === "number" ? rating : 5,
+      youtubeUrl: youtubeUrl?.trim() || "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
       createdAt: new Date().toISOString(),
     };
 
@@ -100,7 +102,7 @@ router.put("/reorder", async (req: Request, res: Response) => {
 router.put("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { name, role, company, course, packageAmt, quote, image, rating } = req.body;
+    const { name, role, company, course, packageAmt, quote, image, rating, youtubeUrl } = req.body;
 
     const db = await readJsonDbAsync<TestimonialItem>("testimonials.json");
     const index = db.findIndex((t) => t.id === id);
@@ -119,6 +121,7 @@ router.put("/:id", async (req: Request, res: Response) => {
       quote: quote !== undefined ? quote.trim() : current.quote,
       image: image !== undefined ? image.trim() : current.image,
       rating: rating !== undefined ? Number(rating) : current.rating,
+      youtubeUrl: youtubeUrl !== undefined ? youtubeUrl.trim() : current.youtubeUrl,
     };
 
     db[index] = updated;

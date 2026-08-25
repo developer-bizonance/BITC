@@ -36,7 +36,7 @@ export default function IndustrialVisitsPage() {
       </section>
 
       {/* 2. The Experience */}
-      <section className="py-16 lg:py-24 bg-gray-50">
+      <section className="py-16 lg:py-24 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4 flex flex-col lg:flex-row gap-16 items-center">
           <div className="flex-1 w-full order-2 lg:order-1">
             <div className="grid grid-cols-2 gap-4">

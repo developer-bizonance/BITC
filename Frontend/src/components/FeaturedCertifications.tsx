@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -9,7 +9,7 @@ import {
   CheckCircle2, ArrowRight, Code, Database, Coffee, Terminal, 
   BrainCircuit, BarChart, ShieldCheck, Cloud, TrendingUp, 
   PieChart, Landmark, Users, LayoutTemplate, 
-  PenTool, Video, Film, Clapperboard, GraduationCap, Clock, Download, Award, IndianRupee, Tag, Sparkles
+  PenTool, Video, Film, Clapperboard, GraduationCap, Clock, Download, Award, IndianRupee, Tag, Sparkles, Briefcase, Laptop
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -26,27 +26,26 @@ type CourseCardItem = {
 
 const initialCoursesData: Record<string, CourseCardItem[]> = {
   "Information Technology": [
-    { title: "MERN Stack", duration: "6 Months", icon: Database, image: "/MERN.jpg", fees: "₹36,000", badge: "Integrated with AI" },
-    { title: "MEAN Stack", duration: "6 Months", icon: Database, image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "Integrated with AI" },
-    { title: "Full Stack Java", duration: "6 Months", icon: Coffee, image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "Integrated with AI" },
-    { title: "Full Stack Python", duration: "6 Months", icon: Terminal, image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "Integrated with AI" },
+    { title: "MERN Stack", duration: "6 Months", icon: Database, image: "/MERN.jpg", fees: "₹36,000" },
+    { title: "MEAN Stack", duration: "6 Months", icon: Database, image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
+    { title: "Full Stack Java", duration: "6 Months", icon: Coffee, image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
+    { title: "Full Stack Python", duration: "6 Months", icon: Terminal, image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
     { title: "AI & Machine Learning", duration: "6 Months", icon: BrainCircuit, image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "Top Rated" },
     { title: "Data Science", duration: "6 Months", icon: BarChart, image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "High Demand" },
-    { title: "Cyber Security", duration: "6 Months", icon: ShieldCheck, image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "Industry Standard" },
-    { title: "Cloud Computing", duration: "6 Months", icon: Cloud, image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "AWS / Azure" },
+    { title: "Complete DevOps & Cloud Computing", duration: "6 Months", icon: Cloud, image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "AWS / Azure" },
   ],
   "Management": [
     { title: "Digital Marketing", duration: "3 Months", icon: TrendingUp, image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "Placement Assistance" },
-    { title: "Business Analytics", duration: "6 Months", icon: PieChart, image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "Integrated with AI" },
+    { title: "Business Analytics", duration: "6 Months", icon: PieChart, image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
     { title: "Finance", duration: "6 Months", icon: Landmark, image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
     { title: "HR", duration: "3 Months", icon: Users, image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
     { title: "Sales", duration: "3 Months", icon: TrendingUp, image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
   ],
   "Design": [
     { title: "UI/UX Design", duration: "6 Months", icon: LayoutTemplate, image: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "Figma & Prototyping" },
-    { title: "Graphic Design", duration: "3 Months", icon: PenTool, image: "https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
-    { title: "Motion Graphics", duration: "3 Months", icon: Video, image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
-    { title: "Video Editing", duration: "3 Months", icon: Film, image: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
+    { title: "Graphic Design", duration: "3 Months", icon: PenTool, image: "https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "Adobe Suite" },
+    { title: "Motion Graphics", duration: "3 Months", icon: Video, image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "After Effects" },
+    { title: "Video Editing", duration: "3 Months", icon: Film, image: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "Premiere Pro" },
     { title: "Animation", duration: "6 Months", icon: Clapperboard, image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
   ]
 };
@@ -57,51 +56,86 @@ const categoryRoutes: Record<string, string> = {
   "Design": "/courses/design",
 };
 
+const getApiUrl = () => {
+  if (process.env.NEXT_PUBLIC_API_URL) return process.env.NEXT_PUBLIC_API_URL;
+  if (typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")) {
+    return "http://localhost:5000/api";
+  }
+  return "https://bitc-backend-theta.vercel.app/api";
+};
+
 export default function FeaturedCertifications() {
   const [coursesData, setCoursesData] = useState<Record<string, CourseCardItem[]>>(initialCoursesData);
   const [imgError, setImgError] = useState<Record<string | number, boolean>>({});
+  const [activeTab, setActiveTab] = useState<string>("Information Technology");
 
   useEffect(() => {
-    async function loadCertifications() {
+    async function loadData() {
       try {
-        const res = await fetch("https://bitc-backend-theta.vercel.app/api/certifications");
-        if (res.ok) {
-          const data = await res.json();
-          if (data.certifications && data.certifications.length > 0) {
-            // Group by category
-            const grouped: Record<string, CourseCardItem[]> = {
-              "Information Technology": [],
-              "Management": [],
-              "Design": [],
-            };
+        const API_URL = getApiUrl();
+        const [certsRes, catsRes] = await Promise.allSettled([
+          fetch(`${API_URL}/certifications`),
+          fetch(`${API_URL}/categories`),
+        ]);
 
-            data.certifications.forEach((c: any) => {
-              const cat = c.category || "Information Technology";
-              if (!grouped[cat]) grouped[cat] = [];
-              grouped[cat].push({
-                id: c.id,
-                title: c.title,
-                category: c.category,
-                duration: c.duration || "6 Months",
-                fees: c.fees || "₹36,000",
-                badge: c.badge || "Integrated with AI",
-                image: c.image || "",
-                icon: Database,
-              });
+        let certsList: any[] = [];
+        let catNames: string[] = [];
+
+        if (certsRes.status === "fulfilled" && certsRes.value.ok) {
+          const certsData = await certsRes.value.json();
+          if (certsData.certifications) {
+            certsList = certsData.certifications;
+          }
+        }
+
+        if (catsRes.status === "fulfilled" && catsRes.value.ok) {
+          const catsData = await catsRes.value.json();
+          if (catsData.categories && catsData.categories.length > 0) {
+            catNames = catsData.categories.map((c: any) => c.name);
+          }
+        }
+
+        if (catNames.length === 0 && certsList.length > 0) {
+          catNames = Array.from(new Set(certsList.map((c: any) => c.category || "Information Technology")));
+        }
+
+        if (catNames.length > 0 || certsList.length > 0) {
+          const grouped: Record<string, CourseCardItem[]> = {};
+
+          catNames.forEach((cat) => {
+            grouped[cat] = [];
+          });
+
+          certsList.forEach((c: any) => {
+            const cat = c.category || catNames[0] || "Information Technology";
+            if (!grouped[cat]) grouped[cat] = [];
+            grouped[cat].push({
+              id: c.id,
+              title: c.title,
+              category: c.category,
+              duration: c.duration || "6 Months",
+              fees: c.fees || "₹36,000",
+              badge: c.badge && c.badge !== "Integrated with AI" ? c.badge : "",
+              image: c.image || "",
+              icon: Database,
             });
+          });
 
-            setCoursesData(grouped);
+          setCoursesData(grouped);
+          if (catNames.length > 0) {
+            setActiveTab((current) => (catNames.includes(current) ? current : catNames[0]));
           }
         }
       } catch (err) {
-        console.warn("Failed to fetch dynamic certifications, using fallback:", err);
+        console.warn("Failed to fetch dynamic data, using fallback:", err);
       }
     }
-    loadCertifications();
+    loadData();
   }, []);
+
   return (
-    <Tabs defaultValue="Information Technology" className="w-full">
-      <div className="flex justify-start mb-8 overflow-x-auto pb-2">
+    <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+      <div className="flex justify-start mb-5 overflow-x-auto pb-2">
         <TabsList className="bg-transparent p-0 gap-3">
           {Object.keys(coursesData).map((category) => (
             <TabsTrigger key={category} value={category} className="cursor-pointer rounded-full px-6 py-2.5 bg-gray-100 text-gray-600 hover:bg-gray-200 data-active:bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] data-active:text-white data-active:shadow-md transition-all">
@@ -136,32 +170,40 @@ export default function FeaturedCertifications() {
                   {/* Content Section */}
                   <div className="p-4 flex flex-col justify-between flex-1">
                     <div>
-                      <h3 className="text-base font-extrabold text-slate-900 group-hover:text-primary transition-colors flex items-center leading-snug mb-1">
+                      <h3 className="text-base font-extrabold text-slate-900 group-hover:text-primary transition-colors flex items-center leading-snug mb-3">
                         {course.title}
                       </h3>
-                      
-                      {!course.title.includes("AI") && (
-                        <div className="mb-2">
-                          <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-amber-700 bg-amber-50 border border-amber-200/80 px-2.5 py-0.5 rounded-full shadow-xs">
-                            <Sparkles className="w-3 h-3 text-amber-500" />
-                            Integrated with AI
-                          </span>
-                        </div>
-                      )}
 
                       {/* Features List */}
-                      <div className="space-y-1.5 mb-3">
-                        <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
-                          <GraduationCap className="w-3.5 h-3.5 text-primary shrink-0" />
-                          <span>Industry-recognized certification</span>
-                        </div>
+                      <div className="space-y-2 mb-4">
+                        {/* 1. Duration */}
                         <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
                           <Clock className="w-3.5 h-3.5 text-primary shrink-0" />
-                          <span>Duration: {course.duration}</span>
+                          <span>Duration: <strong className="text-slate-900 font-semibold">{course.duration}</strong></span>
                         </div>
+
+                        {/* 2. Learn from Experts */}
+                        <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
+                          <Users className="w-3.5 h-3.5 text-primary shrink-0" />
+                          <span>Learn from Experts</span>
+                        </div>
+
+                        {/* 3. Work on Live Projects */}
+                        <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
+                          <Laptop className="w-3.5 h-3.5 text-primary shrink-0" />
+                          <span>Work on Live Projects</span>
+                        </div>
+
+                        {/* 4. Internship Opportunity */}
+                        <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
+                          <Briefcase className="w-3.5 h-3.5 text-primary shrink-0" />
+                          <span>Internship Opportunity</span>
+                        </div>
+
+                        {/* 5. Become Certified */}
                         <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
                           <Award className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                          <span className="line-clamp-1">Free certification opportunity at Bizonance</span>
+                          <span>Become Certified</span>
                         </div>
                       </div>
                     </div>
@@ -176,7 +218,7 @@ export default function FeaturedCertifications() {
                       </div>
 
                       <Link href={`/courses/${course.title.toLowerCase().replace(/ & /g, '-').replace(/[\/\s]+/g, '-')}`} className="block w-full">
-                        <Button className="w-full h-10 rounded-xl bg-slate-900 hover:bg-gradient-to-r hover:from-amber-500 hover:to-orange-500 text-white font-bold text-xs transition-all duration-300 shadow-sm cursor-pointer flex items-center justify-center gap-2 group/btn">
+                        <Button className="w-full h-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:opacity-90 text-white font-bold text-xs transition-all duration-300 shadow-sm cursor-pointer flex items-center justify-center gap-2 group/btn">
                           <span>View Program</span>
                           <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
                         </Button>

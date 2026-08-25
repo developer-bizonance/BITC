@@ -170,7 +170,7 @@ export default async function EventsPage() {
                 <CarouselItem key={event.id} className="pl-4 md:basis-1/2 lg:basis-1/3">
                   <div className="h-full p-2">
                     <Card className="h-full overflow-hidden border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-300 group rounded-3xl bg-white flex flex-col hover:-translate-y-1 p-0 gap-0">
-                      {event.image && (
+                      {event.image ? (
                         <div className="w-full h-56 relative overflow-hidden bg-gray-100">
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10 opacity-60 group-hover:opacity-80 transition-opacity" />
                           <img 
@@ -183,7 +183,7 @@ export default async function EventsPage() {
                             {event.category}
                           </div>
                         </div>
-                      )}
+                      ) : null}
                       <CardContent className="p-6 md:p-8 flex flex-col flex-1">
                         <h3 className="text-xl font-bold text-slate-900 mb-5 line-clamp-2 leading-tight group-hover:text-primary transition-colors">{event.title}</h3>
                         
@@ -250,7 +250,7 @@ export default async function EventsPage() {
                 <CarouselItem key={event.id} className="pl-4 md:basis-1/2 lg:basis-1/3">
                   <div className="h-full p-2">
                     <Card className="h-full overflow-hidden border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-300 group rounded-3xl bg-white flex flex-col hover:-translate-y-1 p-0 gap-0">
-                      {event.image && (
+                      {event.image ? (
                         <div className="w-full h-56 relative overflow-hidden bg-gray-100 grayscale hover:grayscale-0 transition-all duration-500">
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10 opacity-60 group-hover:opacity-80 transition-opacity" />
                           <img 
@@ -263,7 +263,7 @@ export default async function EventsPage() {
                             {event.category}
                           </div>
                         </div>
-                      )}
+                      ) : null}
                       <CardContent className="p-6 md:p-8 flex flex-col flex-1">
                         <h3 className="text-xl font-bold text-slate-900 mb-5 line-clamp-2 leading-tight group-hover:text-primary transition-colors">{event.title}</h3>
                         

@@ -113,7 +113,7 @@ export default async function CoursePage({ params }: PageProps) {
   const totalTopics = course.curriculum.reduce((acc, mod) => acc + (mod.topics?.length || 0), 0);
 
   return (
-    <div className="flex flex-col min-h-screen bg-slate-50">
+    <div className="flex flex-col min-h-screen bg-white">
       
       {/* Hero Section */}
       <section className="relative w-full bg-white text-slate-900 py-8 md:py-12 lg:py-14 overflow-hidden border-b border-gray-100">
@@ -198,7 +198,7 @@ export default async function CoursePage({ params }: PageProps) {
       </section>
 
       {/* Course Content / Curriculum Section - PREMIUM REDESIGN */}
-      <section id="curriculum" className="py-20 lg:py-28 bg-slate-50 relative overflow-hidden">
+      <section id="curriculum" className="py-20 lg:py-28 bg-white relative overflow-hidden">
         <div className="container max-w-[1100px] mx-auto px-4 relative z-10">
           
           {/* Header */}
