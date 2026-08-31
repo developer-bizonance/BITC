@@ -10,11 +10,11 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Management & Business Courses",
-  description: "Accelerate your career with Digital Marketing, Business Analytics, Project Management, and Financial Tech courses at BITC Amravati.",
+  title: "Management & Business Certifications",
+  description: "Accelerate your career with Digital Marketing, Business Analytics, Project Management, and Financial Tech certifications at BITC Amravati.",
   openGraph: {
-    title: "Management & Business Courses | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
-    description: "Business & Management certification courses for ambitious professionals.",
+    title: "Management & Business Certifications | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
+    description: "Business & Management certification programs for ambitious professionals.",
   },
 };
 
@@ -125,7 +125,7 @@ export default async function ManagementCoursesPage() {
               <span>BUSINESS & MANAGEMENT</span>
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
-              Management Courses & <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span>
+              Management <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span> & Programs
             </h1>
             <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-8 font-medium max-w-2xl mx-auto">
               Equip yourself with practical business acumen, leadership skills, and strategic thinking to fast-track your corporate growth.
@@ -153,7 +153,7 @@ export default async function ManagementCoursesPage() {
       <section className="py-14 md:py-20 bg-white/70">
         <div className="container max-w-[1360px] mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Explore Management Programs</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Explore Management Certifications</h2>
             <p className="text-gray-500 max-w-2xl mx-auto text-base">
               Practical management certifications designed to elevate your professional trajectory.
             </p>

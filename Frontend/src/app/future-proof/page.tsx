@@ -93,7 +93,7 @@ export default function FutureProofPage() {
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-3">AI-First Workflows</h3>
                 <p className="text-slate-600 leading-relaxed">
-                  Every course at BITC integrates modern AI tools (like Copilot, ChatGPT, and Midjourney). You won't just learn a skill; you'll learn how to 10x your productivity using AI.
+                  Every certification program at BITC integrates modern AI tools (like Copilot, ChatGPT, and Midjourney). You won't just learn a skill; you'll learn how to 10x your productivity using AI.
                 </p>
               </CardContent>
             </Card>

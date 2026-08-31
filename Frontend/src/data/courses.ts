@@ -26,7 +26,7 @@ export const courses: Course[] = [
     fees: "₹36,000",
     price: 36000,
     description: "Deep dive into the industry-favorite MERN stack (MongoDB, Express, React, Node) to become a highly sought-after Full Stack JavaScript Developer.",
-    features: ["Specialized JS Focus", "Real-time Web Sockets", "AI-Assisted Debugging", "Resume Building"],
+    features: ["Specialized JS Focus", "Real-time Web Sockets", "AI-Assisted Debugging"],
     image: "/MERN.jpg",
     curriculum: [
       {

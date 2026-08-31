@@ -3,10 +3,10 @@ import { Download, FileText, File } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Resource Downloads",
-  description: "Download BITC course brochures, placement reports, syllabus PDFs, and application forms.",
+  description: "Download BITC certification brochures, placement reports, syllabus PDFs, and application forms.",
   openGraph: {
     title: "Resource Downloads | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
-    description: "Download course brochures and placement materials.",
+    description: "Download certification brochures and placement materials.",
   },
 };
 

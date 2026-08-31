@@ -29,12 +29,12 @@ export default function PrivacyPolicyPage() {
           
           <h2 className="text-xl font-bold text-slate-900 pt-4">Information We Collect</h2>
           <p>
-            When you register for a course, submit an application form, or contact us, we may collect personal information including your name, email address, phone number, qualification details, and course interest.
+            When you register for a certification program, submit an application form, or contact us, we may collect personal information including your name, email address, phone number, qualification details, and certification interest.
           </p>
           
           <h2 className="text-xl font-bold text-slate-900 pt-4">How We Use Your Information</h2>
           <ul className="list-disc pl-6 space-y-2">
-            <li>To process course applications and enrollment.</li>
+            <li>To process certification applications and enrollment.</li>
             <li>To provide, operate, and maintain our educational services.</li>
             <li>To communicate with you regarding classes, schedules, and placement opportunities.</li>
             <li>To send updates, newsletters, and promotional materials.</li>

@@ -11,6 +11,12 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ApplyButton } from "@/components/courses/ApplyButton";
+import { Poppins } from "next/font/google";
+
+const poppins = Poppins({ 
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"] 
+});
 
 import type { Metadata } from "next";
 
@@ -80,23 +86,23 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!course) {
     return {
-      title: "Course Not Found | BITC",
-      description: "The requested course could not be found.",
+      title: "Certification Not Found | BITC",
+      description: "The requested certification could not be found.",
     };
   }
 
   return {
-    title: `${course.title} Course`,
+    title: `${course.title} Certification`,
     description: `${course.description} Duration: ${course.duration}. Learn from industry experts at BITC BIZONANCE with placement assistance.`,
     keywords: [
       course.title,
-      `${course.title} Course Amravati`,
+      `${course.title} Certification Amravati`,
       `${course.category} Certification`,
       "BITC Training",
       "BIZONANCE Industrial Training Centre",
     ],
     openGraph: {
-      title: `${course.title} Course | BIZONANCE Industrial Training Centre. (BITC) | Amravati`,
+      title: `${course.title} Certification | BIZONANCE Industrial Training Centre. (BITC) | Amravati`,
       description: course.description,
     },
   };
@@ -124,7 +130,11 @@ export default async function CoursePage({ params }: PageProps) {
                 <LayoutTemplate className="w-3.5 h-3.5" />
                 {course.category}
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight tracking-tight text-slate-900">
+              <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+              <h1 
+                className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight tracking-tight text-slate-900"
+                style={{ fontFamily: "'Poppins', sans-serif" }}
+              >
                 {course.title}
               </h1>
               <p className="text-lg md:text-xl text-slate-600 mb-8 leading-relaxed font-medium">
@@ -154,7 +164,6 @@ export default async function CoursePage({ params }: PageProps) {
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/10 via-blue-500/10 to-emerald-500/10 rounded-[2rem] blur-3xl pointer-events-none" />
               <Card className="bg-white border-slate-200/80 shadow-2xl shadow-slate-900/5 relative z-10 overflow-hidden rounded-[2rem]">
-                <div className="h-2 w-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]" />
                 <CardContent className="p-8 md:p-10">
                   {/* Course Feature Image */}
 
@@ -174,21 +183,21 @@ export default async function CoursePage({ params }: PageProps) {
                     <Sparkles className="w-6 h-6 text-orange-500" />
                     Program Highlights
                   </h3>
-                  <ul className="space-y-4">
-                    {course.features.map((feature, i) => (
+                  <ul className="space-y-3.5">
+                    {Array.from(new Set([
+                      ...(course.features || []),
+                      "Resume Building & Portfolio Review",
+                      "Interview Preparation & Soft Skills",
+                      "1-on-1 Mentorship & Doubt Clearing",
+                      "Group Discussion & Communication Sessions",
+                      "Mock Interviews with Industry Experts",
+                      "Access to Exclusive BITC Placement Drive"
+                    ])).filter(highlight => highlight !== "Resume Building").map((highlight, i) => (
                       <li key={i} className="flex items-start gap-3.5">
                         <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
-                        <span className="text-slate-700 font-semibold text-[15px]">{feature}</span>
+                        <span className="text-slate-700 font-semibold text-[15px]">{highlight}</span>
                       </li>
                     ))}
-                    <li className="flex items-start gap-3.5">
-                      <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
-                      <span className="text-slate-700 font-semibold text-[15px]">1-on-1 Mentorship & Career Guidance</span>
-                    </li>
-                    <li className="flex items-start gap-3.5">
-                      <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
-                      <span className="text-slate-700 font-semibold text-[15px]">Access to Exclusive BITC Placement Drive</span>
-                    </li>
                   </ul>
                 </CardContent>
               </Card>
@@ -208,7 +217,7 @@ export default async function CoursePage({ params }: PageProps) {
               <span>INDUSTRY-DESIGNED SYLLABUS</span>
             </div>
             <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">
-              Comprehensive Course Curriculum
+              Comprehensive Certification Curriculum
             </h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto font-medium leading-relaxed">
               Curated by industry leads and updated quarterly to equip you with production-grade skills, real-world workflows, and AI integration.
@@ -243,18 +252,18 @@ export default async function CoursePage({ params }: PageProps) {
                 value={`module-${i}`} 
                 className="border border-slate-200/90 rounded-2xl px-6 md:px-8 py-1.5 bg-white shadow-sm hover:shadow-md data-[state=open]:shadow-xl data-[state=open]:border-slate-300 transition-all duration-300 overflow-hidden group"
               >
-                <AccordionTrigger className="text-left hover:no-underline py-5 cursor-pointer">
+                <AccordionTrigger className="text-left hover:no-underline py-5 cursor-pointer items-center">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 w-full pr-4">
                     <div className="flex items-center gap-4">
                       {/* Module Number Badge */}
-                      <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 text-amber-400 flex items-center justify-center shrink-0 shadow-md font-black text-base border border-slate-700/50 group-data-[state=open]:from-amber-500 group-data-[state=open]:to-orange-500 group-data-[state=open]:text-slate-950 transition-all duration-300">
+                      <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 text-amber-500 flex items-center justify-center shrink-0 shadow-md font-black text-base border border-slate-700/50 group-data-[state=open]:from-amber-500 group-data-[state=open]:to-orange-500 group-data-[state=open]:text-slate-950 transition-all duration-300">
                         0{i + 1}
                       </div>
                       <div>
-                        <span className="text-[11px] font-extrabold uppercase tracking-widest text-amber-600 block mb-0.5">
+                        <span className="text-[11px] font-extrabold uppercase tracking-widest text-amber-500 block mb-0.5">
                           MODULE {i + 1}
                         </span>
-                        <h3 className="text-lg md:text-xl font-bold text-slate-900 group-hover:text-amber-600 transition-colors">
+                        <h3 className="text-lg md:text-xl font-bold text-slate-900 group-hover:text-amber-500 group-data-[state=open]:text-amber-500 transition-colors">
                           {module.title.replace(/^Module \d+:\s*/i, '')}
                         </h3>
                       </div>
@@ -292,17 +301,17 @@ export default async function CoursePage({ params }: PageProps) {
           </Accordion>
           
           {/* Real-World Capstone Banner */}
-          <div className="mt-14 p-8 md:p-10 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-950 rounded-3xl border border-slate-700/80 text-white shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="mt-14 p-8 md:p-10 bg-slate-50 rounded-3xl border border-slate-200/80 text-slate-900 shadow-xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
             <div className="relative z-10 max-w-xl">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold mb-4 border border-amber-500/30">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 text-amber-700 text-xs font-bold mb-4 border border-amber-500/20">
                 <Rocket className="w-3.5 h-3.5" />
                 <span>HANDS-ON INDUSTRIAL CAPSTONE</span>
               </div>
-              <h3 className="text-2xl md:text-3xl font-black text-white mb-3 tracking-tight">
+              <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-3 tracking-tight">
                 Build a Production-Ready Capstone Project
               </h3>
-              <p className="text-slate-300 leading-relaxed text-sm md:text-base font-medium">
+              <p className="text-slate-600 leading-relaxed text-sm md:text-base font-medium">
                 Apply everything you've learned to construct a real-world enterprise project under the guidance of senior software leads. Review your code, optimize performance, and showcase it directly to top tech recruiters.
               </p>
             </div>
@@ -311,9 +320,9 @@ export default async function CoursePage({ params }: PageProps) {
               <ApplyButton courseId={course.slug} courseTitle={course.title} />
               <Link 
                 href="/contact" 
-                className="w-full sm:w-auto h-14 px-8 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-sm flex items-center justify-center gap-2 border border-white/20 transition-all shadow-md backdrop-blur-md"
+                className="w-full sm:w-auto h-14 px-8 rounded-full bg-white hover:bg-slate-100 text-slate-900 font-bold text-sm flex items-center justify-center gap-2 border border-slate-200 transition-all shadow-sm backdrop-blur-md"
               >
-                Inquire Syllabus <ChevronRight className="w-4 h-4" />
+                Chat with us <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
           </div>

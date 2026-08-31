@@ -188,10 +188,10 @@ export default function FeaturedCertifications() {
                           <span>Learn from Experts</span>
                         </div>
 
-                        {/* 3. Work on Live Projects */}
+                        {/* 3. Assignments & Live Projects */}
                         <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
                           <Laptop className="w-3.5 h-3.5 text-primary shrink-0" />
-                          <span>Work on Live Projects</span>
+                          <span>Assignments & Live Projects</span>
                         </div>
 
                         {/* 4. Internship Opportunity */}
@@ -203,7 +203,7 @@ export default function FeaturedCertifications() {
                         {/* 5. Become Certified */}
                         <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
                           <Award className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                          <span>Become Certified</span>
+                          <span>Become a Certified</span>
                         </div>
                       </div>
                     </div>
@@ -234,7 +234,7 @@ export default function FeaturedCertifications() {
               <div className="flex justify-center mt-10">
                 <Link href={categoryRoutes[category] || "/courses"}>
                   <Button variant="outline" className="rounded-full px-8 py-5 bg-transparent border-2 border-amber-500 text-amber-600 hover:bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:text-white hover:border-transparent font-bold transition-all duration-300 flex items-center gap-2.5 text-sm md:text-base cursor-pointer shadow-none">
-                    <span>See More Courses</span>
+                    <span>See More Certifications</span>
                     <ArrowRight className="w-5 h-5" />
                   </Button>
                 </Link>

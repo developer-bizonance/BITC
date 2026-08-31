@@ -10,11 +10,11 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Design Courses",
+  title: "Design Certifications",
   description: "Master UI/UX Design, Graphic Design, 3D Animation, and Video Editing with hands-on projects at BITC Amravati.",
   openGraph: {
-    title: "Design Courses | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
-    description: "Creative & UI/UX design certification courses.",
+    title: "Design Certifications | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
+    description: "Creative & UI/UX design certification programs.",
   },
 };
 
@@ -125,7 +125,7 @@ export default async function DesignCoursesPage() {
               <span>DESIGN & CREATIVE ARTS</span>
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
-              Design Courses & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500">Certifications</span>
+              Design <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500">Certifications</span> & Programs
             </h1>
             <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-8 font-medium max-w-2xl mx-auto">
               Unleash your creativity with hands-on design courses. Learn Figma, Adobe Creative Suite, 3D tools, and build a portfolio that lands jobs.
@@ -153,7 +153,7 @@ export default async function DesignCoursesPage() {
       <section className="py-14 md:py-20 bg-white/70">
         <div className="container max-w-[1360px] mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Explore Design Programs</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Explore Design Certifications</h2>
             <p className="text-gray-500 max-w-2xl mx-auto text-base">
               From UI/UX to animation — master creative skills that top agencies and studios demand.
             </p>

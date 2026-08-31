@@ -10,11 +10,11 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "IT & Software Courses",
+  title: "IT & Software Certifications",
   description: "Master Full Stack Java, Python, MERN, AI & ML, Data Science, Cyber Security, and Cloud Computing at BITC Amravati.",
   openGraph: {
-    title: "IT & Software Courses | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
-    description: "Industry-aligned IT & Software engineering certification courses.",
+    title: "IT & Software Certifications | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
+    description: "Industry-aligned IT & Software engineering certification programs.",
   },
 };
 
@@ -159,10 +159,10 @@ export default async function ITCoursesPage() {
               <span>INFORMATION TECHNOLOGY</span>
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
-              IT Courses & <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span>
+              IT <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span> & Programs
             </h1>
             <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-8 font-medium max-w-2xl mx-auto">
-              Industry-focused IT programs designed by experts. Master in-demand technologies, build real projects, and launch your tech career with confidence.
+              Industry-focused IT certification programs designed by experts. Master in-demand technologies, build real projects, and launch your tech career with confidence.
             </p>
 
             <div className="flex flex-wrap justify-center gap-3">
@@ -187,9 +187,9 @@ export default async function ITCoursesPage() {
       <section className="py-14 md:py-20 bg-white/70">
         <div className="container max-w-[1360px] mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Explore Our IT Programs</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Explore Our IT Certifications</h2>
             <p className="text-gray-500 max-w-2xl mx-auto text-base">
-              Choose from our comprehensive range of IT courses, each integrated with AI and designed for real-world readiness.
+              Choose from our comprehensive range of IT certifications, each integrated with AI and designed for real-world readiness.
             </p>
           </div>
 
@@ -281,7 +281,7 @@ export default async function ITCoursesPage() {
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Why Learn IT at BITC?</h2>
             <p className="text-gray-500 max-w-2xl mx-auto text-base">
-              Our IT programs go beyond theory — every course is built around industry practice.
+              Our IT programs go beyond theory — every certification program is built around industry practice.
             </p>
           </div>
 

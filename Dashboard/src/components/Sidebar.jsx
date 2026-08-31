@@ -40,6 +40,8 @@ import Downloads from "./Downloads.jsx"
 import FAQ from "./FAQ.jsx"
 import Applications from "./Applications.jsx"
 import Students from "./Students.jsx"
+import EnquiryTypes from "./EnquiryTypes.jsx"
+import StudentConsulting from "./StudentConsulting.jsx"
 
 // Sidebar configuration with Home, About, and Contact Inquiries tabs
 const sidebarItems = [
@@ -132,6 +134,23 @@ const sidebarItems = [
         title: "Contact Inquiries",
         Icon: Mail,
         Content: ContactEntries,
+        subItems: [
+            {
+                id: "inquiries-list",
+                title: "View Inquiries",
+                Icon: Inbox,
+            },
+            {
+                id: "enquiry-types",
+                title: "Enquiry Types",
+                Icon: FileText,
+            }
+        ]
+    },
+    {
+        title: "Student Consulting",
+        Icon: MessageSquare,
+        Content: StudentConsulting,
     },
     {
         title: "Course Applications",
@@ -345,8 +364,14 @@ function Sidebar({ isOpen: propIsOpen }) {
                                 <FAQ />
                             )}
 
-                            {activeTab === "Contact Inquiries" && (
+                            {activeTab === "Contact Inquiries" && (activeSubTopic === "inquiries-list" || !activeSubTopic) && (
                                 <ContactEntries />
+                            )}
+                            {activeTab === "Contact Inquiries" && activeSubTopic === "enquiry-types" && (
+                                <EnquiryTypes />
+                            )}
+                            {activeTab === "Student Consulting" && (
+                                <StudentConsulting />
                             )}
                             {activeTab === "Course Applications" && (
                                 <CourseApplications />

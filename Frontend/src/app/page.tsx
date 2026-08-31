@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import ConsultationForm from "@/components/ConsultationForm";
 import { ArrowRight, BookOpen, Building2, CheckCircle2, GraduationCap, Users, Briefcase, Star, Search, ChevronLeft, ChevronRight, PlayCircle, Shield, Clock, Award, TrendingUp, Sparkles, Target, Trophy, Monitor, Compass, UserCheck, Network, Code, Medal } from "lucide-react";
 import type { Metadata } from "next";
 import FeaturedCertifications from "@/components/FeaturedCertifications";
@@ -294,6 +296,44 @@ export default function Home() {
                 />
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Student Consulting Center */}
+      <section className="py-16 md:py-24 bg-white text-slate-900 relative overflow-hidden border-y border-slate-100">
+        <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary via-transparent to-transparent pointer-events-none" />
+        <div className="container max-w-[1200px] mx-auto px-4 relative z-10 flex flex-col md:flex-row items-center justify-between gap-10">
+          <div className="md:w-[55%] text-center md:text-left">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-sm font-bold mb-6 shadow-sm">
+              <Compass className="w-4 h-4" />
+              Career Guidance & Counseling
+            </div>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">Student Consulting Center</h2>
+            <p className="text-gray-600 text-lg mb-8 max-w-lg mx-auto md:mx-0 leading-relaxed">
+              Get personalized career guidance, expert advice on Certifications, and a clear roadmap for your professional journey. Talk to our career counselors today!
+            </p>
+            <div className="flex flex-wrap justify-center md:justify-start gap-4">
+              <Dialog>
+                <DialogTrigger className="h-12 md:h-14 px-6 md:px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-900 text-base md:text-lg font-bold flex items-center justify-center hover:opacity-90 transition-all shadow-lg shadow-orange-500/20">
+                  Book Your Consultation <ArrowRight className="ml-2 w-5 h-5" />
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md bg-white border border-gray-100 p-6 md:p-8 rounded-3xl">
+                  <DialogHeader>
+                    <DialogTitle className="text-2xl font-bold text-slate-900 text-center mb-2">Book a Free Consultation</DialogTitle>
+                  </DialogHeader>
+                  <ConsultationForm />
+                </DialogContent>
+              </Dialog>
+              <Link href="/about/student-consulting-center" className="h-12 md:h-14 px-6 md:px-8 rounded-full border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-slate-700 text-base md:text-lg font-bold flex items-center justify-center transition-all">
+                Learn More
+              </Link>
+            </div>
+          </div>
+          <div className="md:w-[45%] flex justify-center lg:justify-end">
+             <div className="relative w-full max-w-[420px] aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl">
+                <img src="/consulting.jpg" alt="Student Consulting" className="w-full h-full object-cover" />
+             </div>
           </div>
         </div>
       </section>

@@ -4,10 +4,10 @@ import { HelpCircle, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Frequently Asked Questions (FAQs) | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
-  description: "Find answers to common questions about BITC courses, admission criteria, placement assistance, fees, scholarships, and class schedules.",
+  description: "Find answers to common questions about BITC certifications, admission criteria, placement assistance, fees, scholarships, and class schedules.",
   openGraph: {
     title: "Frequently Asked Questions (FAQs) | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
-    description: "Got questions? Find answers about admissions, placement assistance, course duration, and certification.",
+    description: "Got questions? Find answers about admissions, placement assistance, duration, and certifications.",
   },
 };
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -32,7 +32,7 @@ export default async function FAQsPage() {
         <div className="container max-w-[1200px] mx-auto px-4">
           <HelpCircle className="w-12 h-12 text-primary mx-auto mb-4" />
           <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight mb-4">Frequently Asked <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Questions</span></h1>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto font-medium">Find answers to common questions about our courses, placements, and admission process.</p>
+          <p className="text-lg text-slate-600 max-w-2xl mx-auto font-medium">Find answers to common questions about our certifications, placements, and admission process.</p>
         </div>
       </section>
 

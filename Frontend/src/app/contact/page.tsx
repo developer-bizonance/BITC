@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Image from "next/image";
 import { Mail, Phone, MapPin, Send, MessageSquare, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +14,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
+const DEFAULT_ENQUIRY_TYPES = [
+  "Academic Collaboration (MOU)",
+  "Technical Workshop",
+  "Faculty Development Program (FDP)",
+  "Industry Visit",
+  "Corporate Training",
+  "Employee Upskill",
+  "Leadership Program",
+  "Hiring Partners / Industry Partnership",
+  "Placement & Student Recruitment",
+  "Scholarship Application",
+  "Course & Certification Inquiry",
+  "Other Enquiry"
+];
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -27,6 +43,24 @@ export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [enquiryTypes, setEnquiryTypes] = useState<string[]>(DEFAULT_ENQUIRY_TYPES);
+
+  useEffect(() => {
+    const fetchTypes = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/cms/enquiryTypes`);
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) {
+            setEnquiryTypes(data);
+          }
+        }
+      } catch (e) {
+        console.error("Failed to fetch dynamic enquiry types", e);
+      }
+    };
+    fetchTypes();
+  }, []);
 
   const validateField = (field: string, value: string): string => {
     switch (field) {
@@ -140,21 +174,19 @@ export default function ContactPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      {/* 1. Hero Section */}
-      <section className="bg-white py-16 text-slate-900 text-center border-b border-gray-100">
-        <div className="container max-w-[1200px] mx-auto px-4">
-          <MessageSquare className="w-12 h-12 text-primary mx-auto mb-4" />
-          <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight mb-4">
-            Contact <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Us</span>
-          </h1>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto font-medium">
-            Have questions about our courses, partnerships, or corporate training? Get in touch with our team today.
-          </p>
-        </div>
+      {/* 1. Full-Width Hero Image Banner */}
+      <section className="relative w-full h-[260px] sm:h-[340px] md:h-[400px] lg:h-[440px] overflow-hidden border-b border-gray-100 bg-slate-100">
+        <Image
+          src="/contact-banner-new.png"
+          alt="Contact Us"
+          fill
+          priority
+          className="object-cover object-center"
+        />
       </section>
 
       {/* 2. Main Content */}
-      <section className="py-16">
+      <section className="py-10 sm:py-14">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
             
@@ -171,11 +203,18 @@ export default function ContactPage() {
                     <MapPin className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-900 mb-1">BIZONANCE INDIA PRIVATE LIMITED</h3>
+                    <h3 className="font-bold text-slate-900 mb-0.5 text-base sm:text-lg">
+                      BiZONANCE Industrial Training Centre
+                    </h3>
+                    <p className="text-xs sm:text-[13px] font-semibold text-primary mb-0.5">
+                      Unit of BiZONANCE India Private Limited
+                    </p>
+                    <p className="text-xs text-slate-500 font-semibold mb-0.5">
+                      CIN: U74999MH2017PTC301018
+                    </p>
                     <p className="text-slate-600 text-sm leading-relaxed">
                       Near Delhi Public School, Ravi Kiran Colony,<br />
-                      Saturna, Amravati, MH 444605<br />
-                      <span className="text-xs text-slate-500 font-semibold mt-1 inline-block">CIN: U74999MH2017PTC301018</span>
+                      Saturna, Amravati, MH 444605
                     </p>
                   </div>
                 </div>
@@ -197,7 +236,7 @@ export default function ContactPage() {
                     <Mail className="w-6 h-6 text-emerald-600" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-900 mb-1">Email Address</h3>
+                    <h3 className="font-bold text-slate-900 mb-1">Email ID</h3>
                     <p className="text-slate-600 text-sm">
                       <a href="mailto:info@bizonance.in" className="hover:text-primary transition-colors font-medium">info@bizonance.in</a>
                     </p>
@@ -357,18 +396,9 @@ export default function ContactPage() {
                         <SelectValue placeholder="Select enquiry type..." />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="Academic Collaboration (MOU)">Academic Collaboration (MOU)</SelectItem>
-                        <SelectItem value="Academic Workshops & Bootcamps">Academic Workshops & Bootcamps</SelectItem>
-                        <SelectItem value="Faculty Development Program (FDP)">Faculty Development Program (FDP)</SelectItem>
-                        <SelectItem value="Industry Visit">Industry Visit</SelectItem>
-                        <SelectItem value="Corporate Training">Corporate Training</SelectItem>
-                        <SelectItem value="Employee Upskill">Employee Upskill</SelectItem>
-                        <SelectItem value="Leadership Program">Leadership Program</SelectItem>
-                        <SelectItem value="Hiring Partners / Industry Partnership">Hiring Partners / Industry Partnership</SelectItem>
-                        <SelectItem value="Placement & Student Recruitment">Placement & Student Recruitment</SelectItem>
-                        <SelectItem value="Scholarship Application">Scholarship Application</SelectItem>
-                        <SelectItem value="Course & Certification Inquiry">Course & Certification Inquiry</SelectItem>
-                        <SelectItem value="Other Enquiry">Other Enquiry</SelectItem>
+                        {enquiryTypes.map((type) => (
+                          <SelectItem key={type} value={type}>{type}</SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     {fieldErrors.enquiryType && (

@@ -19,7 +19,7 @@ router.get("/", async (_req: Request, res: Response) => {
 // POST /api/inquiries
 router.post("/", async (req: Request, res: Response) => {
   try {
-    const { name, email, phone, message, courseId, courseSlug } = req.body;
+    const { name, email, phone, message, courseId, courseSlug, enquiryType } = req.body;
 
     if (!name || !email || !phone) {
       return res.status(400).json({ error: "Name, email, and phone number are required" });
@@ -39,6 +39,7 @@ router.post("/", async (req: Request, res: Response) => {
           name,
           email,
           phone,
+          enquiryType: enquiryType || "General Inquiry",
           message: message || "Interested in BITC Certification Courses",
           status: "PENDING",
           courseId: targetCourseId || null,

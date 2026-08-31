@@ -149,7 +149,7 @@ export function AuthModal() {
               </div>
 
               <p className="text-xs text-slate-500 font-medium">
-                Our academic counselor will contact you within 24 hours to complete course orientation and batch scheduling.
+                Our academic counselor will contact you within 24 hours to complete certification orientation and batch scheduling.
               </p>
 
               <Button
@@ -171,10 +171,10 @@ export function AuthModal() {
                 )}
 
                 <h2 className="text-2xl font-black text-slate-900">
-                  Course Application
+                  Certification Application
                 </h2>
                 <p className="text-slate-500 text-xs mt-1 font-medium">
-                  Please provide your details below to submit your course application.
+                  Please provide your details below to submit your certification application.
                 </p>
               </div>
 

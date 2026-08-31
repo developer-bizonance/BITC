@@ -9,7 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: "Scholarships & Financial Aid",
-  description: "Learn about merit-based scholarships and financial aid opportunities for IT and Management courses at BITC Amravati.",
+  description: "Learn about merit-based scholarships and financial aid opportunities for IT and Management certifications at BITC Amravati.",
   openGraph: {
     title: "Scholarships & Financial Aid | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
     description: "Merit scholarships and tuition fee assistance for deserving candidates.",

@@ -765,9 +765,9 @@ export default function CareersPage() {
                   <div>
                     <label className="block text-xs font-bold text-slate-900 mb-1.5 uppercase tracking-wider flex items-center justify-between">
                       <span className="flex items-center gap-1.5 text-primary font-extrabold">
-                        <GraduationCap className="w-4 h-4" /> Which Course / Certification will you teach? <span className="text-red-500">*</span>
+                        <GraduationCap className="w-4 h-4" /> Which Certification Program will you teach? <span className="text-red-500">*</span>
                       </span>
-                      <span className="text-[11px] font-normal text-slate-500">All Website Courses</span>
+                      <span className="text-[11px] font-normal text-slate-500">All Website Certifications</span>
                     </label>
                     <select
                       value={form.subjectCourse}

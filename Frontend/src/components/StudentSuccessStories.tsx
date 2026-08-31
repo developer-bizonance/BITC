@@ -85,12 +85,12 @@ function TestimonialVideoCard({ story, index }: { story: TestimonialItem; index:
     : story.image;
 
   return (
-    <Card className="!p-0 !gap-0 border-0 border-none shadow-lg shadow-slate-200/50 bg-white rounded-2xl overflow-hidden flex flex-col md:flex-row items-stretch h-full">
+    <Card className="!p-0 !gap-0 border-0 border-none shadow-lg shadow-slate-200/50 bg-slate-100 rounded-2xl overflow-hidden flex flex-col md:flex-row items-stretch h-full">
       
       {/* ========================================================================= */}
       {/* LEFT COLUMN (As drawn): Photo (Circle) -> Name -> Desi -> Intro Box -> Rating */}
       {/* ========================================================================= */}
-      <div className="w-full md:w-[44%] lg:w-[45%] p-4 sm:p-5 flex flex-col items-center text-center justify-between bg-white">
+      <div className="w-full md:w-[44%] lg:w-[45%] p-4 sm:p-5 flex flex-col items-center text-center justify-between bg-slate-100">
         
         {/* Top: Circular Profile Photo */}
         <div className="flex flex-col items-center w-full">
@@ -129,7 +129,7 @@ function TestimonialVideoCard({ story, index }: { story: TestimonialItem; index:
         </div>
 
         {/* Middle: Intro / Review Quote Box */}
-        <div className="w-full bg-slate-50 rounded-xl p-2.5 sm:p-3 my-2.5 flex-1 flex flex-col justify-center text-left relative shadow-xs">
+        <div className="w-full bg-white rounded-xl p-2.5 sm:p-3 my-2.5 flex-1 flex flex-col justify-center text-left relative shadow-sm">
           <Quote className="w-3 h-3 text-amber-500/50 mb-0.5 shrink-0" />
           <p className="text-slate-700 text-[11px] sm:text-xs leading-relaxed italic font-medium line-clamp-3">
             &quot;{story.quote}&quot;
@@ -137,7 +137,7 @@ function TestimonialVideoCard({ story, index }: { story: TestimonialItem; index:
         </div>
 
         {/* Bottom: Google 'G' Icon + Stars */}
-        <div className="w-full pt-2 border-t border-slate-100 flex items-center justify-center gap-1.5">
+        <div className="w-full pt-2 border-t border-slate-200 flex items-center justify-start gap-1.5 pl-2">
           <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
             <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
@@ -187,15 +187,7 @@ function TestimonialVideoCard({ story, index }: { story: TestimonialItem; index:
             </div>
 
             {/* Bottom Video Badge */}
-            <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white z-10">
-              <div>
-                <p className="text-[10px] font-bold text-amber-400 uppercase tracking-wider">
-                  Alumni Video Story
-                </p>
-                <h5 className="text-xs font-bold truncate text-white drop-shadow-sm">
-                  {story.name} • {story.company || "BITC Graduate"}
-                </h5>
-              </div>
+            <div className="absolute bottom-3 right-3 flex items-center justify-end text-white z-10">
               <span className="text-[10px] font-bold bg-red-600 text-white px-2 py-0.5 rounded-full flex items-center gap-1 shadow-xs">
                 <span className="w-1 h-1 rounded-full bg-white animate-ping"></span>
                 Play Video

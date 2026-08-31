@@ -32,7 +32,7 @@ const eventCategories = [
   { name: "Expert Talks", icon: Mic, color: "text-rose-500", bg: "bg-rose-500/10" },
   { name: "Webinars", icon: PlayCircle, color: "text-indigo-500", bg: "bg-indigo-500/10" },
   { name: "Masterclasses", icon: Star, color: "text-amber-500", bg: "bg-amber-500/10" },
-  { name: "Bootcamps", icon: TrendingUp, color: "text-emerald-500", bg: "bg-emerald-500/10" },
+  { name: "Tech Workshops", icon: TrendingUp, color: "text-emerald-500", bg: "bg-emerald-500/10" },
   { name: "Hackathons", icon: Code, color: "text-cyan-500", bg: "bg-cyan-500/10" },
   { name: "Industrial Visits", icon: Building, color: "text-slate-500", bg: "bg-slate-500/10" },
   { name: "Guest Lectures", icon: Users, color: "text-orange-500", bg: "bg-orange-500/10" },

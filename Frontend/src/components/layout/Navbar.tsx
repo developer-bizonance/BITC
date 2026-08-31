@@ -47,6 +47,7 @@ export function Navbar() {
         { href: "/about/directors-message", icon: MessageSquare, title: "Director's Message", desc: "Words from leadership" },
         { href: "/about/industry-partnerships", icon: Handshake, title: "Industry Partnerships", desc: "Our collaborations" },
         { href: "/about/our-mentors", icon: Users, title: "Our Mentors", desc: "Learn from the best" },
+        { href: "/about/student-consulting-center", icon: MessageSquare, title: "Student Consulting", desc: "Career guidance" },
         { href: "/about/awards-recognition", icon: Trophy, title: "Awards & Recognition", desc: "Our achievements" },
         { href: "/about/careers", icon: Briefcase, title: "Careers", desc: "Join our team" },
         { href: "/about/alumni", icon: GraduationCap, title: "Our Alumni", desc: "Our successful graduates" },
@@ -55,9 +56,9 @@ export function Navbar() {
     certification: {
       label: "Certification",
       items: [
-        { href: "/courses/it", icon: Monitor, title: "IT Courses", desc: "Software, Data & Cloud" },
-        { href: "/courses/management", icon: LineChart, title: "Management", desc: "Business & Strategy" },
-        { href: "/courses/design", icon: PenTool, title: "Design Courses", desc: "UI/UX & Graphics" },
+        { href: "/courses/it", icon: Monitor, title: "IT Certifications", desc: "Software, Data & Cloud" },
+        { href: "/courses/management", icon: LineChart, title: "Management Certifications", desc: "Business & Strategy" },
+        { href: "/courses/design", icon: PenTool, title: "Design Certifications", desc: "UI/UX & Graphics" },
         { href: "/certification/verify", icon: ShieldCheck, title: "Verify Certificate", desc: "Validate student credentials" },
       ],
     },

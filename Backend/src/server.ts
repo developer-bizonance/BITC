@@ -29,6 +29,7 @@ import faqRoutes from "./routes/faq.routes.js";
 import joinTeamRoutes from "./routes/join-team.routes.js";
 import studentsRoutes from "./routes/students.routes.js";
 import categoriesRoutes from "./routes/categories.routes.js";
+import cmsRoutes from "./routes/cms.routes.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -100,6 +101,7 @@ app.use("/api/faq", faqRoutes);
 app.use("/api/join-team", joinTeamRoutes);
 app.use("/api/students", studentsRoutes);
 app.use("/api/categories", categoriesRoutes);
+app.use("/api/cms", cmsRoutes);
 
 // Global Error Handler
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {

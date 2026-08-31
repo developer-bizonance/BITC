@@ -1,5 +1,25 @@
 [
   {
+    "id": "cert-14",
+    "fees": "₹36,000",
+    "badge": "Figma & Prototyping",
+    "image": "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=800&auto=format&fit=crop",
+    "title": "UI/UX Design",
+    "category": "Design Programs",
+    "duration": "6 Months",
+    "createdAt": "2026-08-21T06:19:25.402Z"
+  },
+  {
+    "id": "cert-15",
+    "fees": "₹36,000",
+    "badge": "Adobe Suite",
+    "image": "https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=800&auto=format&fit=crop",
+    "title": "Graphic Design",
+    "category": "Design Programs",
+    "duration": "6 Months",
+    "createdAt": "2026-08-21T06:19:25.402Z"
+  },
+  {
     "id": "cert-1787645034972",
     "fees": "₹36,000",
     "badge": "Integrated with AI",
@@ -40,21 +60,11 @@
     "createdAt": "2026-08-25T07:46:42.324Z"
   },
   {
-    "id": "cert-1787643903883",
-    "fees": "₹36,000",
-    "badge": "Integrated with AI",
-    "image": "https://i.pinimg.com/1200x/53/9c/aa/539caa2a90cf09e3e71537d47470499a.jpg",
-    "title": "Business Analyst",
-    "category": "Management Programs",
-    "duration": "6 Months",
-    "createdAt": "2026-08-25T07:45:03.883Z"
-  },
-  {
     "id": "cert-1787643838445",
     "fees": "₹36,000",
     "badge": "",
     "image": "https://i.pinimg.com/1200x/16/f1/4d/16f14d4eb80ef9c4928df33645626dc3.jpg",
-    "title": "Human resources",
+    "title": "Human resource",
     "category": "Management Programs",
     "duration": "6 Months",
     "createdAt": "2026-08-25T07:43:58.445Z"
@@ -124,7 +134,7 @@
     "fees": "₹36,000",
     "badge": "AWS / Azure",
     "image": "https://i.pinimg.com/736x/b7/ad/26/b7ad266e9cecd8a347c2503546c64774.jpg",
-    "title": "Complete DevOps & Cloud Computing",
+    "title": "DevOps & Cloud Computing",
     "category": "Information Technology",
     "duration": "6 Months",
     "createdAt": "2026-08-21T06:19:25.402Z"
@@ -150,33 +160,13 @@
     "createdAt": "2026-08-21T06:19:25.402Z"
   },
   {
-    "id": "cert-14",
-    "fees": "₹36,000",
-    "badge": "Figma & Prototyping",
-    "image": "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=800&auto=format&fit=crop",
-    "title": "UI/UX Design",
-    "category": "Design Programs",
-    "duration": "6 Months",
-    "createdAt": "2026-08-21T06:19:25.402Z"
-  },
-  {
-    "id": "cert-15",
-    "fees": "₹36,000",
-    "badge": "Adobe Suite",
-    "image": "https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=800&auto=format&fit=crop",
-    "title": "Graphic Design",
-    "category": "Design Programs",
-    "duration": "3 Months",
-    "createdAt": "2026-08-21T06:19:25.402Z"
-  },
-  {
     "id": "cert-17",
     "fees": "₹36,000",
     "badge": "Premiere Pro",
     "image": "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=800&auto=format&fit=crop",
     "title": "Video Editing",
     "category": "Design Programs",
-    "duration": "3 Months",
+    "duration": "6 Months",
     "createdAt": "2026-08-21T06:19:25.402Z"
   }
 ]
