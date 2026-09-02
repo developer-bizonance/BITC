@@ -105,7 +105,7 @@ function AlumniSection() {
           <Badge>OUR ALUMNI</Badge>
           <h2 className="mt-4 text-2xl font-bold text-[#111] sm:mt-5 sm:text-3xl md:text-4xl">
             Our Alumni{' '}
-            <span className="bg-gradient-to-r from-[#ff7b00] to-[#f4b400] bg-clip-text text-transparent">
+            <span className="bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] bg-clip-text text-transparent">
               Profiles
             </span>
           </h2>
@@ -178,7 +178,7 @@ function AlumniSection() {
         <FadeUp delay={0.1} className="mt-10 sm:mt-16">
           <h3 className="text-xl font-bold text-[#111] sm:text-2xl md:text-3xl">
             Where Our Alumni{' '}
-            <span className="bg-gradient-to-r from-[#ff7b00] to-[#f4b400] bg-clip-text text-transparent">
+            <span className="bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] bg-clip-text text-transparent">
               Works
             </span>
           </h3>

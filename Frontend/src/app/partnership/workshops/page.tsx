@@ -15,7 +15,7 @@ export default function WorkshopsPage() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* 1. Hero Section */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center bg-white py-16 lg:py-24 overflow-hidden border-b border-gray-100">
+      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center bg-white py-16 lg:py-24 overflow-hidden">
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-semibold mb-6">
             <Users className="w-4 h-4 text-primary" />
@@ -39,7 +39,7 @@ export default function WorkshopsPage() {
       <section className="py-16 lg:py-24 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4">The Workshop Experience</h2>
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">The Workshop <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Experience</span></h2>
             <p className="text-gray-600 max-w-2xl mx-auto">We move beyond theoretical lectures. Our workshops are highly interactive environments focused on doing, building, and solving.</p>
           </div>
 
@@ -72,7 +72,7 @@ export default function WorkshopsPage() {
           </div>
           
           <div className="flex-1 w-full order-1 lg:order-2">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6">Trending Workshop Topics</h2>
+            <h2 className="text-3xl font-bold text-slate-900 mb-6">Trending Workshop <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Topics</span></h2>
             <p className="text-gray-600 mb-8 leading-relaxed">
               We frequently update our workshop catalog to reflect the latest technological advancements. Here are some of our most requested sessions across academic campuses:
             </p>
@@ -97,10 +97,10 @@ export default function WorkshopsPage() {
       </section>
 
       {/* 4. CTA */}
-      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 border-t border-blue-100/80 relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[800px] mx-auto px-4 text-center relative z-10">
-          <h2 className="text-3xl font-bold text-slate-900 mb-6">Bring Our Experts to Your Campus</h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-6">Bring Our Experts to <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Your Campus</span></h2>
           <p className="text-slate-600 mb-8 text-lg font-medium">Looking to organize a high-impact technical workshop for your students or employees? Get in touch with us to schedule a session.</p>
           <Link href="/contact" className="inline-flex h-14 px-8 rounded-full text-white font-bold items-center justify-center transition-all shadow-lg gap-2 bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)]">
             Organize a Workshop <ArrowRight className="w-5 h-5" />

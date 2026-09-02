@@ -114,7 +114,7 @@ export default function CertificateVerificationPage() {
     <div className="flex flex-col min-h-screen bg-white text-[15px]">
       
       {/* Hero Section */}
-      <section className="relative w-full bg-white py-16 lg:py-24 border-b border-slate-200/80 overflow-hidden">
+      <section className="relative w-full bg-white py-16 lg:py-24 overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full overflow-hidden pointer-events-none">
           <div className="absolute -top-[30%] left-[20%] w-[50%] h-[50%] rounded-full bg-primary/10 blur-[120px]" />
           <div className="absolute -bottom-[20%] right-[10%] w-[40%] h-[40%] rounded-full bg-blue-500/10 blur-[100px]" />
@@ -208,7 +208,7 @@ export default function CertificateVerificationPage() {
               <div className="w-16 h-16 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-4">
                 <XCircle className="w-10 h-10" />
               </div>
-              <h2 className="text-2xl font-black text-slate-900 mb-2">Certificate Not Found</h2>
+              <h2 className="text-2xl font-black text-slate-900 mb-2">Certificate Not <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Found</span></h2>
               <p className="text-slate-600 max-w-md mx-auto mb-6">
                 No active record was found matching Certificate ID <span className="font-mono font-bold text-slate-900">"{certIdInput}"</span>. Please check the ID for typos or contact the BITC verification desk.
               </p>
@@ -235,7 +235,7 @@ export default function CertificateVerificationPage() {
                       <span className="inline-block px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-extrabold tracking-wider uppercase mb-1">
                         OFFICIALLY VERIFIED
                       </span>
-                      <h2 className="text-xl md:text-2xl font-black text-slate-900">Authentic BITC Credential</h2>
+                      <h2 className="text-xl md:text-2xl font-black text-slate-900">Authentic BITC <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Credential</span></h2>
                     </div>
                   </div>
 
@@ -348,19 +348,19 @@ export default function CertificateVerificationPage() {
             <div className="grid md:grid-cols-3 gap-6">
               <Card className="border-0 shadow-md bg-white rounded-2xl p-6 text-center">
                 <ShieldCheck className="w-8 h-8 text-primary mx-auto mb-3" />
-                <h3 className="font-extrabold text-slate-900 mb-1">Instant Verification</h3>
+                <h3 className="font-extrabold text-slate-900 mb-1">Instant <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Verification</span></h3>
                 <p className="text-xs text-slate-600">Validates student credentials in real-time directly against official BITC records.</p>
               </Card>
 
               <Card className="border-0 shadow-md bg-white rounded-2xl p-6 text-center">
                 <Building2 className="w-8 h-8 text-orange-500 mx-auto mb-3" />
-                <h3 className="font-extrabold text-slate-900 mb-1">Employer Trusted</h3>
+                <h3 className="font-extrabold text-slate-900 mb-1">Employer <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Trusted</span></h3>
                 <p className="text-xs text-slate-600">Enables hiring managers and corporate recruiters to verify applicant skill certifications.</p>
               </Card>
 
               <Card className="border-0 shadow-md bg-white rounded-2xl p-6 text-center">
                 <Sparkles className="w-8 h-8 text-emerald-500 mx-auto mb-3" />
-                <h3 className="font-extrabold text-slate-900 mb-1">Tamper-Proof</h3>
+                <h3 className="font-extrabold text-slate-900 mb-1"><span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Tamper-Proof</span></h3>
                 <p className="text-xs text-slate-600">Every certificate features a unique cryptographic hash and digital signature seal.</p>
               </Card>
             </div>

@@ -116,7 +116,7 @@ export default async function DesignCoursesPage() {
     <div className="flex flex-col min-h-screen text-[15px]">
 
       {/* Hero Banner */}
-      <section className="relative w-full flex flex-col items-center justify-center bg-white py-12 md:py-16 lg:py-20 overflow-hidden border-b border-gray-100">
+      <section className="relative w-full flex flex-col items-center justify-center bg-white py-12 md:py-16 lg:py-20 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[1360px] mx-auto px-4 relative z-10 text-center">
           <div className="max-w-3xl mx-auto">
@@ -124,8 +124,8 @@ export default async function DesignCoursesPage() {
               <Palette className="w-4 h-4" />
               <span>DESIGN & CREATIVE ARTS</span>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
-              Design <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500">Certifications</span> & Programs
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
+              Design <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span> & Programs
             </h1>
             <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-8 font-medium max-w-2xl mx-auto">
               Unleash your creativity with hands-on design courses. Learn Figma, Adobe Creative Suite, 3D tools, and build a portfolio that lands jobs.
@@ -153,7 +153,7 @@ export default async function DesignCoursesPage() {
       <section className="py-14 md:py-20 bg-white/70">
         <div className="container max-w-[1360px] mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Explore Design Certifications</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Explore Design <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span></h2>
             <p className="text-gray-500 max-w-2xl mx-auto text-base">
               From UI/UX to animation — master creative skills that top agencies and studios demand.
             </p>
@@ -242,7 +242,7 @@ export default async function DesignCoursesPage() {
       <section className="py-16 md:py-20 bg-white">
         <div className="container max-w-[1360px] mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Why Learn Design at BITC?</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Why Learn Design at <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC?</span></h2>
             <p className="text-gray-500 max-w-2xl mx-auto text-base">
               Learn from real design directors and build projects that stand out to creative agencies.
             </p>
@@ -268,10 +268,10 @@ export default async function DesignCoursesPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-gradient-to-b from-purple-50/70 via-pink-50/40 to-purple-50/30 text-slate-900 border-t border-purple-100/80 relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-b from-purple-50/70 via-pink-50/40 to-purple-50/30 text-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[800px] mx-auto px-4 text-center relative z-10">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Start Your Creative Journey</h2>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Start Your Creative <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Journey</span></h2>
           <p className="text-base md:text-lg text-slate-600 mb-8 font-medium">
             Turn your passion for design into a high-paying career. Enroll today.
           </p>

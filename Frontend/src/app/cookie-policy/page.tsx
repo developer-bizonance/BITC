@@ -17,7 +17,7 @@ export default function CookiePolicyPage() {
         
         <div className="flex items-center gap-3 mb-6">
           <Cookie className="w-8 h-8 text-primary" />
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900">Cookie Policy</h1>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900">Cookie <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Policy</span></h1>
         </div>
         
         <p className="text-sm text-slate-500 mb-8">Last updated: August 2026</p>
@@ -27,17 +27,17 @@ export default function CookiePolicyPage() {
             This is the Cookie Policy for <strong>BIZONANCE Industrial Training Centre (BITC)</strong>.
           </p>
           
-          <h2 className="text-xl font-bold text-slate-900 pt-4">What Are Cookies</h2>
+          <h2 className="text-xl font-bold text-slate-900 pt-4">What Are <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Cookies</span></h2>
           <p>
             As is common practice with almost all professional websites, this site uses cookies, which are tiny files downloaded to your computer, to improve your browsing experience.
           </p>
           
-          <h2 className="text-xl font-bold text-slate-900 pt-4">How We Use Cookies</h2>
+          <h2 className="text-xl font-bold text-slate-900 pt-4">How We Use <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Cookies</span></h2>
           <p>
             We use cookies for essential session management, analytics to understand visitor preferences, and performance optimizations.
           </p>
 
-          <h2 className="text-xl font-bold text-slate-900 pt-4">Contact</h2>
+          <h2 className="text-xl font-bold text-slate-900 pt-4"><span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Contact</span></h2>
           <p>
             If you have questions about our cookie policy, email <a href="mailto:info@bizonance.in" className="text-primary font-medium hover:underline">info@bizonance.in</a>.
           </p>

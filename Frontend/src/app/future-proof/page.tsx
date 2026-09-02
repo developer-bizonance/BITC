@@ -21,7 +21,7 @@ export default function FutureProofPage() {
     <div className="flex flex-col min-h-screen bg-white">
       
       {/* Hero Section */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center bg-white py-24 overflow-hidden border-b border-gray-100">
+      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center bg-white py-24 overflow-hidden">
         {/* Background Elements */}
         <div className="absolute inset-0 z-0">
           <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-500/20 via-transparent to-transparent opacity-50 blur-3xl pointer-events-none" />
@@ -79,7 +79,7 @@ export default function FutureProofPage() {
       <section id="pillars" className="py-16 lg:py-24 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">How we keep you ahead</h2>
+            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">How we keep you <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">ahead</span></h2>
             <p className="text-slate-600 text-lg leading-relaxed">
               We don't just teach code or business theory. We teach you how to adapt, learn, and leverage the latest tools to become an irreplaceable asset.
             </p>
@@ -91,7 +91,7 @@ export default function FutureProofPage() {
                 <div className="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mb-6">
                   <BrainCircuit className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">AI-First Workflows</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">AI-First <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Workflows</span></h3>
                 <p className="text-slate-600 leading-relaxed">
                   Every certification program at BITC integrates modern AI tools (like Copilot, ChatGPT, and Midjourney). You won't just learn a skill; you'll learn how to 10x your productivity using AI.
                 </p>
@@ -103,7 +103,7 @@ export default function FutureProofPage() {
                 <div className="w-12 h-12 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center mb-6">
                   <Code2 className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">Industry-Aligned Tech Stack</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">Industry-Aligned Tech <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Stack</span></h3>
                 <p className="text-slate-600 leading-relaxed">
                   We constantly monitor the job market and update our curriculum every 6 months. You'll learn the exact frameworks, languages, and tools that top tech companies are actively hiring for.
                 </p>
@@ -115,7 +115,7 @@ export default function FutureProofPage() {
                 <div className="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center mb-6">
                   <Rocket className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">Project-Based Learning</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">Project-Based <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Learning</span></h3>
                 <p className="text-slate-600 leading-relaxed">
                   Theory is obsolete without execution. You will build, deploy, and scale real-world applications. By the time you graduate, you will have a robust portfolio proving your capabilities.
                 </p>
@@ -127,7 +127,7 @@ export default function FutureProofPage() {
                 <div className="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center mb-6">
                   <LineChart className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">Business Acumen</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">Business <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Acumen</span></h3>
                 <p className="text-slate-600 leading-relaxed">
                   Great developers understand business. Great managers understand tech. Our cross-disciplinary approach ensures you understand how your work impacts the bottom line, making you highly promotable.
                 </p>
@@ -139,7 +139,7 @@ export default function FutureProofPage() {
                 <div className="w-12 h-12 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center mb-6">
                   <Globe className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">Soft Skills & Communication</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">Soft Skills & <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Communication</span></h3>
                 <p className="text-slate-600 leading-relaxed">
                   Technical skills get you the interview; soft skills get you the job. We train you on professional communication, interview prep, team collaboration, and presentation skills.
                 </p>
@@ -151,7 +151,7 @@ export default function FutureProofPage() {
                 <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center mb-6">
                   <Target className="w-6 h-6 text-orange-600" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">Lifelong Career Support</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">Lifelong Career <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Support</span></h3>
                 <p className="text-slate-700 leading-relaxed font-medium">
                   Once a BITC student, always a BITC student. You get lifetime access to our alumni network, exclusive job boards, and ongoing mentorship sessions even after you land your first job.
                 </p>

@@ -74,7 +74,7 @@ export default async function HiringPartnersPage() {
     <div className="flex flex-col min-h-screen">
       
       {/* 1. Hero Banner */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center bg-white py-16 overflow-hidden border-b border-gray-100">
+      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center bg-white py-16 overflow-hidden">
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-semibold mb-6">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
@@ -94,7 +94,7 @@ export default async function HiringPartnersPage() {
         <div className="container max-w-[1200px] mx-auto px-4">
           <Card className="border-0 shadow-2xl rounded-3xl bg-white overflow-hidden p-8 md:p-12">
             <div className="text-center mb-10">
-              <h2 className="text-2xl font-bold text-slate-900 mb-2">Our Top Recruiters</h2>
+              <h2 className="text-2xl font-bold text-slate-900 mb-2">Our Top <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Recruiters</span></h2>
               <p className="text-gray-500">Graduates from BITC are placed at these prestigious organizations.</p>
             </div>
             
@@ -117,7 +117,7 @@ export default async function HiringPartnersPage() {
       <section className="py-20 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Industries We Serve</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Industries We <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Serve</span></h2>
             <p className="text-gray-500 text-lg">Our diverse talent pool meets the demands of various high-growth sectors.</p>
           </div>
 
@@ -140,7 +140,7 @@ export default async function HiringPartnersPage() {
       </section>
 
       {/* 4. Why Hire BITC Trained */}
-      <section className="py-20 bg-white text-slate-900 border-y border-slate-200/80 relative overflow-hidden">
+      <section className="py-20 bg-white text-slate-900 relative overflow-hidden">
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             
@@ -193,10 +193,10 @@ export default async function HiringPartnersPage() {
       </section>
 
       {/* 5. CTA for Companies */}
-      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 border-t border-blue-100/80 relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[800px] mx-auto px-4 relative z-10 text-center">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">Looking for Top Talent?</h2>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">Looking for Top <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Talent?</span></h2>
           <p className="text-xl text-slate-600 font-medium mb-10 leading-relaxed">
             Connect with our Placement Cell to organize a campus drive or share your requirements for off-campus recruitment.
           </p>

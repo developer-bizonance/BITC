@@ -150,7 +150,7 @@ export default async function ITCoursesPage() {
     <div className="flex flex-col min-h-screen text-[15px]">
 
       {/* Hero Banner */}
-      <section className="relative w-full flex flex-col items-center justify-center bg-white py-12 md:py-16 lg:py-20 overflow-hidden border-b border-gray-100">
+      <section className="relative w-full flex flex-col items-center justify-center bg-white py-12 md:py-16 lg:py-20 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[1360px] mx-auto px-4 relative z-10 text-center">
           <div className="max-w-3xl mx-auto">
@@ -158,7 +158,7 @@ export default async function ITCoursesPage() {
               <Monitor className="w-4 h-4" />
               <span>INFORMATION TECHNOLOGY</span>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
               IT <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span> & Programs
             </h1>
             <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-8 font-medium max-w-2xl mx-auto">
@@ -187,7 +187,7 @@ export default async function ITCoursesPage() {
       <section className="py-14 md:py-20 bg-white/70">
         <div className="container max-w-[1360px] mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Explore Our IT Certifications</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Explore Our IT <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span></h2>
             <p className="text-gray-500 max-w-2xl mx-auto text-base">
               Choose from our comprehensive range of IT certifications, each integrated with AI and designed for real-world readiness.
             </p>
@@ -279,7 +279,7 @@ export default async function ITCoursesPage() {
       <section className="py-16 md:py-20 bg-white">
         <div className="container max-w-[1360px] mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Why Learn IT at BITC?</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Why Learn IT at <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC?</span></h2>
             <p className="text-gray-500 max-w-2xl mx-auto text-base">
               Our IT programs go beyond theory — every certification program is built around industry practice.
             </p>
@@ -305,10 +305,10 @@ export default async function ITCoursesPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 border-t border-blue-100/80 relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[800px] mx-auto px-4 text-center relative z-10">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Ready to Start Your IT Career?</h2>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Ready to Start Your <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">IT Career?</span></h2>
           <p className="text-base md:text-lg text-slate-600 mb-8 font-medium">
             Join thousands of students who have launched successful tech careers through BITC.
           </p>

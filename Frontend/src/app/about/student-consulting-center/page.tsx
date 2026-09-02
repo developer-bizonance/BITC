@@ -13,7 +13,7 @@ export default function StudentConsultingCenter() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-20 lg:py-28 bg-white border-b border-gray-100 overflow-hidden">
+      <section className="relative py-20 lg:py-28 bg-white overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-full opacity-30 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent pointer-events-none" />
         
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10 flex flex-col items-center text-center">
@@ -22,11 +22,11 @@ export default function StudentConsultingCenter() {
             Career Guidance & Counseling
           </div>
           
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 text-slate-900 max-w-4xl leading-tight">
-            Navigate Your Career with <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">Expert Guidance</span>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-slate-900 max-w-4xl leading-tight">
+            Navigate Your Career with <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Expert Guidance</span>
           </h1>
           
-          <p className="text-lg md:text-xl text-gray-600 mb-10 max-w-2xl leading-relaxed">
+          <p className="text-base md:text-lg text-gray-600 mb-10 max-w-2xl leading-relaxed">
             Not sure which Certification to choose? Confused about career paths? Our expert counselors are here to help you make informed decisions and build a clear roadmap for success.
           </p>
           
@@ -42,7 +42,7 @@ export default function StudentConsultingCenter() {
       <section className="py-20 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">How We Can Help You</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">How We Can Help <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">You</span></h2>
             <p className="text-gray-600 max-w-2xl mx-auto text-lg">We provide comprehensive support at every stage of your educational and professional journey.</p>
           </div>
 
@@ -100,7 +100,7 @@ export default function StudentConsultingCenter() {
             <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary via-transparent to-transparent pointer-events-none" />
             
             <div className="relative z-10">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Discuss Your Future?</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Discuss Your <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Future?</span></h2>
               <p className="text-gray-600 text-lg mb-10 max-w-lg mx-auto">
                 Schedule a one-on-one session with our senior career counselors. The consultation is completely free!
               </p>

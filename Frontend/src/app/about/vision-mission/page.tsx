@@ -40,7 +40,7 @@ export default function VisionMissionPage() {
     <div className="flex flex-col min-h-screen text-[15px]">
 
       {/* ── 1. HERO ── */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] bg-white py-20 lg:py-28 overflow-hidden flex flex-col items-center justify-center border-b border-gray-100">
+      <section className="relative w-full min-h-[calc(100vh-80px)] bg-white py-20 lg:py-28 overflow-hidden flex flex-col items-center justify-center">
         {/* Background accents */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] opacity-25 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/30 via-transparent to-transparent pointer-events-none" />
         <div className="absolute bottom-0 right-0 w-[600px] h-[600px] opacity-10 bg-[radial-gradient(circle_at_bottom_right,_var(--tw-gradient-stops))] from-blue-400 via-transparent to-transparent pointer-events-none" />
@@ -51,13 +51,13 @@ export default function VisionMissionPage() {
             Vision &amp; Mission
           </div>
 
-          <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-extrabold tracking-tight mb-6 text-slate-900 leading-[1.1]">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-slate-900 leading-[1.2]">
             Driven by Purpose. <br className="hidden sm:block" />
             Inspired by Innovation. <br className="hidden sm:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">Focused on Your Future.</span>
+            <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Focused on Your Future.</span>
           </h1>
 
-          <p className="text-xl md:text-2xl lg:text-[1.4rem] text-gray-600 max-w-[900px] mx-auto leading-relaxed">
+          <p className="text-base md:text-lg text-gray-600 max-w-[900px] mx-auto leading-relaxed">
             At <strong>BIZONANCE Industrial Training Centre (BITC)</strong>, our vision and mission guide every program, partnership, and learning experience. We are committed to creating professionals who are ready to thrive in the ever-changing world of industry.
           </p>
 
@@ -73,7 +73,7 @@ export default function VisionMissionPage() {
         <div className="container max-w-4xl mx-auto px-4 text-center">
           <p className="text-primary font-bold text-sm uppercase tracking-widest mb-4">Our Vision</p>
           <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-8">
-            Empowering the Next Generation of <span className="text-primary">Industry Leaders</span>
+            Empowering the Next Generation of <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Industry Leaders</span>
           </h2>
           <p className="text-xl text-gray-600 leading-relaxed font-medium">
             We strive to create a world where every learner is equipped with the practical skills, industry knowledge, and confidence to achieve their highest career potential and drive innovation in the modern workforce.
@@ -125,11 +125,11 @@ export default function VisionMissionPage() {
       </section>
 
       {/* ── 4. CORE VALUES ── */}
-      <section className="py-20 md:py-28 bg-white border-y border-gray-100">
+      <section className="py-20 md:py-28 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-16">
             <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">What We Stand For</p>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">The Values That Define BITC</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">The Values That Define <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC</span></h2>
             <p className="text-gray-600 max-w-[600px] mx-auto text-lg">Six principles that shape every decision, program, and outcome.</p>
           </div>
 
@@ -160,7 +160,7 @@ export default function VisionMissionPage() {
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-16 md:mb-24">
             <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">Our Philosophy</p>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-6">Learn. Experience. Grow.</h2>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-6">Learn. Experience. <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Grow.</span></h2>
             <p className="text-gray-600 max-w-[700px] mx-auto text-lg leading-relaxed">
               Education should not stop at knowledge. At BITC, every learner goes through a structured, three-step professional journey to ensure true career readiness.
             </p>
@@ -177,7 +177,7 @@ export default function VisionMissionPage() {
                </div>
                <div className="text-center mb-8">
                  <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-700 font-bold text-sm mb-3">1</div>
-                 <h3 className="text-2xl font-bold text-slate-900">Learn</h3>
+                 <h3 className="text-2xl font-bold text-slate-900"><span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Learn</span></h3>
                  <p className="text-gray-500 mt-2 text-sm">Build a strong foundation</p>
                </div>
                <ul className="space-y-3">
@@ -201,7 +201,7 @@ export default function VisionMissionPage() {
                </div>
                <div className="text-center mb-8">
                  <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-purple-100 text-purple-700 font-bold text-sm mb-3">2</div>
-                 <h3 className="text-2xl font-bold text-slate-900">Experience</h3>
+                 <h3 className="text-2xl font-bold text-slate-900"><span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Experience</span></h3>
                  <p className="text-gray-500 mt-2 text-sm">Apply your knowledge</p>
                </div>
                <ul className="space-y-3">
@@ -224,7 +224,7 @@ export default function VisionMissionPage() {
                </div>
                <div className="text-center mb-8">
                  <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-100 text-green-700 font-bold text-sm mb-3">3</div>
-                 <h3 className="text-2xl font-bold text-slate-900">Grow</h3>
+                 <h3 className="text-2xl font-bold text-slate-900"><span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Grow</span></h3>
                  <p className="text-gray-500 mt-2 text-sm">Achieve career success</p>
                </div>
                <ul className="space-y-3">
@@ -246,12 +246,12 @@ export default function VisionMissionPage() {
       </section>
 
       {/* ── 6. OUR COMMITMENT — Promise List ── */}
-      <section className="py-20 md:py-28 bg-white border-y border-gray-100">
+      <section className="py-20 md:py-28 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div>
               <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">Our Promise</p>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">Our Commitment to Every Learner</h2>
+              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">Our Commitment to Every <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Learner</span></h2>
               <p className="text-gray-600 text-lg leading-relaxed mb-10">
                 When you join BITC, we promise to provide an end-to-end learning experience that goes far beyond theory.
               </p>
@@ -280,7 +280,7 @@ export default function VisionMissionPage() {
             <div className="bg-white text-slate-900 border border-slate-200/80 rounded-[2rem] p-8 md:p-12 shadow-xl relative overflow-hidden">
               <div className="relative z-10">
                 <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">Long-Term Goals</p>
-                <h3 className="text-2xl md:text-3xl font-extrabold mb-8 text-slate-900">Our Strategic Goals</h3>
+                <h3 className="text-2xl md:text-3xl font-extrabold mb-8 text-slate-900">Our Strategic <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Goals</span></h3>
                 <p className="text-slate-600 mb-8 font-medium">By empowering learners, we aim to:</p>
                 <ul className="space-y-5">
                   {[
@@ -309,7 +309,7 @@ export default function VisionMissionPage() {
       <section className="py-20 md:py-28 bg-white">
         <div className="container max-w-[1000px] mx-auto px-4 text-center">
           <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">Why It Matters</p>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">Preparing Learners for Tomorrow</h2>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">Preparing Learners for <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Tomorrow</span></h2>
           <p className="text-gray-600 text-xl leading-relaxed max-w-[750px] mx-auto">
             The future belongs to professionals who continuously learn, adapt, and innovate. BITC is committed to creating an environment where education, technology, and industry come together to shape successful careers and lifelong learners.
           </p>

@@ -28,17 +28,17 @@ export default function AwardsRecognitionPage() {
     <div className="flex flex-col min-h-screen text-[15px]">
 
       {/* ── HERO ── */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] bg-white py-20 lg:py-28 overflow-hidden flex flex-col items-center justify-center border-b border-gray-100">
+      <section className="relative w-full min-h-[calc(100vh-80px)] bg-white py-20 lg:py-28 overflow-hidden flex flex-col items-center justify-center">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] opacity-25 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[1000px] mx-auto px-4 text-center relative z-10 flex flex-col items-center justify-center my-auto">
           <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-bold rounded-full px-5 py-2 text-sm uppercase tracking-widest mb-8">
             <Trophy className="w-4 h-4" />
             Awards &amp; Recognition
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 text-slate-900 leading-[1.1]">
-            Celebrating <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">Excellence</span>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-slate-900 leading-[1.2]">
+            Celebrating <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Excellence</span>
           </h1>
-          <p className="text-xl md:text-2xl lg:text-[1.4rem] text-gray-600 max-w-[900px] mx-auto leading-relaxed">
+          <p className="text-base md:text-lg text-gray-600 max-w-[900px] mx-auto leading-relaxed">
             Our achievements reflect the dedication of our students, mentors, and industry partners in building a world-class learning ecosystem.
           </p>
         </div>
@@ -48,7 +48,7 @@ export default function AwardsRecognitionPage() {
       <section className="py-16 md:py-24 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Our Awards</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Our <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Awards</span></h2>
             <p className="text-gray-600 max-w-[600px] mx-auto text-lg">Recognized for excellence in education and industry collaboration.</p>
           </div>
 
@@ -77,7 +77,7 @@ export default function AwardsRecognitionPage() {
       </section>
 
       {/* ── STUDENT & PLACEMENT ACHIEVEMENTS ── */}
-      <section className="py-16 md:py-24 bg-white text-slate-900 border-y border-slate-200/80">
+      <section className="py-16 md:py-24 bg-white text-slate-900">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Student Achievements */}
@@ -86,7 +86,7 @@ export default function AwardsRecognitionPage() {
                 <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
                   <GraduationCap className="w-6 h-6 text-primary" />
                 </div>
-                <h2 className="text-2xl md:text-3xl font-bold text-slate-900">Student Achievements</h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-slate-900">Student <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Achievements</span></h2>
               </div>
               <div className="space-y-4">
                 {[
@@ -110,7 +110,7 @@ export default function AwardsRecognitionPage() {
                 <div className="w-12 h-12 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center">
                   <Target className="w-6 h-6 text-green-600" />
                 </div>
-                <h2 className="text-2xl md:text-3xl font-bold text-slate-900">Placement Achievements</h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-slate-900">Placement <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Achievements</span></h2>
               </div>
               <div className="space-y-4">
                 {[
@@ -132,12 +132,12 @@ export default function AwardsRecognitionPage() {
       </section>
 
       {/* ── CERTIFICATIONS & MEDIA ── */}
-      <section className="py-16 md:py-24 bg-white border-y border-gray-100">
+      <section className="py-16 md:py-24 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-blue-50 rounded-[2rem] p-8 md:p-10 border border-blue-100">
               <Award className="w-12 h-12 text-blue-600 mb-6" />
-              <h3 className="text-2xl font-bold text-slate-900 mb-4">Certifications</h3>
+              <h3 className="text-2xl font-bold text-slate-900 mb-4"><span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span></h3>
               <p className="text-gray-600 mb-6">Our programs are designed to help students earn industry-recognized certifications.</p>
               <ul className="space-y-3">
                 {["Microsoft Certified", "AWS Cloud Practitioner", "Google Data Analytics", "CompTIA Security+", "Meta Front-End Developer"].map((cert, i) => (
@@ -151,7 +151,7 @@ export default function AwardsRecognitionPage() {
 
             <div className="bg-amber-50 rounded-[2rem] p-8 md:p-10 border border-amber-100">
               <Newspaper className="w-12 h-12 text-amber-600 mb-6" />
-              <h3 className="text-2xl font-bold text-slate-900 mb-4">Media Coverage</h3>
+              <h3 className="text-2xl font-bold text-slate-900 mb-4">Media <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Coverage</span></h3>
               <p className="text-gray-600 mb-6">BITC has been featured in leading education and technology media outlets.</p>
               <ul className="space-y-3">
                 {["Education Times", "TechCrunch India", "Business Standard", "The Hindu Education", "YourStory"].map((media, i) => (
@@ -170,14 +170,14 @@ export default function AwardsRecognitionPage() {
       <section className="py-16 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Success Milestones</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Success <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Milestones</span></h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
-              { number: "1K+", label: "Students Trained" },
+              { number: "500+", label: "Students Trained" },
               { number: "10+", label: "Industry Partners" },
               { number: "95%", label: "Placement Support" },
-              { number: "50+", label: "Live Projects" },
+              { number: "200+", label: "Live Projects" },
             ].map((stat, i) => (
               <div key={i} className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
                 <div className="text-3xl font-extrabold text-primary mb-1">{stat.number}</div>
@@ -189,10 +189,10 @@ export default function AwardsRecognitionPage() {
       </section>
 
       {/* ── FUTURE GOALS & CTA ── */}
-      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 border-t border-blue-100/80 relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[800px] mx-auto px-4 text-center relative z-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Future Goals</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Future <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Goals</span></h2>
           <p className="text-slate-600 text-lg mb-10 max-w-[600px] mx-auto font-medium">
             We are just getting started. Our goal is to continue raising the bar for industry-integrated education in India and beyond.
           </p>

@@ -31,18 +31,18 @@ export default function IndustryPartnershipsPage() {
     <div className="flex flex-col min-h-screen text-[15px]">
 
       {/* ── HERO ── */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] bg-white py-20 lg:py-28 overflow-hidden flex flex-col items-center justify-center border-b border-gray-100">
+      <section className="relative w-full min-h-[calc(100vh-80px)] bg-white py-20 lg:py-28 overflow-hidden flex flex-col items-center justify-center">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] opacity-25 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[1000px] mx-auto px-4 text-center relative z-10 flex flex-col items-center justify-center my-auto">
           <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-bold rounded-full px-5 py-2 text-sm uppercase tracking-widest mb-8">
             <Handshake className="w-4 h-4" />
             Partnerships
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 text-slate-900 leading-[1.1]">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-slate-900 leading-[1.2]">
             Connecting Education <br className="hidden sm:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">with Industry</span>
+            <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">with Industry</span>
           </h1>
-          <p className="text-xl md:text-2xl lg:text-[1.4rem] text-gray-600 max-w-[900px] mx-auto leading-relaxed">
+          <p className="text-base md:text-lg text-gray-600 max-w-[900px] mx-auto leading-relaxed">
             Industry partnerships are the foundation of BITC's learning model. By collaborating with leading companies, we ensure our students gain relevant skills, real exposure, and direct access to career opportunities.
           </p>
         </div>
@@ -53,7 +53,7 @@ export default function IndustryPartnershipsPage() {
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">Why Partnerships Matter</h2>
+              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">Why Partnerships <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Matter</span></h2>
               <p className="text-lg text-gray-600 leading-relaxed mb-6">
                 The most effective education happens when academia and industry work together. Our partnerships ensure that every program we offer is built around real industry requirements, not just textbook theories.
               </p>
@@ -72,10 +72,10 @@ export default function IndustryPartnershipsPage() {
       <IndustryPartnersGrid />
 
       {/* ── PARTNER BENEFITS ── */}
-      <section className="py-16 md:py-24 bg-white text-slate-900 border-y border-slate-200/80 relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-white text-slate-900 relative overflow-hidden">
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Partner Benefits</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Partner <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Benefits</span></h2>
             <p className="text-slate-600 max-w-[600px] mx-auto text-lg">What our industry partnerships bring to students.</p>
           </div>
 
@@ -102,12 +102,12 @@ export default function IndustryPartnershipsPage() {
 
 
       {/* ── CORPORATE COLLABORATION ── */}
-      <section className="py-16 md:py-24 bg-white border-y border-gray-100">
+      <section className="py-16 md:py-24 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">Corporate Solutions</p>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">Corporate Collaboration</h2>
+              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">Corporate <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Collaboration</span></h2>
               <p className="text-lg text-gray-600 leading-relaxed mb-8">
                 BITC works closely with corporate partners to develop tailored solutions that address their talent and training needs.
               </p>
@@ -128,7 +128,7 @@ export default function IndustryPartnershipsPage() {
             {/* Partnership Process */}
             <div className="bg-white text-slate-900 border border-slate-200/80 rounded-[2rem] p-8 md:p-12 shadow-xl relative overflow-hidden">
               <div className="relative z-10">
-                <h3 className="text-2xl font-bold text-slate-900 mb-8">Partnership Process</h3>
+                <h3 className="text-2xl font-bold text-slate-900 mb-8">Partnership <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Process</span></h3>
                 <div className="space-y-6">
                   {[
                     { step: "01", title: "Contact Us", desc: "Reach out to our partnerships team." },
@@ -155,10 +155,10 @@ export default function IndustryPartnershipsPage() {
       </section>
 
       {/* ── BECOME A PARTNER CTA ── */}
-      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 border-t border-blue-100/80 relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[800px] mx-auto px-4 text-center relative z-10">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Become a Partner</h2>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Become a <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Partner</span></h2>
           <p className="text-xl text-gray-600 mb-10">
             Join our growing network of industry partners and help shape the next generation of professionals.
           </p>

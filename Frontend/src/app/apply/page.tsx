@@ -324,7 +324,7 @@ function ApplyFormContent() {
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 border border-green-200 text-green-700 text-xs font-bold uppercase tracking-wider mb-3">
             Application Submitted
           </span>
-          <h2 className="text-3xl font-black text-slate-900 mb-3">Welcome to the BITC Talent Pool!</h2>
+          <h2 className="text-3xl font-black text-slate-900 mb-3">Welcome to the BITC <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Talent Pool!</span></h2>
           <p className="text-slate-600 max-w-lg mx-auto mb-8 text-base leading-relaxed">
             Thank you, <strong className="text-slate-900">{form.fullName}</strong>. Your application to teach{" "}
             <strong className="text-primary">{form.subjectCourse}</strong> has been successfully submitted to our Academic Board.

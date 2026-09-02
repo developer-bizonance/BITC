@@ -21,7 +21,7 @@ export default function ScholarshipsPage() {
     <div className="flex flex-col min-h-screen bg-white">
       
       {/* Hero Section */}
-      <section className="relative w-full bg-white py-24 overflow-hidden border-b border-gray-100">
+      <section className="relative w-full bg-white py-24 overflow-hidden">
         <div className="container max-w-[1000px] mx-auto px-4 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-600 text-sm font-bold mb-6">
             <Award className="w-4 h-4" />
@@ -49,7 +49,7 @@ export default function ScholarshipsPage() {
       <section id="criteria" className="py-20 lg:py-28 bg-white relative">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Eligibility Criteria</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Eligibility <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Criteria</span></h2>
             <p className="text-slate-600 text-lg leading-relaxed">
               We look for passion, dedication, and potential. Review the criteria below to see if you qualify for the BITC Merit & Need-Based Scholarship.
             </p>
@@ -61,7 +61,7 @@ export default function ScholarshipsPage() {
                 <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <GraduationCap className="w-7 h-7" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">Academic Excellence</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">Academic <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Excellence</span></h3>
                 <p className="text-slate-600 leading-relaxed">
                   Students with a strong academic background, maintaining a minimum of 75% aggregate in their recent qualifying examinations (12th grade or Graduation).
                 </p>
@@ -73,7 +73,7 @@ export default function ScholarshipsPage() {
                 <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <BrainCircuit className="w-7 h-7" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">BITC Assessment Test</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">BITC Assessment <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Test</span></h3>
                 <p className="text-slate-600 leading-relaxed">
                   Applicants must clear the BITC Online Scholarship Assessment. The test evaluates basic logical reasoning, aptitude, and problem-solving skills.
                 </p>
@@ -85,7 +85,7 @@ export default function ScholarshipsPage() {
                 <div className="w-14 h-14 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <CreditCard className="w-7 h-7" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">Financial Need</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">Financial <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Need</span></h3>
                 <p className="text-slate-600 leading-relaxed">
                   Special consideration is given to talented students from economically weaker sections (EWS) to ensure equal access to premium tech education.
                 </p>
@@ -97,7 +97,7 @@ export default function ScholarshipsPage() {
                 <div className="w-14 h-14 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <Users className="w-7 h-7" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">Diversity & Inclusion</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">Diversity & <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Inclusion</span></h3>
                 <p className="text-slate-600 leading-relaxed">
                   We actively encourage applications from women in tech, candidates from underrepresented backgrounds, and specially-abled individuals.
                 </p>
@@ -110,7 +110,7 @@ export default function ScholarshipsPage() {
                   <Zap className="w-8 h-8" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">Tech Innovators & Hobbyists</h3>
+                  <h3 className="text-xl font-bold text-slate-900 mb-3">Tech Innovators & <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Hobbyists</span></h3>
                   <p className="text-slate-600 leading-relaxed">
                     If your grades aren't perfect but you have a strong portfolio of side projects, GitHub repositories, or freelance work, you can bypass the standard academic criteria! We value builders above all else.
                   </p>
@@ -125,7 +125,7 @@ export default function ScholarshipsPage() {
       <section className="py-20 lg:py-28 bg-white">
         <div className="container max-w-[1000px] mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">How to Apply</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">How to <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Apply</span></h2>
             <p className="text-slate-600 text-lg leading-relaxed">
               Securing your scholarship is a straightforward, transparent 3-step process.
             </p>
@@ -137,7 +137,7 @@ export default function ScholarshipsPage() {
                 <span className="text-2xl font-black text-blue-600">1</span>
               </div>
               <div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Submit Your Application</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">Submit Your <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Application</span></h3>
                 <p className="text-slate-600">
                   Fill out our online application form. Select the program you are interested in and make sure to check the "I want to apply for a scholarship" box. Upload your past academic records or portfolio links.
                 </p>
@@ -149,7 +149,7 @@ export default function ScholarshipsPage() {
                 <span className="text-2xl font-black text-orange-600">2</span>
               </div>
               <div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Take the Assessment</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">Take the <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Assessment</span></h3>
                 <p className="text-slate-600">
                   Once your application is reviewed, you'll receive a link to our 45-minute online aptitude and logic assessment. It can be taken from the comfort of your home at any time within 48 hours of receiving the link.
                 </p>
@@ -161,7 +161,7 @@ export default function ScholarshipsPage() {
                 <span className="text-2xl font-black text-emerald-600">3</span>
               </div>
               <div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Personal Interview & Result</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">Personal Interview & <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Result</span></h3>
                 <p className="text-slate-600">
                   Shortlisted candidates will be invited for a brief 15-minute video interview with our admission counselors to understand your career goals. Results and scholarship percentage are announced within 24 hours!
                 </p>
@@ -172,10 +172,10 @@ export default function ScholarshipsPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 border-t border-blue-100/80 relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[1000px] mx-auto px-4 relative z-10 text-center">
-          <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">Ready to start your journey?</h2>
+          <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">Ready to start your <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">journey?</span></h2>
           <p className="text-slate-600 text-lg mb-10 max-w-2xl mx-auto font-medium">
             Don't let anything hold you back. Apply today, secure your scholarship, and take the first step towards a high-paying career in tech.
           </p>

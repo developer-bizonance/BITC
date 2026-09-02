@@ -12,8 +12,8 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL("https://bitc-eight.vercel.app"),
   title: {
-    default: "BIZONANCE Industrial Training Centre. (BITC) | Amravati",
-    template: "%s | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
+    default: "BIZONANCE Industrial Training Centre | Amravati",
+    template: "%s | BIZONANCE Industrial Training Centre | Amravati",
   },
   description:
     "BITC (BIZONANCE Industrial Training Centre) is a premier industry-focused tech institute in Amravati offering certifications in Full Stack Development, AI & Machine Learning, Data Science, Cyber Security, UI/UX Design, and Management with 100% placement support.",
@@ -44,10 +44,10 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     url: "https://bitc-eight.vercel.app",
-    title: "BIZONANCE Industrial Training Centre. (BITC) | Amravati",
+    title: "BIZONANCE Industrial Training Centre | Amravati",
     description:
       "Empowering Future Professionals with Industry-Ready Skills. Hands-on training in Software, AI, Data Science & Management with top company placements.",
-    siteName: "BIZONANCE Industrial Training Centre. (BITC) | Amravati",
+    siteName: "BIZONANCE Industrial Training Centre | Amravati",
     images: [
       {
         url: "/logos.png",
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "BIZONANCE Industrial Training Centre. (BITC) | Amravati",
+    title: "BIZONANCE Industrial Training Centre | Amravati",
     description:
       "Industry-focused Training Center offering certifications in Full Stack, AI, Data Science & Management with placement assistance.",
     images: ["/logos.png"],

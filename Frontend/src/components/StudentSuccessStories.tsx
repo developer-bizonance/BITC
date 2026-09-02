@@ -66,6 +66,30 @@ const defaultStories: TestimonialItem[] = [
     rating: 5,
     youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
   },
+  {
+    id: "testi-5",
+    name: "Vikram Singh",
+    role: "UI/UX Designer",
+    company: "Infosys",
+    course: "UI/UX Design Masterclass",
+    packageAmt: "7 LPA",
+    quote: "The practical approach to design systems and user research helped me crack my first major design role.",
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&h=300&q=80",
+    rating: 5,
+    youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  },
+  {
+    id: "testi-6",
+    name: "Neha Sharma",
+    role: "Cyber Security Analyst",
+    company: "Tech Mahindra",
+    course: "Cyber Security",
+    packageAmt: "9 LPA",
+    quote: "The hands-on ethical hacking labs were amazing. I got real-world exposure that companies look for.",
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&h=300&q=80",
+    rating: 5,
+    youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  },
 ];
 
 const getYouTubeID = (url: string) => {
@@ -85,16 +109,16 @@ function TestimonialVideoCard({ story, index }: { story: TestimonialItem; index:
     : story.image;
 
   return (
-    <Card className="!p-0 !gap-0 border-0 border-none shadow-lg shadow-slate-200/50 bg-slate-100 rounded-2xl overflow-hidden flex flex-col md:flex-row items-stretch h-full">
+    <Card className="!p-0 !gap-0 border-0 border-none shadow-lg shadow-slate-200/50 bg-slate-100 rounded-2xl overflow-hidden flex flex-col md:flex-row items-stretch h-full flex-shrink-0 w-[320px] md:w-[500px] lg:w-[580px] mx-2">
       
       {/* ========================================================================= */}
       {/* LEFT COLUMN (As drawn): Photo (Circle) -> Name -> Desi -> Intro Box -> Rating */}
       {/* ========================================================================= */}
-      <div className="w-full md:w-[44%] lg:w-[45%] p-4 sm:p-5 flex flex-col items-center text-center justify-between bg-slate-100">
+      <div className="w-full md:w-[44%] lg:w-[45%] p-4 sm:p-5 flex flex-col justify-between bg-slate-100 text-left">
         
-        {/* Top: Circular Profile Photo */}
-        <div className="flex flex-col items-center w-full">
-          <div className="relative mb-2">
+        {/* Top: Profile Info Horizontal */}
+        <div className="flex flex-row items-center gap-4 w-full">
+          <div className="relative shrink-0">
             <img
               src={imgError ? "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&h=300&q=80" : story.image}
               alt={story.name}
@@ -109,23 +133,25 @@ function TestimonialVideoCard({ story, index }: { story: TestimonialItem; index:
             </div>
           </div>
 
-          {/* Name */}
-          <h4 className="text-sm sm:text-base font-bold text-slate-900 leading-tight">
-            {story.name}
-          </h4>
+          <div className="flex flex-col">
+            {/* Name */}
+            <h4 className="text-sm sm:text-base font-bold text-slate-900 leading-tight">
+              {story.name}
+            </h4>
 
-          {/* Designation (Desi.) */}
-          <p className="text-[11px] font-bold text-slate-500 mt-0.5">
-            {story.role} {story.company && <span className="text-amber-600 font-extrabold">• {story.company}</span>}
-          </p>
+            {/* Designation (Desi.) */}
+            <p className="text-[11px] font-bold text-slate-500 mt-0.5">
+              {story.role} {story.company && <span className="text-amber-600 font-extrabold">• {story.company}</span>}
+            </p>
 
-          {/* Placement / Course Badge */}
-          {story.packageAmt && (
-            <div className="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-extrabold border border-emerald-200">
-              <TrendingUp className="w-2.5 h-2.5 text-emerald-600" />
-              <span>{story.packageAmt} Package</span>
-            </div>
-          )}
+            {/* Placement / Course Badge */}
+            {story.packageAmt && (
+              <div className="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-extrabold border border-emerald-200 w-fit">
+                <TrendingUp className="w-2.5 h-2.5 text-emerald-600" />
+                <span>{story.packageAmt} Package</span>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Middle: Intro / Review Quote Box */}
@@ -243,11 +269,51 @@ export default function StudentSuccessStories() {
           </p>
         </div>
 
-        {/* 2 Components In One Horizontal Line (grid-cols-1 lg:grid-cols-2) */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-7">
-          {stories.map((story, i) => (
-            <TestimonialVideoCard key={story.id || i} story={story} index={i} />
-          ))}
+        {/* Marquee Container */}
+        <div className="relative px-1 sm:px-2 overflow-hidden py-4 group mt-6">
+          {/* Scoped CSS for Animation */}
+          <style dangerouslySetInnerHTML={{
+            __html: `
+              @keyframes storyMarqueeScroll {
+                0% { transform: translateX(0%); }
+                100% { transform: translateX(-50%); }
+              }
+              @-webkit-keyframes storyMarqueeScroll {
+                0% { -webkit-transform: translateX(0%); }
+                100% { -webkit-transform: translateX(-50%); }
+              }
+              .bitc-story-marquee-track {
+                display: flex !important;
+                width: max-content !important;
+                animation: storyMarqueeScroll 40s linear infinite !important;
+                -webkit-animation: storyMarqueeScroll 40s linear infinite !important;
+                will-change: transform;
+              }
+              .bitc-story-marquee-track:hover {
+                animation-play-state: paused !important;
+                -webkit-animation-play-state: paused !important;
+              }
+            `
+          }} />
+
+          {/* Fading edges to make it look smooth */}
+          <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+
+          {/* Marquee Track */}
+          <div className="flex w-max bitc-story-marquee-track animate-marquee">
+            <div className="flex gap-4 px-2">
+              {stories.map((story, i) => (
+                <TestimonialVideoCard key={`orig-${story.id || i}`} story={story} index={i} />
+              ))}
+            </div>
+            {/* Duplicate track for seamless looping */}
+            <div className="flex gap-4 px-2" aria-hidden="true">
+              {stories.map((story, i) => (
+                <TestimonialVideoCard key={`dup-${story.id || i}`} story={story} index={i} />
+              ))}
+            </div>
+          </div>
         </div>
 
       </div>

@@ -55,7 +55,7 @@ export default function DirectorsMessagePage() {
               </p>
 
               <div className="mt-auto pt-8 border-t border-slate-100">
-                <h4 className="text-xl font-bold text-slate-900 mb-2.5">Pratik D. Gawande</h4>
+                <h4 className="text-xl font-bold text-slate-900 mb-2.5">Pratik D. <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Gawande</span></h4>
                 <div className="space-y-1.5 text-sm font-semibold text-slate-600">
                   <p className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-primary flex-shrink-0" />
@@ -87,7 +87,7 @@ export default function DirectorsMessagePage() {
       {/* ── WELCOME MESSAGE ── */}
       <section className="py-16 md:py-24 bg-white">
         <div className="container max-w-[900px] mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-8 text-center">Why BITC Was Created</h2>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-8 text-center">Why BITC Was <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Created</span></h2>
           <div className="prose prose-lg max-w-none text-slate-700 leading-relaxed space-y-6 text-justify">
             <p>
               I have spent over a decade working with industries and watching fresh graduates struggle—not because they lacked intelligence, but because they lacked exposure to the real world. The gap between what colleges teach and what companies expect has been growing every year.
@@ -106,11 +106,11 @@ export default function DirectorsMessagePage() {
       </section>
 
       {/* ── DIRECTOR'S BELIEFS ── */}
-      <section className="py-16 md:py-24 bg-white text-slate-900 border-y border-slate-200/80 relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-white text-slate-900 relative overflow-hidden">
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
             <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">What I Believe In</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900">Director&apos;s Beliefs</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900">Director&apos;s <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Beliefs</span></h2>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -139,7 +139,7 @@ export default function DirectorsMessagePage() {
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-16">
             <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">Director&apos;s Vision</p>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Where BITC Is Heading</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Where BITC Is <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Heading</span></h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -147,7 +147,7 @@ export default function DirectorsMessagePage() {
               <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
                 <Target className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">Short-Term Milestones</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Short-Term <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Milestones</span></h3>
               <p className="text-gray-600 leading-relaxed">
                 Become one of India's most recognized industry-integrated Training Centers with 50,000+ students trained, 500+ industry partnerships, and presence across multiple cities.
               </p>
@@ -157,7 +157,7 @@ export default function DirectorsMessagePage() {
               <div className="w-16 h-16 rounded-full bg-blue-500/10 flex items-center justify-center mx-auto mb-6">
                 <TrendingUp className="w-8 h-8 text-blue-600" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">Long-Term Aspiration</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Long-Term <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Aspiration</span></h3>
               <p className="text-gray-600 leading-relaxed">
                 Build a global learning ecosystem with international certifications, AI-powered learning platforms, startup incubation, and research partnerships with leading universities.
               </p>
@@ -167,7 +167,7 @@ export default function DirectorsMessagePage() {
               <div className="w-16 h-16 rounded-full bg-purple-500/10 flex items-center justify-center mx-auto mb-6">
                 <Globe className="w-8 h-8 text-purple-600" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">Future Expansion</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Future <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Expansion</span></h3>
               <p className="text-gray-600 leading-relaxed">
                 Launch innovation labs, digital campuses, entrepreneurship programs, and international partnerships to empower learners beyond borders.
               </p>
@@ -177,7 +177,7 @@ export default function DirectorsMessagePage() {
       </section>
 
       {/* ── QUOTE & SIGNATURE ── */}
-      <section className="py-12 md:py-16 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 border-y border-blue-100/80 relative overflow-hidden">
+      <section className="py-12 md:py-16 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[850px] mx-auto px-4 text-center relative z-10">
           <Quote className="w-9 h-9 text-primary/40 mx-auto mb-4" />

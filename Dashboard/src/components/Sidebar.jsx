@@ -42,6 +42,7 @@ import Applications from "./Applications.jsx"
 import Students from "./Students.jsx"
 import EnquiryTypes from "./EnquiryTypes.jsx"
 import StudentConsulting from "./StudentConsulting.jsx"
+import EventRegistrations from "./EventRegistrations.jsx"
 
 // Sidebar configuration with Home, About, and Contact Inquiries tabs
 const sidebarItems = [
@@ -101,6 +102,18 @@ const sidebarItems = [
         title: "Events",
         Icon: Calendar,
         Content: Events,
+        subItems: [
+            {
+                id: "manage-events",
+                title: "Manage Events",
+                Icon: Calendar,
+            },
+            {
+                id: "view-registrations",
+                title: "View Registrations",
+                Icon: Users,
+            },
+        ],
     },
     {
         title: "Resources",
@@ -348,8 +361,11 @@ function Sidebar({ isOpen: propIsOpen }) {
                                     activeSubTopic={activeSubTopic}
                                 />
                             )}
-                            {activeTab === "Events" && (
+                            {activeTab === "Events" && (activeSubTopic === "manage-events" || !activeSubTopic) && (
                                 <Events />
+                            )}
+                            {activeTab === "Events" && activeSubTopic === "view-registrations" && (
+                                <EventRegistrations />
                             )}
                             {activeTab === "Resources" && (activeSubTopic === "blogs" || !["gallery", "downloads", "faq"].includes(activeSubTopic)) && (
                                 <Blogs />

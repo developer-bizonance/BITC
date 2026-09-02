@@ -11,10 +11,10 @@ import AcademicPartners from "@/components/AcademicPartners";
 import StudentSuccessStories from "@/components/StudentSuccessStories";
 
 export const metadata: Metadata = {
-  title: "BIZONANCE Industrial Training Centre. (BITC) | Amravati",
+  title: "BIZONANCE Industrial Training Centre | Amravati",
   description: "Accelerate your tech career with BITC. Master Full Stack Development, AI & ML, Data Science, Cyber Security, and UI/UX Design with guaranteed placement support in Amravati.",
   openGraph: {
-    title: "BIZONANCE Industrial Training Centre. (BITC) | Amravati",
+    title: "BIZONANCE Industrial Training Centre | Amravati",
     description: "Accelerate your tech career with BITC. Master Full Stack Development, AI & ML, Data Science, Cyber Security, and UI/UX Design with placement support.",
   },
 };
@@ -34,9 +34,9 @@ export default function Home() {
 
           {/* Left Content */}
           <div className="w-full lg:w-[55%] xl:w-[52%] flex flex-col justify-center">
-            <h1 className="text-4xl sm:text-5xl lg:text-[2.5rem] xl:text-[2.9rem] font-extrabold tracking-tight mb-4 text-slate-900 leading-[1.2]">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-slate-900 leading-[1.2]">
               <span className="block whitespace-nowrap">Learn from Industry Experts.</span>
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400 leading-[1.2]">Become Certified and Industry Ready</span>
+              <span className="block text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] leading-[1.2]">Become Certified and Industry Ready</span>
             </h1>
 
             <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-5 lg:mb-6 max-w-[500px] lg:max-w-[550px] leading-relaxed">
@@ -89,7 +89,7 @@ export default function Home() {
         <div className="container max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-end mb-5">
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-slate-dark mb-1">Our Certifications</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-slate-dark mb-1">Our <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span></h2>
               <p className="text-gray-500 text-[16px]">Master the skills that top companies are looking for.</p>
             </div>
           </div>
@@ -134,7 +134,7 @@ export default function Home() {
       <section className="py-12 md:py-20 bg-white">
         <div className="container max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-12 text-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-slate-dark mb-4">Why Choose BITC?</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-dark mb-4">Why Choose <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC?</span></h2>
             <p className="text-gray-500 max-w-2xl mx-auto text-[16px]">We bridge the gap between academic learning and industry requirements.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
@@ -200,7 +200,7 @@ export default function Home() {
       <section className="py-12 md:py-20 bg-white">
         <div className="container max-w-[1400px] mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Learning Process</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Learning <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Process</span></h2>
             <p className="text-slate-700 font-semibold text-[16px]">Your step-by-step journey from enrollment to placement.</p>
           </div>
 
@@ -220,11 +220,11 @@ export default function Home() {
                 { title: "Placement Guidance", icon: Trophy }
               ].map((step, i, arr) => (
                 <div key={i} className="flex flex-col items-center relative w-full md:w-32 group cursor-pointer">
-                  <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center border-4 border-gray-100 shadow-sm text-primary mb-4 group-hover:border-primary/30 group-hover:bg-primary/5 group-hover:scale-110 transition-all duration-300 relative z-10">
-                    <step.icon className="w-6 h-6 text-gray-400 group-hover:text-primary transition-colors" />
+                  <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center border-4 border-gray-100 shadow-sm text-primary mb-4 group-hover:border-orange-500/30 group-hover:bg-orange-50 group-hover:scale-110 transition-all duration-300 relative z-10">
+                    <step.icon className="w-6 h-6 text-gray-400 group-hover:text-orange-500 transition-colors" />
                   </div>
 
-                  <span className="font-normal text-slate-800 text-xs sm:text-[13px] text-center mb-2 md:mb-0 group-hover:text-primary transition-colors">
+                  <span className="font-normal text-slate-800 text-xs sm:text-[13px] text-center mb-2 md:mb-0 group-hover:text-orange-500 transition-colors">
                     {step.title}
                   </span>
 
@@ -253,7 +253,7 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
               { stat: "10+", label: "Hiring Partners" },
-              { stat: "1K+", label: "Students Trained" },
+              { stat: "500+", label: "Students Trained" },
               { stat: "12 LPA", label: "Highest Package" },
               { stat: "95%", label: "Placement Ratio" }
             ].map((item, index) => (
@@ -271,7 +271,7 @@ export default function Home() {
       </section>
 
       {/* 2. Trusted by Colleges & Companies */}
-      <section className="py-6 bg-slate-50 text-slate-800 border-y border-slate-200/80 relative overflow-hidden my-2">
+      <section className="py-6 bg-slate-50 text-slate-800 relative overflow-hidden my-2">
         <div className="container max-w-[1400px] mx-auto px-4 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10">
           <div className="flex items-center gap-2.5">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
@@ -301,7 +301,7 @@ export default function Home() {
       </section>
 
       {/* Student Consulting Center */}
-      <section className="py-16 md:py-24 bg-white text-slate-900 relative overflow-hidden border-y border-slate-100">
+      <section className="py-16 md:py-24 bg-white text-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10 flex flex-col md:flex-row items-center justify-between gap-10">
           <div className="md:w-[55%] text-center md:text-left">
@@ -309,7 +309,7 @@ export default function Home() {
               <Compass className="w-4 h-4" />
               Career Guidance & Counseling
             </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">Student Consulting Center</h2>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">Student Consulting <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Center</span></h2>
             <p className="text-gray-600 text-lg mb-8 max-w-lg mx-auto md:mx-0 leading-relaxed">
               Get personalized career guidance, expert advice on Certifications, and a clear roadmap for your professional journey. Talk to our career counselors today!
             </p>
@@ -331,7 +331,7 @@ export default function Home() {
             </div>
           </div>
           <div className="md:w-[45%] flex justify-center lg:justify-end">
-             <div className="relative w-full max-w-[420px] aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl">
+             <div className="relative w-full max-w-[500px] aspect-[16/10] sm:aspect-[3/2] rounded-3xl overflow-hidden shadow-2xl">
                 <img src="/consulting.jpg" alt="Student Consulting" className="w-full h-full object-cover" />
              </div>
           </div>

@@ -413,17 +413,17 @@ export default function CareersPage() {
     <div className="flex flex-col min-h-screen text-[15px]">
 
       {/* ── HERO ── */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] bg-white text-slate-900 py-20 lg:py-28 overflow-hidden flex flex-col items-center justify-center border-b border-gray-100">
+      <section className="relative w-full min-h-[calc(100vh-80px)] bg-white text-slate-900 py-20 lg:py-28 overflow-hidden flex flex-col items-center justify-center">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] opacity-25 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[1000px] mx-auto px-4 text-center relative z-10 flex flex-col items-center justify-center my-auto">
           <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-bold rounded-full px-5 py-2 text-sm uppercase tracking-widest mb-8 border border-primary/20">
             <Briefcase className="w-4 h-4" />
             Careers & Faculty Hiring
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 text-slate-900 leading-[1.1]">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-slate-900 leading-[1.2]">
             Teach & Inspire at <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC</span>
           </h1>
-          <p className="text-xl md:text-2xl lg:text-[1.4rem] text-gray-600 max-w-[900px] mx-auto leading-relaxed mb-8">
+          <p className="text-base md:text-lg text-gray-600 max-w-[900px] mx-auto leading-relaxed mb-8">
             Join a premier industrial training centre. Share your industry expertise, mentor passionate students, and shape the next generation of tech leaders.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
@@ -448,7 +448,7 @@ export default function CareersPage() {
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">Why Teach & Mentor at BITC</h2>
+              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">Why Teach & Mentor <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">at BITC</span></h2>
               <p className="text-lg text-gray-600 leading-relaxed mb-8">
                 At BITC, our mentors and faculty are the cornerstone of student success. We provide an inspiring academic ecosystem with state-of-the-art labs, high student engagement, and competitive compensation.
               </p>
@@ -474,10 +474,10 @@ export default function CareersPage() {
       </section>
 
       {/* ── EMPLOYEE BENEFITS ── */}
-      <section className="py-16 md:py-24 bg-white border-y border-gray-100">
+      <section className="py-16 md:py-24 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Faculty & Trainer Benefits</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Faculty & Trainer <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Benefits</span></h2>
             <p className="text-gray-600 max-w-[600px] mx-auto text-lg">We invest in our faculty and provide full institutional support.</p>
           </div>
 
@@ -506,7 +506,7 @@ export default function CareersPage() {
       <section id="current-openings" className="py-16 md:py-24 bg-white scroll-mt-20">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Current Openings</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Current <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Openings</span></h2>
             <p className="text-gray-600 max-w-[600px] mx-auto text-lg">Select a role and apply directly with your course specialization.</p>
           </div>
 
@@ -552,10 +552,10 @@ export default function CareersPage() {
       </section>
 
       {/* ── RECRUITMENT PROCESS ── */}
-      <section className="py-16 md:py-24 bg-white text-slate-900 border-y border-slate-200/80">
+      <section className="py-16 md:py-24 bg-white text-slate-900">
         <div className="container max-w-[1000px] mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Recruitment Process</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Recruitment <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Process</span></h2>
             <p className="text-slate-600 text-lg font-medium">A structured, professional hiring journey for faculty and educators.</p>
           </div>
 
@@ -588,11 +588,11 @@ export default function CareersPage() {
 
 
       {/* ── APPLY CTA ── */}
-      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 border-t border-blue-100/80 relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[800px] mx-auto px-4 text-center relative z-10">
           <Upload className="w-14 h-14 text-primary mx-auto mb-6" />
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Ready to Teach at BITC?</h2>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Ready to Teach at <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC?</span></h2>
           <p className="text-xl text-gray-600 mb-10">
             Submit your teaching application along with your course specialization and let&apos;s build future tech talent together.
           </p>
@@ -648,7 +648,7 @@ export default function CareersPage() {
                   <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
                     <Check className="w-10 h-10" />
                   </div>
-                  <h4 className="text-2xl font-black text-slate-900 mb-2">Application Received!</h4>
+                  <h4 className="text-2xl font-black text-slate-900 mb-2">Application <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Received!</span></h4>
                   <p className="text-slate-600 max-w-md mx-auto mb-6 text-sm">
                     Thank you for applying to teach at BITC. Our Academic and HR Board will review your application and contact you for a demo lecture & interview.
                   </p>

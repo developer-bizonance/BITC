@@ -18,7 +18,7 @@ export default function OurInfrastructurePage() {
         <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-8 text-primary">
           <Hammer className="w-12 h-12" />
         </div>
-        <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">Coming Soon</h1>
+        <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">Coming <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Soon</span></h1>
         <p className="text-lg text-gray-600 mb-10 leading-relaxed font-medium">
           We are currently working on showcasing our state-of-the-art infrastructure. Please check back later!
         </p>

@@ -75,7 +75,7 @@ export default function PlacementCellPage() {
     <div className="flex flex-col min-h-screen">
       
       {/* 1. Hero Banner */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center bg-white py-16 overflow-hidden border-b border-gray-100">
+      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center bg-white py-16 overflow-hidden">
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-semibold mb-6">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
@@ -91,7 +91,7 @@ export default function PlacementCellPage() {
       </section>
 
       {/* 2. Key Statistics */}
-      <section className="py-16 bg-white border-y border-slate-200/80 relative z-20">
+      <section className="py-16 bg-white relative z-20">
         <div className="container max-w-[1000px] mx-auto px-4">
           <Card className="border border-slate-200/80 shadow-2xl rounded-3xl bg-white overflow-hidden">
             <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-slate-100">
@@ -99,7 +99,7 @@ export default function PlacementCellPage() {
                 { label: "Placement Ratio", value: "95%", icon: TrendingUp },
                 { label: "Hiring Partners", value: "10+", icon: Briefcase },
                 { label: "Highest Package", value: "12 LPA", icon: Award },
-                { label: "Students Trained", value: "1K+", icon: Users },
+                { label: "Students Trained", value: "500+", icon: Users },
               ].map((stat, i) => (
                 <div key={i} className="p-8 text-center flex flex-col items-center justify-center">
                   <div className="w-12 h-12 bg-orange-500/10 text-orange-600 rounded-full flex items-center justify-center mb-4 font-bold">
@@ -118,7 +118,7 @@ export default function PlacementCellPage() {
       <section className="py-20 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">How We Prepare You</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">How We Prepare <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">You</span></h2>
             <p className="text-gray-500 text-lg leading-relaxed">
               Our comprehensive placement preparation program goes beyond traditional academics to ensure you are completely industry-ready by the time you graduate.
             </p>
@@ -164,7 +164,7 @@ export default function PlacementCellPage() {
 
             <div className="flex-1 w-full space-y-6">
               <div>
-                <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Our Proven Placement Process</h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Our Proven Placement <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Process</span></h2>
                 <p className="text-gray-500 text-base mb-6">We follow a rigorous, step-by-step methodology to transform students into highly employable professionals.</p>
               </div>
 
@@ -192,10 +192,10 @@ export default function PlacementCellPage() {
       </section>
 
       {/* 5. CTA */}
-      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 border-t border-blue-100/80 relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[800px] mx-auto px-4 relative z-10 text-center">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">Your Dream Job Awaits</h2>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">Your Dream Job <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Awaits</span></h2>
           <p className="text-xl text-slate-600 font-medium mb-10 leading-relaxed">
             Take the first step towards a successful career. Get in touch with the BITC Placement Cell today.
           </p>

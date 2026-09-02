@@ -17,7 +17,7 @@ export default function PrivacyPolicyPage() {
         
         <div className="flex items-center gap-3 mb-6">
           <ShieldCheck className="w-8 h-8 text-primary" />
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900">Privacy Policy</h1>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900">Privacy <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Policy</span></h1>
         </div>
         
         <p className="text-sm text-slate-500 mb-8">Last updated: August 2026</p>
@@ -27,12 +27,12 @@ export default function PrivacyPolicyPage() {
             At <strong>BIZONANCE Industrial Training Centre (BITC)</strong>, accessible from bitc-eight.vercel.app, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by BITC and how we use it.
           </p>
           
-          <h2 className="text-xl font-bold text-slate-900 pt-4">Information We Collect</h2>
+          <h2 className="text-xl font-bold text-slate-900 pt-4">Information We <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Collect</span></h2>
           <p>
             When you register for a certification program, submit an application form, or contact us, we may collect personal information including your name, email address, phone number, qualification details, and certification interest.
           </p>
           
-          <h2 className="text-xl font-bold text-slate-900 pt-4">How We Use Your Information</h2>
+          <h2 className="text-xl font-bold text-slate-900 pt-4">How We Use Your <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Information</span></h2>
           <ul className="list-disc pl-6 space-y-2">
             <li>To process certification applications and enrollment.</li>
             <li>To provide, operate, and maintain our educational services.</li>
@@ -40,7 +40,7 @@ export default function PrivacyPolicyPage() {
             <li>To send updates, newsletters, and promotional materials.</li>
           </ul>
 
-          <h2 className="text-xl font-bold text-slate-900 pt-4">Contact Us</h2>
+          <h2 className="text-xl font-bold text-slate-900 pt-4">Contact <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Us</span></h2>
           <p>
             If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us at <a href="mailto:info@bizonance.in" className="text-primary font-medium hover:underline">info@bizonance.in</a>.
           </p>

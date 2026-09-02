@@ -47,7 +47,7 @@ router.post("/", (req: Request, res: Response) => {
       id: `mentor-${Date.now()}`,
       name: name.trim(),
       role: role?.trim() || "Industry Expert & Trainer",
-      company: company?.trim() || "BiZONANCE Partner",
+      company: company?.trim() || "BIZONANCE Partner",
       exp: exp?.trim() || "5+ Years",
       area: area?.trim() || "Technology",
       skills: parsedSkills.length > 0 ? parsedSkills : ["Software Architecture"],

@@ -15,7 +15,7 @@ export default function CorporateTrainingPage() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* 1. Hero Section */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center bg-white py-16 lg:py-24 overflow-hidden border-b border-gray-100">
+      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center bg-white py-16 lg:py-24 overflow-hidden">
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-semibold mb-6">
             <Briefcase className="w-4 h-4 text-primary" />
@@ -39,7 +39,7 @@ export default function CorporateTrainingPage() {
       <section className="py-16 lg:py-24 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4">Why Partner With Us?</h2>
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">Why Partner With <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Us?</span></h2>
             <p className="text-gray-600 max-w-2xl mx-auto">We don't just deliver courses; we create transformational learning experiences designed specifically for your corporate environment.</p>
           </div>
 
@@ -65,7 +65,7 @@ export default function CorporateTrainingPage() {
       <section className="py-16 lg:py-24 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4 flex flex-col lg:flex-row gap-16 items-center">
           <div className="flex-1 w-full">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6">Our Core Training Domains</h2>
+            <h2 className="text-3xl font-bold text-slate-900 mb-6">Our Core Training <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Domains</span></h2>
             <p className="text-gray-600 mb-8 leading-relaxed">
               We cover a broad spectrum of in-demand technologies and methodologies. Whether you need to transition your team to a new tech stack or refine their agile practices, we have you covered.
             </p>
@@ -99,10 +99,10 @@ export default function CorporateTrainingPage() {
       </section>
 
       {/* 4. CTA */}
-      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 border-t border-blue-100/80 relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[800px] mx-auto px-4 text-center relative z-10">
-          <h2 className="text-3xl font-bold text-slate-900 mb-6">Ready to upskill your team?</h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-6">Ready to upskill your <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">team?</span></h2>
           <p className="text-slate-600 mb-8 text-lg font-medium">Connect with our corporate relations team to design a training program that perfectly aligns with your organizational objectives.</p>
           <Link href="/contact" className="inline-flex h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] text-white font-bold items-center justify-center transition-all shadow-lg hover:shadow-xl gap-2">
             Talk to an Expert <ArrowRight className="w-5 h-5" />

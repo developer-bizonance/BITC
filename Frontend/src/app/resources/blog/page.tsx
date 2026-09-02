@@ -36,7 +36,7 @@ export default async function BlogPage() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* 1. Hero Section */}
-      <section className="bg-white py-16 text-slate-900 text-center border-b border-gray-100">
+      <section className="bg-white py-16 text-slate-900 text-center">
         <div className="container max-w-[1200px] mx-auto px-4">
           <BookOpen className="w-12 h-12 text-primary mx-auto mb-4" />
           <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight mb-4">Our <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Blog</span></h1>

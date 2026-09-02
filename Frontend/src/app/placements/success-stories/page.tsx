@@ -106,7 +106,7 @@ export default async function SuccessStoriesPage() {
     <div className="flex flex-col min-h-screen">
       
       {/* 1. Hero Banner */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center bg-white py-16 overflow-hidden border-b border-gray-100">
+      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center bg-white py-16 overflow-hidden">
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-semibold mb-6">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
@@ -129,7 +129,7 @@ export default async function SuccessStoriesPage() {
       </section>
 
       {/* 2. Highlight Stats */}
-      <section className="py-12 bg-white border-y border-slate-200/80 text-slate-900 relative z-20">
+      <section className="py-12 bg-white text-slate-900 relative z-20">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 divide-x divide-slate-200/80">
             <div className="text-center px-4">
@@ -156,7 +156,7 @@ export default async function SuccessStoriesPage() {
       <section className="py-20 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Inspiring Transformations</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Inspiring <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Transformations</span></h2>
             <p className="text-gray-500 text-lg">Hear directly from our students about how BITC helped them achieve their career goals.</p>
           </div>
 
@@ -226,7 +226,7 @@ export default async function SuccessStoriesPage() {
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Video Testimonials</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Video <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Testimonials</span></h2>
               <p className="text-gray-500 text-lg max-w-2xl">Watch our alumni share their unfiltered experiences and journeys at BITC.</p>
             </div>
           </div>
@@ -240,10 +240,10 @@ export default async function SuccessStoriesPage() {
       </section>
 
       {/* 5. CTA */}
-      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 border-t border-blue-100/80 relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[800px] mx-auto px-4 relative z-10 text-center">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">Ready to Write Your Own Success Story?</h2>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">Ready to Write Your Own <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Success Story?</span></h2>
           <p className="text-xl text-slate-600 font-medium mb-10 leading-relaxed">
             Join thousands of successful graduates who started their journey with BITC. Enroll today and take the first step towards your dream career.
           </p>

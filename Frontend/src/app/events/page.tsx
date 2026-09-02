@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 };
 import Link from "next/link";
 import FeaturedEventBanner from "./FeaturedEventBanner";
+import EventRegistrationModal from "@/components/events/EventRegistrationModal";
 import {
   Carousel,
   CarouselContent,
@@ -99,7 +100,7 @@ export default async function EventsPage() {
     <div className="flex flex-col min-h-screen" style={{ zoom: '90%' }}>
       
       {/* 1. Hero Banner */}
-      <section className="relative w-full min-h-[112vh] flex flex-col items-center justify-center bg-white py-16 lg:py-24 overflow-hidden border-b border-gray-100">
+      <section className="relative w-full min-h-[calc((100vh-62px)/0.9)] flex flex-col items-center justify-center bg-white py-16 lg:py-24 overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] opacity-25 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent pointer-events-none" />
         
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10 text-center">
@@ -133,7 +134,7 @@ export default async function EventsPage() {
       <section className="py-20 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">What We Do</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">What We <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Do</span></h2>
             <p className="text-gray-500 text-lg">We organize a wide variety of events to cater to different learning styles and career goals.</p>
           </div>
 
@@ -156,7 +157,7 @@ export default async function EventsPage() {
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="flex justify-between items-end mb-8">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Upcoming Events</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Upcoming <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Events</span></h2>
               <p className="text-gray-500 text-lg">Don&apos;t miss out on these exclusive learning opportunities.</p>
             </div>
             <Link href="/contact" className="hidden md:flex items-center gap-2 text-primary font-semibold hover:text-orange-600 transition-colors">
@@ -207,11 +208,11 @@ export default async function EventsPage() {
                         </div>
 
                         <div className="flex items-center justify-end pt-5 border-t border-gray-100 mt-auto">
-                          <Link href="/contact" className="w-full">
-                            <Button className="w-full bg-slate-50 hover:bg-primary hover:text-white text-slate-900 font-bold transition-all duration-300 rounded-xl py-6 shadow-none hover:shadow-lg hover:shadow-primary/20">
+                          <EventRegistrationModal eventId={event.id}>
+                            <Button className="w-full bg-slate-50 hover:bg-primary hover:text-white text-slate-900 font-bold transition-all duration-300 rounded-full py-6 shadow-none hover:shadow-lg hover:shadow-primary/20">
                               Register Now <ChevronRight className="w-4 h-4 ml-1" />
                             </Button>
-                          </Link>
+                          </EventRegistrationModal>
                         </div>
                       </CardContent>
                     </Card>
@@ -236,7 +237,7 @@ export default async function EventsPage() {
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="flex justify-between items-end mb-8">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Conducted Events</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Conducted <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Events</span></h2>
               <p className="text-gray-500 text-lg">Take a look back at our successful workshops, hackathons, and industrial visits.</p>
             </div>
             <Link href="/resources/gallery" className="hidden md:flex items-center gap-2 text-primary font-semibold hover:text-orange-600 transition-colors">
@@ -288,7 +289,7 @@ export default async function EventsPage() {
 
                         <div className="flex items-center justify-end pt-5 border-t border-gray-100 mt-auto">
                           <Link href="/contact" className="w-full">
-                            <Button variant="outline" className="w-full font-bold transition-all duration-300 rounded-xl py-6 border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                            <Button className="w-full font-bold transition-all duration-300 rounded-full py-6 shadow-none hover:shadow-lg hover:shadow-orange-500/20 hover:-translate-y-0.5">
                               View Details <ChevronRight className="w-4 h-4 ml-1" />
                             </Button>
                           </Link>
@@ -311,16 +312,14 @@ export default async function EventsPage() {
       )}
 
       {/* 8. Call to Action */}
-      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 border-t border-blue-100/80 relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[800px] mx-auto px-4 relative z-10 text-center">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">Join Our Next Event</h2>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">Never Miss an <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Opportunity</span></h2>
           <p className="text-xl text-slate-600 font-medium mb-10 leading-relaxed">
-            Ready to expand your network, learn new skills, and accelerate your career growth? Register for an upcoming event today.
+            Stay in the loop with our latest hackathons, workshops, and industry visits. Register now to get the latest updates and early access invitations straight to your inbox!
           </p>
-          <Link href="/contact" className="inline-flex items-center justify-center h-14 px-10 rounded-full text-white text-lg font-bold shadow-xl shadow-orange-500/20 hover:-translate-y-1 transition-all bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] border-0">
-            Contact Us
-          </Link>
+          <EventRegistrationModal isGeneralUpdate={true} />
         </div>
       </section>
 

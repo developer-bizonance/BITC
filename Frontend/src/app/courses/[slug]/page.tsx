@@ -11,12 +11,6 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ApplyButton } from "@/components/courses/ApplyButton";
-import { Poppins } from "next/font/google";
-
-const poppins = Poppins({ 
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"] 
-});
 
 import type { Metadata } from "next";
 
@@ -122,39 +116,37 @@ export default async function CoursePage({ params }: PageProps) {
     <div className="flex flex-col min-h-screen bg-white">
       
       {/* Hero Section */}
-      <section className="relative w-full bg-white text-slate-900 py-8 md:py-12 lg:py-14 overflow-hidden border-b border-gray-100">
+      <section className="relative w-full bg-white text-slate-900 py-8 md:py-12 lg:py-14 overflow-hidden">
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-wider mb-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            <div className="lg:pt-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[11px] font-bold uppercase tracking-wider mb-5">
                 <LayoutTemplate className="w-3.5 h-3.5" />
                 {course.category}
               </div>
-              <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
               <h1 
-                className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight tracking-tight text-slate-900"
-                style={{ fontFamily: "'Poppins', sans-serif" }}
+                className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-5 leading-tight tracking-tight text-slate-900"
               >
                 {course.title}
               </h1>
-              <p className="text-lg md:text-xl text-slate-600 mb-8 leading-relaxed font-medium">
+              <p className="text-sm md:text-base text-slate-600 mb-6 leading-relaxed font-medium">
                 {course.description}
               </p>
               
-              <div className="flex flex-wrap items-center gap-6 mb-10">
+              <div className="flex flex-wrap items-center gap-5 mb-8">
                 <div className="flex items-center gap-2">
-                  <Clock className="w-5 h-5 text-orange-500" />
-                  <span className="font-semibold text-slate-700">{course.duration} Program</span>
+                  <Clock className="w-4 h-4 text-orange-500" />
+                  <span className="text-sm font-semibold text-slate-700">{course.duration} Program</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Award className="w-5 h-5 text-orange-500" />
-                  <span className="font-semibold text-slate-700">Industry Certification</span>
+                  <Award className="w-4 h-4 text-orange-500" />
+                  <span className="text-sm font-semibold text-slate-700">Industry Certification</span>
                 </div>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <ApplyButton courseId={course.slug} courseTitle={course.title} />
-                <Link href="#curriculum" className="h-14 px-10 rounded-full bg-white text-slate-700 text-lg font-bold flex items-center justify-center hover:bg-gray-50 border border-gray-200 transition-all shadow-sm">
+                <Link href="#curriculum" className="h-12 px-8 rounded-full bg-white text-slate-700 text-base font-bold flex items-center justify-center hover:bg-gray-50 border border-gray-200 transition-all shadow-sm">
                   View Curriculum
                 </Link>
               </div>
@@ -216,9 +208,7 @@ export default async function CoursePage({ params }: PageProps) {
               <BookOpen className="w-4 h-4 text-amber-600" />
               <span>INDUSTRY-DESIGNED SYLLABUS</span>
             </div>
-            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">
-              Comprehensive Certification Curriculum
-            </h2>
+            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">Comprehensive Certification <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Curriculum</span></h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto font-medium leading-relaxed">
               Curated by industry leads and updated quarterly to equip you with production-grade skills, real-world workflows, and AI integration.
             </p>
@@ -308,9 +298,7 @@ export default async function CoursePage({ params }: PageProps) {
                 <Rocket className="w-3.5 h-3.5" />
                 <span>HANDS-ON INDUSTRIAL CAPSTONE</span>
               </div>
-              <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-3 tracking-tight">
-                Build a Production-Ready Capstone Project
-              </h3>
+              <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-3 tracking-tight">Build a Production-Ready Capstone <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Project</span></h3>
               <p className="text-slate-600 leading-relaxed text-sm md:text-base font-medium">
                 Apply everything you've learned to construct a real-world enterprise project under the guidance of senior software leads. Review your code, optimize performance, and showcase it directly to top tech recruiters.
               </p>
@@ -320,7 +308,7 @@ export default async function CoursePage({ params }: PageProps) {
               <ApplyButton courseId={course.slug} courseTitle={course.title} />
               <Link 
                 href="/contact" 
-                className="w-full sm:w-auto h-14 px-8 rounded-full bg-white hover:bg-slate-100 text-slate-900 font-bold text-sm flex items-center justify-center gap-2 border border-slate-200 transition-all shadow-sm backdrop-blur-md"
+                className="w-full sm:w-auto h-12 px-6 rounded-full bg-white hover:bg-slate-100 text-slate-900 font-bold text-sm flex items-center justify-center gap-2 border border-slate-200 transition-all shadow-sm backdrop-blur-md"
               >
                 Chat with us <ChevronRight className="w-4 h-4" />
               </Link>
@@ -333,7 +321,7 @@ export default async function CoursePage({ params }: PageProps) {
               <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4">
                 <Laptop className="w-6 h-6" />
               </div>
-              <h4 className="font-bold text-slate-900 mb-1 text-sm">100% Practical</h4>
+              <h4 className="font-bold text-slate-900 mb-1 text-sm">100% <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Practical</span></h4>
               <p className="text-xs text-slate-500">Real-world coding exercises and live project builds.</p>
             </div>
 
@@ -341,7 +329,7 @@ export default async function CoursePage({ params }: PageProps) {
               <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center mb-4">
                 <Cpu className="w-6 h-6" />
               </div>
-              <h4 className="font-bold text-slate-900 mb-1 text-sm">AI Workflows</h4>
+              <h4 className="font-bold text-slate-900 mb-1 text-sm">AI <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Workflows</span></h4>
               <p className="text-xs text-slate-500">Integrated Copilot, Cursor & AI prompt engineering.</p>
             </div>
 
@@ -349,7 +337,7 @@ export default async function CoursePage({ params }: PageProps) {
               <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-4">
                 <Award className="w-6 h-6" />
               </div>
-              <h4 className="font-bold text-slate-900 mb-1 text-sm">BITC Certification</h4>
+              <h4 className="font-bold text-slate-900 mb-1 text-sm">BITC <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certification</span></h4>
               <p className="text-xs text-slate-500">Recognized industrial certification upon completion.</p>
             </div>
 
@@ -357,7 +345,7 @@ export default async function CoursePage({ params }: PageProps) {
               <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4">
                 <Briefcase className="w-6 h-6" />
               </div>
-              <h4 className="font-bold text-slate-900 mb-1 text-sm">Placement Drive</h4>
+              <h4 className="font-bold text-slate-900 mb-1 text-sm">Placement <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Drive</span></h4>
               <p className="text-xs text-slate-500">Direct interview opportunities with hiring partners.</p>
             </div>
           </div>

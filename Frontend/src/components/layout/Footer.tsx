@@ -74,10 +74,9 @@ export function Footer() {
               </div>
 
               {/* Social Icons */}
-              <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 pt-2">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-2">
                 {socials.map((item, i) => {
                   const Icon = item.icon;
-                  const isHovered = hoveredIndex === i;
                   const isGoogle = item.label === 'Google';
                   return (
                     <a
@@ -86,40 +85,30 @@ export function Footer() {
                       aria-label={item.label}
                       target="_blank"
                       rel="noreferrer"
-                      className="flex h-9 w-9 items-center justify-center rounded-xl border shadow-xs transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md sm:h-10 sm:w-10"
-                      style={{
-                        backgroundColor: isHovered ? item.bg : '#ffffff',
-                        borderColor: isHovered ? (isGoogle ? '#dadce0' : (item.color ? item.color + '40' : '#dadce0')) : '#e5e7eb',
-                      }}
+                      className="flex items-center justify-center transition-transform duration-300 hover:-translate-y-1 hover:scale-110 p-1"
                       onMouseEnter={() => setHoveredIndex(i)}
                       onMouseLeave={() => setHoveredIndex(null)}
                     >
                       {isGoogle ? (
                         <>
-                          <span
-                            className="sm:hidden transition-all duration-300"
-                            style={{ filter: isHovered ? 'none' : 'grayscale(1) opacity(0.65)' }}
-                          >
-                            <GoogleIcon size={16} />
-                          </span>
-                          <span
-                            className="hidden sm:block transition-all duration-300"
-                            style={{ filter: isHovered ? 'none' : 'grayscale(1) opacity(0.65)' }}
-                          >
+                          <span className="sm:hidden transition-all duration-300">
                             <GoogleIcon size={18} />
+                          </span>
+                          <span className="hidden sm:block transition-all duration-300">
+                            <GoogleIcon size={22} />
                           </span>
                         </>
                       ) : (
                         <>
                           <Icon
-                            size={16}
+                            size={18}
                             className="transition-colors duration-300 sm:hidden"
-                            style={{ color: isHovered ? item.color! : '#777777' }}
+                            style={{ color: item.color! }}
                           />
                           <Icon
-                            size={18}
+                            size={22}
                             className="hidden transition-colors duration-300 sm:block"
-                            style={{ color: isHovered ? item.color! : '#777777' }}
+                            style={{ color: item.color! }}
                           />
                         </>
                       )}
@@ -133,7 +122,7 @@ export function Footer() {
             <div className="lg:col-span-5 grid grid-cols-2 sm:grid-cols-3 gap-5 sm:gap-6 pt-1">
               {/* Imp Links Column */}
               <div>
-                <h4 className="font-bold text-slate-900 mb-3 text-xs sm:text-sm uppercase tracking-wider">Links</h4>
+                <h4 className="font-bold text-slate-900 mb-3 text-sm sm:text-base capitalize tracking-wide">Links</h4>
                 <ul className="space-y-2 text-[13px] sm:text-sm font-medium">
                   {impLinks.map((item) => (
                     <li key={item.name}>
@@ -147,7 +136,7 @@ export function Footer() {
 
               {/* Programs Column */}
               <div>
-                <h4 className="font-bold text-slate-900 mb-3 text-xs sm:text-sm uppercase tracking-wider">Programs</h4>
+                <h4 className="font-bold text-slate-900 mb-3 text-sm sm:text-base capitalize tracking-wide">Programs</h4>
                 <ul className="space-y-2 text-[13px] sm:text-sm font-medium">
                   {programLinks.map((item) => (
                     <li key={item.name}>
@@ -161,7 +150,7 @@ export function Footer() {
 
               {/* Company Column */}
               <div>
-                <h4 className="font-bold text-slate-900 mb-3 text-xs sm:text-sm uppercase tracking-wider">Company</h4>
+                <h4 className="font-bold text-slate-900 mb-3 text-sm sm:text-base capitalize tracking-wide">Company</h4>
                 <ul className="space-y-2 text-[13px] sm:text-sm font-medium">
                   {companyLinks.map((item) => (
                     <li key={item.name}>
@@ -177,8 +166,16 @@ export function Footer() {
             {/* 3. Action Buttons & Legal Badge (Col 10-12) */}
             <div className="lg:col-span-3 flex flex-col items-stretch lg:items-end justify-between gap-4 h-full">
 
+              {/* Company Legal Badge */}
+              <div className="w-full sm:w-auto lg:self-end rounded-2xl border border-orange-200 bg-orange-50 px-3.5 py-2.5 text-left sm:px-4 sm:py-3 sm:text-right shadow-2xs">
+                <p className="text-[12px] sm:text-[13px] font-semibold text-[#111] whitespace-nowrap">BIZONANCE Industrial Training Centre</p>
+                <p className="text-[10.5px] sm:text-[11px] font-medium text-orange-600 whitespace-nowrap">A Unit of BIZONANCE India Private Limited</p>
+                <p className="mt-0.5 text-[10.5px] text-[#888] sm:text-[11px] whitespace-nowrap">CIN: U74999MH2017PTC301018</p>
+                <p className="text-[10.5px] text-[#888] sm:text-[11px] whitespace-nowrap">Registered Trademark · IP India</p>
+              </div>
+
               {/* Call Now & WhatsApp buttons (Always Horizontal) */}
-              <div className="flex flex-row items-center gap-2 sm:gap-2.5 w-full lg:w-auto">
+              <div className="flex flex-row items-center gap-2 sm:gap-2.5 w-full lg:w-auto mt-auto">
                 <a
                   href="tel:+918956727311"
                   className="flex-1 lg:flex-none inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-blue-50 px-3.5 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-[13px] font-bold text-blue-600 border border-blue-100 hover:bg-blue-100 hover:shadow-md transition-all duration-200"
@@ -197,14 +194,6 @@ export function Footer() {
                 </a>
               </div>
 
-              {/* Company Legal Badge */}
-              <div className="w-full sm:w-auto lg:self-end rounded-2xl border border-orange-200 bg-orange-50 px-3.5 py-2.5 text-left sm:px-4 sm:py-3 sm:text-right shadow-2xs mt-auto">
-                <p className="text-[12px] sm:text-[13px] font-semibold text-[#111] whitespace-nowrap">BiZONANCE Industrial Training Centre</p>
-                <p className="text-[10.5px] sm:text-[11px] font-medium text-orange-600 whitespace-nowrap">A Unit of BiZONANCE India Private Limited</p>
-                <p className="mt-0.5 text-[10.5px] text-[#888] sm:text-[11px] whitespace-nowrap">CIN: U74999MH2017PTC301018</p>
-                <p className="text-[10.5px] text-[#888] sm:text-[11px] whitespace-nowrap">Registered Trademark · IP India</p>
-              </div>
-
             </div>
 
           </div>
@@ -213,7 +202,7 @@ export function Footer() {
         {/* ── Bottom Bar: Copyright & Legal Links ── */}
         <div className="mt-5 sm:mt-6 pt-2 flex flex-col sm:flex-row items-center justify-between gap-2.5 text-xs text-slate-500 text-center sm:text-left font-medium">
           <p className="text-[12px] sm:text-[13px] text-slate-600 flex items-center justify-center sm:justify-start gap-1 flex-wrap">
-            © 2026 <Image src="/BizonanceLogo.png" alt="BiZONANCE" width={90} height={24} className="h-3.5 sm:h-4 w-auto inline-block align-middle mx-0.5 object-contain" /> Industrial Training Centre. All rights reserved.
+            © 2026 <Image src="/BizonanceLogo.png" alt="BIZONANCE" width={110} height={28} className="h-4 sm:h-5 w-auto inline-block align-middle mx-1 object-contain" /> Industrial Training Centre. All rights reserved.
           </p>
           <div className="flex items-center gap-4 sm:gap-6 text-[12px] sm:text-[12.5px] text-slate-600">
             <Link href="/privacy-policy" className="hover:text-primary transition-colors">

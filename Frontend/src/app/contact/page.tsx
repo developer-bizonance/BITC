@@ -175,7 +175,7 @@ export default function ContactPage() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* 1. Full-Width Hero Image Banner */}
-      <section className="relative w-full h-[260px] sm:h-[340px] md:h-[400px] lg:h-[440px] overflow-hidden border-b border-gray-100 bg-slate-100">
+      <section className="relative w-full h-[260px] sm:h-[340px] md:h-[400px] lg:h-[440px] overflow-hidden bg-slate-100">
         <Image
           src="/contact-banner-new.png"
           alt="Contact Us"
@@ -192,7 +192,7 @@ export default function ContactPage() {
             
             {/* Left Column: Contact Information */}
             <div>
-              <h2 className="text-3xl font-bold text-slate-900 mb-6">Get In Touch</h2>
+              <h2 className="text-3xl font-bold text-slate-900 mb-6">Get In <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Touch</span></h2>
               <p className="text-slate-600 mb-10 leading-relaxed">
                 Whether you're looking to upgrade your skills, organize a workshop, or discuss hiring opportunities, we are here to help. Reach out to us through any of the channels below.
               </p>
@@ -203,11 +203,9 @@ export default function ContactPage() {
                     <MapPin className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-900 mb-0.5 text-base sm:text-lg">
-                      BiZONANCE Industrial Training Centre
-                    </h3>
+                    <h3 className="font-bold text-slate-900 mb-0.5 text-base sm:text-lg">BIZONANCE Industrial Training <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Centre</span></h3>
                     <p className="text-xs sm:text-[13px] font-semibold text-primary mb-0.5">
-                      Unit of BiZONANCE India Private Limited
+                      Unit of BIZONANCE India Private Limited
                     </p>
                     <p className="text-xs text-slate-500 font-semibold mb-0.5">
                       CIN: U74999MH2017PTC301018
@@ -224,7 +222,7 @@ export default function ContactPage() {
                     <Phone className="w-6 h-6 text-blue-600" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-900 mb-1">Contact Number</h3>
+                    <h3 className="font-bold text-slate-900 mb-1">Contact <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Number</span></h3>
                     <p className="text-slate-600 text-sm">
                       <a href="tel:+918956727311" className="hover:text-primary transition-colors font-medium">+91 89567 27311</a>
                     </p>
@@ -236,7 +234,7 @@ export default function ContactPage() {
                     <Mail className="w-6 h-6 text-emerald-600" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-900 mb-1">Email ID</h3>
+                    <h3 className="font-bold text-slate-900 mb-1">Email <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">ID</span></h3>
                     <p className="text-slate-600 text-sm">
                       <a href="mailto:info@bizonance.in" className="hover:text-primary transition-colors font-medium">info@bizonance.in</a>
                     </p>
@@ -267,12 +265,12 @@ export default function ContactPage() {
 
             {/* Right Column: Contact Form */}
             <div className="bg-white rounded-2xl p-8 lg:p-10 shadow-xl shadow-slate-200/50 border border-slate-100">
-              <h3 className="text-2xl font-bold text-slate-900 mb-6">Send us a Message</h3>
+              <h3 className="text-2xl font-bold text-slate-900 mb-6">Send us a <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Message</span></h3>
               
               {submitted ? (
                 <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-8 text-center flex flex-col items-center">
                   <CheckCircle2 className="w-14 h-14 text-emerald-600 mb-4" />
-                  <h4 className="text-xl font-bold text-slate-900 mb-2">Message Sent Successfully!</h4>
+                  <h4 className="text-xl font-bold text-slate-900 mb-2">Message Sent <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Successfully!</span></h4>
                   <p className="text-slate-600 text-sm leading-relaxed mb-6">
                     Thank you, <strong>{formData.fullName || "User"}</strong>! Your message details have been dispatched to <strong>info@bizonance.in</strong>. Our team will contact you shortly.
                   </p>

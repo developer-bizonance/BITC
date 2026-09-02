@@ -15,7 +15,7 @@ export default function PlacementStatisticsPage() {
   return (
     <div className="flex flex-col min-h-screen text-[15px] bg-white">
       {/* 1. Hero Section */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center bg-white py-16 overflow-hidden border-b border-gray-100">
+      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center bg-white py-16 overflow-hidden">
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-semibold mb-6">
             <TrendingUp className="w-4 h-4 text-primary" />
@@ -31,14 +31,14 @@ export default function PlacementStatisticsPage() {
       </section>
 
       {/* 2. Key Highlights */}
-      <section className="py-16 bg-white border-y border-slate-200/80 relative">
+      <section className="py-16 bg-white relative">
         <div className="container max-w-[1200px] mx-auto px-4 relative z-20">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { label: "Placement Ratio", value: "95%", icon: Award, suffix: "Eligible students placed" },
               { label: "Hiring Partners", value: "10+", icon: Building2, suffix: "Top recruiting companies" },
               { label: "Highest Package", value: "12 LPA", icon: DollarSign, suffix: "Offered to top performers" },
-              { label: "Students Trained", value: "1K+", icon: Target, suffix: "Across all active batches" }
+              { label: "Students Trained", value: "500+", icon: Target, suffix: "Across all active batches" }
             ].map((stat, i) => (
               <div key={i} className="bg-white rounded-2xl p-6 shadow-xl border border-slate-200/80 flex flex-col hover:-translate-y-1 transition-transform duration-300">
                 <div className="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center mb-4">
@@ -104,7 +104,7 @@ export default function PlacementStatisticsPage() {
       {/* 5. CTA Section */}
       <section className="py-20 bg-gradient-to-br from-primary/10 to-blue-500/5 relative overflow-hidden">
         <div className="container max-w-[800px] mx-auto px-4 text-center relative z-10">
-          <h2 className="text-3xl font-bold text-slate-900 mb-6">Ready to write your own success story?</h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-6">Ready to write your own <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">success story?</span></h2>
           <p className="text-gray-600 mb-10 text-lg">
             Join BITC and get the industry-relevant training, expert mentorship, and placement assistance you need to launch a rewarding career.
           </p>

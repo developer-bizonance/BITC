@@ -16,7 +16,7 @@ export default function CoursesPage() {
       <div className="container max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-center text-center mb-10">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-slate-dark mb-4">Our Certifications</h1>
+            <h1 className="text-3xl md:text-4xl font-bold text-slate-dark mb-4">Our <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span></h1>
             <p className="text-gray-500 text-[16px] md:text-lg max-w-2xl mx-auto">
               Industry-vetted curriculum designed to make you day-one ready. Master the skills that top companies are looking for.
             </p>

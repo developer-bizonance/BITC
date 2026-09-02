@@ -62,26 +62,26 @@ export default function OurMentorsPage() {
     <div className="flex flex-col min-h-screen text-[15px]">
 
       {/* ── HERO ── */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] bg-white text-slate-900 py-20 lg:py-28 overflow-hidden flex flex-col items-center justify-center border-b border-gray-100">
+      <section className="relative w-full min-h-[calc(100vh-80px)] bg-white text-slate-900 py-20 lg:py-28 overflow-hidden flex flex-col items-center justify-center">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] opacity-25 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[1000px] mx-auto px-4 text-center relative z-10 flex flex-col items-center justify-center my-auto">
           <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-bold rounded-full px-5 py-2 text-sm uppercase tracking-widest mb-8 border border-primary/20">
             <Users className="w-4 h-4" />
             Our Mentors
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 text-slate-900 leading-[1.1]">
-            Learn from <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-amber-500">Industry Experts</span>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-slate-900 leading-[1.2]">
+            Learn from <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Industry Experts</span>
           </h1>
-          <p className="text-xl md:text-2xl lg:text-[1.4rem] text-gray-600 max-w-[900px] mx-auto leading-relaxed">
+          <p className="text-base md:text-lg text-gray-600 max-w-[900px] mx-auto leading-relaxed">
             At BITC, you learn directly from professionals who have built products, led teams, and solved real problems at the world's leading companies.
           </p>
         </div>
       </section>
 
       {/* ── WHY MENTORS MATTER ── */}
-      <section className="py-16 md:py-20 bg-white border-b border-gray-100">
+      <section className="py-16 md:py-20 bg-white">
         <div className="container max-w-[900px] mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">Why Mentors Matter</h2>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">Why Mentors <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Matter</span></h2>
           <p className="text-lg text-gray-600 leading-relaxed max-w-[700px] mx-auto">
             The difference between knowing a concept and applying it in the real world is mentorship. Our mentors don't just teach—they share their experiences, failures, and lessons from years of working in the industry. That's the kind of education that transforms careers.
           </p>
@@ -89,7 +89,7 @@ export default function OurMentorsPage() {
       </section>
 
       {/* ── MENTOR CARDS (Clean White Theme) ── */}
-      <section className="py-24 bg-white relative overflow-hidden border-y border-slate-200">
+      <section className="py-24 bg-white relative overflow-hidden">
         {/* Subtle Accents */}
         <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
         <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-amber-400/5 rounded-full blur-[120px] pointer-events-none" />
@@ -97,7 +97,7 @@ export default function OurMentorsPage() {
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10">
           <div className="text-center mb-16 md:mb-20">
             <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">
-              Meet Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">Experts</span>
+              Meet Our <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Experts</span>
             </h2>
             <p className="text-gray-600 max-w-[600px] mx-auto text-xl">
               Industry professionals who guide BITC students to career success.
@@ -164,10 +164,10 @@ export default function OurMentorsPage() {
       </section>
 
       {/* ── AREAS OF EXPERTISE ── */}
-      <section className="py-16 md:py-24 bg-white border-y border-gray-100">
+      <section className="py-16 md:py-24 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Areas of Expertise</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Areas of <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Expertise</span></h2>
             <p className="text-gray-600 max-w-[600px] mx-auto text-lg">Our mentors cover the most in-demand technology and business domains.</p>
           </div>
 
@@ -192,10 +192,10 @@ export default function OurMentorsPage() {
       </section>
 
       {/* ── BECOME A MENTOR CTA ── */}
-      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 border-t border-blue-100/80 relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[800px] mx-auto px-4 text-center relative z-10">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Become a Mentor</h2>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Become a <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Mentor</span></h2>
           <p className="text-xl text-gray-600 mb-10">
             Are you an industry professional who wants to give back? Join BITC as a mentor and shape the careers of the next generation.
           </p>
