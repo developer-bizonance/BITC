@@ -1,6 +1,3 @@
-// This is your Prisma schema file for Neon PostgreSQL Database
-// Learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -41,7 +38,7 @@ model Course {
   title        String
   category     String
   duration     String
-  fees         String        @default("₹30,000")
+  fees         String        @default("₹36,000")
   price        Int           @default(30000)
   description  String
   features     String[]

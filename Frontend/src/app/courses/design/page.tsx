@@ -6,7 +6,7 @@ import Image from "next/image";
 import {
   LayoutTemplate, PenTool, Video, Film, Clapperboard,
   GraduationCap, Clock, CheckCircle2, ArrowRight, Sparkles,
-  Palette, Eye, Layers, IndianRupee, Award, Star
+  Palette, Eye, Layers, IndianRupee, Award, Star, Users, Laptop, Briefcase
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -18,72 +18,15 @@ export const metadata: Metadata = {
   },
 };
 
-const designCourses = [
-  {
-    id: "ui-ux-design",
-    title: "UI/UX Design",
-    tag: "Product Design",
-    duration: "6 Months",
-    fees: "₹36,000",
-    icon: LayoutTemplate,
-    image: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=800&auto=format&fit=crop",
-    desc: "Design intuitive and beautiful user interfaces. Master user research, wireframing, prototyping, and design systems.",
-    highlights: ["User Research & Personas", "Wireframing & Prototyping", "Figma & Adobe XD", "Design Systems & Handoff"],
-    popular: true,
-  },
-  {
-    id: "graphic-design",
-    title: "Graphic Design",
-    tag: "Visual Arts",
-    duration: "3 Months",
-    fees: "₹36,000",
-    icon: PenTool,
-    image: "https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=800&auto=format&fit=crop",
-    desc: "Create stunning visual content for brands. Learn typography, color theory, branding, and layout design.",
-    highlights: ["Adobe Photoshop & Illustrator", "Typography & Color Theory", "Brand Identity Design", "Print & Digital Media"],
-    popular: true,
-  },
-  {
-    id: "motion-graphics",
-    title: "Motion Graphics",
-    tag: "Animation & VFX",
-    duration: "3 Months",
-    fees: "₹36,000",
-    icon: Video,
-    image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop",
-    desc: "Bring designs to life with motion. Learn animation principles, After Effects, and dynamic visual storytelling.",
-    highlights: ["Adobe After Effects", "Animation Principles", "Kinetic Typography", "Visual Storytelling"],
-  },
-  {
-    id: "video-editing",
-    title: "Video Editing & Production",
-    tag: "Media & Post-Prod",
-    duration: "3 Months",
-    fees: "₹36,000",
-    icon: Film,
-    image: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=800&auto=format&fit=crop",
-    desc: "Master professional video editing for film, social media, and corporate content using industry-standard tools.",
-    highlights: ["Adobe Premiere Pro", "DaVinci Resolve", "Color Grading & Audio", "Social Media Video Content"],
-  },
-  {
-    id: "animation",
-    title: "2D & 3D Animation",
-    tag: "Creative Media",
-    duration: "6 Months",
-    fees: "₹36,000",
-    icon: Clapperboard,
-    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop",
-    desc: "Create captivating 2D and 3D animations. Learn character design, storyboarding, and animation production pipelines.",
-    highlights: ["2D & 3D Animation", "Character Design", "Storyboarding", "Animation Pipeline & Rigging"],
-  },
-];
+
 
 export const dynamic = 'force-dynamic';
 
 export default async function DesignCoursesPage() {
   let dynamicCourses = [];
   try {
-    const res = await fetch("https://bitc-backend-theta.vercel.app/api/certifications?category=Design", { cache: "no-store" });
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+    const res = await fetch(`${API_URL}/certifications?category=Design%20Programs`, { cache: "no-store" });
     if (res.ok) {
       const data = await res.json();
       dynamicCourses = data.certifications || [];
@@ -92,31 +35,23 @@ export default async function DesignCoursesPage() {
     console.error("Failed to fetch Design courses:", error);
   }
 
-  const coursesToRender = dynamicCourses.map((c: any) => {
-    const localMatch = designCourses.find(
-      (lc) => lc.title.toLowerCase().includes(c.title.toLowerCase()) || c.title.toLowerCase().includes(lc.title.toLowerCase())
-    );
-
+  const finalCourses = dynamicCourses.map((c: any) => {
     return {
-      id: localMatch?.id || c.title.toLowerCase().replace(/ & /g, '-').replace(/[\/\s]+/g, '-'),
+      id: c.title.toLowerCase().replace(/ & /g, '-').replace(/[\/\s]+/g, '-'),
       title: c.title,
-      tag: c.category || "Design",
+      tag: c.category || "Design Programs",
       duration: c.duration || "6 Months",
       fees: c.fees || "₹36,000",
-      icon: localMatch?.icon || Palette,
-      image: (c.image && (c.image.startsWith('http') || c.image.startsWith('/'))) ? c.image : (localMatch?.image || "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop"),
-      desc: localMatch?.desc || "Unleash your creativity with hands-on design courses. Learn Figma, Adobe Creative Suite, 3D tools, and build a portfolio.",
-      highlights: localMatch?.highlights || ["Portfolio-First Learning", "Industry Design Mentors", "Real-world projects", "Agency Review Support"],
+      icon: Palette,
+      image: (c.image && (c.image.startsWith('http') || c.image.startsWith('/'))) ? c.image : "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop",
     };
   });
-
-  const finalCourses = coursesToRender.length > 0 ? coursesToRender : designCourses;
 
   return (
     <div className="flex flex-col min-h-screen text-[15px]">
 
       {/* Hero Banner */}
-      <section className="relative w-full flex flex-col items-center justify-center bg-white py-12 md:py-16 lg:py-20 overflow-hidden">
+      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-start pt-16 md:pt-20 lg:pt-24 bg-white overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[1360px] mx-auto px-4 relative z-10 text-center">
           <div className="max-w-3xl mx-auto">
@@ -152,12 +87,7 @@ export default async function DesignCoursesPage() {
       {/* Courses Grid */}
       <section className="py-14 md:py-20 bg-white/70">
         <div className="container max-w-[1360px] mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Explore Design <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span></h2>
-            <p className="text-gray-500 max-w-2xl mx-auto text-base">
-              From UI/UX to animation — master creative skills that top agencies and studios demand.
-            </p>
-          </div>
+
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {finalCourses.map((course: any) => (
@@ -176,38 +106,47 @@ export default async function DesignCoursesPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/20 to-transparent" />
 
-                  {/* Tag Badge */}
-                  <div className="absolute top-3 left-3 z-10">
-                    <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-900/80 backdrop-blur-md text-white border border-white/20">
-                      {course.tag}
-                    </span>
-                  </div>
+
                 </div>
 
                 {/* Body Content */}
                 <div className="p-4 flex flex-col flex-1 justify-between">
                   <div>
                     {/* Title */}
-                    <h3 className="text-base font-extrabold text-slate-900 group-hover:text-purple-600 transition-colors flex items-center leading-snug mb-2">
+                    <h3 className="text-base font-extrabold text-slate-900 group-hover:text-purple-600 transition-colors flex items-center leading-snug mb-3">
                       {course.title}
                     </h3>
 
-                    {/* Description */}
-                    <p className="text-xs text-slate-500 leading-relaxed mb-3 line-clamp-2">
-                      {course.desc}
-                    </p>
-
-                    {/* Highlights */}
-                    <div className="space-y-1.5 mb-3">
-                      {course.highlights.map((item: any, j: number) => (
-                        <div key={j} className="flex items-center gap-2 text-xs text-slate-700 font-medium">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-purple-600 flex-shrink-0" />
-                          <span className="line-clamp-1">{item}</span>
-                        </div>
-                      ))}
+                    {/* Features List */}
+                    <div className="space-y-2 mb-4">
+                      {/* 1. Duration */}
                       <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
-                        <Award className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
-                        <span className="line-clamp-1">Portfolio & Agency Review Support</span>
+                        <Clock className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                        <span>Duration: <strong className="text-slate-900 font-semibold">{course.duration}</strong></span>
+                      </div>
+
+                      {/* 2. Learn from Experts */}
+                      <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
+                        <Users className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                        <span>Learn from Experts</span>
+                      </div>
+
+                      {/* 3. Assignments & Live Projects */}
+                      <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
+                        <Laptop className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                        <span>Assignments & Live Projects</span>
+                      </div>
+
+                      {/* 4. Internship Opportunity */}
+                      <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
+                        <Briefcase className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                        <span>Internship Opportunity</span>
+                      </div>
+
+                      {/* 5. Become Certified */}
+                      <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
+                        <Award className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                        <span>Become a Certified</span>
                       </div>
                     </div>
                   </div>
@@ -215,17 +154,14 @@ export default async function DesignCoursesPage() {
                   {/* Bottom Pricing & CTA */}
                   <div className="mt-auto pt-2.5 border-t border-slate-100 space-y-2">
                     <div className="flex items-center justify-between text-xs text-slate-600">
-                      <div className="flex items-center gap-1.5 font-semibold text-slate-700">
-                        <Clock className="w-3.5 h-3.5 text-purple-600" />
-                        <span>{course.duration}</span>
-                      </div>
-                      <div className="text-[11px] font-bold text-slate-800 bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200/80">
-                        <span>Fees: <strong className="text-purple-600 font-extrabold">{course.fees}</strong></span>
-                      </div>
+                      <span className="font-medium text-slate-500">Certification Fees:</span>
+                      <span className="text-slate-900 font-extrabold text-xs bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200/80">
+                        {course.fees || "₹36,000"}
+                      </span>
                     </div>
 
                     <Link href={`/courses/${course.id}`} className="block w-full">
-                      <Button className="w-full h-10 rounded-full bg-slate-900 hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 text-white font-bold text-xs transition-all duration-300 shadow-sm cursor-pointer flex items-center justify-center gap-2 group/btn">
+                      <Button className="w-full h-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:opacity-90 text-white font-bold text-xs transition-all duration-300 shadow-sm cursor-pointer flex items-center justify-center gap-2 group/btn">
                         <span>View Program</span>
                         <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
                       </Button>
@@ -267,22 +203,46 @@ export default async function DesignCoursesPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 bg-gradient-to-b from-purple-50/70 via-pink-50/40 to-purple-50/30 text-slate-900 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-500/10 via-transparent to-transparent pointer-events-none" />
-        <div className="container max-w-[800px] mx-auto px-4 text-center relative z-10">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Start Your Creative <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Journey</span></h2>
-          <p className="text-base md:text-lg text-slate-600 mb-8 font-medium">
-            Turn your passion for design into a high-paying career. Enroll today.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/contact" className="h-13 px-8 rounded-full bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold flex items-center justify-center hover:from-purple-700 hover:to-pink-600 transition-all shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/30 hover:-translate-y-0.5 text-base">
-              Enroll in Design Track
-            </Link>
-            <Link href="/contact" className="h-13 px-8 rounded-full bg-white text-slate-700 font-bold flex items-center justify-center border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all text-base shadow-xs">
-              Download Syllabus
-            </Link>
+      {/* Importance of Certification */}
+      <section className="py-20 bg-white text-slate-900">
+        <div className="container max-w-[1360px] mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
+              Importance of <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Design Certifications</span> in Today's Era
+            </h2>
+            <p className="text-base md:text-lg text-slate-600 font-medium leading-relaxed">
+              In a digital-first world, visual communication is more critical than ever. Here is why certified designers are in high demand across the globe.
+            </p>
           </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
+            {[
+              {
+                title: "Booming Digital Economy",
+                desc: "Every startup, agency, and corporation needs a digital presence, creating a massive, unending demand for skilled UI/UX and graphic designers.",
+                icon: <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+              },
+              {
+                title: "AI Cannot Replace Creativity",
+                desc: "While AI can generate assets, human empathy, user experience strategy, and creative problem solving remain irreplaceable skills in the design industry.",
+                icon: <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
+              },
+              {
+                title: "Global Remote Opportunities",
+                desc: "Design is a universal language. A strong portfolio and recognized certification open doors to high-paying remote opportunities anywhere in the world.",
+                icon: <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
+              }
+            ].map((item, idx) => (
+              <div key={idx} className="bg-white p-8 rounded-2xl border border-slate-200/60 shadow-sm hover:shadow-xl hover:border-amber-500/30 transition-all group">
+                <div className="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  {item.icon}
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
+                <p className="text-slate-600 leading-relaxed text-sm">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+
         </div>
       </section>
 

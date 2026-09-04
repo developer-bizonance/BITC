@@ -9,7 +9,7 @@ import {
   GraduationCap, Target, Handshake, 
   Trophy, BarChart, Briefcase, TrendingUp, Award, FileText, 
   Image as ImageIcon, Download, HelpCircle, Building2, 
-  Compass, MessageSquare, Network, BookOpen, Menu, X, Users, ShieldCheck
+  Compass, MessageSquare, Network, BookOpen, Menu, X, Users, ShieldCheck, Video
 } from "lucide-react";
 
 
@@ -57,6 +57,7 @@ export function Navbar() {
       label: "Certification",
       items: [
         { href: "/courses/it", icon: Monitor, title: "IT Certifications", desc: "Software, Data & Cloud" },
+        { href: "/courses/digital-media", icon: Video, title: "Digital Media Technology", desc: "Digital Arts & Marketing" },
         { href: "/courses/management", icon: LineChart, title: "Management Certifications", desc: "Business & Strategy" },
         { href: "/courses/design", icon: PenTool, title: "Design Certifications", desc: "UI/UX & Graphics" },
         { href: "/certification/verify", icon: ShieldCheck, title: "Verify Certificate", desc: "Validate student credentials" },

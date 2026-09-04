@@ -172,7 +172,7 @@ export default function ScholarshipsPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 relative overflow-hidden">
+      <section className="py-20 bg-white text-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[1000px] mx-auto px-4 relative z-10 text-center">
           <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">Ready to start your <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">journey?</span></h2>

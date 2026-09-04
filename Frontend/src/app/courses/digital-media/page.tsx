@@ -4,45 +4,43 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import {
-  TrendingUp, PieChart, Landmark, Users, IndianRupee,
+  Video, Film, Clapperboard, MonitorPlay, Camera,
   GraduationCap, Clock, CheckCircle2, ArrowRight, Sparkles,
-  LineChart, Target, Briefcase, BarChart, Award, Star, Laptop
+  Palette, Eye, Layers, IndianRupee, Award, Star, Users, Laptop, Briefcase
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Management & Business Certifications",
-  description: "Accelerate your career with Digital Marketing, Business Analytics, Project Management, and Financial Tech certifications at BITC Amravati.",
+  title: "Digital Media Technology Certifications",
+  description: "Master Digital Arts, Video Editing, Animation, and Media Production with hands-on projects at BITC Amravati.",
   openGraph: {
-    title: "Management & Business Certifications | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
-    description: "Business & Management certification programs for ambitious professionals.",
+    title: "Digital Media Technology Certifications | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
+    description: "Creative digital media certification programs.",
   },
 };
 
-
-
 export const dynamic = 'force-dynamic';
 
-export default async function ManagementCoursesPage() {
+export default async function DigitalMediaCoursesPage() {
   let dynamicCourses = [];
   try {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
-    const res = await fetch(`${API_URL}/certifications?category=Management%20Programs`, { cache: "no-store" });
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:5000/api";
+    const res = await fetch(`${API_URL}/certifications?category=Digital%20Media%20Technology`, { cache: "no-store" });
     if (res.ok) {
       const data = await res.json();
       dynamicCourses = data.certifications || [];
     }
   } catch (error) {
-    console.error("Failed to fetch Management courses:", error);
+    console.error("Failed to fetch Digital Media courses:", error);
   }
 
   const finalCourses = dynamicCourses.map((c: any) => {
     return {
       id: c.title.toLowerCase().replace(/ & /g, '-').replace(/[\/\s]+/g, '-'),
       title: c.title,
-      tag: c.category || "Management Programs",
+      tag: c.category || "Digital Media Technology",
       duration: c.duration || "6 Months",
       fees: c.fees || "₹36,000",
-      icon: Briefcase,
+      icon: Video,
       image: (c.image && (c.image.startsWith('http') || c.image.startsWith('/'))) ? c.image : "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop",
     };
   });
@@ -52,32 +50,32 @@ export default async function ManagementCoursesPage() {
 
       {/* Hero Banner */}
       <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-start pt-16 md:pt-20 lg:pt-24 bg-white overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-rose-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[1360px] mx-auto px-4 relative z-10 text-center">
           <div className="max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 text-xs md:text-sm font-bold mb-6">
-              <Briefcase className="w-4 h-4" />
-              <span>BUSINESS & MANAGEMENT</span>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-600 text-xs md:text-sm font-bold mb-6">
+              <Video className="w-4 h-4" />
+              <span>DIGITAL MEDIA TECHNOLOGY</span>
             </div>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
-              Management <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span> & Programs
+              Digital Media <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span> & Programs
             </h1>
             <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-8 font-medium max-w-2xl mx-auto">
-              Equip yourself with practical business acumen, leadership skills, and strategic thinking to fast-track your corporate growth.
+              Master the art of visual storytelling. Learn industry-standard tools for video editing, animation, and digital media production to launch your creative career.
             </p>
 
             <div className="flex flex-wrap justify-center gap-3">
               <div className="flex items-center gap-2 text-slate-700 text-xs md:text-sm font-semibold bg-slate-50 px-4 py-2 rounded-full border border-slate-200/80 shadow-xs">
-                <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />
-                <span>5 Business Tracks</span>
+                <CheckCircle2 className="w-4 h-4 text-rose-600 shrink-0" />
+                <span>Specialized Creative Tracks</span>
               </div>
               <div className="flex items-center gap-2 text-slate-700 text-xs md:text-sm font-semibold bg-slate-50 px-4 py-2 rounded-full border border-slate-200/80 shadow-xs">
-                <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />
-                <span>Industry Case Studies</span>
+                <CheckCircle2 className="w-4 h-4 text-rose-600 shrink-0" />
+                <span>Portfolio-First Learning</span>
               </div>
               <div className="flex items-center gap-2 text-slate-700 text-xs md:text-sm font-semibold bg-slate-50 px-4 py-2 rounded-full border border-slate-200/80 shadow-xs">
-                <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />
-                <span>Corporate Mentors</span>
+                <CheckCircle2 className="w-4 h-4 text-rose-600 shrink-0" />
+                <span>Industry Design Mentors</span>
               </div>
             </div>
           </div>
@@ -87,8 +85,6 @@ export default async function ManagementCoursesPage() {
       {/* Courses Grid */}
       <section className="py-14 md:py-20 bg-white/70">
         <div className="container max-w-[1360px] mx-auto px-4">
-
-
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {finalCourses.map((course: any) => (
               <Card
@@ -105,15 +101,13 @@ export default async function ManagementCoursesPage() {
                     className="object-cover group-hover:scale-108 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/20 to-transparent" />
-
-
                 </div>
 
                 {/* Body Content */}
                 <div className="p-4 flex flex-col flex-1 justify-between">
                   <div>
                     {/* Title */}
-                    <h3 className="text-base font-extrabold text-slate-900 group-hover:text-blue-600 transition-colors flex items-center leading-snug mb-3">
+                    <h3 className="text-base font-extrabold text-slate-900 group-hover:text-rose-600 transition-colors flex items-center leading-snug mb-3">
                       {course.title}
                     </h3>
 
@@ -121,25 +115,25 @@ export default async function ManagementCoursesPage() {
                     <div className="space-y-2 mb-4">
                       {/* 1. Duration */}
                       <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
-                        <Clock className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                        <Clock className="w-3.5 h-3.5 text-rose-600 shrink-0" />
                         <span>Duration: <strong className="text-slate-900 font-semibold">{course.duration}</strong></span>
                       </div>
 
                       {/* 2. Learn from Experts */}
                       <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
-                        <Users className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                        <Users className="w-3.5 h-3.5 text-rose-600 shrink-0" />
                         <span>Learn from Experts</span>
                       </div>
 
                       {/* 3. Assignments & Live Projects */}
                       <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
-                        <Laptop className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                        <Laptop className="w-3.5 h-3.5 text-rose-600 shrink-0" />
                         <span>Assignments & Live Projects</span>
                       </div>
 
                       {/* 4. Internship Opportunity */}
                       <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
-                        <Briefcase className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                        <Briefcase className="w-3.5 h-3.5 text-rose-600 shrink-0" />
                         <span>Internship Opportunity</span>
                       </div>
 
@@ -174,25 +168,25 @@ export default async function ManagementCoursesPage() {
         </div>
       </section>
 
-      {/* Why Management at BITC */}
+      {/* Why Digital Media at BITC */}
       <section className="py-16 md:py-20 bg-white">
         <div className="container max-w-[1360px] mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Why Study Management at <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC?</span></h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Why Learn Digital Media at <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC?</span></h2>
             <p className="text-gray-500 max-w-2xl mx-auto text-base">
-              Learn business execution, data-backed decision making, and leadership from corporate executives.
+              Learn from real digital artists and build projects that stand out to creative agencies and studios.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { title: "Real Business Cases", desc: "Analyze actual market cases from Fortune 500 companies and startups.", icon: Briefcase },
-              { title: "Executive Mentors", desc: "Get mentored by seasoned executives, marketing heads, and founders.", icon: GraduationCap },
-              { title: "Live Ad Spend & Tools", desc: "Manage real budgets on Meta, Google, CRM, and analytics platforms.", icon: Target },
-              { title: "Placement Leadership", desc: "Fast-track your entry into management and high-growth commercial roles.", icon: ArrowRight },
+              { title: "Live Client Briefs", desc: "Work on real media briefs for brands, startups, and agencies.", icon: Eye },
+              { title: "Portfolio Development", desc: "Graduate with a polished showreel and portfolio ready for interviews.", icon: Layers },
+              { title: "Industry Mentorship", desc: "Learn directly from senior media producers and artists.", icon: GraduationCap },
+              { title: "Tool Mastery", desc: "Master Premiere Pro, After Effects, and industry-standard tools.", icon: MonitorPlay },
             ].map((item, i) => (
-              <div key={i} className="text-center p-6 rounded-2xl bg-slate-50/80 border border-slate-200/80 hover:border-blue-300 hover:bg-white hover:shadow-lg transition-all">
-                <div className="w-13 h-13 rounded-2xl bg-blue-50 flex items-center justify-center mx-auto mb-4 text-blue-600">
+              <div key={i} className="text-center p-6 rounded-2xl bg-slate-50/80 border border-slate-200/80 hover:border-rose-300 hover:bg-white hover:shadow-lg transition-all">
+                <div className="w-13 h-13 rounded-2xl bg-rose-50 flex items-center justify-center mx-auto mb-4 text-rose-600">
                   <item.icon className="w-6 h-6" />
                 </div>
                 <h3 className="text-base font-bold text-slate-900 mb-2">{item.title}</h3>
@@ -204,34 +198,33 @@ export default async function ManagementCoursesPage() {
       </section>
 
       {/* Importance of Certification */}
-      <section className="py-20 bg-white text-slate-900 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-500/5 via-transparent to-transparent pointer-events-none" />
-        <div className="container max-w-[1360px] mx-auto px-4 relative z-10">
+      <section className="py-20 bg-white text-slate-900">
+        <div className="container max-w-[1360px] mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
-              Importance of <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Management Certifications</span> in Today's Era
+              Importance of <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Digital Media Certifications</span> in Today's Era
             </h2>
             <p className="text-base md:text-lg text-slate-600 font-medium leading-relaxed">
-              Business paradigms are shifting rapidly. Here is why certified management professionals are essential to navigating modern challenges.
+              Media is the currency of the modern web. Here is why certified digital media professionals are critical to every industry.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
             {[
               {
-                title: "Leadership in a Digital World",
-                desc: "Companies need leaders who understand both business strategy and digital transformation. Certifications bridge the gap between traditional management and modern technology.",
-                icon: <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+                title: "Booming Creator Economy",
+                desc: "With the explosive growth of social media, video platforms, and digital advertising, brands are desperate for creators who can produce high-quality, engaging content.",
+                icon: <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
               },
               {
-                title: "Data-Driven Decision Making",
-                desc: "Modern management relies heavily on data. Certifications validate your ability to analyze complex datasets, forecast trends, and make informed strategic decisions.",
-                icon: <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                title: "Omnichannel Marketing",
+                desc: "Companies no longer rely on a single channel. Certifications prove you have the technical ability to adapt content for diverse platforms and audiences.",
+                icon: <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
               },
               {
-                title: "Fast-Track Career Growth",
-                desc: "A recognized management certification sets you apart from the competition, opening doors to leadership roles, higher salaries, and executive networking.",
-                icon: <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                title: "Future-Proof Creative Skills",
+                desc: "While automation tools advance, the strategic vision, storytelling, and emotional connection of human-led digital media remain an invaluable asset.",
+                icon: <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
               }
             ].map((item, idx) => (
               <div key={idx} className="bg-white p-8 rounded-2xl border border-slate-200/60 shadow-sm hover:shadow-xl hover:border-amber-500/30 transition-all group">

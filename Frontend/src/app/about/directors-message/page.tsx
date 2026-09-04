@@ -55,7 +55,7 @@ export default function DirectorsMessagePage() {
               </p>
 
               <div className="mt-auto pt-8 border-t border-slate-100">
-                <h4 className="text-xl font-bold text-slate-900 mb-2.5">Pratik D. <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Gawande</span></h4>
+                <h4 className="text-xl font-bold text-slate-900 mb-2.5">Pratik D. Gawande</h4>
                 <div className="space-y-1.5 text-sm font-semibold text-slate-600">
                   <p className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-primary flex-shrink-0" />
@@ -63,7 +63,7 @@ export default function DirectorsMessagePage() {
                   </p>
                   <p className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0" />
-                    Founder &amp; CEO, BIZONANCE INDIA Pvt. Ltd.
+                    Founder &amp; CEO, BIZONANCE INDIA PVT. LTD.
                   </p>
                 </div>
               </div>
@@ -88,7 +88,7 @@ export default function DirectorsMessagePage() {
       <section className="py-16 md:py-24 bg-white">
         <div className="container max-w-[900px] mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-8 text-center">Why BITC Was <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Created</span></h2>
-          <div className="prose prose-lg max-w-none text-slate-700 leading-relaxed space-y-6 text-justify">
+          <div className="prose prose-lg max-w-none text-base md:text-lg text-slate-700 leading-relaxed space-y-6 text-justify">
             <p>
               I have spent over a decade working with industries and watching fresh graduates struggle—not because they lacked intelligence, but because they lacked exposure to the real world. The gap between what colleges teach and what companies expect has been growing every year.
             </p>
@@ -148,7 +148,7 @@ export default function DirectorsMessagePage() {
                 <Target className="w-8 h-8 text-primary" />
               </div>
               <h3 className="text-xl font-bold text-slate-900 mb-2">Short-Term <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Milestones</span></h3>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-gray-600 leading-relaxed text-sm">
                 Become one of India's most recognized industry-integrated Training Centers with 50,000+ students trained, 500+ industry partnerships, and presence across multiple cities.
               </p>
             </div>
@@ -158,7 +158,7 @@ export default function DirectorsMessagePage() {
                 <TrendingUp className="w-8 h-8 text-blue-600" />
               </div>
               <h3 className="text-xl font-bold text-slate-900 mb-2">Long-Term <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Aspiration</span></h3>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-gray-600 leading-relaxed text-sm">
                 Build a global learning ecosystem with international certifications, AI-powered learning platforms, startup incubation, and research partnerships with leading universities.
               </p>
             </div>
@@ -168,7 +168,7 @@ export default function DirectorsMessagePage() {
                 <Globe className="w-8 h-8 text-purple-600" />
               </div>
               <h3 className="text-xl font-bold text-slate-900 mb-2">Future <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Expansion</span></h3>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-gray-600 leading-relaxed text-sm">
                 Launch innovation labs, digital campuses, entrepreneurship programs, and international partnerships to empower learners beyond borders.
               </p>
             </div>
@@ -177,7 +177,7 @@ export default function DirectorsMessagePage() {
       </section>
 
       {/* ── QUOTE & SIGNATURE ── */}
-      <section className="py-12 md:py-16 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 relative overflow-hidden">
+      <section className="py-12 md:py-16 bg-white text-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[850px] mx-auto px-4 text-center relative z-10">
           <Quote className="w-9 h-9 text-primary/40 mx-auto mb-4" />

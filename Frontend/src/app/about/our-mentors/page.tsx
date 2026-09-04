@@ -63,7 +63,6 @@ export default function OurMentorsPage() {
 
       {/* ── HERO ── */}
       <section className="relative w-full min-h-[calc(100vh-80px)] bg-white text-slate-900 py-20 lg:py-28 overflow-hidden flex flex-col items-center justify-center">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] opacity-25 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[1000px] mx-auto px-4 text-center relative z-10 flex flex-col items-center justify-center my-auto">
           <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-bold rounded-full px-5 py-2 text-sm uppercase tracking-widest mb-8 border border-primary/20">
             <Users className="w-4 h-4" />
@@ -79,21 +78,37 @@ export default function OurMentorsPage() {
       </section>
 
       {/* ── WHY MENTORS MATTER ── */}
-      <section className="py-16 md:py-20 bg-white">
-        <div className="container max-w-[900px] mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">Why Mentors <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Matter</span></h2>
-          <p className="text-lg text-gray-600 leading-relaxed max-w-[700px] mx-auto">
-            The difference between knowing a concept and applying it in the real world is mentorship. Our mentors don't just teach—they share their experiences, failures, and lessons from years of working in the industry. That's the kind of education that transforms careers.
-          </p>
+      <section className="py-12 md:py-16 bg-white">
+        <div className="container max-w-[1000px] mx-auto px-4">
+          <div className="bg-slate-50 border border-slate-100 rounded-3xl p-8 md:p-12 relative overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            {/* Decorative accent line */}
+            <div className="absolute top-0 left-0 w-2 h-full bg-[linear-gradient(to_bottom,#ffcc00_0%,#ff9900_100%)]" />
+            
+            <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12 relative z-10">
+              <div className="md:w-1/3 text-center md:text-left">
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 text-orange-500 mb-4 md:hidden">
+                  <span className="text-2xl font-serif leading-none mt-2">"</span>
+                </div>
+                <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 leading-tight">
+                  Why Mentors <br className="hidden md:block" />
+                  <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Matter</span>
+                </h2>
+              </div>
+              <div className="md:w-2/3">
+                <div className="relative pl-0 md:pl-6 border-l-0 md:border-l-2 border-slate-200">
+                  <div className="hidden md:block absolute -top-4 -left-4 text-5xl text-slate-200 font-serif leading-none bg-slate-50">"</div>
+                  <p className="text-lg md:text-xl text-gray-600 leading-relaxed font-medium relative z-10">
+                    The difference between knowing a concept and applying it in the real world is mentorship. Our mentors don't just teach—they share their experiences, failures, and lessons from years of working in the industry. That's the kind of education that transforms careers.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* ── MENTOR CARDS (Clean White Theme) ── */}
       <section className="py-24 bg-white relative overflow-hidden">
-        {/* Subtle Accents */}
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-amber-400/5 rounded-full blur-[120px] pointer-events-none" />
-
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10">
           <div className="text-center mb-16 md:mb-20">
             <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">
@@ -192,8 +207,7 @@ export default function OurMentorsPage() {
       </section>
 
       {/* ── BECOME A MENTOR CTA ── */}
-      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
+      <section className="py-20 bg-white text-slate-900 relative overflow-hidden">
         <div className="container max-w-[800px] mx-auto px-4 text-center relative z-10">
           <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Become a <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Mentor</span></h2>
           <p className="text-xl text-gray-600 mb-10">
@@ -203,7 +217,7 @@ export default function OurMentorsPage() {
             <Link href="/apply?role=Industry%20Expert%20%26%20Mentor" className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white font-semibold flex items-center gap-2 justify-center hover:shadow-xl transition-all text-lg shadow-orange-500/20">
               Apply as Mentor <ArrowRight className="w-5 h-5" />
             </Link>
-            <Link href="/contact" className="h-14 px-8 rounded-full bg-white/80 text-slate-900 font-semibold flex items-center justify-center border border-blue-200/80 hover:bg-white transition-all text-lg shadow-sm backdrop-blur-sm">
+            <Link href="/contact" className="h-14 px-8 rounded-full bg-white text-slate-900 font-semibold flex items-center justify-center border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all text-lg shadow-sm">
               Contact Us
             </Link>
           </div>

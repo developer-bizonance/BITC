@@ -140,7 +140,7 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       setErrorMessage("Please correct the highlighted errors in the form before submitting.");
       return;
@@ -175,7 +175,7 @@ export default function ContactPage() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* 1. Full-Width Hero Image Banner */}
-      <section className="relative w-full h-[260px] sm:h-[340px] md:h-[400px] lg:h-[440px] overflow-hidden bg-slate-100">
+      <section className="relative w-full h-[220px] sm:h-[280px] md:h-[320px] lg:h-[360px] xl:h-[400px] overflow-hidden bg-slate-100">
         <Image
           src="/contact-banner-new.png"
           alt="Contact Us"
@@ -189,7 +189,7 @@ export default function ContactPage() {
       <section className="py-10 sm:py-14">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
-            
+
             {/* Left Column: Contact Information */}
             <div>
               <h2 className="text-3xl font-bold text-slate-900 mb-6">Get In <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Touch</span></h2>
@@ -203,9 +203,9 @@ export default function ContactPage() {
                     <MapPin className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-900 mb-0.5 text-base sm:text-lg">BIZONANCE Industrial Training <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Centre</span></h3>
+                    <h3 className="font-bold text-slate-900 mb-0.5 text-base sm:text-lg">BIZONANCE Industrial Training Centre</h3>
                     <p className="text-xs sm:text-[13px] font-semibold text-primary mb-0.5">
-                      Unit of BIZONANCE India Private Limited
+                      A Unit of BIZONANCE India Private Limited
                     </p>
                     <p className="text-xs text-slate-500 font-semibold mb-0.5">
                       CIN: U74999MH2017PTC301018
@@ -222,7 +222,7 @@ export default function ContactPage() {
                     <Phone className="w-6 h-6 text-blue-600" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-900 mb-1">Contact <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Number</span></h3>
+                    <h3 className="font-bold text-slate-900 mb-1">Contact Number</h3>
                     <p className="text-slate-600 text-sm">
                       <a href="tel:+918956727311" className="hover:text-primary transition-colors font-medium">+91 89567 27311</a>
                     </p>
@@ -234,7 +234,7 @@ export default function ContactPage() {
                     <Mail className="w-6 h-6 text-emerald-600" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-900 mb-1">Email <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">ID</span></h3>
+                    <h3 className="font-bold text-slate-900 mb-1">Email ID</h3>
                     <p className="text-slate-600 text-sm">
                       <a href="mailto:info@bizonance.in" className="hover:text-primary transition-colors font-medium">info@bizonance.in</a>
                     </p>
@@ -266,7 +266,7 @@ export default function ContactPage() {
             {/* Right Column: Contact Form */}
             <div className="bg-white rounded-2xl p-8 lg:p-10 shadow-xl shadow-slate-200/50 border border-slate-100">
               <h3 className="text-2xl font-bold text-slate-900 mb-6">Send us a <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Message</span></h3>
-              
+
               {submitted ? (
                 <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-8 text-center flex flex-col items-center">
                   <CheckCircle2 className="w-14 h-14 text-emerald-600 mb-4" />
@@ -274,12 +274,12 @@ export default function ContactPage() {
                   <p className="text-slate-600 text-sm leading-relaxed mb-6">
                     Thank you, <strong>{formData.fullName || "User"}</strong>! Your message details have been dispatched to <strong>info@bizonance.in</strong>. Our team will contact you shortly.
                   </p>
-                  <Button 
+                  <Button
                     onClick={() => {
                       setSubmitted(false);
                       setFieldErrors({});
                       setFormData({ fullName: "", email: "", phone: "", city: "", enquiryType: "", message: "" });
-                    }} 
+                    }}
                     variant="outline"
                     className="rounded-full px-6"
                   >
@@ -378,7 +378,7 @@ export default function ContactPage() {
                   {/* Enquiry Type */}
                   <div className="space-y-2">
                     <Label htmlFor="enquiryType">Enquiry Type <span className="text-red-500">*</span></Label>
-                    <Select 
+                    <Select
                       onValueChange={(val: any) => {
                         handleChange("enquiryType", val);
                         // Clear any existing error once a value is selected
@@ -387,7 +387,7 @@ export default function ContactPage() {
                           delete updated["enquiryType"];
                           return updated;
                         });
-                      }} 
+                      }}
                       value={formData.enquiryType}
                     >
                       <SelectTrigger id="enquiryType" className={fieldErrors.enquiryType ? "border-red-500 ring-1 ring-red-500" : ""}>

@@ -62,7 +62,7 @@ export default function IndustryPartnershipsPage() {
               </p>
             </div>
             <div className="rounded-[2rem] overflow-hidden shadow-2xl aspect-[4/3]">
-              <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1170&auto=format&fit=crop" alt="Partnership" className="w-full h-full object-cover" />
+              <img src="/industry-collaboration.jpg" alt="Industry Collaboration" className="w-full h-full object-cover" />
             </div>
           </div>
         </div>
@@ -155,18 +155,17 @@ export default function IndustryPartnershipsPage() {
       </section>
 
       {/* ── BECOME A PARTNER CTA ── */}
-      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
+      <section className="py-20 bg-white text-slate-900 relative overflow-hidden">
         <div className="container max-w-[800px] mx-auto px-4 text-center relative z-10">
           <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Become a <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Partner</span></h2>
-          <p className="text-xl text-gray-600 mb-10">
+          <p className="text-sm text-gray-600 mb-10">
             Join our growing network of industry partners and help shape the next generation of professionals.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link href="/contact" className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white font-semibold flex items-center gap-2 justify-center hover:shadow-xl transition-all text-lg">
               Partner With Us <ArrowRight className="w-5 h-5" />
             </Link>
-            <Link href="/contact" className="h-14 px-8 rounded-full bg-white/80 text-slate-900 font-semibold flex items-center justify-center border border-blue-200/80 hover:bg-white transition-all text-lg shadow-sm backdrop-blur-sm">
+            <Link href="/contact" className="h-14 px-8 rounded-full bg-white text-slate-900 font-semibold flex items-center justify-center border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all text-lg shadow-sm">
               Contact Us
             </Link>
           </div>

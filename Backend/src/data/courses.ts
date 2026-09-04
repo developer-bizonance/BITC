@@ -6,7 +6,7 @@ export type CourseModule = {
 export type Course = {
   slug: string;
   title: string;
-  category: "Information Technology" | "Management" | "Design";
+  category: "Information Technology" | "Management" | "Design" | "Digital Media Technology";
   duration: string;
   fees: string;
   price: number;
@@ -530,7 +530,7 @@ export let courses: Course[] = [
     ]
   },
   {
-    slug: "cloud-computing",
+    slug: "devops-cloud-computing",
     title: "Cloud Computing",
     category: "Information Technology",
     duration: "6 Months",
@@ -566,7 +566,7 @@ export let courses: Course[] = [
     ]
   },
   {
-    slug: "business-analytics",
+    slug: "business-analyst",
     title: "Business Analytics",
     category: "Management",
     duration: "6 Months",
@@ -618,7 +618,7 @@ export let courses: Course[] = [
     ]
   },
   {
-    slug: "sales",
+    slug: "sales-and-marketing",
     title: "Sales & Business Development",
     category: "Management",
     duration: "3 Months",
@@ -717,6 +717,71 @@ export let courses: Course[] = [
       { title: "Module 4: 3D Character Animation", topics: ["Applying 12 Animation Principles to 3D Space", "Walk & Run Cycles for Characters", "Weight, Balance, Anticipation & Momentum", "Acting, Body Language & Lip Sync Animation", "Graph Editor Curve Adjustment"] },
       { title: "Module 5: Rendering Engines & Visual Effects Compositing", topics: ["Raytracing Render Engines (Blender Cycles / Maya Arnold)", "Render Passes (AOV, Depth, Normal, Shadow Passes)", "Particle Systems & Physics Simulations (Cloth, Rigid Body)", "Compositing 3D Renders in After Effects / Nuke", "AI Denoisers & Render Optimization"] },
       { title: "Module 6: 3D Short Film Capstone & Showreel", topics: ["Pre-Production (Storyboarding & Animatic Creation)", "Complete 3D Short Film or Character Animation Project", "Post-Production Editing & Audio Integration", "Industry-Ready 3D Animation Showreel", "Portfolio Review & Placement Guidance for Game/VFX Studios"] }
+    ]
+  },
+  {
+    slug: "contain-creation",
+    title: "Contain Creation",
+    category: "Design",
+    duration: "6 Months",
+    fees: "₹36,000",
+    price: 36000,
+    description: "Learn how to create engaging content and manage digital brands effectively.",
+    features: ["Content Strategy", "Digital Branding", "Creative Writing", "AI Tools"],
+    curriculum: [
+      { title: "Module 1: Content Creation Basics", topics: ["Introduction to Content Strategy", "Understanding Your Audience"] }
+    ]
+  },
+  {
+    slug: "meta-advertising-and-marketing",
+    title: "META Advertising and Marketing",
+    category: "Digital Media Technology",
+    duration: "6 Months",
+    fees: "₹36,000",
+    price: 36000,
+    description: "Master advertising on Meta platforms including Facebook and Instagram to drive high ROI.",
+    features: ["Facebook Ads", "Instagram Ads", "Retargeting", "Conversion Tracking"],
+    curriculum: [
+      { title: "Module 1: Meta Ads Fundamentals", topics: ["Ad Manager Overview", "Campaign Objectives", "Audience Targeting"] }
+    ]
+  },
+  {
+    slug: "google-advertising-and-marketing",
+    title: "Google Advertising and Marketing",
+    category: "Digital Media Technology",
+    duration: "6 Months",
+    fees: "₹36,000",
+    price: 36000,
+    description: "Learn Google Ads and SEM strategies to maximize search visibility and conversions.",
+    features: ["Search Ads", "Display Ads", "Google Analytics", "Keyword Planning"],
+    curriculum: [
+      { title: "Module 1: Google Ads Essentials", topics: ["Search Network Basics", "Keyword Match Types", "Ad Extensions"] }
+    ]
+  },
+  {
+    slug: "business-consultant",
+    title: "Business Consultant",
+    category: "Management",
+    duration: "6 Months",
+    fees: "₹36,000",
+    price: 36000,
+    description: "Develop skills to advise organizations on strategic growth, operations, and restructuring.",
+    features: ["Strategic Planning", "Market Analysis", "Financial Advisory", "Problem Solving"],
+    curriculum: [
+      { title: "Module 1: Introduction to Consulting", topics: ["Consulting Frameworks", "Client Relationship Management"] }
+    ]
+  },
+  {
+    slug: "human-resource",
+    title: "Human resource",
+    category: "Management",
+    duration: "6 Months",
+    fees: "₹36,000",
+    price: 36000,
+    description: "Learn modern HR practices, recruitment strategies, and organizational behavior.",
+    features: ["Recruitment", "Employee Relations", "HR Analytics", "Compliance"],
+    curriculum: [
+      { title: "Module 1: Core HR Practices", topics: ["Talent Acquisition", "Onboarding", "Performance Management"] }
     ]
   }
 ];

@@ -252,7 +252,7 @@ export default async function EventsPage() {
                   <div className="h-full p-2">
                     <Card className="h-full overflow-hidden border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-300 group rounded-3xl bg-white flex flex-col hover:-translate-y-1 p-0 gap-0">
                       {event.image ? (
-                        <div className="w-full h-56 relative overflow-hidden bg-gray-100 grayscale hover:grayscale-0 transition-all duration-500">
+                        <div className="w-full h-56 relative overflow-hidden bg-gray-100 transition-all duration-500">
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10 opacity-60 group-hover:opacity-80 transition-opacity" />
                           <img 
                             src={event.image} 
@@ -312,7 +312,7 @@ export default async function EventsPage() {
       )}
 
       {/* 8. Call to Action */}
-      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 relative overflow-hidden">
+      <section className="py-20 bg-white text-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[800px] mx-auto px-4 relative z-10 text-center">
           <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">Never Miss an <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Opportunity</span></h2>

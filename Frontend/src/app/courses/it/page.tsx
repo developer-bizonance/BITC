@@ -6,7 +6,8 @@ import Image from "next/image";
 import {
   Code, Database, Coffee, Terminal, BrainCircuit, BarChart,
   ShieldCheck, Cloud, GraduationCap, Clock, CheckCircle2,
-  ArrowRight, Monitor, Sparkles, IndianRupee, Award, Star
+  ArrowRight, Monitor, Sparkles, IndianRupee, Award, Star,
+  Users, Laptop, Briefcase
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -18,106 +19,15 @@ export const metadata: Metadata = {
   },
 };
 
-const itCourses = [
-  {
-    id: "mern-stack",
-    title: "MERN Stack Development",
-    tag: "Web Development",
-    duration: "6 Months",
-    fees: "₹36,000",
-    icon: Database,
-    image: "/MERN.jpg",
-    desc: "Specialize in the MERN stack — MongoDB, Express, React, and Node.js — the most in-demand tech stack.",
-    highlights: ["MongoDB & Mongoose", "Express.js Backend", "React.js & Redux", "Full Project Deployment"],
-    popular: true,
-  },
-  {
-    id: "mean-stack",
-    title: "MEAN Stack Development",
-    tag: "Web Development",
-    duration: "6 Months",
-    fees: "₹36,000",
-    icon: Database,
-    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop",
-    desc: "Master full stack web applications with MongoDB, Express, Angular, and Node.js.",
-    highlights: ["Angular & TypeScript", "Express.js Backend", "Node.js & MongoDB", "RESTful API Integration"],
-    popular: true,
-  },
-  {
-    id: "full-stack-java",
-    title: "Full Stack Java Development",
-    tag: "Enterprise Dev",
-    duration: "6 Months",
-    fees: "₹36,000",
-    icon: Coffee,
-    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800&auto=format&fit=crop",
-    desc: "Learn enterprise-grade Java development with Spring Boot, React/Angular, microservices, and scalable backend systems.",
-    highlights: ["Core Java & OOP", "Spring Boot & MVC", "Front-End Integration", "Microservices & Database"],
-  },
-  {
-    id: "full-stack-python",
-    title: "Full Stack Python Development",
-    tag: "Python & Backend",
-    duration: "6 Months",
-    fees: "₹36,000",
-    icon: Terminal,
-    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800&auto=format&fit=crop",
-    desc: "Master full stack web development with Python, Django/Flask, React, database management, and API integration.",
-    highlights: ["Python & OOP Concepts", "Django / Flask Framework", "React Front-End Integration", "Database & Deployment"],
-  },
-  {
-    id: "ai-machine-learning",
-    title: "AI & Machine Learning",
-    tag: "Artificial Intelligence",
-    duration: "6 Months",
-    fees: "₹36,000",
-    icon: BrainCircuit,
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop",
-    desc: "Dive into artificial intelligence, neural networks, and machine learning algorithms with real-world projects.",
-    highlights: ["Supervised & Unsupervised Learning", "Deep Learning & Neural Networks", "NLP & Computer Vision", "TensorFlow & PyTorch"],
-    popular: true,
-  },
-  {
-    id: "data-science",
-    title: "Data Science & Analytics",
-    tag: "Data Intelligence",
-    duration: "6 Months",
-    fees: "₹36,000",
-    icon: BarChart,
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop",
-    desc: "Transform raw data into actionable insights. Learn data analysis, visualization, and predictive modeling.",
-    highlights: ["Data Analysis with Pandas", "Data Visualization", "Statistical Modeling", "Power BI / Tableau"],
-  },
-  {
-    id: "cyber-security",
-    title: "Cyber Security & Defense",
-    tag: "Information Security",
-    duration: "6 Months",
-    fees: "₹36,000",
-    icon: ShieldCheck,
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&auto=format&fit=crop",
-    desc: "Protect organizations from cyber threats. Learn ethical hacking, network security, and compliance frameworks.",
-    highlights: ["Ethical Hacking", "Network Security", "Penetration Testing", "Security Compliance"],
-  },
-  {
-    id: "cloud-computing",
-    title: "Cloud Computing & DevOps",
-    tag: "Cloud & Infrastructure",
-    duration: "6 Months",
-    fees: "₹36,000",
-    icon: Cloud,
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop",
-    desc: "Master cloud platforms like AWS, Azure, and GCP. Learn to design, deploy, and manage scalable cloud infrastructure.",
-    highlights: ["AWS / Azure / GCP", "Cloud Architecture", "Serverless & Containers", "CI/CD Pipelines"],
-  },
-];
+
 
 export const dynamic = 'force-dynamic';
 
 export default async function ITCoursesPage() {
   let dynamicCourses = [];
   try {
-    const res = await fetch("https://bitc-backend-theta.vercel.app/api/certifications?category=Information Technology", { cache: "no-store" });
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:5000/api";
+    const res = await fetch(`${API_URL}/certifications?category=Information%20Technology`, { cache: "no-store" });
     if (res.ok) {
       const data = await res.json();
       dynamicCourses = data.certifications || [];
@@ -126,31 +36,23 @@ export default async function ITCoursesPage() {
     console.error("Failed to fetch IT courses:", error);
   }
 
-  const coursesToRender = dynamicCourses.map((c: any) => {
-    const localMatch = itCourses.find(
-      (lc) => lc.title.toLowerCase().includes(c.title.toLowerCase()) || c.title.toLowerCase().includes(lc.title.toLowerCase())
-    );
-
+  const finalCourses = dynamicCourses.map((c: any) => {
     return {
-      id: localMatch?.id || c.title.toLowerCase().replace(/ & /g, '-').replace(/[\/\s]+/g, '-'),
+      id: c.title.toLowerCase().replace(/ & /g, '-').replace(/[\/\s]+/g, '-'),
       title: c.title,
       tag: c.category || "Information Technology",
       duration: c.duration || "6 Months",
       fees: c.fees || "₹36,000",
-      icon: localMatch?.icon || Monitor,
-      image: (c.image && (c.image.startsWith('http') || c.image.startsWith('/'))) ? c.image : (localMatch?.image || "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop"),
-      desc: localMatch?.desc || "Master in-demand technologies, build real projects, and launch your tech career with confidence.",
-      highlights: localMatch?.highlights || ["Industry-aligned curriculum", "Hands-on real-world projects", "Expert mentorship", "Placement assistance"],
+      icon: Monitor,
+      image: (c.image && (c.image.startsWith('http') || c.image.startsWith('/'))) ? c.image : "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop",
     };
   });
-
-  const finalCourses = coursesToRender.length > 0 ? coursesToRender : itCourses;
 
   return (
     <div className="flex flex-col min-h-screen text-[15px]">
 
       {/* Hero Banner */}
-      <section className="relative w-full flex flex-col items-center justify-center bg-white py-12 md:py-16 lg:py-20 overflow-hidden">
+      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-start pt-16 md:pt-20 lg:pt-24 bg-white overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[1360px] mx-auto px-4 relative z-10 text-center">
           <div className="max-w-3xl mx-auto">
@@ -186,12 +88,7 @@ export default async function ITCoursesPage() {
       {/* Courses Grid */}
       <section className="py-14 md:py-20 bg-white/70">
         <div className="container max-w-[1360px] mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Explore Our IT <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span></h2>
-            <p className="text-gray-500 max-w-2xl mx-auto text-base">
-              Choose from our comprehensive range of IT certifications, each integrated with AI and designed for real-world readiness.
-            </p>
-          </div>
+
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {finalCourses.map((course: any) => {
@@ -212,38 +109,47 @@ export default async function ITCoursesPage() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/20 to-transparent" />
 
-                    {/* Tag / Category Badge */}
-                    <div className="absolute top-3 left-3 z-10">
-                      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-900/80 backdrop-blur-md text-white border border-white/20">
-                        {course.tag}
-                      </span>
-                    </div>
+
                   </div>
 
                   {/* Body Content */}
                   <div className="p-4 flex flex-col flex-1 justify-between">
                     <div>
                       {/* Title */}
-                      <h3 className="text-base font-extrabold text-slate-900 group-hover:text-primary transition-colors flex items-center leading-snug mb-2">
+                      <h3 className="text-base font-extrabold text-slate-900 group-hover:text-primary transition-colors flex items-center leading-snug mb-3">
                         {course.title}
                       </h3>
 
-                      {/* Description */}
-                      <p className="text-xs text-slate-500 leading-relaxed mb-3 line-clamp-2">
-                        {course.desc}
-                      </p>
-
-                      {/* Highlights */}
-                      <div className="space-y-1.5 mb-3">
-                        {course.highlights.map((item: string, j: number) => (
-                          <div key={j} className="flex items-center gap-2 text-xs text-slate-700 font-medium">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
-                            <span className="line-clamp-1">{item}</span>
-                          </div>
-                        ))}
+                      {/* Features List */}
+                      <div className="space-y-2 mb-4">
+                        {/* 1. Duration */}
                         <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
-                          <Award className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
-                          <span className="line-clamp-1">Free certification opportunity at Bizonance</span>
+                          <Clock className="w-3.5 h-3.5 text-primary shrink-0" />
+                          <span>Duration: <strong className="text-slate-900 font-semibold">{course.duration}</strong></span>
+                        </div>
+
+                        {/* 2. Learn from Experts */}
+                        <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
+                          <Users className="w-3.5 h-3.5 text-primary shrink-0" />
+                          <span>Learn from Experts</span>
+                        </div>
+
+                        {/* 3. Assignments & Live Projects */}
+                        <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
+                          <Laptop className="w-3.5 h-3.5 text-primary shrink-0" />
+                          <span>Assignments & Live Projects</span>
+                        </div>
+
+                        {/* 4. Internship Opportunity */}
+                        <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
+                          <Briefcase className="w-3.5 h-3.5 text-primary shrink-0" />
+                          <span>Internship Opportunity</span>
+                        </div>
+
+                        {/* 5. Become Certified */}
+                        <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
+                          <Award className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                          <span>Become a Certified</span>
                         </div>
                       </div>
                     </div>
@@ -251,13 +157,10 @@ export default async function ITCoursesPage() {
                     {/* Bottom Pricing & CTA */}
                     <div className="mt-auto pt-2.5 border-t border-slate-100 space-y-2">
                       <div className="flex items-center justify-between text-xs text-slate-600">
-                        <div className="flex items-center gap-1.5 font-semibold text-slate-700">
-                          <Clock className="w-3.5 h-3.5 text-primary" />
-                          <span>{course.duration}</span>
-                        </div>
-                        <div className="text-[11px] font-bold text-slate-800 bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200/80">
-                          <span>Fees: <strong className="text-primary font-extrabold">{course.fees}</strong></span>
-                        </div>
+                        <span className="font-medium text-slate-500">Certification Fees:</span>
+                        <span className="text-slate-900 font-extrabold text-xs bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200/80">
+                          {course.fees || "₹36,000"}
+                        </span>
                       </div>
 
                       <Link href={`/courses/${course.id}`} className="block w-full">
@@ -304,22 +207,47 @@ export default async function ITCoursesPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 bg-gradient-to-b from-blue-50/70 via-sky-50/40 to-blue-50/30 text-slate-900 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
-        <div className="container max-w-[800px] mx-auto px-4 text-center relative z-10">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Ready to Start Your <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">IT Career?</span></h2>
-          <p className="text-base md:text-lg text-slate-600 mb-8 font-medium">
-            Join thousands of students who have launched successful tech careers through BITC.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/contact" className="h-13 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white font-bold flex items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-lg shadow-amber-500/25 hover:shadow-xl hover:shadow-amber-500/30 hover:-translate-y-0.5 text-base">
-              Enroll Now
-            </Link>
-            <Link href="/contact" className="h-13 px-8 rounded-full bg-white text-slate-700 font-bold flex items-center justify-center border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all text-base shadow-xs">
-              Download Brochure
-            </Link>
+      {/* Importance of Certification */}
+      <section className="py-20 bg-white text-slate-900 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/5 via-transparent to-transparent pointer-events-none" />
+        <div className="container max-w-[1360px] mx-auto px-4 relative z-10">
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
+              Importance of <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">IT Certifications</span> in Today's Era
+            </h2>
+            <p className="text-base md:text-lg text-slate-600 font-medium leading-relaxed">
+              Technology is evolving at an unprecedented pace. Here is why certified IT professionals are the most sought-after talent globally.
+            </p>
           </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
+            {[
+              {
+                title: "Massive Tech Talent Shortage",
+                desc: "With the rise of Cloud, AI, and Cybersecurity, companies are struggling to find qualified professionals. Certifications prove you have the exact skills they need.",
+                icon: <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+              },
+              {
+                title: "Future-Proof Career",
+                desc: "IT is the backbone of modern business. By mastering core technologies and staying certified, you ensure your skills never become obsolete.",
+                icon: <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+              },
+              {
+                title: "Global Remote Opportunities",
+                desc: "Tech skills transcend borders. A recognized certification opens doors to high-paying remote roles at top tech companies worldwide.",
+                icon: <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
+              }
+            ].map((item, idx) => (
+              <div key={idx} className="bg-white p-8 rounded-2xl border border-slate-200/60 shadow-sm hover:shadow-xl hover:border-amber-500/30 transition-all group">
+                <div className="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  {item.icon}
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
+                <p className="text-slate-600 leading-relaxed text-sm">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+
         </div>
       </section>
 

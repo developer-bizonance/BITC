@@ -33,9 +33,9 @@ export default function AboutPage() {
     <div className="flex flex-col min-h-screen text-[15px]">
 
       {/* 1. Hero Section */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] bg-white py-16 lg:py-24 overflow-hidden flex flex-col items-center justify-center">
+      <section className="relative w-full min-h-[calc(100vh-80px)] bg-white pt-16 md:pt-20 lg:pt-24 overflow-hidden flex flex-col items-center justify-start">
         {/* Subtle background glow removed */}
-        <div className="container max-w-[1000px] mx-auto px-4 text-center relative z-10 flex flex-col items-center justify-center my-auto">
+        <div className="container max-w-[1000px] mx-auto px-4 text-center relative z-10 flex flex-col items-center justify-start">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-slate-900 leading-[1.2]">
             Empowering the Next Generation for <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Industry Professionals</span>
           </h1>

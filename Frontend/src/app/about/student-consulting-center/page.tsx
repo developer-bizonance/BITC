@@ -23,7 +23,7 @@ export default function StudentConsultingCenter() {
           </div>
           
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-slate-900 max-w-4xl leading-tight">
-            Navigate Your Career with <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Expert Guidance</span>
+            Navigate Your Career with <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Expert Consulting</span>
           </h1>
           
           <p className="text-base md:text-lg text-gray-600 mb-10 max-w-2xl leading-relaxed">
