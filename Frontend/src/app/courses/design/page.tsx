@@ -8,6 +8,7 @@ import {
   GraduationCap, Clock, CheckCircle2, ArrowRight, Sparkles,
   Palette, Eye, Layers, IndianRupee, Award, Star, Users, Laptop, Briefcase
 } from "lucide-react";
+import { courses as staticCourses } from "@/data/courses";
 
 export const metadata: Metadata = {
   title: "Design Certifications",
@@ -35,9 +36,13 @@ export default async function DesignCoursesPage() {
     console.error("Failed to fetch Design courses:", error);
   }
 
+  if (!dynamicCourses || dynamicCourses.length === 0) {
+    dynamicCourses = staticCourses.filter(c => c.category === "Design");
+  }
+
   const finalCourses = dynamicCourses.map((c: any) => {
     return {
-      id: c.title.toLowerCase().replace(/ & /g, '-').replace(/[\/\s]+/g, '-'),
+      id: c.slug || c.title.toLowerCase().replace(/ & /g, '-').replace(/[\/\s]+/g, '-'),
       title: c.title,
       tag: c.category || "Design Programs",
       duration: c.duration || "6 Months",

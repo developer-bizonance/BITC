@@ -9,6 +9,7 @@ import {
   ArrowRight, Monitor, Sparkles, IndianRupee, Award, Star,
   Users, Laptop, Briefcase
 } from "lucide-react";
+import { courses as staticCourses } from "@/data/courses";
 
 export const metadata: Metadata = {
   title: "IT & Software Certifications",
@@ -36,9 +37,13 @@ export default async function ITCoursesPage() {
     console.error("Failed to fetch IT courses:", error);
   }
 
+  if (!dynamicCourses || dynamicCourses.length === 0) {
+    dynamicCourses = staticCourses.filter(c => c.category === "Information Technology");
+  }
+
   const finalCourses = dynamicCourses.map((c: any) => {
     return {
-      id: c.title.toLowerCase().replace(/ & /g, '-').replace(/[\/\s]+/g, '-'),
+      id: c.slug || c.title.toLowerCase().replace(/ & /g, '-').replace(/[\/\s]+/g, '-'),
       title: c.title,
       tag: c.category || "Information Technology",
       duration: c.duration || "6 Months",

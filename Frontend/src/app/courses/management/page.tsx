@@ -8,6 +8,7 @@ import {
   GraduationCap, Clock, CheckCircle2, ArrowRight, Sparkles,
   LineChart, Target, Briefcase, BarChart, Award, Star, Laptop
 } from "lucide-react";
+import { courses as staticCourses } from "@/data/courses";
 
 export const metadata: Metadata = {
   title: "Management & Business Certifications",
@@ -35,9 +36,13 @@ export default async function ManagementCoursesPage() {
     console.error("Failed to fetch Management courses:", error);
   }
 
+  if (!dynamicCourses || dynamicCourses.length === 0) {
+    dynamicCourses = staticCourses.filter(c => c.category === "Management");
+  }
+
   const finalCourses = dynamicCourses.map((c: any) => {
     return {
-      id: c.title.toLowerCase().replace(/ & /g, '-').replace(/[\/\s]+/g, '-'),
+      id: c.slug || c.title.toLowerCase().replace(/ & /g, '-').replace(/[\/\s]+/g, '-'),
       title: c.title,
       tag: c.category || "Management Programs",
       duration: c.duration || "6 Months",
