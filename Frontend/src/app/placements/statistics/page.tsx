@@ -15,18 +15,26 @@ export default function PlacementStatisticsPage() {
   return (
     <div className="flex flex-col min-h-screen text-[15px] bg-white">
       {/* 1. Hero Section */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-start pt-16 md:pt-20 lg:pt-24 bg-white overflow-hidden">
-        <div className="container max-w-[1200px] mx-auto px-4 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-semibold mb-6">
+      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center py-8 md:py-12 bg-white overflow-hidden">
+        <div className="container max-w-[1200px] mx-auto px-4 relative z-10 text-center flex flex-col items-center h-full">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-semibold mb-4">
             <TrendingUp className="w-4 h-4 text-primary" />
             <span>Placement Report 2024-2025</span>
           </div>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-4 leading-[1.1]">
             Our Placement <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Statistics</span>
           </h1>
           <p className="text-base md:text-lg text-slate-600 max-w-[700px] mx-auto leading-relaxed mb-8 font-medium">
             A testament to our commitment to excellence. Discover how BITC students are securing top roles at leading global organizations with industry-best compensation packages.
           </p>
+
+          <div className="w-full max-w-6xl mx-auto rounded-3xl overflow-hidden shadow-2xl border border-slate-200/60 mt-2 flex-1 max-h-[45vh] relative">
+            <img 
+              src="/placement-statistics.png" 
+              alt="Placement Statistics Overview" 
+              className="w-full h-full object-cover object-top"
+            />
+          </div>
         </div>
       </section>
 

@@ -74,18 +74,26 @@ export default async function HiringPartnersPage() {
     <div className="flex flex-col min-h-screen">
       
       {/* 1. Hero Banner */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-start pt-16 md:pt-20 lg:pt-24 bg-white overflow-hidden">
-        <div className="container max-w-[1200px] mx-auto px-4 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-semibold mb-6">
+      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center py-8 md:py-12 bg-white overflow-hidden">
+        <div className="container max-w-[1200px] mx-auto px-4 relative z-10 text-center flex flex-col items-center h-full">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-semibold mb-4">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             10+ INDUSTRY PARTNERS
           </div>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-4 leading-[1.1]">
             Top Companies <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Hire From BITC.</span>
           </h1>
-          <p className="text-base md:text-lg text-slate-600 max-w-[800px] mx-auto leading-relaxed mb-10 font-medium">
+          <p className="text-base md:text-lg text-slate-600 max-w-[800px] mx-auto leading-relaxed mb-8 font-medium">
             We are proud to partner with leading MNCs, innovative startups, and top corporate firms to provide outstanding career opportunities for our students.
           </p>
+
+          <div className="w-full max-w-6xl mx-auto rounded-3xl overflow-hidden shadow-2xl border border-slate-200/60 mt-2 flex-1 max-h-[45vh] relative">
+            <img 
+              src="/recruiting-partners.png" 
+              alt="Our Recruiting Partners" 
+              className="w-full h-full object-cover object-top"
+            />
+          </div>
         </div>
       </section>
 
