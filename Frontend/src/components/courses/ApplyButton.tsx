@@ -19,7 +19,7 @@ export function ApplyButton({ courseId, courseTitle, className, children }: Appl
       onClick={() => openApplyModal({ id: courseId, title: courseTitle })}
       className={
         className ||
-        "h-12 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white text-base font-bold flex items-center justify-center hover:opacity-90 transition-all shadow-lg shadow-orange-500/25 hover:shadow-xl hover:-translate-y-1 cursor-pointer"
+        "h-12 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white text-base font-medium flex items-center justify-center hover:opacity-90 transition-all shadow-lg shadow-orange-500/25 hover:shadow-xl hover:-translate-y-1 cursor-pointer"
       }
     >
       {children || (

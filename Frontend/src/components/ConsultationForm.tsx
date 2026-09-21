@@ -117,29 +117,16 @@ export default function ConsultationForm({ theme = "light" }: ConsultationFormPr
           placeholder="Enter your phone number"
         />
       </div>
-      <div>
-        <label className={labelClass}>What do you want to discuss?</label>
-        <select
-          name="topic"
-          value={formData.topic}
-          onChange={handleChange}
-          className={`${inputClass} appearance-none cursor-pointer`}
-        >
-          <option>Course Selection</option>
-          <option>Career Switch</option>
-          <option>Placement Support</option>
-          <option>General Career Advice</option>
-        </select>
-      </div>
+
 
       {status === "error" && <p className="text-red-500 text-sm font-medium">{errorMessage}</p>}
 
       <button
         type="submit"
         disabled={status === "loading"}
-        className="w-full h-12 md:h-14 mt-2 rounded-xl bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-900 text-base font-bold hover:opacity-90 transition-all shadow-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full h-12 md:h-14 mt-2 rounded-xl bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-900 text-base font-medium hover:opacity-90 transition-all shadow-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {status === "loading" ? "Submitting..." : "Request Callback"}
+        {status === "loading" ? "Submitting..." : "Book Consultation"}
       </button>
     </form>
   );

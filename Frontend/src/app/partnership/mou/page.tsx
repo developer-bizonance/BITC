@@ -28,7 +28,7 @@ export default function MoUPartnershipPage() {
             Bridging the gap between academia and industry. We partner with leading educational institutions to deliver cutting-edge, industry-relevant training directly to students.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact" className="h-14 px-8 rounded-full text-white font-bold flex items-center justify-center transition-all shadow-lg hover:shadow-xl bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] border-0">
+            <Link href="/contact" className="h-14 px-8 rounded-full text-white font-medium flex items-center justify-center transition-all shadow-lg hover:shadow-xl bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] border-0">
               Initiate an MoU
             </Link>
           </div>
@@ -105,7 +105,7 @@ export default function MoUPartnershipPage() {
         <div className="container max-w-[800px] mx-auto px-4 text-center relative z-10">
           <h2 className="text-3xl font-bold text-slate-900 mb-6">Empower Your Students <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Today</span></h2>
           <p className="text-slate-600 mb-8 text-lg font-medium">Are you a university or college representative? Let's discuss how we can work together to build a brighter future for your students.</p>
-          <Link href="/contact" className="inline-flex h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white font-bold items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-lg gap-2">
+          <Link href="/contact" className="inline-flex h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white font-medium items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-lg gap-2">
             Propose a Partnership <ArrowRight className="w-5 h-5" />
           </Link>
         </div>

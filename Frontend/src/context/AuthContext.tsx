@@ -8,7 +8,7 @@ export interface CourseApplyPayload {
 }
 
 interface AuthContextType {
-  applyForCourse: (courseId: string, courseTitle: string, name: string, email: string, phone: string) => Promise<{ success: boolean; application?: any; error?: string }>;
+  applyForCourse: (courseId: string, courseTitle: string, name: string, email: string, phone: string, city?: string, qualification?: string, specialization?: string, message?: string) => Promise<{ success: boolean; application?: any; error?: string }>;
   
   // Modal state management
   isAuthModalOpen: boolean;
@@ -25,14 +25,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [pendingCourse, setPendingCourse] = useState<CourseApplyPayload | null>(null);
 
-  const applyForCourse = async (courseId: string, courseTitle: string, name: string, email: string, phone: string) => {
+  const applyForCourse = async (courseId: string, courseTitle: string, name: string, email: string, phone: string, city: string = "", qualification: string = "", specialization: string = "", message: string = "") => {
     try {
       const res = await fetch("/api/courses/apply", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ courseId, courseTitle, name, email, phone }),
+        body: JSON.stringify({ courseId, courseTitle, name, email, phone, city, qualification, specialization, message }),
       });
 
       const data = await res.json();

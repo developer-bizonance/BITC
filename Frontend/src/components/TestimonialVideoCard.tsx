@@ -40,7 +40,7 @@ export default function TestimonialVideoCard({ story, index, className }: { stor
               className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover border-2 border-white shadow-md ring-2 ring-amber-500/15"
             />
             <div
-              className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-emerald-500 border border-white flex items-center justify-center text-white text-[9px] font-bold shadow-xs"
+              className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-emerald-500 border border-white flex items-center justify-center text-white text-[9px] font-medium shadow-xs"
               title="Verified Placement"
             >
               ✓
@@ -69,11 +69,19 @@ export default function TestimonialVideoCard({ story, index, className }: { stor
         </div>
 
         {/* Middle: Intro / Review Quote Box */}
-        <div className="w-full bg-white rounded-xl p-2.5 sm:p-3 my-2.5 flex-1 flex flex-col justify-center text-left relative shadow-sm">
+        <div className="w-full p-2.5 sm:p-0 my-2.5 flex-1 flex flex-col justify-center text-left relative group/review">
           <Quote className="w-3 h-3 text-amber-500/50 mb-0.5 shrink-0" />
           <p className="text-slate-700 text-[11px] sm:text-xs leading-relaxed italic font-medium line-clamp-3">
             &quot;{story.quote}&quot;
           </p>
+
+          {/* Hover Pop-up for Full Review */}
+          <div className="absolute top-[-10px] left-[-10px] w-[180%] sm:w-[210%] bg-slate-800 text-slate-100 p-4 sm:p-5 rounded-xl shadow-2xl opacity-0 invisible group-hover/review:opacity-100 group-hover/review:visible transition-all duration-300 z-50 pointer-events-none border border-slate-700/50">
+            <Quote className="w-4 h-4 text-amber-500/80 mb-1.5" />
+            <p className="text-xs sm:text-sm leading-relaxed italic font-medium">
+              &quot;{story.quote}&quot;
+            </p>
+          </div>
         </div>
 
         {/* Bottom: Google 'G' Icon + Stars */}
@@ -100,41 +108,12 @@ export default function TestimonialVideoCard({ story, index, className }: { stor
       {/* RIGHT COLUMN: FULL-COVER VIDEO AREA                                       */}
       {/* ========================================================================= */}
       <div className="w-full md:w-[56%] lg:w-[55%] min-h-[190px] sm:min-h-[220px] md:min-h-full relative bg-slate-950 flex items-center justify-center overflow-hidden">
-        {isPlaying && ytId ? (
-          <iframe
-            width="100%"
-            height="100%"
-            src={`https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0`}
-            title={`${story.name} Testimonial Video`}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            className="w-full h-full object-cover absolute inset-0"
-          />
-        ) : (
-          <div
-            className="absolute inset-0 w-full h-full bg-cover bg-center cursor-pointer"
-            style={{ backgroundImage: `url('${videoThumbnail}')` }}
-            onClick={() => setIsPlaying(true)}
-          >
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-black/20" />
-            
-            {/* Center Play Button */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white flex items-center justify-center shadow-lg shadow-orange-500/50">
-                <Play className="w-5 h-5 sm:w-6 sm:h-6 fill-current ml-0.5" />
-              </div>
-            </div>
-
-            {/* Bottom Video Badge */}
-            <div className="absolute bottom-3 right-3 flex items-center justify-end text-white z-10">
-              <span className="text-[10px] font-bold bg-red-600 text-white px-2 py-0.5 rounded-full flex items-center gap-1 shadow-xs">
-                <span className="w-1 h-1 rounded-full bg-white animate-ping"></span>
-                Play Video
-              </span>
-            </div>
-          </div>
-        )}
+        <div
+          className="absolute inset-0 w-full h-full bg-cover bg-center cursor-default"
+          style={{ backgroundImage: `url('${videoThumbnail}')` }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-black/20" />
+        </div>
       </div>
 
     </Card>

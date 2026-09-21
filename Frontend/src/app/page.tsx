@@ -9,6 +9,7 @@ import type { Metadata } from "next";
 import FeaturedCertifications from "@/components/FeaturedCertifications";
 import AcademicPartners from "@/components/AcademicPartners";
 import StudentSuccessStories from "@/components/StudentSuccessStories";
+import FacultySection from "@/components/FacultySection";
 
 export const metadata: Metadata = {
   title: "BIZONANCE Industrial Training Centre | Amravati",
@@ -45,8 +46,8 @@ export default function Home() {
 
             {/* Goals / Badges */}
             <div className="flex flex-wrap items-center gap-2 lg:gap-3 mb-6 lg:mb-8">
-              {["Learn", "Intern", "Certified", "Get a job"].map((goal, i) => (
-                <span key={i} className="px-3 py-1 lg:px-4 lg:py-1.5 rounded-full border border-gray-100 text-[12px] lg:text-[14px] font-bold text-gray-600 bg-white shadow-xs flex items-center gap-1.5 lg:gap-2 hover:border-primary/30 transition-colors">
+              {["Learn", "Certificate", "Intern", "Get a job"].map((goal, i) => (
+                <span key={i} className="px-3 py-1 lg:px-4 lg:py-1.5 rounded-full border border-gray-100 text-[12px] lg:text-[14px] font-medium text-gray-600 bg-white shadow-xs flex items-center gap-1.5 lg:gap-2 hover:border-primary/30 transition-colors">
                   <CheckCircle2 className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-orange-500" />
                   {goal}
                 </span>
@@ -54,10 +55,10 @@ export default function Home() {
             </div>
 
             <div className="flex flex-wrap items-center gap-3 lg:gap-4">
-              <Link href="#featured-certifications" className="h-11 sm:h-12 lg:h-14 px-6 sm:px-7 lg:px-9 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white text-sm sm:text-base lg:text-lg font-bold flex items-center justify-center hover:opacity-90 transition-all shadow-lg shadow-orange-500/25 hover:shadow-xl hover:-translate-y-0.5">
+              <Link href="#featured-certifications" className="h-11 sm:h-12 lg:h-14 px-6 sm:px-7 lg:px-9 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white text-sm sm:text-base lg:text-lg font-medium flex items-center justify-center hover:opacity-90 transition-all shadow-lg shadow-orange-500/25 hover:shadow-xl hover:-translate-y-0.5">
                 Explore Programs <ArrowRight className="ml-2 w-4 h-4 lg:w-5 lg:h-5" />
               </Link>
-              <Link href="/contact" className="h-11 sm:h-12 lg:h-14 px-6 sm:px-7 lg:px-9 rounded-full bg-gray-100 text-slate-900 text-sm sm:text-base lg:text-lg font-bold flex items-center justify-center hover:bg-gray-200 transition-all shadow-xs">
+              <Link href="/contact" className="h-11 sm:h-12 lg:h-14 px-6 sm:px-7 lg:px-9 rounded-full bg-gray-100 text-slate-700 text-sm sm:text-base lg:text-lg font-medium flex items-center justify-center hover:bg-gray-200 transition-all shadow-xs">
                 Contact Us
               </Link>
             </div>
@@ -105,7 +106,7 @@ export default function Home() {
 
           <div className="relative z-10 px-6 py-16 md:py-20 md:px-16 flex flex-col md:flex-row items-center justify-between gap-12">
             <div className="max-w-2xl text-center md:text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-orange-600 text-sm font-bold mb-6 shadow-sm">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-orange-600 text-sm font-medium mb-6 shadow-sm">
                 <Medal className="w-4 h-4 text-orange-500" />
                 BITC Scholarship for Students
               </div>
@@ -241,6 +242,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Faculty Section */}
+      <FacultySection />
+
       <section className="py-16 md:py-24 bg-white relative">
         <div className="container max-w-[1400px] mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
@@ -253,7 +257,7 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
               { stat: "10+", label: "Hiring Partners" },
-              { stat: "500+", label: "Students Trained" },
+              { stat: "500+", label: "Students Certified" },
               { stat: "12 LPA", label: "Highest Package" },
               { stat: "95%", label: "Placement Ratio" }
             ].map((item, index) => (
@@ -263,7 +267,7 @@ export default function Home() {
                     {item.stat}
                   </span>
                 </div>
-                <div className="text-[13px] font-extrabold text-slate-800 uppercase tracking-widest">{item.label}</div>
+                <div className="text-[14px] font-extrabold text-slate-800 capitalize tracking-wider">{item.label}</div>
               </div>
             ))}
           </div>
@@ -272,30 +276,53 @@ export default function Home() {
 
       {/* 2. Trusted by Colleges & Companies */}
       <section className="py-6 bg-slate-50 text-slate-800 relative overflow-hidden my-2">
-        <div className="container max-w-[1400px] mx-auto px-4 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10">
-          <div className="flex items-center gap-2.5">
-            <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-            <p className="text-xs font-extrabold text-slate-700 uppercase tracking-widest whitespace-nowrap">
-              Trusted By
-            </p>
-          </div>
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
-            {[
-              { name: "TCS", logo: "/logos/tcs.svg" },
-              { name: "Infosys", logo: "/logos/infosys.svg" },
-              { name: "Wipro", logo: "/logos/wipro.svg" },
-              { name: "Tech Mahindra", logo: "/logos/tech-mahindra.svg" },
-              { name: "HCL", logo: "/logos/hcl.svg" },
-              { name: "Cognizant", logo: "/logos/cognizant.svg" }
-            ].map((company, i) => (
-              <div key={i} className="h-7 md:h-8 flex items-center justify-center grayscale hover:grayscale-0 opacity-85 hover:opacity-100 transition-all duration-300">
-                <img
-                  src={company.logo}
-                  alt={company.name}
-                  className="h-full w-auto max-w-[140px] object-contain"
-                />
+        <div className="container max-w-[1400px] mx-auto px-4">
+          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12 opacity-80 pt-8 pb-4 border-t border-slate-100 overflow-hidden">
+            <div className="flex items-center gap-3 shrink-0 z-10 bg-white md:pr-4">
+              <div className="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+              <p className="text-sm font-bold text-slate-800 tracking-[0.2em] uppercase">
+                Trusted By
+              </p>
+            </div>
+            
+            <div className="flex-1 overflow-hidden relative w-full [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+              <style dangerouslySetInnerHTML={{
+                __html: `
+                  @keyframes trustedMarquee {
+                    0% { transform: translateX(0%); }
+                    100% { transform: translateX(-50%); }
+                  }
+                  .animate-trusted-marquee {
+                    animation: trustedMarquee 35s linear infinite;
+                  }
+                  .animate-trusted-marquee:hover {
+                    animation-play-state: paused;
+                  }
+                `
+              }} />
+              <div className="flex w-max animate-trusted-marquee items-center gap-12 md:gap-16">
+                {[...Array(2)].flatMap(() => [
+                  { name: "TCS", logo: "https://upload.wikimedia.org/wikipedia/en/b/b1/Tata_Consultancy_Services.svg" },
+                  { name: "Infosys", logo: "https://upload.wikimedia.org/wikipedia/commons/9/95/Infosys_logo.svg" },
+                  { name: "Wipro", logo: "https://upload.wikimedia.org/wikipedia/commons/a/a0/Wipro_Primary_Logo_Color_RGB.svg" },
+                  { name: "Tech Mahindra", logo: "https://upload.wikimedia.org/wikipedia/commons/3/34/Tech_Mahindra_New_Logo.svg" },
+                  { name: "HCL", logo: "https://upload.wikimedia.org/wikipedia/commons/8/8a/HCL_Technologies_logo.svg" },
+                  { name: "Cognizant", logo: "https://upload.wikimedia.org/wikipedia/commons/4/43/Cognizant_logo_2022.svg" },
+                  { name: "Accenture", logo: "https://upload.wikimedia.org/wikipedia/commons/1/1c/Accenture_logo.svg" },
+                  { name: "IBM", logo: "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" },
+                  { name: "Microsoft", logo: "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg" },
+                  { name: "Capgemini", logo: "https://upload.wikimedia.org/wikipedia/commons/9/9d/Capgemini_201x_logo.svg" }
+                ]).map((company, i) => (
+                  <div key={i} className="flex items-center justify-center transition-all duration-300 shrink-0">
+                    <img
+                      src={company.logo}
+                      alt={company.name}
+                      className="h-5 md:h-6 lg:h-7 w-auto object-contain max-w-[90px] md:max-w-[110px]"
+                    />
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
@@ -305,17 +332,17 @@ export default function Home() {
         <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10 flex flex-col md:flex-row items-center justify-between gap-10">
           <div className="md:w-[55%] text-center md:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-sm font-bold mb-6 shadow-sm">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-sm font-medium mb-6 shadow-sm">
               <Compass className="w-4 h-4" />
-              Career Guidance & Counseling
+              Student Counseling Center
             </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">Student Consulting <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Center</span></h2>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">Career Guidance & <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Counseling</span></h2>
             <p className="text-gray-600 text-lg mb-8 max-w-lg mx-auto md:mx-0 leading-relaxed">
               Get personalized career guidance, expert advice on Certifications, and a clear roadmap for your professional journey. Talk to our career counselors today!
             </p>
             <div className="flex flex-wrap justify-center md:justify-start gap-4">
               <Dialog>
-                <DialogTrigger className="h-12 md:h-14 px-6 md:px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-900 text-base md:text-lg font-bold flex items-center justify-center hover:opacity-90 transition-all shadow-lg shadow-orange-500/20">
+                <DialogTrigger className="h-12 md:h-14 px-6 md:px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-900 text-base md:text-lg font-medium flex items-center justify-center hover:opacity-90 transition-all shadow-lg shadow-orange-500/20">
                   Book Your Consultation <ArrowRight className="ml-2 w-5 h-5" />
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-md bg-white border border-gray-100 p-6 md:p-8 rounded-3xl">
@@ -325,7 +352,7 @@ export default function Home() {
                   <ConsultationForm />
                 </DialogContent>
               </Dialog>
-              <Link href="/about/student-consulting-center" className="h-12 md:h-14 px-6 md:px-8 rounded-full border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-slate-700 text-base md:text-lg font-bold flex items-center justify-center transition-all">
+              <Link href="/about/student-consulting-center" className="h-12 md:h-14 px-6 md:px-8 rounded-full border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-slate-700 text-base md:text-lg font-medium flex items-center justify-center transition-all">
                 Learn More
               </Link>
             </div>

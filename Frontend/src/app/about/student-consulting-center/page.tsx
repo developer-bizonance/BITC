@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight, Compass, Target, BookOpen, MessageSquare, Briefcase, Calendar, CheckCircle2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import ConsultationForm from "@/components/ConsultationForm";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export const metadata: Metadata = {
   title: "Student Consulting Center | BIZONANCE Industrial Training Centre",
@@ -17,7 +18,7 @@ export default function StudentConsultingCenter() {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-full opacity-30 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent pointer-events-none" />
         
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10 flex flex-col items-center text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-bold mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6">
             <Compass className="w-4 h-4" />
             Career Guidance & Counseling
           </div>
@@ -31,9 +32,21 @@ export default function StudentConsultingCenter() {
           </p>
           
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href="#book-consultation" className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-900 text-lg font-bold flex items-center justify-center hover:opacity-90 transition-all shadow-lg shadow-orange-500/20 hover:-translate-y-0.5">
-              Book Your Consultation <ArrowRight className="ml-2 w-5 h-5" />
-            </Link>
+            <Dialog>
+              <DialogTrigger render={
+                <button className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-900 text-lg font-medium flex items-center justify-center hover:opacity-90 transition-all shadow-lg shadow-orange-500/20 hover:-translate-y-0.5 cursor-pointer">
+                  Book Your Consultation <ArrowRight className="ml-2 w-5 h-5" />
+                </button>
+              } />
+              <DialogContent className="sm:max-w-md bg-white border border-gray-100 p-6 md:p-8 rounded-3xl">
+                <DialogHeader>
+                  <DialogTitle className="text-2xl font-bold text-slate-900 text-center mb-2">Book a Free Consultation</DialogTitle>
+                </DialogHeader>
+                <div className="text-left mt-2">
+                  <ConsultationForm theme="light" />
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </section>
@@ -93,25 +106,7 @@ export default function StudentConsultingCenter() {
         </div>
       </section>
 
-      {/* Booking Form CTA Section */}
-      <section id="book-consultation" className="py-20 bg-white border-t border-gray-100">
-        <div className="container max-w-[800px] mx-auto px-4">
-          <div className="bg-slate-50 rounded-[2rem] p-8 md:p-12 text-center text-slate-900 relative overflow-hidden shadow-xl border border-gray-200">
-            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary via-transparent to-transparent pointer-events-none" />
-            
-            <div className="relative z-10">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Discuss Your <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Future?</span></h2>
-              <p className="text-gray-600 text-lg mb-10 max-w-lg mx-auto">
-                Schedule a one-on-one session with our senior career counselors. The consultation is completely free!
-              </p>
-              
-              <div className="max-w-md mx-auto text-left">
-                <ConsultationForm theme="light" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+
 
     </div>
   );

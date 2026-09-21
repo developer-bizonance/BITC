@@ -92,7 +92,7 @@ export default function OurStoryPage() {
             ].map((q, i) => (
               <div key={i} className="bg-white border border-slate-200/80 rounded-2xl p-6 md:p-8 text-center shadow-sm hover:shadow-md transition-all">
                 <Lightbulb className="w-10 h-10 text-primary mx-auto mb-4" />
-                <p className="text-lg font-bold text-slate-800">"{q}"</p>
+                <p className="text-lg font-medium text-slate-800">"{q}"</p>
               </div>
             ))}
           </div>
@@ -184,7 +184,7 @@ export default function OurStoryPage() {
                   icon: Globe,
                   desc: "Expanding MoU partnerships with top colleges, certifications, and placement drives.",
                   iconGlow: "from-purple-500 to-indigo-500",
-                  tag: "500+ MoUs",
+                  tag: "50+ MoUs",
                 },
               ].map((milestone, i) => (
                 <Card
@@ -192,7 +192,7 @@ export default function OurStoryPage() {
                   className="border-none shadow-sm hover:shadow-xl transition-all duration-300 group bg-white flex flex-col items-center text-center p-5 h-full hover:-translate-y-2 rounded-2xl relative overflow-hidden"
                 >
                   {/* Step Number Pill */}
-                  <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-black bg-slate-100 text-slate-700 border border-slate-200/80 mb-4 group-hover:bg-primary/10 group-hover:text-primary transition-colors">
+                  <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200/80 mb-4 group-hover:bg-primary/10 group-hover:text-primary transition-colors">
                     STEP {milestone.num}
                   </div>
 
@@ -202,15 +202,15 @@ export default function OurStoryPage() {
                   </div>
 
                   {/* Content */}
-                  <h3 className="text-base font-black text-slate-900 mb-2 leading-snug group-hover:text-primary transition-colors">
+                  <h3 className="text-base font-semibold text-slate-900 mb-2 leading-snug group-hover:text-primary transition-colors">
                     {milestone.title}
                   </h3>
-                  <p className="text-[12.5px] text-slate-600 leading-relaxed font-medium mb-4 flex-1">
+                  <p className="text-[12.5px] text-slate-600 leading-relaxed mb-4 flex-1">
                     {milestone.desc}
                   </p>
 
                   {/* Bottom Tag */}
-                  <span className="inline-block px-2.5 py-1 rounded-lg bg-slate-50 text-[11px] font-bold text-slate-500 border border-slate-100 mt-auto">
+                  <span className="inline-block px-2.5 py-1 rounded-lg bg-slate-50 text-[11px] font-medium text-slate-500 border border-slate-100 mt-auto">
                     {milestone.tag}
                   </span>
                 </Card>
@@ -291,7 +291,7 @@ export default function OurStoryPage() {
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
             {/* Today */}
             <div className="bg-gray-50 p-8 md:p-12 rounded-[2rem] border border-gray-100">
-              <div className="inline-block px-4 py-1.5 bg-primary/10 text-primary font-bold rounded-full text-sm uppercase tracking-wider mb-6">Today</div>
+              <div className="inline-block px-4 py-1.5 bg-primary/10 text-primary font-medium rounded-full text-sm uppercase tracking-wider mb-6">Today</div>
               <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Who We Are <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Today</span></h2>
               <p className="text-lg text-gray-600 leading-relaxed mb-6">
                 Today, BITC is growing into an industry-integrated learning ecosystem where students, professionals, colleges, and companies collaborate to create meaningful learning experiences.
@@ -303,7 +303,7 @@ export default function OurStoryPage() {
             
             {/* Tomorrow */}
             <div className="bg-blue-50 p-8 md:p-12 rounded-[2rem] border border-blue-100">
-              <div className="inline-block px-4 py-1.5 bg-blue-500/10 text-blue-700 font-bold rounded-full text-sm uppercase tracking-wider mb-6">Tomorrow</div>
+              <div className="inline-block px-4 py-1.5 bg-blue-500/10 text-blue-700 font-medium rounded-full text-sm uppercase tracking-wider mb-6">Tomorrow</div>
               <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Looking <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Ahead</span></h2>
               <p className="text-lg text-gray-600 leading-relaxed mb-10">
                 Our vision extends beyond training. We aim to become one of India's most trusted Training Centers for practical learning, industry mentorship, career development, and professional excellence.

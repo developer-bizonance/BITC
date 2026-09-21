@@ -6,7 +6,7 @@ export type CourseModule = {
 export type Course = {
   slug: string;
   title: string;
-  category: "Information Technology" | "Management" | "Design" | "Digital Media Technology";
+  category: "Information Technology" | "Management Programs" | "Design Programs" | "Digital Media Technology";
   duration: string;
   fees: string;
   price: number;
@@ -552,7 +552,7 @@ export const courses: Course[] = [
   {
     slug: "digital-marketing",
     title: "Digital Marketing",
-    category: "Management",
+    category: "Management Programs",
     duration: "3 Months",
     fees: "₹36,000",
     price: 36000,
@@ -568,7 +568,7 @@ export const courses: Course[] = [
   {
     slug: "business-analyst",
     title: "Business Analytics",
-    category: "Management",
+    category: "Management Programs",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
@@ -586,7 +586,7 @@ export const courses: Course[] = [
   {
     slug: "finance",
     title: "Finance",
-    category: "Management",
+    category: "Management Programs",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
@@ -604,7 +604,7 @@ export const courses: Course[] = [
   {
     slug: "hr",
     title: "Human Resources (HR)",
-    category: "Management",
+    category: "Management Programs",
     duration: "3 Months",
     fees: "₹36,000",
     price: 36000,
@@ -620,7 +620,7 @@ export const courses: Course[] = [
   {
     slug: "sales-and-marketing",
     title: "Sales & Business Development",
-    category: "Management",
+    category: "Management Programs",
     duration: "3 Months",
     fees: "₹36,000",
     price: 36000,
@@ -638,7 +638,7 @@ export const courses: Course[] = [
   {
     slug: "ui-ux-design",
     title: "UI/UX Design",
-    category: "Design",
+    category: "Design Programs",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
@@ -656,7 +656,7 @@ export const courses: Course[] = [
   {
     slug: "graphic-design",
     title: "Graphic Design",
-    category: "Design",
+    category: "Design Programs",
     duration: "3 Months",
     fees: "₹36,000",
     price: 36000,
@@ -672,7 +672,7 @@ export const courses: Course[] = [
   {
     slug: "motion-graphics",
     title: "Motion Graphics",
-    category: "Design",
+    category: "Design Programs",
     duration: "3 Months",
     fees: "₹36,000",
     price: 36000,
@@ -688,7 +688,7 @@ export const courses: Course[] = [
   {
     slug: "video-editing",
     title: "Video Editing",
-    category: "Design",
+    category: "Design Programs",
     duration: "3 Months",
     fees: "₹36,000",
     price: 36000,
@@ -704,7 +704,7 @@ export const courses: Course[] = [
   {
     slug: "animation",
     title: "Animation",
-    category: "Design",
+    category: "Design Programs",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
@@ -722,7 +722,7 @@ export const courses: Course[] = [
   {
     slug: "contain-creation",
     title: "Contain Creation",
-    category: "Design",
+    category: "Design Programs",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
@@ -761,7 +761,7 @@ export const courses: Course[] = [
   {
     slug: "business-consultant",
     title: "Business Consultant",
-    category: "Management",
+    category: "Management Programs",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
@@ -773,8 +773,8 @@ export const courses: Course[] = [
   },
   {
     slug: "human-resource",
-    title: "Human resource",
-    category: "Management",
+    title: "Human Resource",
+    category: "Management Programs",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,

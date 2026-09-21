@@ -110,7 +110,7 @@ export default function PlacementCellPage() {
                 { label: "Students Trained", value: "500+", icon: Users },
               ].map((stat, i) => (
                 <div key={i} className="p-8 text-center flex flex-col items-center justify-center">
-                  <div className="w-12 h-12 bg-orange-500/10 text-orange-600 rounded-full flex items-center justify-center mb-4 font-bold">
+                  <div className="w-12 h-12 bg-orange-500/10 text-orange-600 rounded-full flex items-center justify-center mb-4 font-medium">
                     <stat.icon className="w-6 h-6" />
                   </div>
                   <div className="text-3xl font-black text-slate-900 mb-1 tracking-tight">{stat.value}</div>
@@ -209,12 +209,12 @@ export default function PlacementCellPage() {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link href="/contact">
-              <Button className="w-full sm:w-auto h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] text-lg font-bold shadow-xl shadow-primary/20 hover:-translate-y-1 transition-all border-0">
+              <Button className="w-full sm:w-auto h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] text-lg font-medium shadow-xl shadow-primary/20 hover:-translate-y-1 transition-all border-0">
                 Contact Placement Officer
               </Button>
             </Link>
             <Link href="/placements/partners">
-              <Button variant="outline" className="w-full sm:w-auto h-14 px-10 rounded-full border-blue-200/80 text-slate-700 hover:bg-white hover:border-blue-300 text-lg font-bold hover:-translate-y-1 transition-all bg-white/80 backdrop-blur-sm shadow-sm">
+              <Button variant="outline" className="w-full sm:w-auto h-14 px-10 rounded-full border-blue-200/80 text-slate-700 hover:bg-white hover:border-blue-300 text-lg font-medium hover:-translate-y-1 transition-all bg-white/80 backdrop-blur-sm shadow-sm">
                 View Hiring Partners
               </Button>
             </Link>

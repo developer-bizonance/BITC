@@ -31,7 +31,7 @@ export default function FutureProofPage() {
 
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 text-sm font-bold mb-8">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 text-sm font-medium mb-8">
               <ShieldCheck className="w-4 h-4" />
               The BITC Edge
             </div>
@@ -44,10 +44,10 @@ export default function FutureProofPage() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/courses/it" className="h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white text-lg font-bold flex items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-lg">
+              <Link href="/courses/it" className="h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white text-lg font-medium flex items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-lg">
                 Explore Programs
               </Link>
-              <Link href="#pillars" className="h-14 px-10 rounded-full bg-white text-slate-700 text-lg font-bold flex items-center justify-center hover:bg-gray-50 border border-gray-200 transition-all shadow-sm">
+              <Link href="#pillars" className="h-14 px-10 rounded-full bg-white text-slate-700 text-lg font-medium flex items-center justify-center hover:bg-gray-50 border border-gray-200 transition-all shadow-sm">
                 Our Core Pillars
               </Link>
             </div>
@@ -170,10 +170,10 @@ export default function FutureProofPage() {
             The best time to future-proof your career was 5 years ago. The second best time is today. Join BITC and become the talent that top companies are desperate to hire.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact" className="h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white text-lg font-bold flex items-center justify-center hover:scale-105 transition-transform shadow-lg shadow-orange-500/25">
+            <Link href="/contact" className="h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white text-lg font-medium flex items-center justify-center hover:scale-105 transition-transform shadow-lg shadow-orange-500/25">
               Get Started <ArrowRight className="ml-2 w-5 h-5" />
             </Link>
-            <Link href="/contact" className="h-14 px-10 rounded-full bg-white text-slate-900 border-2 border-slate-200 text-lg font-bold flex items-center justify-center hover:border-slate-400 transition-colors">
+            <Link href="/contact" className="h-14 px-10 rounded-full bg-white text-slate-900 border-2 border-slate-200 text-lg font-medium flex items-center justify-center hover:border-slate-400 transition-colors">
               Talk to an Advisor
             </Link>
           </div>

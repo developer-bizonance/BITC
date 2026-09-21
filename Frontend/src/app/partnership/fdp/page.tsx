@@ -28,7 +28,7 @@ export default function FDPPage() {
             Equipping professors and academic staff with the latest industry trends, tools, and teaching methodologies to foster an environment of continuous learning.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact" className="h-14 px-8 rounded-full text-white font-bold flex items-center justify-center transition-all shadow-lg hover:shadow-xl bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] border-0">
+            <Link href="/contact" className="h-14 px-8 rounded-full text-white font-medium flex items-center justify-center transition-all shadow-lg hover:shadow-xl bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] border-0">
               Organize an FDP
             </Link>
           </div>
@@ -104,7 +104,7 @@ export default function FDPPage() {
         <div className="container max-w-[800px] mx-auto px-4 text-center relative z-10">
           <h2 className="text-3xl font-bold text-slate-900 mb-6">Upgrade Your Faculty's <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Toolkit</span></h2>
           <p className="text-slate-600 mb-8 text-lg font-medium">Contact our partnership team to design a targeted Faculty Development Program for your institution.</p>
-          <Link href="/contact" className="inline-flex h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white font-bold items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-lg gap-2">
+          <Link href="/contact" className="inline-flex h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white font-medium items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-lg gap-2">
             Contact Us <ArrowRight className="w-5 h-5" />
           </Link>
         </div>

@@ -773,7 +773,7 @@ export let courses: Course[] = [
   },
   {
     slug: "human-resource",
-    title: "Human resource",
+    title: "Human Resource",
     category: "Management",
     duration: "6 Months",
     fees: "₹36,000",

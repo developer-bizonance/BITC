@@ -45,24 +45,32 @@ export default async function SuccessStoriesPage() {
     <div className="flex flex-col min-h-screen">
       
       {/* 1. Hero Banner */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-start pt-16 md:pt-20 lg:pt-24 bg-white overflow-hidden">
-        <div className="container max-w-[1200px] mx-auto px-4 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-semibold mb-6">
+      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center pt-8 md:pt-12 pb-6 bg-white overflow-hidden">
+        <div className="container max-w-[1200px] mx-auto px-4 relative z-10 text-center flex flex-col items-center h-full">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-semibold mb-4">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             ALUMNI SUCCESS
           </div>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-4 leading-[1.1]">
             Meet Our <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Achievers.</span>
           </h1>
-          <p className="text-base md:text-lg text-slate-600 max-w-[800px] mx-auto leading-relaxed mb-10 font-medium">
+          <p className="text-sm md:text-base text-slate-600 max-w-[700px] mx-auto leading-relaxed mb-6 font-medium">
             Read inspiring stories from our alumni who transformed their careers through BITC's industry-driven training and dedicated placement support.
           </p>
-          <div className="flex justify-center gap-4">
+          <div className="flex justify-center gap-4 mb-8">
             <Link href="/courses">
               <Button className="h-12 px-8 rounded-full text-white shadow-lg shadow-orange-500/20 text-base font-semibold bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] border-0">
                 Start Your Journey
               </Button>
             </Link>
+          </div>
+          
+          <div className="w-full max-w-[1100px] mx-auto rounded-2xl overflow-hidden shadow-2xl shadow-blue-900/5 border border-slate-100 relative max-h-[45vh] lg:max-h-[50vh] flex items-center justify-center">
+            <img 
+              src="/success-stories-hero.png" 
+              alt="BITC Alumni Success and Placement" 
+              className="w-full h-full object-cover" 
+            />
           </div>
         </div>
       </section>
@@ -123,12 +131,12 @@ export default async function SuccessStoriesPage() {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link href="/courses">
-              <Button className="h-14 px-10 rounded-full text-white text-lg font-bold shadow-xl shadow-orange-500/20 hover:-translate-y-1 transition-all w-full sm:w-auto bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] border-0">
+              <Button className="h-14 px-10 rounded-full text-white text-lg font-medium shadow-xl shadow-orange-500/20 hover:-translate-y-1 transition-all w-full sm:w-auto bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] border-0">
                 Explore Programs
               </Button>
             </Link>
             <Link href="/contact">
-              <Button variant="outline" className="h-14 px-10 rounded-full border-blue-200/80 text-slate-700 hover:bg-white hover:border-blue-300 text-lg font-bold hover:-translate-y-1 transition-all w-full sm:w-auto bg-white/80 backdrop-blur-sm shadow-sm">
+              <Button variant="outline" className="h-14 px-10 rounded-full border-blue-200/80 text-slate-700 hover:bg-white hover:border-blue-300 text-lg font-medium hover:-translate-y-1 transition-all w-full sm:w-auto bg-white/80 backdrop-blur-sm shadow-sm">
                 Contact Admissions
               </Button>
             </Link>

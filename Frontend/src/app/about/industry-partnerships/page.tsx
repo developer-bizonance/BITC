@@ -16,6 +16,8 @@ import {
   Phone,
   Mail,
 } from "lucide-react";
+import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
+import { PartnerWithUsForm } from "@/components/forms/PartnerWithUsForm";
 
 export const metadata: Metadata = {
   title: "Industry Partnerships",
@@ -34,7 +36,7 @@ export default function IndustryPartnershipsPage() {
       <section className="relative w-full min-h-[calc(100vh-80px)] bg-white py-20 lg:py-28 overflow-hidden flex flex-col items-center justify-center">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] opacity-25 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[1000px] mx-auto px-4 text-center relative z-10 flex flex-col items-center justify-center my-auto">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-bold rounded-full px-5 py-2 text-sm uppercase tracking-widest mb-8">
+          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-medium rounded-full px-5 py-2 text-sm uppercase tracking-widest mb-8">
             <Handshake className="w-4 h-4" />
             Partnerships
           </div>
@@ -162,9 +164,14 @@ export default function IndustryPartnershipsPage() {
             Join our growing network of industry partners and help shape the next generation of professionals.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/contact" className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white font-semibold flex items-center gap-2 justify-center hover:shadow-xl transition-all text-lg">
-              Partner With Us <ArrowRight className="w-5 h-5" />
-            </Link>
+            <Dialog>
+              <DialogTrigger className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white font-semibold flex items-center gap-2 justify-center hover:shadow-xl transition-all text-lg cursor-pointer">
+                Partner With Us <ArrowRight className="w-5 h-5" />
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-2xl p-0 bg-transparent border-0 shadow-none overflow-hidden rounded-2xl">
+                <PartnerWithUsForm />
+              </DialogContent>
+            </Dialog>
             <Link href="/contact" className="h-14 px-8 rounded-full bg-white text-slate-900 font-semibold flex items-center justify-center border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all text-lg shadow-sm">
               Contact Us
             </Link>

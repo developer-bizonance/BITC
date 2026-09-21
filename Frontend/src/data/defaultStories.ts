@@ -22,7 +22,7 @@ export const defaultStories: TestimonialItem[] = [
     quote: "The MERN stack certification at BITC gave me the practical skills I needed to clear my interviews with ease.",
     image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&h=300&q=80",
     rating: 5,
-    youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    youtubeUrl: "https://youtu.be/ec_OJbZ4ByQ",
   },
   {
     id: "testi-2",
@@ -34,7 +34,7 @@ export const defaultStories: TestimonialItem[] = [
     quote: "Excellent faculty and hands-on projects. The placement cell was very supportive throughout the process.",
     image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&h=300&q=80",
     rating: 5,
-    youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    youtubeUrl: "https://youtu.be/EOanE5wsHDs",
   },
   {
     id: "testi-3",

@@ -72,7 +72,7 @@ export default function EventRegistrationModal({ children, eventId, isGeneralUpd
       <DialogTrigger
         render={
           (children as React.ReactElement) || (
-            <Button className="inline-flex items-center justify-center h-14 px-10 rounded-full text-white text-lg font-bold shadow-xl shadow-orange-500/20 hover:-translate-y-1 transition-all bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] border-0">
+            <Button className="inline-flex items-center justify-center h-14 px-10 rounded-full text-white text-lg font-medium shadow-xl shadow-orange-500/20 hover:-translate-y-1 transition-all bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] border-0">
               Get Event Updates
             </Button>
           )

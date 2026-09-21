@@ -218,7 +218,7 @@ export default function FeaturedCertifications() {
                       </div>
 
                       <Link href={`/courses/${course.title.toLowerCase().replace(/ & /g, '-').replace(/[\/\s]+/g, '-')}`} className="block w-full">
-                        <Button className="w-full h-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:opacity-90 text-white font-bold text-xs transition-all duration-300 shadow-sm cursor-pointer flex items-center justify-center gap-2 group/btn">
+                        <Button className="w-full h-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:opacity-90 text-white font-medium text-xs transition-all duration-300 shadow-sm cursor-pointer flex items-center justify-center gap-2 group/btn">
                           <span>View Program</span>
                           <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
                         </Button>
@@ -233,7 +233,7 @@ export default function FeaturedCertifications() {
             {hasMore && (
               <div className="flex justify-center mt-10">
                 <Link href={categoryRoutes[category] || "/courses"}>
-                  <Button variant="outline" className="rounded-full px-8 py-5 bg-transparent border-2 border-amber-500 text-amber-600 hover:bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:text-white hover:border-transparent font-bold transition-all duration-300 flex items-center gap-2.5 text-sm md:text-base cursor-pointer shadow-none">
+                  <Button variant="outline" className="rounded-full px-8 py-5 bg-transparent border-2 border-amber-500 text-amber-600 hover:bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:text-white hover:border-transparent font-medium transition-all duration-300 flex items-center gap-2.5 text-sm md:text-base cursor-pointer shadow-none">
                     <span>See More Certifications</span>
                     <ArrowRight className="w-5 h-5" />
                   </Button>

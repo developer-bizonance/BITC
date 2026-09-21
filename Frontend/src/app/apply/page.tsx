@@ -321,7 +321,7 @@ function ApplyFormContent() {
           <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
             <Check className="w-10 h-10" />
           </div>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 border border-green-200 text-green-700 text-xs font-bold uppercase tracking-wider mb-3">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 border border-green-200 text-green-700 text-xs font-medium uppercase tracking-wider mb-3">
             Application Submitted
           </span>
           <h2 className="text-3xl font-black text-slate-900 mb-3">Welcome to the BITC <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Talent Pool!</span></h2>
@@ -354,7 +354,7 @@ function ApplyFormContent() {
           <div className="flex justify-center gap-4">
             <Link
               href="/about/careers"
-              className="px-8 py-3.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm transition-all shadow-lg"
+              className="px-8 py-3.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-medium text-sm transition-all shadow-lg"
             >
               Back to Careers
             </Link>
@@ -381,7 +381,7 @@ function ApplyFormContent() {
                 setErrors({});
                 setTouched({});
               }}
-              className="px-8 py-3.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-900 font-bold text-sm transition-all"
+              className="px-8 py-3.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-900 font-medium text-sm transition-all"
             >
               Submit Another
             </button>
@@ -390,7 +390,7 @@ function ApplyFormContent() {
       ) : (
         <div className="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
           <div className="p-6 md:p-8 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 text-yellow-300 text-xs font-bold uppercase tracking-wider mb-2 border border-primary/30">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 text-yellow-300 text-xs font-medium uppercase tracking-wider mb-2 border border-primary/30">
               <Sparkles className="w-3.5 h-3.5" /> Official Application Portal
             </div>
             <h2 className="text-2xl md:text-3xl font-extrabold text-white">
@@ -510,7 +510,7 @@ function ApplyFormContent() {
                   <GraduationCap className="w-5 h-5 text-primary" />
                   Which Course / Certification will you teach? <span className="text-red-500">*</span>
                 </span>
-                <span className="text-[11px] font-bold text-orange-600 bg-orange-100 px-2.5 py-0.5 rounded-full">
+                <span className="text-[11px] font-medium text-orange-600 bg-orange-100 px-2.5 py-0.5 rounded-full">
                   All Website Specializations
                 </span>
               </label>
@@ -518,7 +518,7 @@ function ApplyFormContent() {
                 value={form.subjectCourse}
                 onChange={(e) => handleChange("subjectCourse", e.target.value)}
                 onBlur={() => handleBlur("subjectCourse")}
-                className={`w-full px-4 py-3.5 bg-white border-2 rounded-xl text-slate-900 text-sm font-bold focus:outline-none transition-all cursor-pointer shadow ${
+                className={`w-full px-4 py-3.5 bg-white border-2 rounded-xl text-slate-900 text-sm font-medium focus:outline-none transition-all cursor-pointer shadow ${
                   touched.subjectCourse && errors.subjectCourse
                     ? "border-red-500 ring-2 ring-red-100"
                     : "border-primary focus:ring-4 focus:ring-primary/20"
@@ -685,7 +685,7 @@ function ApplyFormContent() {
               {resumeFile ? (
                 <div className="flex items-center justify-between p-4 bg-emerald-50 border border-emerald-200 rounded-2xl shadow-sm">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-medium">
                       <FileText className="w-5 h-5" />
                     </div>
                     <div>
@@ -784,7 +784,7 @@ export default function ApplyPage() {
         <div className="mb-8">
           <Link
             href="/about/careers"
-            className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 font-bold text-sm bg-white px-4 py-2 rounded-full border border-slate-200 shadow-sm transition-colors"
+            className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 font-medium text-sm bg-white px-4 py-2 rounded-full border border-slate-200 shadow-sm transition-colors"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Careers Page
           </Link>

@@ -45,7 +45,8 @@ export function Footer() {
   const programLinks = [
     { name: 'Information Tech', href: '/courses/it' },
     { name: 'Management', href: '/courses/management' },
-    { name: 'Designing', href: '/courses/design' }
+    { name: 'Designing', href: '/courses/design' },
+    { name: 'Digital Media', href: '/courses/digital-media' }
   ];
 
   return (
@@ -68,13 +69,13 @@ export function Footer() {
                     className="h-10 sm:h-12 w-auto object-contain -ml-1"
                   />
                 </div>
-                <p className="text-[13px] leading-relaxed text-[#555] sm:text-sm font-medium pr-0 sm:pr-2">
+                <p className="text-[14px] sm:text-[15px] leading-relaxed text-slate-600 font-normal pr-0 sm:pr-2">
                   Empowering Future Professionals with Industry-Ready Skills. We bridge academic learning and industry requirements with cutting-edge tech education.
                 </p>
               </div>
 
               {/* Social Icons */}
-              <div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-2">
+              <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 pt-3 -ml-1">
                 {socials.map((item, i) => {
                   const Icon = item.icon;
                   const isGoogle = item.label === 'Google';
@@ -85,28 +86,28 @@ export function Footer() {
                       aria-label={item.label}
                       target="_blank"
                       rel="noreferrer"
-                      className="flex items-center justify-center transition-transform duration-300 hover:-translate-y-1 hover:scale-110 p-1"
+                      className="flex items-center justify-center transition-transform duration-300 hover:-translate-y-1 hover:scale-110 p-1.5"
                       onMouseEnter={() => setHoveredIndex(i)}
                       onMouseLeave={() => setHoveredIndex(null)}
                     >
                       {isGoogle ? (
                         <>
                           <span className="sm:hidden transition-all duration-300">
-                            <GoogleIcon size={18} />
+                            <GoogleIcon size={15} />
                           </span>
                           <span className="hidden sm:block transition-all duration-300">
-                            <GoogleIcon size={22} />
+                            <GoogleIcon size={18} />
                           </span>
                         </>
                       ) : (
                         <>
                           <Icon
-                            size={18}
+                            size={15}
                             className="transition-colors duration-300 sm:hidden"
                             style={{ color: item.color! }}
                           />
                           <Icon
-                            size={22}
+                            size={18}
                             className="hidden transition-colors duration-300 sm:block"
                             style={{ color: item.color! }}
                           />
@@ -122,8 +123,8 @@ export function Footer() {
             <div className="lg:col-span-5 grid grid-cols-2 sm:grid-cols-3 gap-5 sm:gap-6 pt-1">
               {/* Imp Links Column */}
               <div>
-                <h4 className="font-bold text-slate-900 mb-3 text-sm sm:text-base capitalize tracking-wide">Links</h4>
-                <ul className="space-y-2 text-[13px] sm:text-sm font-medium">
+                <h4 className="font-bold text-slate-900 mb-3 sm:mb-4 text-[15px] sm:text-[16px] capitalize tracking-wide">Links</h4>
+                <ul className="space-y-2.5 text-[14px] sm:text-[15px] font-normal">
                   {impLinks.map((item) => (
                     <li key={item.name}>
                       <Link href={item.href} className="hover:text-primary transition-colors text-slate-600 hover:translate-x-0.5 inline-flex items-center">
@@ -136,8 +137,8 @@ export function Footer() {
 
               {/* Programs Column */}
               <div>
-                <h4 className="font-bold text-slate-900 mb-3 text-sm sm:text-base capitalize tracking-wide">Programs</h4>
-                <ul className="space-y-2 text-[13px] sm:text-sm font-medium">
+                <h4 className="font-bold text-slate-900 mb-3 sm:mb-4 text-[15px] sm:text-[16px] capitalize tracking-wide">Programs</h4>
+                <ul className="space-y-2.5 text-[14px] sm:text-[15px] font-normal">
                   {programLinks.map((item) => (
                     <li key={item.name}>
                       <Link href={item.href} className="hover:text-primary transition-colors text-slate-600 hover:translate-x-0.5 inline-flex items-center">
@@ -150,8 +151,8 @@ export function Footer() {
 
               {/* Company Column */}
               <div>
-                <h4 className="font-bold text-slate-900 mb-3 text-sm sm:text-base capitalize tracking-wide">Company</h4>
-                <ul className="space-y-2 text-[13px] sm:text-sm font-medium">
+                <h4 className="font-bold text-slate-900 mb-3 sm:mb-4 text-[15px] sm:text-[16px] capitalize tracking-wide">Company</h4>
+                <ul className="space-y-2.5 text-[14px] sm:text-[15px] font-normal">
                   {companyLinks.map((item) => (
                     <li key={item.name}>
                       <Link href={item.href} className="hover:text-primary transition-colors text-slate-600 hover:translate-x-0.5 inline-flex items-center">
@@ -174,26 +175,6 @@ export function Footer() {
                 <p className="text-[10.5px] text-[#888] sm:text-[11px] whitespace-nowrap">Registered Trademark · IP India</p>
               </div>
 
-              {/* Call Now & WhatsApp buttons (Always Horizontal) */}
-              <div className="flex flex-row items-center gap-2 sm:gap-2.5 w-full lg:w-auto mt-auto">
-                <a
-                  href="tel:+918956727311"
-                  className="flex-1 lg:flex-none inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-blue-50 px-3.5 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-[13px] font-bold text-blue-600 border border-blue-100 hover:bg-blue-100 hover:shadow-md transition-all duration-200"
-                >
-                  <Phone size={14} />
-                  <span>Call Now</span>
-                </a>
-                <a
-                  href="https://wa.me/918956727311?text=Hello%2C%20I%20recently%20visited%20your%20official%20website%20and%20i%20want%20to%20know%20more%20about%20your%20services"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex-1 lg:flex-none inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-emerald-50 px-3.5 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-[13px] font-bold text-emerald-600 border border-emerald-100 hover:bg-emerald-100 hover:shadow-md transition-all duration-200"
-                >
-                  <FaWhatsapp size={15} />
-                  <span>WhatsApp</span>
-                </a>
-              </div>
-
             </div>
 
           </div>
@@ -209,7 +190,10 @@ export function Footer() {
               Privacy Policy
             </Link>
             <Link href="/terms-of-service" className="hover:text-primary transition-colors">
-              Terms of Service
+              Terms & Conditions
+            </Link>
+            <Link href="/legal/refund-policy" className="hover:text-primary transition-colors">
+              Refund Policy
             </Link>
           </div>
         </div>

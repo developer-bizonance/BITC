@@ -213,7 +213,7 @@ export default function CertificateVerificationPage() {
                 No active record was found matching Certificate ID <span className="font-mono font-bold text-slate-900">"{certIdInput}"</span>. Please check the ID for typos or contact the BITC verification desk.
               </p>
               <Link href="/contact">
-                <Button variant="outline" className="rounded-full border-red-300 text-red-700 hover:bg-red-100 font-bold">
+                <Button variant="outline" className="rounded-full border-red-300 text-red-700 hover:bg-red-100 font-medium">
                   Contact Support Desk
                 </Button>
               </Link>
@@ -295,7 +295,7 @@ export default function CertificateVerificationPage() {
                       <FileCheck className="w-5 h-5 text-emerald-600 shrink-0 mt-1" />
                       <div>
                         <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Status</span>
-                        <span className="text-sm font-bold text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full inline-block mt-0.5 border border-emerald-200">
+                        <span className="text-sm font-medium text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full inline-block mt-0.5 border border-emerald-200">
                           Active & Verified Record
                         </span>
                       </div>
@@ -308,7 +308,7 @@ export default function CertificateVerificationPage() {
                   <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-3">Validated Technical Competencies:</span>
                   <div className="flex flex-wrap gap-2">
                     {result.skills.map((skill, idx) => (
-                      <span key={idx} className="px-3 py-1 rounded-full bg-slate-100 text-slate-800 font-bold text-xs border border-slate-200">
+                      <span key={idx} className="px-3 py-1 rounded-full bg-slate-100 text-slate-800 font-medium text-xs border border-slate-200">
                         ✓ {skill}
                       </span>
                     ))}
@@ -326,14 +326,14 @@ export default function CertificateVerificationPage() {
                     <Button 
                       onClick={() => window.print()}
                       variant="outline" 
-                      className="rounded-full border-slate-300 text-slate-700 font-bold hover:bg-slate-50 flex-1 sm:flex-none"
+                      className="rounded-full border-slate-300 text-slate-700 font-medium hover:bg-slate-50 flex-1 sm:flex-none"
                     >
                       <Download className="w-4 h-4 mr-2" />
                       Print / Download
                     </Button>
 
                     <Link href="/courses">
-                      <Button className="rounded-full bg-slate-900 text-white font-bold hover:bg-slate-800 flex-1 sm:flex-none">
+                      <Button className="rounded-full bg-slate-900 text-white font-medium hover:bg-slate-800 flex-1 sm:flex-none">
                         Explore Programs
                       </Button>
                     </Link>

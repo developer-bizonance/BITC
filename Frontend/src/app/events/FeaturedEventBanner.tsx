@@ -85,7 +85,7 @@ export default function FeaturedEventBanner({ event }: FeaturedEventBannerProps)
                 <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-blue-600 to-indigo-800" />
               )}
               <div className="absolute inset-0 bg-gradient-to-r from-slate-900/20 to-transparent mix-blend-multiply" />
-              <div className="absolute top-6 left-6 bg-black/30 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg flex items-center gap-2 tracking-widest uppercase">
+              <div className="absolute top-6 left-6 bg-black/30 backdrop-blur-md border border-white/20 text-white text-xs font-medium px-4 py-2 rounded-full shadow-lg flex items-center gap-2 tracking-widest uppercase">
                 <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.8)]" />
                 HIGHLIGHT EVENT
               </div>
@@ -136,7 +136,7 @@ export default function FeaturedEventBanner({ event }: FeaturedEventBannerProps)
                   ))}
                 </div>
               ) : timeLeft.over ? (
-                <div className="inline-flex items-center gap-2 bg-green-50 text-green-700 font-bold px-4 py-2 rounded-xl text-sm mb-6 border border-green-100">
+                <div className="inline-flex items-center gap-2 bg-green-50 text-green-700 font-medium px-4 py-2 rounded-xl text-sm mb-6 border border-green-100">
                   ✅ Event has taken place
                 </div>
               ) : (

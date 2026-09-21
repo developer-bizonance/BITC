@@ -110,17 +110,17 @@ export default function PlacementStatisticsPage() {
 
 
       {/* 5. CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-primary/10 to-blue-500/5 relative overflow-hidden">
+      <section className="py-20 bg-white relative overflow-hidden">
         <div className="container max-w-[800px] mx-auto px-4 text-center relative z-10">
           <h2 className="text-3xl font-bold text-slate-900 mb-6">Ready to write your own <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">success story?</span></h2>
           <p className="text-gray-600 mb-10 text-lg">
             Join BITC and get the industry-relevant training, expert mentorship, and placement assistance you need to launch a rewarding career.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/courses" className="h-14 px-8 rounded-full text-white font-bold flex items-center justify-center hover:/90 transition-all shadow-lg hover:shadow-xl bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)]">
+            <Link href="/courses" className="h-14 px-8 rounded-full text-white font-medium flex items-center justify-center hover:/90 transition-all shadow-lg hover:shadow-xl bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)]">
               Explore Our Programs
             </Link>
-            <Link href="/placements/success-stories" className="h-14 px-8 rounded-full bg-white text-slate-800 font-bold flex items-center justify-center hover:bg-gray-50 border border-gray-200 transition-all shadow-sm">
+            <Link href="/placements/success-stories" className="h-14 px-8 rounded-full bg-white text-slate-800 font-medium flex items-center justify-center hover:bg-gray-50 border border-gray-200 transition-all shadow-sm">
               Read Success Stories
             </Link>
           </div>

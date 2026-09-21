@@ -124,7 +124,7 @@ export function Navbar() {
                 <span className="flex items-center hover:text-primary transition-colors py-1.5">
                   {cat.label} <ChevronDown className="ml-1 h-3.5 w-3.5 text-gray-500 group-hover:rotate-180 transition-transform duration-300" />
                 </span>
-                <div className="absolute top-full left-0 hidden group-hover:block w-[280px] bg-white border border-gray-100 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] rounded-2xl p-3 z-50 transition-all opacity-0 group-hover:opacity-100 animate-in fade-in slide-in-from-top-2 duration-300">
+                <div className="absolute top-full left-1/2 -translate-x-1/2 hidden group-hover:block w-[280px] bg-white border border-gray-100 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] rounded-2xl p-3 z-50 transition-all opacity-0 group-hover:opacity-100 animate-in fade-in slide-in-from-top-2 duration-300">
                   {cat.items.map((item, i) => (
                     <Link key={i} href={item.href} className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-gray-50 transition-colors group/link">
                       <div className="w-8 h-8 rounded-md bg-primary/10 text-primary flex items-center justify-center shrink-0 group-hover/link:bg-primary group-hover/link:text-white transition-colors">

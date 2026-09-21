@@ -28,7 +28,7 @@ export default function WorkshopsPage() {
             Intensive, hands-on sessions designed to equip students and professionals with practical, highly sought-after industry skills in a matter of days.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact" className="h-14 px-8 rounded-full text-white font-bold flex items-center justify-center transition-all shadow-lg hover:shadow-xl bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] border-0">
+            <Link href="/contact" className="h-14 px-8 rounded-full text-white font-medium flex items-center justify-center transition-all shadow-lg hover:shadow-xl bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] border-0">
               Host a Workshop
             </Link>
           </div>
@@ -102,7 +102,7 @@ export default function WorkshopsPage() {
         <div className="container max-w-[800px] mx-auto px-4 text-center relative z-10">
           <h2 className="text-3xl font-bold text-slate-900 mb-6">Bring Our Experts to <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Your Campus</span></h2>
           <p className="text-slate-600 mb-8 text-lg font-medium">Looking to organize a high-impact technical workshop for your students or employees? Get in touch with us to schedule a session.</p>
-          <Link href="/contact" className="inline-flex h-14 px-8 rounded-full text-white font-bold items-center justify-center transition-all shadow-lg gap-2 bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)]">
+          <Link href="/contact" className="inline-flex h-14 px-8 rounded-full text-white font-medium items-center justify-center transition-all shadow-lg gap-2 bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)]">
             Organize a Workshop <ArrowRight className="w-5 h-5" />
           </Link>
         </div>

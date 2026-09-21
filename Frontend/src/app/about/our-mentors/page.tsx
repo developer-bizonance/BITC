@@ -64,7 +64,7 @@ export default function OurMentorsPage() {
       {/* ── HERO ── */}
       <section className="relative w-full min-h-[calc(100vh-80px)] bg-white text-slate-900 py-20 lg:py-28 overflow-hidden flex flex-col items-center justify-center">
         <div className="container max-w-[1000px] mx-auto px-4 text-center relative z-10 flex flex-col items-center justify-center my-auto">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-bold rounded-full px-5 py-2 text-sm uppercase tracking-widest mb-8 border border-primary/20">
+          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-medium rounded-full px-5 py-2 text-sm uppercase tracking-widest mb-8 border border-primary/20">
             <Users className="w-4 h-4" />
             Our Mentors
           </div>
@@ -149,7 +149,7 @@ export default function OurMentorsPage() {
 
                     <div className="flex flex-wrap items-center gap-1.5 mb-4">
                       {mentor.skills.map((skill, j) => (
-                        <span key={j} className="text-[10px] font-bold text-slate-600 bg-slate-50 border border-slate-200 px-2 py-0.5 rounded-md">
+                        <span key={j} className="text-[10px] font-medium text-slate-600 bg-slate-50 border border-slate-200 px-2 py-0.5 rounded-md">
                           {skill}
                         </span>
                       ))}

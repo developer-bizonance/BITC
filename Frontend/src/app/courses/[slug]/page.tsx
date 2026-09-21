@@ -11,6 +11,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ApplyButton } from "@/components/courses/ApplyButton";
+import { FaWhatsapp } from "react-icons/fa";
 
 import type { Metadata } from "next";
 
@@ -120,7 +121,7 @@ export default async function CoursePage({ params }: PageProps) {
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             <div className="lg:pt-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[11px] font-bold uppercase tracking-wider mb-5">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[11px] font-medium uppercase tracking-wider mb-5">
                 <LayoutTemplate className="w-3.5 h-3.5" />
                 {course.category}
               </div>
@@ -146,7 +147,7 @@ export default async function CoursePage({ params }: PageProps) {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <ApplyButton courseId={course.slug} courseTitle={course.title} />
-                <Link href="#curriculum" className="h-12 px-8 rounded-full bg-white text-slate-700 text-base font-bold flex items-center justify-center hover:bg-gray-50 border border-gray-200 transition-all shadow-sm">
+                <Link href="#curriculum" className="h-12 px-8 rounded-full bg-white text-slate-700 text-base font-medium flex items-center justify-center hover:bg-gray-50 border border-gray-200 transition-all shadow-sm">
                   View Curriculum
                 </Link>
               </div>
@@ -208,26 +209,26 @@ export default async function CoursePage({ params }: PageProps) {
               <BookOpen className="w-4 h-4 text-amber-600" />
               <span>INDUSTRY-DESIGNED SYLLABUS</span>
             </div>
-            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">Comprehensive Certification <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Curriculum</span></h2>
+            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">Comprehensive <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Curriculum</span></h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto font-medium leading-relaxed">
               Curated by industry leads and updated quarterly to equip you with production-grade skills, real-world workflows, and AI integration.
             </p>
 
             {/* Quick Metrics Bar */}
             <div className="mt-8 inline-flex flex-wrap items-center justify-center gap-3 p-2 bg-white rounded-2xl border border-slate-200/80 shadow-xs">
-              <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl text-xs font-bold text-slate-800">
+              <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl text-xs font-medium text-slate-800">
                 <Layers className="w-4 h-4 text-blue-600" />
                 <span>{course.curriculum.length} Intensive Modules</span>
               </div>
-              <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl text-xs font-bold text-slate-800">
+              <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl text-xs font-medium text-slate-800">
                 <BookOpen className="w-4 h-4 text-orange-600" />
                 <span>{totalTopics}+ Deep-Dive Topics</span>
               </div>
-              <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl text-xs font-bold text-slate-800">
+              <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl text-xs font-medium text-slate-800">
                 <Cpu className="w-4 h-4 text-purple-600" />
                 <span>AI Tools & Workflows</span>
               </div>
-              <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl text-xs font-bold text-slate-800">
+              <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl text-xs font-medium text-slate-800">
                 <Rocket className="w-4 h-4 text-emerald-600" />
                 <span>Live Capstone Project</span>
               </div>
@@ -294,7 +295,7 @@ export default async function CoursePage({ params }: PageProps) {
           <div className="mt-14 p-8 md:p-10 bg-slate-50 rounded-3xl border border-slate-200/80 text-slate-900 shadow-xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
             <div className="relative z-10 max-w-xl">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 text-amber-700 text-xs font-bold mb-4 border border-amber-500/20">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 text-amber-700 text-xs font-medium mb-4 border border-amber-500/20">
                 <Rocket className="w-3.5 h-3.5" />
                 <span>HANDS-ON INDUSTRIAL CAPSTONE</span>
               </div>
@@ -306,12 +307,14 @@ export default async function CoursePage({ params }: PageProps) {
             
             <div className="relative z-10 shrink-0 flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
               <ApplyButton courseId={course.slug} courseTitle={course.title} />
-              <Link 
-                href="/contact" 
-                className="w-full sm:w-auto h-12 px-6 rounded-full bg-white hover:bg-slate-100 text-slate-900 font-bold text-sm flex items-center justify-center gap-2 border border-slate-200 transition-all shadow-sm backdrop-blur-md"
+              <a 
+                href="https://wa.me/918956727311?text=Hello%2C%20I%20recently%20visited%20your%20official%20website%20and%20i%20want%20to%20know%20more%20about%20your%20services" 
+                target="_blank"
+                rel="noreferrer"
+                className="h-12 px-8 rounded-full bg-white hover:bg-slate-50 text-slate-900 font-medium text-base flex items-center justify-center gap-2 border border-slate-200 transition-all shadow-sm backdrop-blur-md hover:-translate-y-1 hover:shadow-md cursor-pointer"
               >
-                Chat with us <ChevronRight className="w-4 h-4" />
-              </Link>
+                Chat with us <FaWhatsapp className="w-5 h-5 text-emerald-500" />
+              </a>
             </div>
           </div>
 
@@ -321,7 +324,7 @@ export default async function CoursePage({ params }: PageProps) {
               <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4">
                 <Laptop className="w-6 h-6" />
               </div>
-              <h4 className="font-bold text-slate-900 mb-1 text-sm">100% <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Practical</span></h4>
+              <h4 className="font-bold text-slate-900 mb-1 text-sm">100% Practical</h4>
               <p className="text-xs text-slate-500">Real-world coding exercises and live project builds.</p>
             </div>
 
@@ -329,7 +332,7 @@ export default async function CoursePage({ params }: PageProps) {
               <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center mb-4">
                 <Cpu className="w-6 h-6" />
               </div>
-              <h4 className="font-bold text-slate-900 mb-1 text-sm">AI <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Workflows</span></h4>
+              <h4 className="font-bold text-slate-900 mb-1 text-sm">AI Workflows</h4>
               <p className="text-xs text-slate-500">Integrated Copilot, Cursor & AI prompt engineering.</p>
             </div>
 
@@ -337,7 +340,7 @@ export default async function CoursePage({ params }: PageProps) {
               <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-4">
                 <Award className="w-6 h-6" />
               </div>
-              <h4 className="font-bold text-slate-900 mb-1 text-sm">BITC <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certification</span></h4>
+              <h4 className="font-bold text-slate-900 mb-1 text-sm">BITC Certification</h4>
               <p className="text-xs text-slate-500">Recognized industrial certification upon completion.</p>
             </div>
 
@@ -345,7 +348,7 @@ export default async function CoursePage({ params }: PageProps) {
               <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4">
                 <Briefcase className="w-6 h-6" />
               </div>
-              <h4 className="font-bold text-slate-900 mb-1 text-sm">Placement <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Drive</span></h4>
+              <h4 className="font-bold text-slate-900 mb-1 text-sm">Placement Support</h4>
               <p className="text-xs text-slate-500">Direct interview opportunities with hiring partners.</p>
             </div>
           </div>

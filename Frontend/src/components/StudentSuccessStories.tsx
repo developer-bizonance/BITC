@@ -21,7 +21,7 @@ export default function StudentSuccessStories() {
             ? "http://localhost:5000/api"
             : "https://bitc-backend-theta.vercel.app/api");
 
-        const res = await fetch(`${apiUrl}/testimonials`);
+        const res = await fetch(`${apiUrl}/testimonials`, { cache: 'no-store' });
         if (res.ok) {
           const data = await res.json();
           if (data.testimonials && data.testimonials.length > 0) {

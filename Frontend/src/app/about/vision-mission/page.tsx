@@ -46,7 +46,7 @@ export default function VisionMissionPage() {
         <div className="absolute bottom-0 right-0 w-[600px] h-[600px] opacity-10 bg-[radial-gradient(circle_at_bottom_right,_var(--tw-gradient-stops))] from-blue-400 via-transparent to-transparent pointer-events-none" />
 
         <div className="container max-w-[1000px] mx-auto px-4 text-center relative z-10 flex flex-col items-center justify-center my-auto">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-bold rounded-full px-5 py-2 text-sm uppercase tracking-widest mb-8">
+          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-medium rounded-full px-5 py-2 text-sm uppercase tracking-widest mb-8">
             <Target className="w-4 h-4" />
             Vision &amp; Mission
           </div>
@@ -176,7 +176,7 @@ export default function VisionMissionPage() {
                  <BookOpen className="w-8 h-8 text-blue-600" />
                </div>
                <div className="text-center mb-8">
-                 <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-700 font-bold text-sm mb-3">1</div>
+                 <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-700 font-medium text-sm mb-3">1</div>
                  <h3 className="text-2xl font-bold text-slate-900"><span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Learn</span></h3>
                  <p className="text-gray-500 mt-2 text-sm">Build a strong foundation</p>
                </div>
@@ -200,7 +200,7 @@ export default function VisionMissionPage() {
                  <Rocket className="w-8 h-8 text-purple-600" />
                </div>
                <div className="text-center mb-8">
-                 <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-purple-100 text-purple-700 font-bold text-sm mb-3">2</div>
+                 <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-purple-100 text-purple-700 font-medium text-sm mb-3">2</div>
                  <h3 className="text-2xl font-bold text-slate-900"><span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Experience</span></h3>
                  <p className="text-gray-500 mt-2 text-sm">Apply your knowledge</p>
                </div>
@@ -223,7 +223,7 @@ export default function VisionMissionPage() {
                  <TrendingUp className="w-8 h-8 text-green-600" />
                </div>
                <div className="text-center mb-8">
-                 <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-100 text-green-700 font-bold text-sm mb-3">3</div>
+                 <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-100 text-green-700 font-medium text-sm mb-3">3</div>
                  <h3 className="text-2xl font-bold text-slate-900"><span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Grow</span></h3>
                  <p className="text-gray-500 mt-2 text-sm">Achieve career success</p>
                </div>

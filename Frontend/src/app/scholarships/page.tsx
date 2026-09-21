@@ -6,6 +6,8 @@ import {
   CreditCard, Briefcase, Zap
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { ScholarshipApplicationForm } from "@/components/forms/ScholarshipApplicationForm";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 export const metadata: Metadata = {
   title: "Scholarships & Financial Aid",
@@ -21,9 +23,9 @@ export default function ScholarshipsPage() {
     <div className="flex flex-col min-h-screen bg-white">
       
       {/* Hero Section */}
-      <section className="relative w-full bg-white py-24 overflow-hidden">
+      <section className="relative w-full bg-white min-h-[calc(100vh-80px)] flex items-center py-20 overflow-hidden">
         <div className="container max-w-[1000px] mx-auto px-4 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-600 text-sm font-bold mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-600 text-sm font-medium mb-6">
             <Award className="w-4 h-4" />
             BITC Scholarship Program
           </div>
@@ -35,15 +37,24 @@ export default function ScholarshipsPage() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact" className="h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white text-lg font-bold flex items-center justify-center hover:shadow-xl hover:shadow-orange-500/25 hover:-translate-y-1 transition-all">
-              Apply for Scholarship <ArrowRight className="ml-2 w-5 h-5" />
-            </Link>
-            <Link href="#criteria" className="h-14 px-10 rounded-full bg-white text-slate-700 text-lg font-bold flex items-center justify-center hover:bg-gray-50 border border-gray-200 transition-all shadow-sm">
+            <Dialog>
+              <DialogTrigger render={
+                <button className="h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white text-lg font-medium flex items-center justify-center hover:shadow-xl hover:shadow-orange-500/25 hover:-translate-y-1 transition-all">
+                  Apply for Scholarship <ArrowRight className="ml-2 w-5 h-5" />
+                </button>
+              } />
+              <DialogContent className="sm:max-w-2xl p-0 border-none bg-transparent shadow-none overflow-y-auto max-h-[90vh] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+                <ScholarshipApplicationForm />
+              </DialogContent>
+            </Dialog>
+            <Link href="#criteria" className="h-14 px-10 rounded-full bg-white text-slate-700 text-lg font-medium flex items-center justify-center hover:bg-gray-50 border border-gray-200 transition-all shadow-sm">
               View Criteria
             </Link>
           </div>
         </div>
       </section>
+
+
 
       {/* Eligibility Criteria */}
       <section id="criteria" className="py-20 lg:py-28 bg-white relative">
@@ -56,7 +67,7 @@ export default function ScholarshipsPage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden group">
+            <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden group">
               <CardContent className="p-8">
                 <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <GraduationCap className="w-7 h-7" />
@@ -68,7 +79,7 @@ export default function ScholarshipsPage() {
               </CardContent>
             </Card>
 
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden group">
+            <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden group">
               <CardContent className="p-8">
                 <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <BrainCircuit className="w-7 h-7" />
@@ -80,7 +91,7 @@ export default function ScholarshipsPage() {
               </CardContent>
             </Card>
 
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden group">
+            <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden group">
               <CardContent className="p-8">
                 <div className="w-14 h-14 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <CreditCard className="w-7 h-7" />
@@ -92,7 +103,7 @@ export default function ScholarshipsPage() {
               </CardContent>
             </Card>
 
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden group">
+            <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden group">
               <CardContent className="p-8">
                 <div className="w-14 h-14 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <Users className="w-7 h-7" />
@@ -104,17 +115,15 @@ export default function ScholarshipsPage() {
               </CardContent>
             </Card>
 
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden group lg:col-span-2">
-              <CardContent className="p-8 flex flex-col md:flex-row items-center gap-8">
-                <div className="w-16 h-16 rounded-2xl text-white flex items-center justify-center shrink-0 group-hover:rotate-6 transition-transform bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)]">
-                  <Zap className="w-8 h-8" />
+            <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden group">
+              <CardContent className="p-8">
+                <div className="w-14 h-14 rounded-2xl bg-yellow-50 text-yellow-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Zap className="w-7 h-7" />
                 </div>
-                <div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">Tech Innovators & <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Hobbyists</span></h3>
-                  <p className="text-slate-600 leading-relaxed">
-                    If your grades aren't perfect but you have a strong portfolio of side projects, GitHub repositories, or freelance work, you can bypass the standard academic criteria! We value builders above all else.
-                  </p>
-                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">Tech Innovators & <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Hobbyists</span></h3>
+                <p className="text-slate-600 leading-relaxed">
+                  If your grades aren't perfect but you have a strong portfolio of side projects, GitHub repositories, or freelance work, you can bypass the standard academic criteria! We value builders above all else.
+                </p>
               </CardContent>
             </Card>
           </div>
@@ -179,7 +188,7 @@ export default function ScholarshipsPage() {
           <p className="text-slate-600 text-lg mb-10 max-w-2xl mx-auto font-medium">
             Don't let anything hold you back. Apply today, secure your scholarship, and take the first step towards a high-paying career in tech.
           </p>
-          <Link href="/contact" className="inline-flex h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white text-lg font-bold items-center justify-center hover:scale-105 transition-transform shadow-lg shadow-orange-500/25">
+          <Link href="/contact" className="inline-flex h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white text-lg font-medium items-center justify-center hover:scale-105 transition-transform shadow-lg shadow-orange-500/25">
             Contact Us
           </Link>
         </div>

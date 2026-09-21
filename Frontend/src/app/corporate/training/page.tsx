@@ -28,7 +28,7 @@ export default function CorporateTrainingPage() {
             Empower your team with cutting-edge skills. Our tailored training programs align perfectly with your business goals, ensuring measurable impact and growth.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact" className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] text-white font-bold flex items-center justify-center transition-all shadow-lg hover:shadow-xl border-0">
+            <Link href="/contact" className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] text-white font-medium flex items-center justify-center transition-all shadow-lg hover:shadow-xl border-0">
               Request a Proposal
             </Link>
           </div>
@@ -104,7 +104,7 @@ export default function CorporateTrainingPage() {
         <div className="container max-w-[800px] mx-auto px-4 text-center relative z-10">
           <h2 className="text-3xl font-bold text-slate-900 mb-6">Ready to upskill your <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">team?</span></h2>
           <p className="text-slate-600 mb-8 text-lg font-medium">Connect with our corporate relations team to design a training program that perfectly aligns with your organizational objectives.</p>
-          <Link href="/contact" className="inline-flex h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] text-white font-bold items-center justify-center transition-all shadow-lg hover:shadow-xl gap-2">
+          <Link href="/contact" className="inline-flex h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] text-white font-medium items-center justify-center transition-all shadow-lg hover:shadow-xl gap-2">
             Talk to an Expert <ArrowRight className="w-5 h-5" />
           </Link>
         </div>

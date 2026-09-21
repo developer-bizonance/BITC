@@ -42,7 +42,7 @@ export default function DirectorsMessagePage() {
             {/* Text Content */}
             <div className="flex-1 p-10 md:p-16 flex flex-col justify-center relative">
               <Quote className="absolute top-8 left-8 md:top-12 md:left-12 w-24 h-24 text-slate-50 opacity-50 -z-10" />
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-bold mb-8 shadow-sm w-fit">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-8 shadow-sm w-fit">
                 <Target className="w-4 h-4" />
                 Message from the Director
               </div>

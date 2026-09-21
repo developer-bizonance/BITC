@@ -31,7 +31,7 @@ export default function AwardsRecognitionPage() {
       <section className="relative w-full min-h-[calc(100vh-80px)] bg-white py-20 lg:py-28 overflow-hidden flex flex-col items-center justify-center">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] opacity-25 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[1000px] mx-auto px-4 text-center relative z-10 flex flex-col items-center justify-center my-auto">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-bold rounded-full px-5 py-2 text-sm uppercase tracking-widest mb-8">
+          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-medium rounded-full px-5 py-2 text-sm uppercase tracking-widest mb-8">
             <Trophy className="w-4 h-4" />
             Awards &amp; Recognition
           </div>
@@ -68,7 +68,7 @@ export default function AwardsRecognitionPage() {
                   </div>
                   <h3 className="text-lg font-bold text-slate-900 mb-2">{award.title}</h3>
                   <p className="text-gray-500 text-sm mb-3">{award.org}</p>
-                  <span className="inline-block bg-gray-100 text-gray-700 text-xs font-bold px-3 py-1 rounded-full">{award.year}</span>
+                  <span className="inline-block bg-gray-100 text-gray-700 text-xs font-medium px-3 py-1 rounded-full">{award.year}</span>
                 </CardContent>
               </Card>
             ))}

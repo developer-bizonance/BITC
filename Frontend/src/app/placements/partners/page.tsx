@@ -153,7 +153,7 @@ export default async function HiringPartnersPage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             
             <div>
-              <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-bold rounded-full px-4 py-1.5 text-sm uppercase tracking-wider mb-6">
+              <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-medium rounded-full px-4 py-1.5 text-sm uppercase tracking-wider mb-6">
                 For Employers
               </div>
               <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">
@@ -210,7 +210,7 @@ export default async function HiringPartnersPage() {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link href="/contact">
-              <Button className="h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] text-lg font-bold shadow-xl shadow-primary/20 hover:-translate-y-1 transition-all border-0 w-full sm:w-auto">
+              <Button className="h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] text-lg font-medium shadow-xl shadow-primary/20 hover:-translate-y-1 transition-all border-0 w-full sm:w-auto">
                 Become a Hiring Partner
               </Button>
             </Link>

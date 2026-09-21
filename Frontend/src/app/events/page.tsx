@@ -180,7 +180,7 @@ export default async function EventsPage() {
                             referrerPolicy="no-referrer"
                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                           />
-                          <div className="absolute top-4 left-4 z-20 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full text-[11px] font-bold text-slate-900 shadow-sm uppercase tracking-wider">
+                          <div className="absolute top-4 left-4 z-20 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full text-[11px] font-medium text-slate-900 shadow-sm uppercase tracking-wider">
                             {event.category}
                           </div>
                         </div>
@@ -209,7 +209,7 @@ export default async function EventsPage() {
 
                         <div className="flex items-center justify-end pt-5 border-t border-gray-100 mt-auto">
                           <EventRegistrationModal eventId={event.id}>
-                            <Button className="w-full bg-slate-50 hover:bg-primary hover:text-white text-slate-900 font-bold transition-all duration-300 rounded-full py-6 shadow-none hover:shadow-lg hover:shadow-primary/20">
+                            <Button className="w-full bg-slate-50 hover:bg-primary hover:text-white text-slate-900 font-medium transition-all duration-300 rounded-full py-6 shadow-none hover:shadow-lg hover:shadow-primary/20">
                               Register Now <ChevronRight className="w-4 h-4 ml-1" />
                             </Button>
                           </EventRegistrationModal>
@@ -260,7 +260,7 @@ export default async function EventsPage() {
                             referrerPolicy="no-referrer"
                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                           />
-                          <div className="absolute top-4 left-4 z-20 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full text-[11px] font-bold text-slate-900 shadow-sm uppercase tracking-wider">
+                          <div className="absolute top-4 left-4 z-20 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full text-[11px] font-medium text-slate-900 shadow-sm uppercase tracking-wider">
                             {event.category}
                           </div>
                         </div>

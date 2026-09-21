@@ -33,9 +33,9 @@ export default function AboutPage() {
     <div className="flex flex-col min-h-screen text-[15px]">
 
       {/* 1. Hero Section */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] bg-white pt-16 md:pt-20 lg:pt-24 overflow-hidden flex flex-col items-center justify-start">
+      <section className="relative w-full min-h-[calc(100vh-80px)] bg-white overflow-hidden flex flex-col items-center justify-center">
         {/* Subtle background glow removed */}
-        <div className="container max-w-[1000px] mx-auto px-4 text-center relative z-10 flex flex-col items-center justify-start">
+        <div className="container max-w-[1000px] mx-auto px-4 text-center relative z-10 flex flex-col items-center justify-center -mt-20">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-slate-900 leading-[1.2]">
             Empowering the Next Generation for <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Industry Professionals</span>
           </h1>
@@ -85,7 +85,7 @@ export default function AboutPage() {
             At BITC, learning extends far beyond textbooks. We believe students learn best by engaging directly with the industry.
           </p>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 text-left max-w-[900px] mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-[1100px] mx-auto text-left">
             {[
               "Working on real projects",
               "Solving real business problems",
@@ -94,9 +94,14 @@ export default function AboutPage() {
               "Gaining practical experience",
               "Building confidence through hands-on learning"
             ].map((item, i) => (
-              <div key={i} className="flex items-start gap-3 bg-white p-4 rounded-2xl border border-gray-100">
-                <CheckCircle2 className="w-6 h-6 text-primary flex-shrink-0" />
-                <span className="text-gray-700 font-medium">{item}</span>
+              <div key={i} className="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 flex flex-col justify-center relative group overflow-hidden cursor-default">
+                <div className="absolute -right-4 -top-4 w-20 h-20 bg-primary/5 rounded-full group-hover:scale-150 transition-transform duration-500" />
+                <div className="flex items-center gap-4 relative z-10">
+                  <div className="w-10 h-10 shrink-0 rounded-full text-white flex items-center justify-center font-black text-lg shadow-sm bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">
+                    <CheckCircle2 className="w-5 h-5 text-white" />
+                  </div>
+                  <h3 className="text-base md:text-[16px] font-bold text-slate-800 leading-tight">{item}</h3>
+                </div>
               </div>
             ))}
           </div>
@@ -211,7 +216,7 @@ export default function AboutPage() {
               { number: "10+", label: "Industry Partners" },
               { number: "10+", label: "Expert Mentors" },
               { number: "95%", label: "Placement Support" },
-              { number: "200+", label: "Live Projects" },
+              { number: "200+", label: "Live Projects Covered" },
               { number: "10+", label: "Industry Workshops" }
             ].map((stat, i) => (
               <div key={i} className="p-6 bg-slate-50 rounded-2xl border border-slate-100/90 shadow-sm hover:bg-white hover:border-primary/60 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary/10 group flex flex-col items-center justify-center">
@@ -220,7 +225,7 @@ export default function AboutPage() {
                     {stat.number}
                   </span>
                 </div>
-                <div className="text-[11px] lg:text-[12px] font-extrabold text-slate-800 uppercase tracking-widest leading-tight">{stat.label}</div>
+                <div className="text-sm font-bold text-slate-800 capitalize leading-tight">{stat.label}</div>
               </div>
             ))}
           </div>

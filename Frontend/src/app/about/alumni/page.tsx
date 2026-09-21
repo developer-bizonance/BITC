@@ -49,7 +49,7 @@ function FadeUp({ children, className, delay = 0 }: { children: React.ReactNode,
 
 function Badge({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-block rounded-full bg-orange-100 px-3 py-1 text-xs font-bold uppercase tracking-widest text-orange-600">
+    <span className="inline-block rounded-full bg-orange-100 px-3 py-1 text-xs font-medium uppercase tracking-widest text-orange-600">
       {children}
     </span>
   );
@@ -153,7 +153,7 @@ function AlumniSection() {
                   
                   <div className="w-full">
                     <span className="block text-[8px] text-gray-400 uppercase tracking-wider font-bold mb-1">Company</span>
-                    <span className="inline-block mx-auto rounded-full border border-blue-200 bg-blue-50 px-2 py-0.5 text-[8px] font-bold uppercase tracking-wider text-[#2f55d4]">
+                    <span className="inline-block mx-auto rounded-full border border-blue-200 bg-blue-50 px-2 py-0.5 text-[8px] font-medium uppercase tracking-wider text-[#2f55d4]">
                       {a.company}
                     </span>
                   </div>

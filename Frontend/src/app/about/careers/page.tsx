@@ -416,7 +416,7 @@ export default function CareersPage() {
       <section className="relative w-full min-h-[calc(100vh-80px)] bg-white text-slate-900 py-20 lg:py-28 overflow-hidden flex flex-col items-center justify-center">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] opacity-25 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[1000px] mx-auto px-4 text-center relative z-10 flex flex-col items-center justify-center my-auto">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-bold rounded-full px-5 py-2 text-sm uppercase tracking-widest mb-8 border border-primary/20">
+          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-medium rounded-full px-5 py-2 text-sm uppercase tracking-widest mb-8 border border-primary/20">
             <Briefcase className="w-4 h-4" />
             Careers & Faculty Hiring
           </div>
@@ -517,7 +517,7 @@ export default function CareersPage() {
                   <div className="flex items-center gap-2.5 flex-wrap mb-2">
                     <h3 className="text-lg font-bold text-slate-900">{job.title}</h3>
                     {job.department && (
-                      <span className="text-[11px] font-bold text-purple-700 bg-purple-50 border border-purple-100 px-2.5 py-0.5 rounded-full">
+                      <span className="text-[11px] font-medium text-purple-700 bg-purple-50 border border-purple-100 px-2.5 py-0.5 rounded-full">
                         {job.department}
                       </span>
                     )}
@@ -623,7 +623,7 @@ export default function CareersPage() {
             {/* Modal Header */}
             <div className="p-6 md:p-8 bg-gradient-to-r from-slate-900 to-slate-800 text-white relative flex justify-between items-start shrink-0">
               <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 text-yellow-300 text-xs font-bold uppercase tracking-wider mb-2 border border-primary/30">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 text-yellow-300 text-xs font-medium uppercase tracking-wider mb-2 border border-primary/30">
                   <Sparkles className="w-3.5 h-3.5" /> BITC Faculty Application
                 </div>
                 <h3 className="text-2xl md:text-3xl font-extrabold text-white">
@@ -654,7 +654,7 @@ export default function CareersPage() {
                   </p>
                   <button
                     onClick={() => setIsApplyModalOpen(false)}
-                    className="px-8 py-3 rounded-full bg-slate-900 text-white font-bold text-sm hover:bg-slate-800 transition-all cursor-pointer shadow-lg"
+                    className="px-8 py-3 rounded-full bg-slate-900 text-white font-medium text-sm hover:bg-slate-800 transition-all cursor-pointer shadow-lg"
                   >
                     Done
                   </button>
@@ -1011,7 +1011,7 @@ export default function CareersPage() {
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="w-full py-4 rounded-xl bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white font-bold text-base hover:shadow-xl shadow-orange-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                      className="w-full py-4 rounded-xl bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white font-medium text-base hover:shadow-xl shadow-orange-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                     >
                       {submitting ? (
                         <>Submitting Application...</>

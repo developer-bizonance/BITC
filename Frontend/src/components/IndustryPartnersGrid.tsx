@@ -11,18 +11,18 @@ interface IndustryPartnerItem {
 }
 
 const defaultPartners: IndustryPartnerItem[] = [
-  { name: "TCS" },
-  { name: "Infosys" },
-  { name: "Wipro" },
-  { name: "HCL" },
-  { name: "Tech Mahindra" },
-  { name: "Cognizant" },
-  { name: "Accenture" },
-  { name: "IBM" },
-  { name: "Microsoft" },
-  { name: "Google" },
-  { name: "Amazon" },
-  { name: "Deloitte" },
+  { name: "TCS", logo: "https://icons.duckduckgo.com/ip3/www.tcs.com.ico" },
+  { name: "Infosys", logo: "https://upload.wikimedia.org/wikipedia/commons/9/95/Infosys_logo.svg" },
+  { name: "Wipro", logo: "https://upload.wikimedia.org/wikipedia/commons/a/a0/Wipro_Primary_Logo_Color_RGB.svg" },
+  { name: "HCL", logo: "https://icons.duckduckgo.com/ip3/hcltech.com.ico" },
+  { name: "Tech Mahindra", logo: "https://icons.duckduckgo.com/ip3/techmahindra.com.ico" },
+  { name: "Cognizant", logo: "https://upload.wikimedia.org/wikipedia/commons/4/43/Cognizant_logo_2022.svg" },
+  { name: "Accenture", logo: "https://upload.wikimedia.org/wikipedia/commons/c/cd/Accenture.svg" },
+  { name: "IBM", logo: "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" },
+  { name: "Microsoft", logo: "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg" },
+  { name: "Google", logo: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" },
+  { name: "Amazon", logo: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" },
+  { name: "Deloitte", logo: "https://icons.duckduckgo.com/ip3/deloitte.com.ico" },
 ];
 
 export default function IndustryPartnersGrid() {
@@ -40,7 +40,14 @@ export default function IndustryPartnersGrid() {
         if (res.ok) {
           const data = await res.json();
           if (data.partners && data.partners.length > 0) {
-            setPartners(data.partners);
+            const mergedPartners = data.partners.map((p: any) => {
+              const defaultMatch = defaultPartners.find(dp => dp.name.toLowerCase() === p.name.toLowerCase());
+              return {
+                ...p,
+                logo: p.logo || defaultMatch?.logo || `https://www.google.com/s2/favicons?sz=128&domain=${p.name.toLowerCase().replace(/\s+/g, '')}.com`
+              };
+            });
+            setPartners(mergedPartners);
           }
         }
       } catch (err) {
@@ -62,14 +69,19 @@ export default function IndustryPartnersGrid() {
               key={partner.id || i}
               className="bg-gray-50 border border-gray-100 rounded-2xl p-6 flex flex-col items-center justify-center hover:shadow-md hover:border-primary/20 transition-all min-h-[110px] group"
             >
-              <span className="text-lg font-black text-gray-800 tracking-tight group-hover:text-primary transition-colors">
+              {partner.logo && (
+                <img 
+                  src={partner.logo} 
+                  alt={partner.name} 
+                  className="w-14 h-14 md:w-16 md:h-16 object-contain transition-transform duration-300 group-hover:scale-110 mb-3" 
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                />
+              )}
+              <span className="text-sm md:text-base font-bold text-gray-700 tracking-tight group-hover:text-primary transition-colors text-center">
                 {partner.name}
               </span>
-              {partner.category && (
-                <span className="text-[10px] text-gray-400 font-medium mt-1">
-                  {partner.category}
-                </span>
-              )}
             </div>
           ))}
         </div>
