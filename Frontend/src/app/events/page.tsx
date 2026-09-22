@@ -160,9 +160,11 @@ export default async function EventsPage() {
               <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Upcoming <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Events</span></h2>
               <p className="text-gray-500 text-lg">Don&apos;t miss out on these exclusive learning opportunities.</p>
             </div>
-            <Link href="/contact" className="hidden md:flex items-center gap-2 text-primary font-semibold hover:text-orange-600 transition-colors">
-              Contact Us <ArrowRight className="w-4 h-4" />
-            </Link>
+            {upcomingEvents.length > 3 && (
+              <Link href="/contact" className="hidden md:flex items-center gap-2 text-primary font-semibold hover:text-orange-600 transition-colors">
+                View More <ArrowRight className="w-4 h-4" />
+              </Link>
+            )}
           </div>
 
           <Carousel className="w-full px-2 md:px-0">
@@ -240,9 +242,11 @@ export default async function EventsPage() {
               <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Conducted <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Events</span></h2>
               <p className="text-gray-500 text-lg">Take a look back at our successful workshops, hackathons, and industrial visits.</p>
             </div>
-            <Link href="/resources/gallery" className="hidden md:flex items-center gap-2 text-primary font-semibold hover:text-orange-600 transition-colors">
-              View More <ArrowRight className="w-4 h-4" />
-            </Link>
+            {conductedEvents.length > 3 && (
+              <Link href="/resources/gallery" className="hidden md:flex items-center gap-2 text-primary font-semibold hover:text-orange-600 transition-colors">
+                View More <ArrowRight className="w-4 h-4" />
+              </Link>
+            )}
           </div>
 
           <Carousel className="w-full px-2 md:px-0">

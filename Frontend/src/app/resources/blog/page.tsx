@@ -64,7 +64,7 @@ export default async function BlogPage() {
                   <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-primary transition-colors line-clamp-2">{blog.title}</h3>
                   <p className="text-slate-600 text-sm leading-relaxed mb-6 line-clamp-3">{blog.excerpt}</p>
                   
-                  <Link href="/contact" className="mt-auto inline-flex items-center gap-2 text-primary font-semibold text-sm hover:gap-3 transition-all">
+                  <Link href={`/resources/blog/${blog.id}`} className="mt-auto inline-flex items-center gap-2 text-primary font-semibold text-sm hover:gap-3 transition-all">
                     Read More <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ImageIcon } from "lucide-react";
+import GalleryClient from "./GalleryClient";
 
 export const metadata: Metadata = {
   title: "Campus Gallery",
@@ -12,47 +13,45 @@ export const metadata: Metadata = {
 
 export default async function GalleryPage() {
   let images: string[] = [];
+  let videos: any[] = [];
+  
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://bitc-backend-theta.vercel.app/api"}/gallery`, { cache: 'no-store' });
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://bitc-backend-theta.vercel.app/api";
+    
+    // Fetch gallery images
+    const res = await fetch(`${apiUrl}/gallery`, { cache: 'no-store' });
     if (res.ok) {
       const data = await res.json();
       if (data.items) {
         images = data.items.map((item: any) => item.imgUrl);
       }
     }
+
+    // Fetch testimonials for videos
+    const testRes = await fetch(`${apiUrl}/testimonials`, { cache: 'no-store' });
+    if (testRes.ok) {
+      const testData = await testRes.json();
+      if (testData.testimonials) {
+        videos = testData.testimonials.filter((t: any) => t.youtubeUrl).map((t: any) => t.youtubeUrl);
+      }
+    }
   } catch (error) {
-    console.warn("Failed to fetch gallery from backend API.");
+    console.warn("Failed to fetch gallery or testimonials from backend API.");
   }
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Hero */}
-      <section className="bg-white py-16 text-slate-900 text-center">
+      <section className="bg-white pt-16 pb-4 text-slate-900 text-center">
         <div className="container max-w-[1200px] mx-auto px-4">
           <ImageIcon className="w-12 h-12 text-primary mx-auto mb-4" />
-          <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight mb-4">Photo <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Gallery</span></h1>
+          <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight mb-4">Campus <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Gallery</span></h1>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto font-medium">Glimpses of life at BITC - from intensive training sessions to vibrant campus events.</p>
         </div>
       </section>
 
-      {/* Grid */}
-      <section className="py-16">
-        <div className="container max-w-[1200px] mx-auto px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {images.map((src, i) => (
-              <div key={i} className="relative group rounded-xl overflow-hidden shadow-sm bg-gray-200 aspect-[4/3]">
-                <img 
-                  src={src} 
-                  alt={`Gallery image ${i + 1}`} 
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"
-                />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Interactive Grid with Tabs */}
+      <GalleryClient images={images} videos={videos} />
     </div>
   );
 }
