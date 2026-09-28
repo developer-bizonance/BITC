@@ -25,6 +25,20 @@ export default function ConsultationForm({ theme = "light" }: ConsultationFormPr
     setStatus("loading");
     setErrorMessage("");
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setStatus("error");
+      setErrorMessage("Please enter a valid email address.");
+      return;
+    }
+
+    const phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(formData.phone)) {
+      setStatus("error");
+      setErrorMessage("Please enter a valid 10-digit mobile number.");
+      return;
+    }
+
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/inquiries`, {
         method: "POST",
@@ -57,11 +71,10 @@ export default function ConsultationForm({ theme = "light" }: ConsultationFormPr
 
   const isDark = theme === "dark";
   const labelClass = `block text-sm font-semibold mb-1.5 ${isDark ? "text-slate-300" : "text-slate-700"}`;
-  const inputClass = `w-full rounded-xl px-4 py-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all ${
-    isDark 
-      ? "bg-slate-800 border border-slate-700 text-white placeholder:text-slate-500" 
+  const inputClass = `w-full rounded-xl px-4 py-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all ${isDark
+      ? "bg-slate-800 border border-slate-700 text-white placeholder:text-slate-500"
       : "bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400"
-  }`;
+    }`;
 
   if (status === "success") {
     return (

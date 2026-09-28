@@ -511,24 +511,7 @@ export const courses: Course[] = [
       { title: "Module 6: Big Data Processing & Capstone Project", topics: ["Apache Spark & PySpark Big Data Processing", "Cloud Data Warehouses (Google BigQuery / Snowflake)", "Building Automated Data Pipelines", "End-to-End Industry Analytics Capstone Project", "Executive Presentation & Portfolio Preparation"] }
     ]
   },
-  {
-    slug: "cyber-security",
-    title: "Cyber Security",
-    category: "Information Technology",
-    duration: "6 Months",
-    fees: "₹36,000",
-    price: 36000,
-    description: "Protect critical enterprise networks and infrastructure from digital threats. Master ethical hacking, penetration testing, and SOC analysis.",
-    features: ["Ethical Hacking", "Network Defense", "AI-Threat Detection", "CEH Prep"],
-    curriculum: [
-      { title: "Module 1: Computer Networking & Security Architecture", topics: ["TCP/IP Protocol Suite & Packet Inspection", "OSI Model & Network Topology Defense", "Linux System Administration & Command Line", "Windows Server Security Hardening", "Network Scanning & Wireshark Packet Analysis"] },
-      { title: "Module 2: Ethical Hacking & Vulnerability Assessment", topics: ["Footprinting, OSINT & Intelligence Gathering", "Network Reconnaissance with Nmap & Masscan", "Vulnerability Scanning with Nessus & OpenVAS", "Exploitation Frameworks (Metasploit)", "Social Engineering Tactics & Defense"] },
-      { title: "Module 3: Web Application Security (OWASP Top 10)", topics: ["SQL Injection (SQLi) Identification & Prevention", "Cross-Site Scripting (XSS) & CSRF Attacks", "Burp Suite Pro Web App Assessment", "Authentication & Session Hijacking", "API Security Auditing"] },
-      { title: "Module 4: Cryptography, Firewalls & Network Defense", topics: ["Symmetric & Asymmetric Encryption Standards", "Public Key Infrastructure (PKI) & Digital Certificates", "Next-Gen Firewall (NGFW) & VPN Configurations", "Intrusion Detection/Prevention Systems (IDS/IPS)", "Wireless Network Hacking & WPA3 Security"] },
-      { title: "Module 5: Incident Response, SIEM & Digital Forensics", topics: ["Security Operations Center (SOC) Workflows", "SIEM Log Analysis with Splunk / ELK Stack", "Digital Forensics & Memory Dump Analysis", "Malware Analysis Fundamentals (Static & Dynamic)", "Threat Hunting & Ransomware Mitigation"] },
-      { title: "Module 6: Cloud Security, Compliance & CTF Capstone", topics: ["AWS & Azure Cloud Security Configuration", "ISO 27001, NIST & GDPR Compliance Frameworks", "Container & Kubernetes Security Auditing", "Live Capture The Flag (CTF) Security Challenge", "Vulnerability Assessment & Penetration Testing (VAPT) Report Capstone"] }
-    ]
-  },
+
   {
     slug: "devops-cloud-computing",
     title: "Cloud Computing",

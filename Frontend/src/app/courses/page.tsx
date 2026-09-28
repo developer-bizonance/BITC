@@ -3,10 +3,10 @@ import FeaturedCertifications from "@/components/FeaturedCertifications";
 
 export const metadata: Metadata = {
   title: "All Certifications | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
-  description: "Explore industry-vetted certification programs in Full Stack Java, Python, MERN, AI & ML, Data Science, Cyber Security, UI/UX Design, and Business Analytics at BITC Amravati.",
+  description: "Explore industry-vetted certification programs in Full Stack Java, Python, MERN, AI & ML, Data Science, UI/UX Design, and Business Analytics at BITC Amravati.",
   openGraph: {
     title: "All Certifications | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
-    description: "Explore industry-vetted certification programs in Full Stack, AI, Data Science, Cyber Security, UI/UX, and Management.",
+    description: "Explore industry-vetted certification programs in Full Stack, AI, Data Science, UI/UX, and Management.",
   },
 };
 

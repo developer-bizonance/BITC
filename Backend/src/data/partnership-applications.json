@@ -1,0 +1,30 @@
+[
+  {
+    "id": "partnerapp-1790340041599",
+    "type": "corporate",
+    "organizationName": "TCS",
+    "website": "http://localhost:3000/partnership",
+    "contactPerson": "Yuvraj Bhatkar",
+    "designation": "Student",
+    "email": "yuvibhatkar702@gmail.com",
+    "phone": "7767055408",
+    "partnershipType": "Campus Hiring",
+    "message": "this isme",
+    "status": "Pending",
+    "createdAt": "2026-09-25T12:40:41.599Z"
+  },
+  {
+    "id": "partnerapp-1790339978578",
+    "type": "educational",
+    "organizationName": "jd cola",
+    "website": "http://localhost:3000/partnership",
+    "contactPerson": "Yuvraj Bhatkar",
+    "designation": "Student",
+    "email": "yuvibhatkar702@gmail.com",
+    "phone": "7767055408",
+    "partnershipType": "Other",
+    "message": "this is me",
+    "status": "Pending",
+    "createdAt": "2026-09-25T12:39:38.578Z"
+  }
+]

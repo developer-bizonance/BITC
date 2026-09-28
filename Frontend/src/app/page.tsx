@@ -13,10 +13,10 @@ import FacultySection from "@/components/FacultySection";
 
 export const metadata: Metadata = {
   title: "BIZONANCE Industrial Training Centre | Amravati",
-  description: "Accelerate your tech career with BITC. Master Full Stack Development, AI & ML, Data Science, Cyber Security, and UI/UX Design with guaranteed placement support in Amravati.",
+  description: "Accelerate your tech career with BITC. Master Full Stack Development, AI & ML, Data Science, and UI/UX Design with guaranteed placement support in Amravati.",
   openGraph: {
     title: "BIZONANCE Industrial Training Centre | Amravati",
-    description: "Accelerate your tech career with BITC. Master Full Stack Development, AI & ML, Data Science, Cyber Security, and UI/UX Design with placement support.",
+    description: "Accelerate your tech career with BITC. Master Full Stack Development, AI & ML, Data Science, and UI/UX Design with placement support.",
   },
 };
 

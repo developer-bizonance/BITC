@@ -44,37 +44,7 @@ export default function AwardsRecognitionPage() {
         </div>
       </section>
 
-      {/* ── AWARDS GRID ── */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="container max-w-[1200px] mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Our <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Awards</span></h2>
-            <p className="text-gray-600 max-w-[600px] mx-auto text-lg">Recognized for excellence in education and industry collaboration.</p>
-          </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { title: "Best Industry Training Centre", org: "National Education Awards", year: "2024", icon: Trophy },
-              { title: "Excellence in Practical Learning", org: "EduTech India Summit", year: "2024", icon: Award },
-              { title: "Top Emerging Training Partner", org: "Industry Connect Forum", year: "2023", icon: Star },
-              { title: "Innovation in Education", org: "Digital India Awards", year: "2023", icon: TrendingUp },
-              { title: "Best Placement Record", org: "Campus Connect Awards", year: "2024", icon: Users },
-              { title: "Industry Partnership Excellence", org: "Corporate Training Awards", year: "2024", icon: Building2 },
-            ].map((award, i) => (
-              <Card key={i} className="border-gray-100 hover:shadow-xl transition-shadow group overflow-hidden">
-                <CardContent className="p-8 text-center relative">
-                  <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-5 group-hover:bg-primary/20 transition-colors">
-                    <award.icon className="w-8 h-8 text-primary" />
-                  </div>
-                  <h3 className="text-lg font-bold text-slate-900 mb-2">{award.title}</h3>
-                  <p className="text-gray-500 text-sm mb-3">{award.org}</p>
-                  <span className="inline-block bg-gray-100 text-gray-700 text-xs font-medium px-3 py-1 rounded-full">{award.year}</span>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ── STUDENT & PLACEMENT ACHIEVEMENTS ── */}
       <section className="py-16 md:py-24 bg-white text-slate-900">

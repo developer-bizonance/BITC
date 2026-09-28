@@ -202,7 +202,7 @@ const Applications = () => {
               <Briefcase size={22} />
             </span>
             <div>
-              <h1 className="text-2xl font-black text-slate-900 tracking-tight">Faculty & Job Applications</h1>
+              <h1 className="text-2xl font-black text-slate-900 tracking-tight">Faculty Applications</h1>
               <p className="text-slate-500 text-xs md:text-sm font-medium">
                 Review submitted educator profiles, subject specializations, and candidate resumes
               </p>

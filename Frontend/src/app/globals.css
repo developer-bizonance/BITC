@@ -140,6 +140,9 @@
     outline: none !important;
     box-shadow: none !important;
   }
+  button, [role="button"], a {
+    cursor: pointer !important;
+  }
   body {
     @apply bg-background text-foreground;
   }

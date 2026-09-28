@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { FaLinkedin } from "react-icons/fa";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -9,10 +10,13 @@ const getCompanyLogo = (companyName: string) => {
     "Google": "google.com",
     "Microsoft": "microsoft.com",
     "Amazon": "amazon.com",
-    "IBM": "ibm.com"
+    "IBM": "ibm.com",
+    "Adobe": "adobe.com",
+    "McKinsey": "mckinsey.com",
+    "Deloitte": "deloitte.com"
   };
   const domain = domains[companyName] || `${companyName.toLowerCase().replace(/\s+/g, '')}.com`;
-  return `https://icons.duckduckgo.com/ip3/${domain}.ico`;
+  return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
 };
 
 const facultyData = [
@@ -42,7 +46,7 @@ const facultyData = [
   },
   {
     name: "Vikram Singh",
-    role: "Cyber Security Analyst",
+    role: "Information Security Analyst",
     workingAt: "IBM",
     image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300&h=300",
     expertise: ["Network Security", "Ethical Hacking", "Cryptography"],
@@ -51,6 +55,33 @@ const facultyData = [
 ];
 
 export default function FacultySection() {
+  const [facultyList, setFacultyList] = useState(facultyData);
+
+  useEffect(() => {
+    async function loadMentors() {
+      try {
+        const res = await fetch("/api/mentors");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.mentors && data.mentors.length > 0) {
+            const formatted = data.mentors.map((m: any) => ({
+              name: m.name,
+              role: m.role,
+              workingAt: m.company || m.workingAt || "Independent",
+              image: m.img || m.image,
+              expertise: m.skills || m.expertise || [],
+              linkedin: m.linkedin || "https://linkedin.com",
+            }));
+            setFacultyList(formatted);
+          }
+        }
+      } catch (err) {
+        console.warn("Failed to load dynamic mentors, using fallback:", err);
+      }
+    }
+    loadMentors();
+  }, []);
+
   return (
     <section className="pt-8 pb-16 md:pt-12 md:pb-24 bg-white relative overflow-hidden">
       <div className="container max-w-[1200px] mx-auto px-4 sm:px-6 relative z-10">
@@ -63,9 +94,9 @@ export default function FacultySection() {
             </h2>
             <p className="text-slate-700 font-semibold text-[16px] capitalize tracking-wider">Instructors</p>
           </div>
-          <button className="shrink-0 inline-flex items-center gap-1.5 text-sm font-bold text-slate-700 hover:text-primary transition-colors cursor-pointer">
+          <Link href="/about/our-mentors" className="shrink-0 inline-flex items-center gap-1.5 text-sm font-bold text-slate-700 hover:text-primary transition-colors cursor-pointer">
             See More <span className="text-lg leading-none" aria-hidden="true">&rarr;</span>
-          </button>
+          </Link>
         </div>
 
         {/* Marquee Container */}
@@ -104,17 +135,17 @@ export default function FacultySection() {
             
             {/* Original Set */}
             <div className="flex gap-6 px-3">
-              {facultyData.map((faculty, index) => (
+              {facultyList.map((faculty, index) => (
                 <div 
                   key={`orig-${index}`} 
                   className="bg-white border border-gray-200 shadow-sm rounded-2xl overflow-hidden w-[280px] shrink-0 hover:shadow-md transition-shadow flex flex-col"
                 >
                   {/* Image Section */}
-                  <div className="w-full h-[180px] overflow-hidden bg-gray-100 relative">
+                  <div className="w-full h-[240px] overflow-hidden bg-slate-100 relative shrink-0">
                     <img
                       src={faculty.image}
                       alt={faculty.name}
-                      className="w-full h-full object-cover object-top"
+                      className="w-full h-full object-cover object-center"
                     />
                   </div>
 
@@ -159,17 +190,17 @@ export default function FacultySection() {
 
             {/* Duplicate Set for Seamless Loop */}
             <div className="flex gap-6 px-3" aria-hidden="true">
-              {facultyData.map((faculty, index) => (
+              {facultyList.map((faculty, index) => (
                 <div 
                   key={`dup-${index}`} 
                   className="bg-white border border-gray-200 shadow-sm rounded-2xl overflow-hidden w-[280px] shrink-0 hover:shadow-md transition-shadow flex flex-col"
                 >
                   {/* Image Section */}
-                  <div className="w-full h-[180px] overflow-hidden bg-gray-100 relative">
+                  <div className="w-full h-[240px] overflow-hidden bg-slate-100 relative shrink-0">
                     <img
                       src={faculty.image}
                       alt={faculty.name}
-                      className="w-full h-full object-cover object-top"
+                      className="w-full h-full object-cover object-center"
                     />
                   </div>
 

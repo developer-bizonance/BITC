@@ -30,6 +30,7 @@ import {
   Calendar,
   Paperclip,
   Trash2,
+  ChevronDown,
 } from "lucide-react";
 
 interface JobOpeningItem {
@@ -54,65 +55,10 @@ const defaultOpenings: JobOpeningItem[] = [
 
 // All courses & certifications available across BITC website categorized
 const courseCertificationOptions = [
-  {
-    category: "💻 IT & Full Stack Software Development",
-    courses: [
-      "MERN Stack Development (MongoDB, Express, React, Node)",
-      "MEAN Stack Development (MongoDB, Express, Angular, Node)",
-      "Full Stack Java Development (Spring Boot, Microservices, React)",
-      "Full Stack Python Development (Django, FastAPI, PostgreSQL)",
-      "React.js & Next.js Frontend Architecture",
-      "Node.js Backend & API Development",
-      "Mobile App Development (Flutter & React Native)",
-      "Software Testing & QA Automation (Selenium, Cypress)",
-    ],
-  },
-  {
-    category: "🤖 AI, Data Science & Analytics",
-    courses: [
-      "Data Science & Machine Learning (Python, Pandas, Scikit-Learn)",
-      "Artificial Intelligence & Deep Learning (TensorFlow, PyTorch)",
-      "Business Intelligence & Data Analytics (PowerBI, Tableau, SQL)",
-      "Big Data Engineering (Spark, Hadoop, Kafka)",
-      "Generative AI & LLM Applications",
-    ],
-  },
-  {
-    category: "☁️ Cloud Computing & Cyber Security",
-    courses: [
-      "Cloud Computing & Architecture (AWS / Microsoft Azure / GCP)",
-      "DevOps & SRE (Docker, Kubernetes, Jenkins, CI/CD, Terraform)",
-      "Cyber Security & Ethical Hacking",
-      "Network Engineering & Systems Security",
-    ],
-  },
-  {
-    category: "📊 Management, Business & Marketing",
-    courses: [
-      "Digital Marketing & Growth Hacking (SEO, SEM, Meta Ads, SMM)",
-      "Product Management & Agile Scrum Methodology",
-      "Business Analytics & Financial Analysis",
-      "Human Resource Management & Talent Acquisition",
-    ],
-  },
-  {
-    category: "🎨 UI/UX Design & Multimedia",
-    courses: [
-      "UI/UX Design & Design Systems (Figma, Adobe XD)",
-      "Graphic Design & Visual Communication (Photoshop, Illustrator)",
-      "3D Modeling, Motion Graphics & Animation",
-      "Video Editing & Production (Premiere Pro, After Effects)",
-    ],
-  },
-  {
-    category: "🏛️ Placement Cell & Institutional Roles",
-    courses: [
-      "Training & Placement Officer (TPO) / Corporate Relations",
-      "Soft Skills, Communication & Personality Development Trainer",
-      "Quantitative Aptitude & Logical Reasoning Trainer",
-      "Technical Mock Interview & Resume Building Mentor",
-    ],
-  },
+  { category: "Information Technology", courses: [] },
+  { category: "Digital Media Technology", courses: [] },
+  { category: "Management Programs", courses: [] },
+  { category: "Design Programs", courses: [] },
 ];
 
 export default function CareersPage() {
@@ -385,7 +331,7 @@ export default function CareersPage() {
           email: "",
           phone: "",
           position: "Faculty – Full Stack Development",
-          subjectCourse: "MERN Stack Development (MongoDB, Express, React, Node)",
+          subjectCourse: "Information Technology",
           experience: "3-5 Years",
           qualification: "B.Tech / BE",
           otherQualification: "",
@@ -443,64 +389,6 @@ export default function CareersPage() {
         </div>
       </section>
 
-      {/* ── WHY WORK WITH US ── */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="container max-w-[1200px] mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">Why Teach & Mentor <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">at BITC</span></h2>
-              <p className="text-lg text-gray-600 leading-relaxed mb-8">
-                At BITC, our mentors and faculty are the cornerstone of student success. We provide an inspiring academic ecosystem with state-of-the-art labs, high student engagement, and competitive compensation.
-              </p>
-              <div className="space-y-4">
-                {[
-                  "Deliver practical, project-based training on modern corporate stacks",
-                  "Collaborate with 150+ hiring partners and industry veterans",
-                  "Flexible engagement: Full-Time, Part-Time, Weekend & Visiting Faculty",
-                  "Attractive remuneration packages and performance bonuses",
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 bg-gray-50 p-4 rounded-xl border border-gray-100">
-                    <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0" />
-                    <span className="text-gray-700 font-medium">{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="rounded-[2rem] overflow-hidden shadow-2xl aspect-[4/3]">
-              <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1171&auto=format&fit=crop" alt="Our Culture" className="w-full h-full object-cover" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── EMPLOYEE BENEFITS ── */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="container max-w-[1200px] mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Faculty & Trainer <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Benefits</span></h2>
-            <p className="text-gray-600 max-w-[600px] mx-auto text-lg">We invest in our faculty and provide full institutional support.</p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { title: "Competitive Pay", icon: TrendingUp, desc: "Above-market honorarium, salary packages, and batch incentives.", color: "bg-green-500/10 text-green-600" },
-              { title: "Latest Tech Infrastructure", icon: BookOpen, desc: "High-spec GPU labs, cloud credits, smart classrooms, and teaching aids.", color: "bg-blue-500/10 text-blue-600" },
-              { title: "Academic Freedom", icon: TrendingUp, desc: "Freedom to innovate syllabus, conduct workshops, and lead hackathons.", color: "bg-purple-500/10 text-purple-600" },
-              { title: "Recognition & Growth", icon: Heart, desc: "Faculty awards, institutional recognition, and leadership opportunities.", color: "bg-red-500/10 text-red-600" },
-              { title: "Flexible Working Modes", icon: Coffee, desc: "Offline classroom, hybrid models, or corporate weekend schedules.", color: "bg-amber-500/10 text-amber-600" },
-              { title: "Vibrant Community", icon: Users, desc: "Join an elite circle of educators, industry advisors, and researchers.", color: "bg-primary/10 text-primary" },
-            ].map((item, i) => (
-              <div key={i} className="bg-white rounded-2xl border border-gray-100 p-7 hover:shadow-lg transition-shadow group">
-                <div className={`w-14 h-14 rounded-2xl ${item.color.split(" ")[0]} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform`}>
-                  <item.icon className={`w-7 h-7 ${item.color.split(" ")[1]}`} />
-                </div>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ── CURRENT OPENINGS ── */}
       <section id="current-openings" className="py-16 md:py-24 bg-white scroll-mt-20">
@@ -551,67 +439,6 @@ export default function CareersPage() {
         </div>
       </section>
 
-      {/* ── RECRUITMENT PROCESS ── */}
-      <section className="py-16 md:py-24 bg-white text-slate-900">
-        <div className="container max-w-[1000px] mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Recruitment <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Process</span></h2>
-            <p className="text-slate-600 text-lg font-medium">A structured, professional hiring journey for faculty and educators.</p>
-          </div>
-
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-0">
-            {[
-              { step: "Apply Online", desc: "Submit course specialization" },
-              { step: "Demo Lecture", desc: "Technical demo / interview" },
-              { step: "Discussion", desc: "Curriculum & syllabus alignment" },
-              { step: "Onboarding", desc: "Welcome to BITC family" },
-            ].map((item, i) => (
-              <div key={i} className="flex flex-col md:flex-row items-center gap-4">
-                <div className="flex flex-col items-center text-center">
-                  <div className="w-16 h-16 rounded-full bg-white border border-slate-200 shadow-sm flex items-center justify-center mb-3">
-                    <span className="text-primary font-extrabold text-lg">{String(i + 1).padStart(2, "0")}</span>
-                  </div>
-                  <h4 className="font-bold text-slate-900 mb-1">{item.step}</h4>
-                  <p className="text-slate-500 text-xs font-medium">{item.desc}</p>
-                </div>
-                {i < 3 && (
-                  <div className="hidden md:block w-16 h-0.5 bg-slate-300 mx-2" />
-                )}
-                {i < 3 && (
-                  <div className="md:hidden h-8 w-0.5 bg-slate-300" />
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-
-      {/* ── APPLY CTA ── */}
-      <section className="py-20 bg-white text-slate-900 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
-        <div className="container max-w-[800px] mx-auto px-4 text-center relative z-10">
-          <Upload className="w-14 h-14 text-primary mx-auto mb-6" />
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Ready to Teach at <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC?</span></h2>
-          <p className="text-xl text-gray-600 mb-10">
-            Submit your teaching application along with your course specialization and let&apos;s build future tech talent together.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <button
-              onClick={() => openApplyModal()}
-              className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white font-semibold flex items-center gap-2 justify-center hover:shadow-xl shadow-orange-500/20 hover:-translate-y-0.5 transition-all text-lg cursor-pointer"
-            >
-              Apply Online Now <ArrowRight className="w-5 h-5" />
-            </button>
-            <Link
-              href="/contact"
-              className="h-14 px-8 rounded-full bg-white text-slate-900 font-semibold flex items-center justify-center border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all text-lg shadow-sm"
-            >
-              Contact HR
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* ══════════════════════════════════════════════════════════════════════ */}
       {/* ── SPECIAL FACULTY & TRAINER APPLICATION MODAL ── */}
@@ -621,338 +448,197 @@ export default function CareersPage() {
           <div className="bg-white rounded-3xl w-full max-w-2xl max-h-[92vh] flex flex-col shadow-2xl border border-slate-100 overflow-hidden my-auto">
             
             {/* Modal Header */}
-            <div className="p-6 md:p-8 bg-gradient-to-r from-slate-900 to-slate-800 text-white relative flex justify-between items-start shrink-0">
-              <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 text-yellow-300 text-xs font-medium uppercase tracking-wider mb-2 border border-primary/30">
-                  <Sparkles className="w-3.5 h-3.5" /> BITC Faculty Application
-                </div>
-                <h3 className="text-2xl md:text-3xl font-extrabold text-white">
-                  Apply for <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">{selectedRole}</span>
-                </h3>
-                <p className="text-slate-300 text-xs md:text-sm mt-1">
-                  Fill in your details, specialization, resume, and availability date.
-                </p>
-              </div>
+            <div className="relative p-5 md:p-6 pb-2 shrink-0 border-b-0 bg-white">
               <button
                 onClick={() => setIsApplyModalOpen(false)}
-                className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
+                className="absolute top-4 right-4 p-1.5 rounded-full bg-slate-50 hover:bg-slate-100 text-slate-400 transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
+              <div className="mb-2 text-center pt-2">
+                <h3 className="text-2xl font-bold text-slate-900 mb-1">
+                  Apply <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">For Faculty</span>
+                </h3>
+                <p className="text-slate-600 text-xs md:text-sm">
+                  Join our network to train talent, share knowledge, or collaborate on tech.
+                </p>
+              </div>
             </div>
 
             {/* Modal Body */}
-            <div className="p-6 md:p-8 overflow-y-auto flex-1 bg-slate-50/50">
+            <div className="px-5 md:px-8 pb-8 pt-2 overflow-y-auto flex-1 bg-white">
               {submitSuccess ? (
-                <div className="text-center py-10 px-4">
-                  <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
-                    <Check className="w-10 h-10" />
+                <div className="bg-white py-12 text-center h-full flex flex-col justify-center items-center">
+                  <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <Check className="w-10 h-10 text-emerald-600" />
                   </div>
-                  <h4 className="text-2xl font-black text-slate-900 mb-2">Application <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Received!</span></h4>
-                  <p className="text-slate-600 max-w-md mx-auto mb-6 text-sm">
-                    Thank you for applying to teach at BITC. Our Academic and HR Board will review your application and contact you for a demo lecture & interview.
+                  <h3 className="text-2xl font-bold text-slate-900 mb-4">Request Received!</h3>
+                  <p className="text-slate-600 mb-8 max-w-sm mx-auto text-sm">
+                    Thank you for applying to teach at BITC. Our HR team will reach out to you shortly.
                   </p>
                   <button
                     onClick={() => setIsApplyModalOpen(false)}
-                    className="px-8 py-3 rounded-full bg-slate-900 text-white font-medium text-sm hover:bg-slate-800 transition-all cursor-pointer shadow-lg"
+                    className="px-8 py-3 rounded-xl bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white font-medium text-sm hover:shadow-lg transition-all cursor-pointer"
                   >
-                    Done
+                    Close
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleApplySubmit} noValidate className="space-y-5">
+                <form onSubmit={handleApplySubmit} className="space-y-3">
                   {submitError && (
-                    <div className="p-4 rounded-2xl bg-red-50 border border-red-200 text-red-700 text-xs font-semibold flex items-center gap-2">
-                      <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
+                    <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-semibold flex items-center gap-2">
+                      <AlertCircle className="w-4 h-4 shrink-0" />
                       <span>{submitError}</span>
                     </div>
                   )}
 
-                  {/* Candidate Name & Email */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
-                        Full Name <span className="text-red-500">*</span>
-                      </label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div className="space-y-1 text-left">
+                      <label className="text-xs font-semibold text-slate-700">Name</label>
                       <input
                         type="text"
+                        required
                         value={form.fullName}
                         onChange={(e) => handleChange("fullName", e.target.value)}
                         onBlur={() => handleBlur("fullName")}
-                        placeholder="e.g. Dr. Rajesh Sharma"
-                        className={`w-full px-4 py-3 bg-white border rounded-xl text-slate-900 text-sm focus:outline-none transition-all font-medium ${
-                          touched.fullName && errors.fullName
-                            ? "border-red-500 ring-2 ring-red-100 bg-red-50/20"
-                            : "border-slate-200 focus:ring-2 focus:ring-primary focus:border-transparent"
-                        }`}
+                        placeholder="Enter your Full name"
+                        className={`w-full px-3 py-2 rounded-xl border ${errors.fullName && touched.fullName ? 'border-red-400 bg-red-50' : 'border-slate-200 bg-slate-50'} focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all text-sm`}
                       />
-                      {touched.fullName && errors.fullName && (
-                        <p className="text-red-500 text-xs mt-1.5 font-bold flex items-center gap-1">
-                          <AlertCircle className="w-3.5 h-3.5" /> {errors.fullName}
-                        </p>
-                      )}
+                      {errors.fullName && touched.fullName && <p className="text-red-500 text-[10px] ml-1">{errors.fullName}</p>}
                     </div>
-                    <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
-                        Email Address <span className="text-red-500">*</span>
-                      </label>
+                    <div className="space-y-1 text-left">
+                      <label className="text-xs font-semibold text-slate-700">Email Address</label>
                       <input
                         type="email"
+                        required
                         value={form.email}
                         onChange={(e) => handleChange("email", e.target.value)}
                         onBlur={() => handleBlur("email")}
-                        placeholder="e.g. rajesh@example.com"
-                        className={`w-full px-4 py-3 bg-white border rounded-xl text-slate-900 text-sm focus:outline-none transition-all font-medium ${
-                          touched.email && errors.email
-                            ? "border-red-500 ring-2 ring-red-100 bg-red-50/20"
-                            : "border-slate-200 focus:ring-2 focus:ring-primary focus:border-transparent"
-                        }`}
+                        placeholder="Enter Your Email id"
+                        className={`w-full px-3 py-2 rounded-xl border ${errors.email && touched.email ? 'border-red-400 bg-red-50' : 'border-slate-200 bg-slate-50'} focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all text-sm`}
                       />
-                      {touched.email && errors.email && (
-                        <p className="text-red-500 text-xs mt-1.5 font-bold flex items-center gap-1">
-                          <AlertCircle className="w-3.5 h-3.5" /> {errors.email}
-                        </p>
-                      )}
+                      {errors.email && touched.email && <p className="text-red-500 text-[10px] ml-1">{errors.email}</p>}
                     </div>
                   </div>
 
-                  {/* Phone & Position */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
-                        Phone / WhatsApp <span className="text-red-500">*</span>
-                      </label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div className="space-y-1 text-left">
+                      <label className="text-xs font-semibold text-slate-700">Phone Number</label>
                       <input
                         type="tel"
+                        required
                         maxLength={10}
                         inputMode="numeric"
                         pattern="[0-9]*"
                         value={form.phone}
                         onChange={(e) => handleChange("phone", e.target.value)}
                         onBlur={() => handleBlur("phone")}
-                        placeholder="e.g. 9876543210 (10 Digits)"
-                        className={`w-full px-4 py-3 bg-white border rounded-xl text-slate-900 text-sm focus:outline-none transition-all font-medium ${
-                          touched.phone && errors.phone
-                            ? "border-red-500 ring-2 ring-red-100 bg-red-50/20"
-                            : "border-slate-200 focus:ring-2 focus:ring-primary focus:border-transparent"
-                        }`}
+                        placeholder="Enter Your Phone Number"
+                        className={`w-full px-3 py-2 rounded-xl border ${errors.phone && touched.phone ? 'border-red-400 bg-red-50' : 'border-slate-200 bg-slate-50'} focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all text-sm`}
                       />
-                      {touched.phone && errors.phone && (
-                        <p className="text-red-500 text-xs mt-1.5 font-bold flex items-center gap-1">
-                          <AlertCircle className="w-3.5 h-3.5" /> {errors.phone}
-                        </p>
-                      )}
+                      {errors.phone && touched.phone && <p className="text-red-500 text-[10px] ml-1">{errors.phone}</p>}
                     </div>
-                    <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
-                        Teaching / Industry Experience <span className="text-red-500">*</span>
-                      </label>
-                      <select
-                        value={form.experience}
-                        onChange={(e) => handleChange("experience", e.target.value)}
-                        className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm focus:ring-2 focus:ring-primary outline-none transition-all font-medium cursor-pointer"
-                      >
-                        <option value="Fresher / <1 Year">Fresher / &lt; 1 Year</option>
-                        <option value="1-3 Years">1 - 3 Years</option>
-                        <option value="3-5 Years">3 - 5 Years</option>
-                        <option value="5-8 Years">5 - 8 Years</option>
-                        <option value="8+ Years">8+ Years (Senior Lead / Architect)</option>
-                      </select>
+                    <div className="space-y-1 text-left">
+                      <label className="text-xs font-semibold text-slate-700">Teaching / Industry Experience</label>
+                      <div className="relative">
+                        <select
+                          value={form.experience}
+                          onChange={(e) => handleChange("experience", e.target.value)}
+                          className="w-full px-3 py-2 pr-10 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all appearance-none cursor-pointer text-sm"
+                        >
+                          <option value="Fresher / <1 Year">Fresher / &lt; 1 Year</option>
+                          <option value="1-3 Years">1 - 3 Years</option>
+                          <option value="3-5 Years">3 - 5 Years</option>
+                          <option value="5-8 Years">5 - 8 Years</option>
+                          <option value="8+ Years">8+ Years (Senior Lead / Architect)</option>
+                        </select>
+                        <ChevronDown className="w-4 h-4 text-slate-500 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                      </div>
                     </div>
                   </div>
 
-                  {/* Course / Certification Dropdown Special Selection */}
-                  <div>
-                    <label className="block text-xs font-bold text-slate-900 mb-1.5 uppercase tracking-wider flex items-center justify-between">
-                      <span className="flex items-center gap-1.5 text-primary font-extrabold">
-                        <GraduationCap className="w-4 h-4" /> Which Certification Program will you teach? <span className="text-red-500">*</span>
-                      </span>
-                      <span className="text-[11px] font-normal text-slate-500">All Website Certifications</span>
-                    </label>
-                    <select
-                      value={form.subjectCourse}
-                      onChange={(e) => handleChange("subjectCourse", e.target.value)}
-                      onBlur={() => handleBlur("subjectCourse")}
-                      className={`w-full px-4 py-3.5 bg-white border-2 rounded-xl text-slate-900 text-sm font-semibold focus:outline-none transition-all cursor-pointer shadow-sm ${
-                        touched.subjectCourse && errors.subjectCourse
-                          ? "border-red-500 ring-2 ring-red-100"
-                          : "border-primary/40 focus:ring-2 focus:ring-primary focus:border-primary"
-                      }`}
-                    >
-                      {courseCertificationOptions.map((group) => (
-                        <optgroup key={group.category} label={group.category} className="font-bold text-slate-800">
-                          {group.courses.map((course) => (
-                            <option key={course} value={course} className="font-medium text-slate-700 py-1">
-                              {course}
-                            </option>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div className="space-y-1 text-left">
+                      <label className="text-xs font-semibold text-slate-700">Certification Category</label>
+                      <div className="relative">
+                        <select
+                          value={form.subjectCourse}
+                          onChange={(e) => handleChange("subjectCourse", e.target.value)}
+                          onBlur={() => handleBlur("subjectCourse")}
+                          className={`w-full px-3 py-2 pr-10 rounded-xl border ${errors.subjectCourse && touched.subjectCourse ? 'border-red-400 bg-red-50' : 'border-slate-200 bg-slate-50'} focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all appearance-none cursor-pointer text-sm`}
+                        >
+                          {courseCertificationOptions.map((group) => (
+                            <option key={group.category} value={group.category}>{group.category}</option>
                           ))}
-                        </optgroup>
-                      ))}
-                    </select>
-                    {touched.subjectCourse && errors.subjectCourse && (
-                      <p className="text-red-500 text-xs mt-1.5 font-bold flex items-center gap-1">
-                        <AlertCircle className="w-3.5 h-3.5" /> {errors.subjectCourse}
-                      </p>
-                    )}
-                  </div>
-
-                  {/* Highest Qualification & Current Company (Always 2 Columns) */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
-                        Highest Qualification <span className="text-red-500">*</span>
-                      </label>
-                      <select
-                        value={form.qualification}
-                        onChange={(e) => {
-                          const val = e.target.value;
-                          setForm((prev) => ({
-                            ...prev,
-                            qualification: val,
-                            ...(val !== "Other" ? { otherQualification: "" } : {}),
-                          }));
-                          if (val !== "Other") {
-                            setErrors((prev) => {
-                              const next = { ...prev };
-                              delete next.otherQualification;
-                              return next;
-                            });
-                          }
-                        }}
-                        className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm focus:ring-2 focus:ring-primary outline-none transition-all font-medium cursor-pointer"
-                      >
-                        <option value="B.Tech / BE">B.Tech / B.E.</option>
-                        <option value="M.Tech / ME">M.Tech / M.E.</option>
-                        <option value="MCA / M.Sc IT">MCA / M.Sc. IT / CS</option>
-                        <option value="BCA / B.Sc CS">BCA / B.Sc. CS</option>
-                        <option value="PhD / Doctorate">PhD / Doctorate</option>
-                        <option value="MBA / PGDM">MBA / PGDM</option>
-                        <option value="Industry Certified Professional">Industry Certified Professional</option>
-                        <option value="Other">Other (Please specify)</option>
-                      </select>
+                        </select>
+                        <ChevronDown className="w-4 h-4 text-slate-500 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                      </div>
+                      {errors.subjectCourse && touched.subjectCourse && <p className="text-red-500 text-[10px] ml-1">{errors.subjectCourse}</p>}
                     </div>
-
-                    {/* Current Company / College is ALWAYS visible here */}
-                    <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
-                        Current Company / College
-                      </label>
-                      <input
-                        type="text"
-                        value={form.currentOrg}
-                        onChange={(e) => handleChange("currentOrg", e.target.value)}
-                        placeholder="e.g. Infosys, TCS, or Freelance"
-                        className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm focus:ring-2 focus:ring-primary outline-none transition-all font-medium"
-                      />
+                    <div className="space-y-1 text-left">
+                      <label className="text-xs font-semibold text-slate-700">Highest Qualification</label>
+                      <div className="relative">
+                        <select
+                          value={form.qualification}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setForm((prev) => ({
+                              ...prev,
+                              qualification: val,
+                              ...(val !== "Other" ? { otherQualification: "" } : {}),
+                            }));
+                          }}
+                          className="w-full px-3 py-2 pr-10 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all appearance-none cursor-pointer text-sm"
+                        >
+                          <option value="B.Tech / BE">B.Tech / B.E.</option>
+                          <option value="M.Tech / ME">M.Tech / M.E.</option>
+                          <option value="MCA / M.Sc IT">MCA / M.Sc. IT / CS</option>
+                          <option value="BCA / B.Sc CS">BCA / B.Sc. CS</option>
+                          <option value="PhD / Doctorate">PhD / Doctorate</option>
+                          <option value="MBA / PGDM">MBA / PGDM</option>
+                          <option value="Industry Certified Professional">Industry Certified Professional</option>
+                          <option value="Other">Other</option>
+                        </select>
+                        <ChevronDown className="w-4 h-4 text-slate-500 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                      </div>
                     </div>
                   </div>
 
-                  {/* Dedicated Extra Row When 'Other' Education is Selected */}
                   {form.qualification === "Other" && (
-                    <div className="p-4 bg-orange-50/60 rounded-2xl border-2 border-orange-200 animate-in fade-in zoom-in-95 duration-200">
-                      <label className="block text-xs font-bold text-orange-800 mb-1.5 uppercase tracking-wider flex items-center gap-1.5">
-                        <GraduationCap className="w-4 h-4 text-orange-600" />
-                        Specify Your Degree / Qualification <span className="text-red-500">*</span>
-                      </label>
+                    <div className="space-y-1 text-left animate-in fade-in zoom-in duration-200">
+                      <label className="text-xs font-semibold text-slate-700">Specify Qualification</label>
                       <input
                         type="text"
+                        required
                         value={form.otherQualification}
                         onChange={(e) => handleChange("otherQualification", e.target.value)}
-                        onBlur={() => handleBlur("otherQualification")}
-                        placeholder="e.g. B.Sc Electronics, Diploma in Computer Engineering, M.Phil"
-                        className={`w-full px-4 py-3 bg-white border rounded-xl text-slate-900 text-sm focus:outline-none transition-all font-medium ${
-                          touched.otherQualification && errors.otherQualification
-                            ? "border-red-500 ring-2 ring-red-100 bg-red-50/30"
-                            : "border-orange-300 focus:ring-2 focus:ring-orange-400 focus:border-transparent"
-                        }`}
+                        className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all text-sm"
                       />
-                      {touched.otherQualification && errors.otherQualification && (
-                        <p className="text-red-500 text-xs mt-1.5 font-bold flex items-center gap-1">
-                          <AlertCircle className="w-3.5 h-3.5" /> {errors.otherQualification}
-                        </p>
-                      )}
                     </div>
                   )}
 
-                  {/* Date to Join / Availability Field */}
-                  <div className="bg-slate-100/80 p-4 rounded-2xl border border-slate-200">
-                    <label className="block text-xs font-bold text-slate-900 mb-2 uppercase tracking-wider flex items-center gap-1.5">
-                      <Calendar className="w-4 h-4 text-primary" /> Expected Date to Join / Availability <span className="text-red-500">*</span>
-                    </label>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-2.5">
-                      {["Immediate", "Within 15 Days", "1st of Next Month", "Custom Date"].map((opt) => (
-                        <button
-                          key={opt}
-                          type="button"
-                          onClick={() => {
-                            setForm({ ...form, joinQuickOption: opt });
-                            if (opt !== "Custom Date") {
-                              setErrors((prev) => {
-                                const next = { ...prev };
-                                delete next.dateToJoin;
-                                return next;
-                              });
-                            }
-                          }}
-                          className={`py-2 px-3 rounded-xl text-xs font-bold transition-all border text-center cursor-pointer ${
-                            form.joinQuickOption === opt
-                              ? "bg-slate-900 text-white border-slate-900 shadow-sm"
-                              : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
-                          }`}
-                        >
-                          {opt}
-                        </button>
-                      ))}
-                    </div>
-
-                    {form.joinQuickOption === "Custom Date" && (
-                      <div className="mt-2 animate-in fade-in duration-150">
-                        <input
-                          type="date"
-                          value={form.dateToJoin}
-                          min={new Date().toISOString().split("T")[0]}
-                          onChange={(e) => handleChange("dateToJoin", e.target.value)}
-                          onBlur={() => handleBlur("dateToJoin")}
-                          className={`w-full px-4 py-2.5 bg-white border rounded-xl text-slate-900 text-sm focus:outline-none font-medium ${
-                            touched.dateToJoin && errors.dateToJoin
-                              ? "border-red-500 ring-2 ring-red-100 bg-red-50/20"
-                              : "border-slate-200 focus:ring-2 focus:ring-primary"
-                          }`}
-                        />
-                        {touched.dateToJoin && errors.dateToJoin && (
-                          <p className="text-red-500 text-xs mt-1.5 font-bold flex items-center gap-1">
-                            <AlertCircle className="w-3.5 h-3.5" /> {errors.dateToJoin}
-                          </p>
-                        )}
-                      </div>
-                    )}
+                  <div className="space-y-1 text-left">
+                    <label className="text-xs font-semibold text-slate-700">LinkedIn Profile URL</label>
+                    <input
+                      type="url"
+                      value={form.linkedinUrl}
+                      onChange={(e) => handleChange("linkedinUrl", e.target.value)}
+                      className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all text-sm"
+                    />
                   </div>
 
-                  {/* Resume Upload Button & Link Field */}
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider flex items-center justify-between">
-                      <span className="flex items-center gap-1.5">
-                        <Paperclip className="w-3.5 h-3.5 text-primary" /> Upload Resume / CV (.PDF, .DOCX)
-                      </span>
-                      <span className="text-[11px] text-slate-400 font-normal">Max size: 5MB</span>
-                    </label>
-
+                  <div className="space-y-1 text-left pt-1">
+                    <label className="text-xs font-semibold text-slate-700">Resume / CV (Max 5MB)</label>
                     {resumeFile ? (
-                      <div className="flex items-center justify-between p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl">
-                        <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
-                            <FileText className="w-5 h-5" />
-                          </div>
-                          <div>
-                            <p className="text-xs font-bold text-slate-900 truncate max-w-[280px]">{resumeFile.name}</p>
-                            <p className="text-[11px] text-emerald-700 font-semibold">{resumeFile.size} • Ready for upload</p>
-                          </div>
+                      <div className="flex items-center justify-between p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                        <div className="flex items-center gap-2 overflow-hidden">
+                          <FileText className="w-4 h-4 text-emerald-600 shrink-0" />
+                          <p className="text-xs font-semibold text-slate-700 truncate">{resumeFile.name}</p>
                         </div>
                         <button
                           type="button"
                           onClick={removeResumeFile}
-                          className="p-1.5 rounded-lg text-red-500 hover:bg-red-50 transition-colors"
-                          title="Remove file"
+                          className="p-1 rounded text-red-500 hover:bg-red-50 transition-colors"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -960,7 +646,7 @@ export default function CareersPage() {
                     ) : (
                       <div
                         onClick={() => fileInputRef.current?.click()}
-                        className="border-2 border-dashed border-slate-300 hover:border-primary bg-white hover:bg-primary/5 rounded-2xl p-4 text-center cursor-pointer transition-all flex flex-col items-center justify-center group"
+                        className="w-full px-3 py-4 rounded-xl border border-slate-200 border-dashed bg-slate-50 hover:bg-slate-100 focus:bg-white transition-all text-sm text-center cursor-pointer"
                       >
                         <input
                           ref={fileInputRef}
@@ -969,62 +655,21 @@ export default function CareersPage() {
                           onChange={handleFileUpload}
                           className="hidden"
                         />
-                        <Upload className="w-6 h-6 text-slate-400 group-hover:text-primary mb-1 transition-colors" />
-                        <p className="text-xs font-bold text-slate-700 group-hover:text-primary">
-                          Click to upload Resume / CV file
-                        </p>
-                        <p className="text-[11px] text-slate-400 mt-0.5">Supports PDF, DOC, DOCX up to 5MB</p>
+                        <span className="text-slate-500 font-medium text-xs flex items-center justify-center gap-1.5"><Upload className="w-3.5 h-3.5" /> Click to upload</span>
                       </div>
                     )}
                   </div>
 
-                  {/* LinkedIn & Bio */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
-                        LinkedIn Profile URL
-                      </label>
-                      <input
-                        type="url"
-                        value={form.linkedinUrl}
-                        onChange={(e) => handleChange("linkedinUrl", e.target.value)}
-                        placeholder="https://linkedin.com/in/username"
-                        className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm focus:ring-2 focus:ring-primary outline-none transition-all font-medium"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
-                        Teaching Philosophy / Bio
-                      </label>
-                      <input
-                        type="text"
-                        value={form.coverNote}
-                        onChange={(e) => handleChange("coverNote", e.target.value)}
-                        placeholder="Briefly highlight your experience..."
-                        className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm focus:ring-2 focus:ring-primary outline-none transition-all font-medium"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Submit Button */}
-                  <div className="pt-2">
-                    <button
-                      type="submit"
-                      disabled={submitting}
-                      className="w-full py-4 rounded-xl bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white font-medium text-base hover:shadow-xl shadow-orange-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-                    >
-                      {submitting ? (
-                        <>Submitting Application...</>
-                      ) : (
-                        <>
-                          <Send className="w-4 h-4" /> Submit Faculty Application
-                        </>
-                      )}
-                    </button>
-                    <p className="text-center text-[11px] text-slate-400 mt-2">
-                      🔒 Your contact information is kept confidential and reviewed solely by BITC HR.
-                    </p>
-                  </div>
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="w-full h-11 rounded-xl bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white text-[15px] font-medium flex items-center justify-center hover:shadow-lg hover:shadow-orange-500/25 hover:-translate-y-0.5 transition-all mt-1 disabled:opacity-50"
+                  >
+                    {submitting ? "Submitting..." : "Submit Details"} <ArrowRight className="ml-2 w-4 h-4" />
+                  </button>
+                  <p className="text-center text-[11px] text-slate-400 mt-2">
+                    🔒 Your contact information is kept confidential and reviewed solely by BITC HR.
+                  </p>
                 </form>
               )}
             </div>

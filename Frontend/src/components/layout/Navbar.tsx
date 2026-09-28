@@ -45,7 +45,6 @@ export function Navbar() {
         { href: "/about/our-story", icon: BookOpen, title: "Our Story", desc: "Our journey so far" },
         { href: "/about/vision-mission", icon: Compass, title: "Vision & Mission", desc: "Our core purpose" },
         { href: "/about/directors-message", icon: MessageSquare, title: "Director's Message", desc: "Words from leadership" },
-        { href: "/about/industry-partnerships", icon: Handshake, title: "Industry Partnerships", desc: "Our collaborations" },
         { href: "/about/our-mentors", icon: Users, title: "Our Mentors", desc: "Learn from the best" },
         { href: "/about/student-consulting-center", icon: MessageSquare, title: "Student Consulting", desc: "Career guidance" },
         { href: "/about/awards-recognition", icon: Trophy, title: "Awards & Recognition", desc: "Our achievements" },
@@ -72,29 +71,12 @@ export function Navbar() {
         { href: "/placements/statistics", icon: BarChart, title: "Placement Statistics", desc: "Our track record" },
       ],
     },
-    corporate: {
-      label: "Corporate",
-      items: [
-        { href: "/corporate/training", icon: Briefcase, title: "Corporate Training", desc: "Customized team training" },
-        { href: "/corporate/upskilling", icon: TrendingUp, title: "Employee Upskilling", desc: "Boost workforce skills" },
-        { href: "/corporate/leadership", icon: Award, title: "Leadership Programs", desc: "Executive development" },
-      ],
-    },
-    partnership: {
-      label: "Partnership",
-      items: [
-        { href: "/partnership/mou", icon: FileText, title: "MoU", desc: "Academic collaborations" },
-        { href: "/partnership/workshops", icon: Users, title: "Workshops", desc: "Skill-building sessions" },
-        { href: "/partnership/fdp", icon: GraduationCap, title: "Faculty Development", desc: "Training for educators" },
-        { href: "/partnership/industrial-visits", icon: Building2, title: "Industrial Visits", desc: "Real-world exposure" },
-      ],
-    },
+
     resources: {
       label: "Resources",
       items: [
         { href: "/resources/blog", icon: BookOpen, title: "Blog", desc: "Latest news & articles" },
         { href: "/resources/gallery", icon: ImageIcon, title: "Gallery", desc: "Photos from our campus" },
-        { href: "/resources/downloads", icon: Download, title: "Downloads", desc: "Brochures & materials" },
         { href: "/resources/faqs", icon: HelpCircle, title: "FAQs", desc: "Questions & answers" },
       ],
     },
@@ -140,6 +122,9 @@ export function Navbar() {
               </div>
             ))}
 
+            <Link href="/partnership" className="h-full flex items-center hover:text-primary transition-colors font-medium">
+              Partnership
+            </Link>
             <Link href="/events" className="h-full flex items-center hover:text-primary transition-colors font-medium">
               Events
             </Link>
@@ -206,6 +191,13 @@ export function Navbar() {
               })}
 
               <div className="pt-2 space-y-3 border-t border-slate-100">
+                <Link
+                  href="/partnership"
+                  onClick={() => setMobileOpen(false)}
+                  className="block py-2 text-slate-900 font-bold text-base hover:text-primary transition-colors"
+                >
+                  Partnership
+                </Link>
                 <Link
                   href="/events"
                   onClick={() => setMobileOpen(false)}

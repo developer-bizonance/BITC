@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     template: "%s | BIZONANCE Industrial Training Centre | Amravati",
   },
   description:
-    "BITC (BIZONANCE Industrial Training Centre) is a premier industry-focused tech institute in Amravati offering certifications in Full Stack Development, AI & Machine Learning, Data Science, Cyber Security, UI/UX Design, and Management with 100% placement support.",
+    "BITC (BIZONANCE Industrial Training Centre) is a premier industry-focused tech institute in Amravati offering certifications in Full Stack Development, AI & Machine Learning, Data Science, UI/UX Design, and Management with 100% placement support.",
   keywords: [
     "BITC",
     "BIZONANCE Industrial Training Centre. (BITC) | Amravati",

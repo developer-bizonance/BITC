@@ -13,7 +13,7 @@ import { courses as staticCourses } from "@/data/courses";
 
 export const metadata: Metadata = {
   title: "IT & Software Certifications",
-  description: "Master Full Stack Java, Python, MERN, AI & ML, Data Science, Cyber Security, and Cloud Computing at BITC Amravati.",
+  description: "Master Full Stack Java, Python, MERN, AI & ML, Data Science, and Cloud Computing at BITC Amravati.",
   openGraph: {
     title: "IT & Software Certifications | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
     description: "Industry-aligned IT & Software engineering certification programs.",

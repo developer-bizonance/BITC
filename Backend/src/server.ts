@@ -31,6 +31,7 @@ import studentsRoutes from "./routes/students.routes.js";
 import categoriesRoutes from "./routes/categories.routes.js";
 import cmsRoutes from "./routes/cms.routes.js";
 import eventRegistrationRoutes from "./routes/eventRegistration.routes.js";
+import partnershipApplicationsRoutes from "./routes/partnership-applications.routes.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -104,6 +105,7 @@ app.use("/api/students", studentsRoutes);
 app.use("/api/categories", categoriesRoutes);
 app.use("/api/cms", cmsRoutes);
 app.use("/api/event-registrations", eventRegistrationRoutes);
+app.use("/api/partnership-applications", partnershipApplicationsRoutes);
 
 // Global Error Handler
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {

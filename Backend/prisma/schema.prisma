@@ -77,6 +77,10 @@ model Application {
   name        String?
   email       String?
   phone       String?
+  city           String?
+  qualification  String?
+  specialization String?
+  message        String?
   appliedAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
 }

@@ -203,7 +203,8 @@ router.delete("/:slug/curriculum/:moduleIndex", async (req: Request, res: Respon
 // POST /api/courses/apply
 router.post("/apply", async (req: Request, res: Response) => {
   try {
-    const { courseId, courseTitle, name, email, phone } = req.body;
+    const { courseId, courseTitle, name, email, phone, city, qualification, specialization, message } = req.body;
+    console.log("RECEIVED BODY:", JSON.stringify(req.body));
 
     if (!courseId || !courseTitle || !name || !email || !phone) {
       return res.status(400).json({ error: "All application fields are required" });
@@ -241,6 +242,10 @@ router.post("/apply", async (req: Request, res: Response) => {
       userName: name,
       userEmail: email,
       userPhone: phone,
+      city,
+      qualification,
+      specialization,
+      message,
       courseId,
       courseTitle,
       status: "UNDER_REVIEW" as const,
@@ -262,6 +267,10 @@ router.post("/apply", async (req: Request, res: Response) => {
             name: name,
             email: email,
             phone: phone,
+            city,
+            qualification,
+            specialization,
+            message,
             status: "UNDER_REVIEW",
           },
         });

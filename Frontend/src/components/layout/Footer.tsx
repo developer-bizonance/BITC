@@ -31,8 +31,7 @@ export function Footer() {
     { name: 'Scholarships', href: '/scholarships' },
     { name: 'Verify Certificate', href: '/certification/verify' },
     { name: 'Placements', href: '/placements' },
-    { name: 'FAQs', href: '/resources/faqs' },
-    { name: 'Downloads', href: '/resources/downloads' }
+    { name: 'FAQs', href: '/resources/faqs' }
   ];
 
   const companyLinks = [

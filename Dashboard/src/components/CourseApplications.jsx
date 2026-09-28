@@ -146,12 +146,11 @@ const CourseApplications = () => {
       "Name",
       "Email",
       "Phone",
-      "Role",
-      "Specialization / Course",
+      "Course",
+      "City",
       "Qualification",
-      "Experience",
-      "Available Date",
-      "Company / College",
+      "Specialization",
+      "Message",
       "Status",
       "Date Applied",
     ];
@@ -161,12 +160,11 @@ const CourseApplications = () => {
       `"${(app.name || "").replace(/"/g, '""')}"`,
       `"${(app.email || "").replace(/"/g, '""')}"`,
       `"${(app.phone || "").replace(/"/g, '""')}"`,
-      `"${(app.role || "").replace(/"/g, '""')}"`,
-      `"${(app.department || "").replace(/"/g, '""')}"`,
+      `"${(app.courseTitle || "").replace(/"/g, '""')}"`,
+      `"${(app.city || "").replace(/"/g, '""')}"`,
       `"${(app.qualification || "").replace(/"/g, '""')}"`,
-      `"${(app.experience || "").replace(/"/g, '""')}"`,
-      `"${(app.dateToJoin || "").replace(/"/g, '""')}"`,
-      `"${(app.company || "").replace(/"/g, '""')}"`,
+      `"${(app.specialization || "").replace(/"/g, '""')}"`,
+      `"${(app.message || "").replace(/"/g, '""')}"`,
       `"${(app.status || "").replace(/"/g, '""')}"`,
       `"${(app.date || "").replace(/"/g, '""')}"`,
     ]);
@@ -176,7 +174,7 @@ const CourseApplications = () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `bitc_faculty_applications_${new Date().toISOString().slice(0, 10)}.csv`;
+    link.download = `bitc_course_applications_${new Date().toISOString().slice(0, 10)}.csv`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -447,32 +445,30 @@ const CourseApplications = () => {
 
                   <div>
                     <div className="flex items-center gap-1.5 text-slate-500 mb-1 uppercase text-[10px] font-semibold tracking-wider">
-                      <Briefcase size={12} className="text-slate-400" /> Total Experience
+                      <Building size={12} className="text-slate-400" /> City
                     </div>
-                    <p className="text-slate-800 font-medium">{selectedApplicant.experience || "1-3 Years"}</p>
+                    <p className="text-slate-800 font-medium">{selectedApplicant.city || "Not Specified"}</p>
                   </div>
 
                   <div>
                     <div className="flex items-center gap-1.5 text-slate-500 mb-1 uppercase text-[10px] font-semibold tracking-wider">
-                      <GraduationCap size={12} className="text-slate-400" /> Degree / Qualification
+                      <GraduationCap size={12} className="text-slate-400" /> Higher Qualification
                     </div>
-                    <p className="text-slate-800 font-medium">{selectedApplicant.qualification || "Graduate"}</p>
+                    <p className="text-slate-800 font-medium">{selectedApplicant.qualification || "Not Specified"}</p>
                   </div>
 
                   <div>
                     <div className="flex items-center gap-1.5 text-slate-500 mb-1 uppercase text-[10px] font-semibold tracking-wider">
-                      <Calendar size={12} className="text-slate-400" /> Date to Join / Availability
+                      <Briefcase size={12} className="text-slate-400" /> Specialization
                     </div>
-                    <span className="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                      {selectedApplicant.dateToJoin || "Immediate"}
-                    </span>
+                    <p className="text-slate-800 font-medium">{selectedApplicant.specialization || "Not Specified"}</p>
                   </div>
 
                   <div>
                     <div className="flex items-center gap-1.5 text-slate-500 mb-1 uppercase text-[10px] font-semibold tracking-wider">
-                      <Building size={12} className="text-slate-400" /> Current Organization
+                      <FileText size={12} className="text-slate-400" /> Message
                     </div>
-                    <p className="text-slate-800 font-medium">{selectedApplicant.company || "Not Specified"}</p>
+                    <p className="text-slate-800 font-medium truncate" title={selectedApplicant.message}>{selectedApplicant.message || "No message"}</p>
                   </div>
                 </div>
 
@@ -533,11 +529,11 @@ const CourseApplications = () => {
                   </a>
 
                   <a
-                    href={`mailto:${selectedApplicant.email}?subject=BITC Application Response: ${encodeURIComponent(
-                      selectedApplicant.role || "Faculty / Trainer Role"
-                    )}&body=Dear ${encodeURIComponent(selectedApplicant.name)},\n\nThank you for applying to teach ${encodeURIComponent(
-                      selectedApplicant.department
-                    )} at BIZONANCE Industrial Training Centre (BITC).\n\nWe reviewed your profile and would like to invite you for a discussion & demo lecture.\n\nBest regards,\nBITC Academic & HR Team`}
+                    href={`mailto:${selectedApplicant.email}?subject=BITC Course Enrollment: ${encodeURIComponent(
+                      selectedApplicant.courseTitle || "Course"
+                    )}&body=Dear ${encodeURIComponent(selectedApplicant.name)},\n\nThank you for applying for the ${encodeURIComponent(
+                      selectedApplicant.courseTitle || "course"
+                    )} at BIZONANCE Industrial Training Centre (BITC).\n\nOur academic counselor will contact you shortly to complete the orientation and batch scheduling.\n\nBest regards,\nBITC Team`}
                     className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white rounded-xl font-bold text-xs shadow-sm shadow-orange-500/20 transition-all hover:scale-[1.02] active:scale-95"
                   >
                     <Send className="w-3.5 h-3.5" />

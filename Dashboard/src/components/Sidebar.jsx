@@ -43,6 +43,8 @@ import Students from "./Students.jsx"
 import EnquiryTypes from "./EnquiryTypes.jsx"
 import StudentConsulting from "./StudentConsulting.jsx"
 import EventRegistrations from "./EventRegistrations.jsx"
+import ScholarshipApplications from "./ScholarshipApplications.jsx"
+import PartnershipApplications from "./PartnershipApplications.jsx"
 
 // Sidebar configuration with Home, About, and Contact Inquiries tabs
 const sidebarItems = [
@@ -131,16 +133,28 @@ const sidebarItems = [
                 Icon: Image,
             },
             {
-                id: "downloads",
-                title: "Downloads",
-                Icon: Download,
-            },
-            {
                 id: "faq",
                 title: "FAQ",
                 Icon: HelpCircle,
             },
         ],
+    },
+    {
+        title: "Partnerships",
+        Icon: Handshake,
+        Content: PartnershipApplications,
+        subItems: [
+            {
+                id: "educational-partnership",
+                title: "Educational",
+                Icon: GraduationCap,
+            },
+            {
+                id: "corporate-partnership",
+                title: "Corporate",
+                Icon: Briefcase,
+            }
+        ]
     },
 
     {
@@ -171,7 +185,12 @@ const sidebarItems = [
         Content: CourseApplications,
     },
     {
-        title: "Job Applications",
+        title: "Scholarship Applications",
+        Icon: Award,
+        Content: ScholarshipApplications,
+    },
+    {
+        title: "Faculty Applications",
         Icon: Briefcase,
         Content: Applications,
     },
@@ -379,6 +398,11 @@ function Sidebar({ isOpen: propIsOpen }) {
                             {activeTab === "Resources" && activeSubTopic === "faq" && (
                                 <FAQ />
                             )}
+                            {activeTab === "Partnerships" && (
+                                <PartnershipApplications 
+                                    activeSubTopic={activeSubTopic}
+                                />
+                            )}
 
                             {activeTab === "Contact Inquiries" && (activeSubTopic === "inquiries-list" || !activeSubTopic) && (
                                 <ContactEntries />
@@ -392,7 +416,10 @@ function Sidebar({ isOpen: propIsOpen }) {
                             {activeTab === "Course Applications" && (
                                 <CourseApplications />
                             )}
-                            {activeTab === "Job Applications" && (
+                            {activeTab === "Scholarship Applications" && (
+                                <ScholarshipApplications />
+                            )}
+                            {activeTab === "Faculty Applications" && (
                                 <Applications />
                             )}
                         </motion.div>

@@ -108,17 +108,14 @@ const StudentConsulting = () => {
   // Export CSV
   const exportToCSV = () => {
     if (inquiries.length === 0) return;
-    const headers = ["ID", "Name", "Email", "Phone", "City", "Course/Type", "Status", "Date", "Message"];
+    const headers = ["ID", "Name", "Email", "Phone", "Status", "Date"];
     const rows = inquiries.map((inq) => [
       `"${inq.fullId || inq.id}"`,
       `"${inq.name}"`,
       `"${inq.email}"`,
       `"${inq.phone}"`,
-      `"${inq.city || ''}"`,
-      `"${inq.courseName}"`,
       `"${inq.status}"`,
       `"${inq.date}"`,
-      `"${(inq.message || '').replace(/"/g, '""')}"`,
     ]);
 
     const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map((e) => e.join(","))].join("\n");
@@ -137,10 +134,7 @@ const StudentConsulting = () => {
     const matchesSearch =
       (inq.name && inq.name.toLowerCase().includes(term)) ||
       (inq.email && inq.email.toLowerCase().includes(term)) ||
-      (inq.phone && inq.phone.toLowerCase().includes(term)) ||
-      (inq.city && inq.city.toLowerCase().includes(term)) ||
-      (inq.courseName && inq.courseName.toLowerCase().includes(term)) ||
-      (inq.message && inq.message.toLowerCase().includes(term));
+      (inq.phone && inq.phone.toLowerCase().includes(term));
 
     const matchesStatus =
       statusFilter === "all" || inq.status.toLowerCase() === statusFilter.toLowerCase();
@@ -230,8 +224,6 @@ const StudentConsulting = () => {
             <thead className="bg-slate-50/80 text-slate-400 font-bold uppercase tracking-wider text-[10px] border-b border-slate-100">
               <tr>
                 <th className="px-6 py-4">Inquirer</th>
-                <th className="px-6 py-4">Course / Subject</th>
-                <th className="px-6 py-4">Message</th>
                 <th className="px-6 py-4">Date</th>
                 <th className="px-6 py-4">Status</th>
                 <th className="px-6 py-4 text-right">Actions</th>
@@ -247,7 +239,7 @@ const StudentConsulting = () => {
                 </tr>
               ) : filteredInquiries.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="px-6 py-16 text-center text-slate-400">
+                  <td colSpan="4" className="px-6 py-16 text-center text-slate-400">
                     <MessageSquare className="w-8 h-8 mx-auto mb-2 text-slate-300" />
                     No inquiries found matching your filters.
                   </td>
@@ -265,25 +257,6 @@ const StudentConsulting = () => {
                       </p>
                       <p className="text-slate-500 flex items-center gap-1.5 mt-0.5">
                         <Phone size={12} className="text-slate-400 shrink-0" /> {inq.phone}
-                      </p>
-                      {inq.city && (
-                        <p className="text-slate-400 text-[10px] flex items-center gap-1 mt-0.5">
-                          <MapPin size={10} className="shrink-0" /> {inq.city}
-                        </p>
-                      )}
-                    </td>
-
-                    {/* Course Name */}
-                    <td className="px-6 py-4 align-middle min-w-[180px]">
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-50 text-blue-700 font-bold text-[11px] border border-blue-100">
-                        <Tag size={12} /> {inq.courseName}
-                      </span>
-                    </td>
-
-                    {/* Message Preview */}
-                    <td className="px-6 py-4 align-middle max-w-[280px]">
-                      <p className="text-slate-700 line-clamp-2 leading-relaxed">
-                        {inq.message || "—"}
                       </p>
                     </td>
 
@@ -382,31 +355,6 @@ const StudentConsulting = () => {
                     </p>
                     <p className="text-slate-900 font-semibold">{selectedInquiry.phone}</p>
                   </div>
-                </div>
-
-                <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1">
-                    <Tag size={12} className="text-blue-500" /> Topic / Course
-                  </p>
-                  <p className="text-slate-900 font-bold">{selectedInquiry.courseName}</p>
-                </div>
-
-                {selectedInquiry.city && (
-                  <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1">
-                      <MapPin size={12} className="text-blue-500" /> Location / City
-                    </p>
-                    <p className="text-slate-900 font-semibold">{selectedInquiry.city}</p>
-                  </div>
-                )}
-
-                <div>
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1">
-                    <MessageSquare size={12} className="text-blue-500" /> Inquirer Message
-                  </p>
-                  <p className="text-slate-700 bg-slate-50 p-4 rounded-xl border border-slate-100 leading-relaxed font-medium">
-                    &quot;{selectedInquiry.message || "No message provided."}&quot;
-                  </p>
                 </div>
 
                 <div className="pt-3 border-t border-slate-100 flex justify-between items-center">

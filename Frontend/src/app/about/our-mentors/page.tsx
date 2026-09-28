@@ -33,7 +33,7 @@ const defaultMentors: MentorItem[] = [
   { name: "Rahul Sharma", role: "Senior Software Engineer", company: "Google", exp: "12+ Years", skills: ["React", "Node.js", "System Design"], area: "Full Stack Development", img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=800", thought: "\"The best code is the code you don't have to write.\"" },
   { name: "Priya Patel", role: "Data Science Lead", company: "Microsoft", exp: "10+ Years", skills: ["Python", "TensorFlow", "SQL"], area: "Data Science & AI", img: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=800", thought: "\"Data without context is just noise. Focus on the insights.\"" },
   { name: "Amit Verma", role: "Cloud Architect", company: "Amazon Web Services", exp: "14+ Years", skills: ["AWS", "Azure", "Kubernetes"], area: "Cloud Computing", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800", thought: "\"Architect for failure, and you'll never be surprised when it happens.\"" },
-  { name: "Sneha Gupta", role: "Cybersecurity Consultant", company: "Deloitte", exp: "9+ Years", skills: ["Penetration Testing", "SIEM", "Compliance"], area: "Cyber Security", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=800", thought: "\"Security is a process, not a product. Always stay vigilant.\"" },
+  { name: "Sneha Gupta", role: "Information Security Consultant", company: "Deloitte", exp: "9+ Years", skills: ["Penetration Testing", "SIEM", "Compliance"], area: "Information Security", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=800", thought: "\"Security is a process, not a product. Always stay vigilant.\"" },
   { name: "Vikram Reddy", role: "UX Design Director", company: "Adobe", exp: "11+ Years", skills: ["Figma", "User Research", "Prototyping"], area: "UI/UX Design", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=800", thought: "\"Design is how it works, not just how it looks and feels.\"" },
   { name: "Neha Joshi", role: "Business Strategy Head", company: "McKinsey", exp: "13+ Years", skills: ["Strategy", "Analytics", "Leadership"], area: "Business & Management", img: "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?auto=format&fit=crop&q=80&w=800", thought: "\"Execution eats strategy for breakfast. Build things that matter.\"" },
 ];
@@ -156,8 +156,8 @@ export default function OurMentorsPage() {
                     </div>
 
                     {mentor.thought && (
-                      <div className="relative mt-2 mb-4 bg-slate-50 p-3 rounded-lg border border-slate-100">
-                        <p className="text-[12px] leading-relaxed italic text-slate-600">"{mentor.thought}"</p>
+                      <div className="relative mt-2 mb-4">
+                        <p className="text-[12px] leading-relaxed italic text-slate-600">{mentor.thought}</p>
                       </div>
                     )}
                   </div>
@@ -192,7 +192,7 @@ export default function OurMentorsPage() {
               { title: "Full Stack Development", icon: Code, color: "bg-blue-500/5 text-blue-600" },
               { title: "Data Science", icon: BarChart3, color: "bg-green-500/5 text-green-600" },
               { title: "Cloud Computing", icon: Cloud, color: "bg-sky-500/5 text-sky-600" },
-              { title: "Cyber Security", icon: Shield, color: "bg-red-500/5 text-red-600" },
+              { title: "Information Security", icon: Shield, color: "bg-red-500/5 text-red-600" },
               { title: "UI/UX Design", icon: Palette, color: "bg-pink-500/5 text-pink-600" },
               { title: "Business & Strategy", icon: Briefcase, color: "bg-amber-500/5 text-amber-600" },
               { title: "Database & Backend", icon: Database, color: "bg-indigo-500/5 text-indigo-600" },

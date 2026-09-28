@@ -50,7 +50,7 @@
   {
     "id": "mentor-4",
     "name": "Sneha Gupta",
-    "role": "Cybersecurity Consultant",
+    "role": "Information Security Consultant",
     "company": "Deloitte",
     "exp": "9+ Years",
     "skills": [
@@ -58,7 +58,7 @@
       "SIEM",
       "Compliance"
     ],
-    "area": "Cyber Security",
+    "area": "Information Security",
     "img": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=800",
     "thought": "\"Security is a continuous process, not an off-the-shelf product. It requires a mindset of healthy skepticism, constant vigilance, and understanding that humans are often the weakest link.\"",
     "createdAt": "2026-08-21T06:19:25.525Z"

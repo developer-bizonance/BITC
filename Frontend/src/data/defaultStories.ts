@@ -75,9 +75,9 @@ export const defaultStories: TestimonialItem[] = [
   {
     id: "testi-6",
     name: "Neha Sharma",
-    role: "Cyber Security Analyst",
+    role: "Information Security Analyst",
     company: "Tech Mahindra",
-    course: "Cyber Security",
+    course: "Information Security",
     packageAmt: "9 LPA",
     quote: "The hands-on ethical hacking labs were amazing. I got real-world exposure that companies look for.",
     image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&h=300&q=80",

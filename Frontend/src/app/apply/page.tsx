@@ -44,11 +44,11 @@ const courseCertificationOptions = [
     ],
   },
   {
-    category: "☁️ Cloud Computing & Cyber Security",
+    category: "☁️ Cloud Computing & ",
     courses: [
       "Cloud Computing & Architecture (AWS / Microsoft Azure / GCP)",
       "DevOps & SRE (Docker, Kubernetes, Jenkins, CI/CD, Terraform)",
-      "Cyber Security & Ethical Hacking",
+      " & Ethical Hacking",
       "Network Engineering & Systems Security",
     ],
   },

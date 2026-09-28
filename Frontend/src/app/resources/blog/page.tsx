@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   },
 };
 
+// Force recompile
 export default async function BlogPage() {
   let blogs: any[] = [];
   try {
