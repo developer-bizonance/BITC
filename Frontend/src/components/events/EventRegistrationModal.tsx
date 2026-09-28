@@ -114,12 +114,12 @@ export default function EventRegistrationModal({ children, eventId, isGeneralUpd
                 value={formData.name}
                 onChange={handleChange}
                 className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors text-slate-900"
-                placeholder="John Doe"
+                placeholder="Enter Your Full Name"
               />
             </div>
             <div>
               <label htmlFor="email" className="block text-sm font-semibold text-slate-700 mb-1">
-                Email Address
+                Email ID
               </label>
               <input
                 type="email"
@@ -129,7 +129,7 @@ export default function EventRegistrationModal({ children, eventId, isGeneralUpd
                 value={formData.email}
                 onChange={handleChange}
                 className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors text-slate-900"
-                placeholder="john@example.com"
+                placeholder="Enter Your Email ID"
               />
             </div>
             <div>
@@ -144,7 +144,7 @@ export default function EventRegistrationModal({ children, eventId, isGeneralUpd
                 value={formData.phone}
                 onChange={handleChange}
                 className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors text-slate-900"
-                placeholder="+91 9876543210"
+                placeholder="Enter Your Mobile Number"
               />
             </div>
             
@@ -161,7 +161,7 @@ export default function EventRegistrationModal({ children, eventId, isGeneralUpd
                     value={formData.college}
                     onChange={handleChange}
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors text-slate-900"
-                    placeholder="E.g. XYZ College"
+                    placeholder="Enter Your College/University"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
@@ -176,7 +176,7 @@ export default function EventRegistrationModal({ children, eventId, isGeneralUpd
                       value={formData.course}
                       onChange={handleChange}
                       className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors text-slate-900"
-                      placeholder="E.g. B.Tech"
+                      placeholder="Enter Your Course"
                     />
                   </div>
                   <div>
@@ -190,7 +190,7 @@ export default function EventRegistrationModal({ children, eventId, isGeneralUpd
                       value={formData.graduationYear}
                       onChange={handleChange}
                       className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors text-slate-900"
-                      placeholder="E.g. 2026"
+                      placeholder="Enter Your Grad. Year"
                     />
                   </div>
                 </div>
