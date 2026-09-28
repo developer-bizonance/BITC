@@ -34,14 +34,18 @@ const initialCoursesData: Record<string, CourseCardItem[]> = {
     { title: "Data Science", duration: "6 Months", icon: BarChart, image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "High Demand" },
     { title: "Complete DevOps & Cloud Computing", duration: "6 Months", icon: Cloud, image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "AWS / Azure" },
   ],
-  "Management": [
-    { title: "Digital Marketing", duration: "3 Months", icon: TrendingUp, image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "Placement Assistance" },
+  "Digital Media Technology": [
+    { title: "META Advertising and Marketing", duration: "6 Months", icon: TrendingUp, image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
+    { title: "Google Advertising and Marketing", duration: "6 Months", icon: BarChart, image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
+    { title: "Digital Marketing", duration: "3 Months", icon: TrendingUp, image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "Placement Assistance" },
+  ],
+  "Management Programs": [
     { title: "Business Analytics", duration: "6 Months", icon: PieChart, image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
     { title: "Finance", duration: "6 Months", icon: Landmark, image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
     { title: "HR", duration: "3 Months", icon: Users, image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
     { title: "Sales", duration: "3 Months", icon: TrendingUp, image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
   ],
-  "Design": [
+  "Design Programs": [
     { title: "UI/UX Design", duration: "6 Months", icon: LayoutTemplate, image: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "Figma & Prototyping" },
     { title: "Graphic Design", duration: "3 Months", icon: PenTool, image: "https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "Adobe Suite" },
     { title: "Motion Graphics", duration: "3 Months", icon: Video, image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "After Effects" },
@@ -52,8 +56,9 @@ const initialCoursesData: Record<string, CourseCardItem[]> = {
 
 const categoryRoutes: Record<string, string> = {
   "Information Technology": "/courses/it",
-  "Management": "/courses/management",
-  "Design": "/courses/design",
+  "Digital Media Technology": "/courses/digital-media",
+  "Management Programs": "/courses/management",
+  "Design Programs": "/courses/design",
 };
 
 const getApiUrl = () => {
