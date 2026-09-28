@@ -37,7 +37,7 @@ export default async function ManagementCoursesPage() {
   }
 
   if (!dynamicCourses || dynamicCourses.length === 0) {
-    dynamicCourses = staticCourses.filter(c => c.category === "Management");
+    dynamicCourses = staticCourses.filter(c => c.category === "Management Programs");
   }
 
   const finalCourses = dynamicCourses.map((c: any) => {

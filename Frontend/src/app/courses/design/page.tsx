@@ -37,7 +37,7 @@ export default async function DesignCoursesPage() {
   }
 
   if (!dynamicCourses || dynamicCourses.length === 0) {
-    dynamicCourses = staticCourses.filter(c => c.category === "Design");
+    dynamicCourses = staticCourses.filter(c => c.category === "Design Programs");
   }
 
   const finalCourses = dynamicCourses.map((c: any) => {
