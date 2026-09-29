@@ -7,10 +7,11 @@ import { Button } from "@/components/ui/button";
 interface EventRegistrationModalProps {
   children?: React.ReactNode;
   eventId?: string;
+  eventName?: string;
   isGeneralUpdate?: boolean;
 }
 
-export default function EventRegistrationModal({ children, eventId, isGeneralUpdate }: EventRegistrationModalProps) {
+export default function EventRegistrationModal({ children, eventId, eventName, isGeneralUpdate }: EventRegistrationModalProps) {
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -164,35 +165,18 @@ export default function EventRegistrationModal({ children, eventId, isGeneralUpd
                     placeholder="Enter Your College/University"
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="course" className="block text-sm font-semibold text-slate-700 mb-1">
-                      Course
-                    </label>
-                    <input
-                      type="text"
-                      id="course"
-                      name="course"
-                      value={formData.course}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors text-slate-900"
-                      placeholder="Enter Your Course"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="graduationYear" className="block text-sm font-semibold text-slate-700 mb-1">
-                      Grad. Year
-                    </label>
-                    <input
-                      type="text"
-                      id="graduationYear"
-                      name="graduationYear"
-                      value={formData.graduationYear}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors text-slate-900"
-                      placeholder="Enter Your Grad. Year"
-                    />
-                  </div>
+                <div>
+                  <label htmlFor="eventName" className="block text-sm font-semibold text-slate-700 mb-1">
+                    Event Name
+                  </label>
+                  <input
+                    type="text"
+                    id="eventName"
+                    name="eventName"
+                    readOnly
+                    value={eventName || "General Update"}
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors text-slate-500 bg-slate-50 cursor-not-allowed"
+                  />
                 </div>
               </>
             )}

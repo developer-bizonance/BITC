@@ -210,7 +210,7 @@ export default async function EventsPage() {
                         </div>
 
                         <div className="flex items-center justify-end pt-5 border-t border-gray-100 mt-auto">
-                          <EventRegistrationModal eventId={event.id}>
+                          <EventRegistrationModal eventId={event.id} eventName={event.title}>
                             <Button className="w-full bg-slate-50 hover:bg-primary hover:text-white text-slate-900 font-medium transition-all duration-300 rounded-full py-6 shadow-none hover:shadow-lg hover:shadow-primary/20">
                               Register Now <ChevronRight className="w-4 h-4 ml-1" />
                             </Button>
@@ -292,8 +292,8 @@ export default async function EventsPage() {
                         </div>
 
                         <div className="flex items-center justify-end pt-5 border-t border-gray-100 mt-auto">
-                          <Link href="/contact" className="w-full">
-                            <Button className="w-full font-bold transition-all duration-300 rounded-full py-6 shadow-none hover:shadow-lg hover:shadow-orange-500/20 hover:-translate-y-0.5">
+                          <Link href={`/events/${event.id}`} className="w-full">
+                            <Button className="w-full text-white font-bold transition-all duration-300 rounded-full py-6 shadow-none hover:shadow-lg hover:shadow-orange-500/20 bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:-translate-y-0.5">
                               View Details <ChevronRight className="w-4 h-4 ml-1" />
                             </Button>
                           </Link>
