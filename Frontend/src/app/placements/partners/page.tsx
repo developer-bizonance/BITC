@@ -16,11 +16,26 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-// Using dummy company names for the layout
+// Using local and remote logos for the layout
 const topPartners = [
-  "TCS", "Infosys", "Wipro", "Tech Mahindra", "HCL", "Cognizant", 
-  "Accenture", "Capgemini", "IBM", "Amazon", "Flipkart", "Deloitte",
-  "KPMG", "EY", "PwC", "Google", "Microsoft", "Oracle"
+  { name: "TCS", logo: "/logos/tcs.svg" },
+  { name: "Infosys", logo: "/logos/infosys.svg" },
+  { name: "Wipro", logo: "/logos/wipro.svg" },
+  { name: "Tech Mahindra", logo: "/logos/tech-mahindra.svg" },
+  { name: "HCL", logo: "/logos/hcl.svg" },
+  { name: "Cognizant", logo: "/logos/cognizant.svg" },
+  { name: "Accenture", logo: "https://upload.wikimedia.org/wikipedia/commons/c/cd/Accenture.svg" },
+  { name: "Capgemini", logo: "https://upload.wikimedia.org/wikipedia/commons/9/9d/Capgemini_201x_logo.svg" },
+  { name: "IBM", logo: "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" },
+  { name: "Amazon", logo: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" },
+  { name: "Flipkart", logo: "https://cdn.worldvectorlogo.com/logos/flipkart.svg" },
+  { name: "Deloitte", logo: "https://cdn.worldvectorlogo.com/logos/deloitte-2.svg" },
+  { name: "KPMG", logo: "https://upload.wikimedia.org/wikipedia/commons/9/9d/KPMG_logo.svg" },
+  { name: "EY", logo: "https://upload.wikimedia.org/wikipedia/commons/3/34/EY_logo_2019.svg" },
+  { name: "PwC", logo: "https://upload.wikimedia.org/wikipedia/commons/0/05/PricewaterhouseCoopers_Logo.svg" },
+  { name: "Google", logo: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" },
+  { name: "Microsoft", logo: "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg" },
+  { name: "Oracle", logo: "https://upload.wikimedia.org/wikipedia/commons/5/50/Oracle_logo.svg" }
 ];
 
 const industries = [
@@ -56,14 +71,20 @@ const whyHire = [
 export const dynamic = 'force-dynamic';
 
 export default async function HiringPartnersPage() {
-  let partners: { name: string }[] = topPartners.map(name => ({ name }));
+  let partners: { name: string, logo?: string }[] = topPartners;
 
   try {
     const res = await fetch("https://bitc-backend-theta.vercel.app/api/industry-partners", { cache: "no-store" });
     if (res.ok) {
       const data = await res.json();
       if (data.partners && data.partners.length > 0) {
-        partners = data.partners;
+        partners = data.partners.map((apiPartner: any) => {
+          const localMatch = topPartners.find(p => p.name.trim().toLowerCase() === apiPartner.name.trim().toLowerCase());
+          return {
+            ...apiPartner,
+            logo: apiPartner.logo || (localMatch ? localMatch.logo : undefined)
+          };
+        });
       }
     }
   } catch (error) {
@@ -108,8 +129,19 @@ export default async function HiringPartnersPage() {
             
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 md:gap-8">
               {partners.map((company, i) => (
-                <div key={i} className="h-20 px-2 bg-slate-50 border border-slate-200/80 rounded-xl flex items-center justify-center text-center hover:shadow-md hover:border-primary/40 transition-all duration-300 group cursor-default">
-                  <span className="font-extrabold text-base lg:text-lg text-slate-900 group-hover:text-primary transition-colors uppercase tracking-wider leading-tight">{company.name}</span>
+                <div key={i} className="h-24 px-6 bg-white border border-slate-200/80 rounded-xl flex items-center justify-center text-center hover:shadow-lg hover:border-primary/40 hover:-translate-y-1 transition-all duration-300 group cursor-default">
+                  {company.logo ? (
+                    <img 
+                      src={company.logo} 
+                      alt={company.name} 
+                      title={company.name}
+                      className="max-h-12 w-auto object-contain transition-all duration-300 group-hover:scale-110" 
+                    />
+                  ) : (
+                    <span className="font-extrabold text-base lg:text-lg text-slate-900 group-hover:text-primary transition-colors uppercase tracking-wider leading-tight">
+                      {company.name}
+                    </span>
+                  )}
                 </div>
               ))}
             </div>

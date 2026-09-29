@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, CalendarDays, MapPin, Users, ChevronRight } from "lucide-react";
+import { ArrowLeft, CalendarDays, MapPin, Users } from "lucide-react";
 import { notFound } from "next/navigation";
-import EventRegistrationModal from "@/components/events/EventRegistrationModal";
-import { Button } from "@/components/ui/button";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   return {
@@ -57,12 +55,42 @@ export default async function EventDetailsPage({ params }: { params: Promise<{ i
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/70 to-transparent" />
         
         <div className="container max-w-[800px] mx-auto px-4 relative z-10 mt-16 text-center">
-          <div className="inline-block bg-primary/20 backdrop-blur-md text-primary px-4 py-1.5 rounded-full text-sm font-semibold mb-6 border border-primary/30 uppercase tracking-widest">
+          <div className="inline-block bg-primary/20 backdrop-blur-md text-primary px-4 py-1.5 rounded-full text-sm font-semibold mb-4 border border-primary/30 uppercase tracking-widest">
             {event.category}
           </div>
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-6 leading-tight">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-8 leading-tight">
             {event.title}
           </h1>
+          
+          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-12 text-slate-200">
+            <div className="flex items-center gap-3">
+              <CalendarDays className="w-5 h-5 text-primary" />
+              <div className="text-left">
+                <p className="text-xs text-slate-400 uppercase tracking-wider mb-0.5">Date</p>
+                <p className="font-medium text-white">{event.date}</p>
+              </div>
+            </div>
+            
+            {event.venue && (
+              <div className="flex items-center gap-3">
+                <MapPin className="w-5 h-5 text-primary" />
+                <div className="text-left">
+                  <p className="text-xs text-slate-400 uppercase tracking-wider mb-0.5">Venue</p>
+                  <p className="font-medium text-white">{event.venue}</p>
+                </div>
+              </div>
+            )}
+            
+            {event.speaker && (
+              <div className="flex items-center gap-3">
+                <Users className="w-5 h-5 text-primary" />
+                <div className="text-left">
+                  <p className="text-xs text-slate-400 uppercase tracking-wider mb-0.5">Speaker</p>
+                  <p className="font-medium text-white">{event.speaker}</p>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
@@ -73,74 +101,66 @@ export default async function EventDetailsPage({ params }: { params: Promise<{ i
             <ArrowLeft className="w-4 h-4" /> Back to Events
           </Link>
           
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="md:col-span-2 prose prose-slate prose-lg md:prose-xl max-w-none text-slate-700">
-              <h2>About the Event</h2>
-              <p>{event.description}</p>
-              
-              <h3>Why You Should Attend</h3>
-              <ul>
-                <li>Gain hands-on experience and actionable insights.</li>
-                <li>Network with industry professionals and peers.</li>
-                <li>Enhance your skills with expert guidance.</li>
-              </ul>
-              
-              <p>Don't miss this opportunity to advance your knowledge and take the next step in your career journey.</p>
-            </div>
+          <div className="prose prose-slate prose-lg md:prose-xl max-w-none text-slate-700">
+            <h2>About the Event</h2>
+            <p>{event.description}</p>
             
-            <div className="md:col-span-1">
-              <div className="bg-slate-50 border border-slate-100 rounded-3xl p-6 shadow-sm sticky top-24">
-                <h3 className="text-xl font-bold text-slate-900 mb-6">Event Details</h3>
-                
-                <div className="space-y-6 mb-8">
-                  <div className="flex items-start gap-4 text-slate-700">
-                    <div className="bg-white p-2 rounded-lg shadow-sm border border-slate-100 shrink-0">
-                      <CalendarDays className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Date</p>
-                      <p className="font-semibold">{event.date}</p>
-                    </div>
-                  </div>
-                  
-                  {event.venue && (
-                    <div className="flex items-start gap-4 text-slate-700">
-                      <div className="bg-white p-2 rounded-lg shadow-sm border border-slate-100 shrink-0">
-                        <MapPin className="w-5 h-5 text-primary" />
-                      </div>
-                      <div>
-                        <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Venue</p>
-                        <p className="font-semibold">{event.venue}</p>
-                      </div>
-                    </div>
-                  )}
-                  
-                  {event.speaker && (
-                    <div className="flex items-start gap-4 text-slate-700">
-                      <div className="bg-white p-2 rounded-lg shadow-sm border border-slate-100 shrink-0">
-                        <Users className="w-5 h-5 text-primary" />
-                      </div>
-                      <div>
-                        <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Speaker</p>
-                        <p className="font-semibold">{event.speaker}</p>
-                      </div>
-                    </div>
-                  )}
+            <h3>Key Takeaways</h3>
+            <ul>
+              <li><strong>Actionable Insights:</strong> Gain practical knowledge that you can apply immediately to your projects.</li>
+              <li><strong>Industry Best Practices:</strong> Learn the latest trends and standards from experienced professionals.</li>
+              <li><strong>Hands-on Experience:</strong> Participate in interactive sessions designed to build real-world skills.</li>
+              <li><strong>Networking:</strong> Connect with peers, mentors, and industry leaders in a collaborative environment.</li>
+            </ul>
+            
+            <h3>Who Should Attend</h3>
+            <p>This event is perfectly suited for:</p>
+            <ul>
+              <li>Students and recent graduates looking to upskill and gain industry exposure.</li>
+              <li>Professionals seeking to stay updated with the latest technological advancements.</li>
+              <li>Anyone passionate about {event.category} and eager to learn from experts.</li>
+            </ul>
+            
+            <h3>Agenda</h3>
+            <div className="not-prose my-8">
+              <div className="border-l-2 border-primary/20 pl-6 space-y-6">
+                <div className="relative">
+                  <div className="absolute w-3 h-3 bg-primary rounded-full -left-[1.65rem] top-1.5 border-4 border-white shadow-sm"></div>
+                  <h4 className="text-lg font-bold text-slate-900">Registration & Welcome</h4>
+                  <p className="text-slate-500 text-sm mt-1">10:00 AM - 10:30 AM</p>
                 </div>
-                
-                {isUpcoming ? (
-                  <EventRegistrationModal eventId={event.id.toString()} eventName={event.title}>
-                    <Button className="w-full text-white font-bold transition-all duration-300 rounded-full py-6 shadow-md shadow-orange-500/20 bg-primary hover:bg-orange-600 hover:-translate-y-0.5">
-                      Register Now <ChevronRight className="w-4 h-4 ml-1" />
-                    </Button>
-                  </EventRegistrationModal>
-                ) : (
-                  <div className="text-center p-4 bg-green-50 text-green-700 rounded-xl font-semibold border border-green-100">
-                    ✅ Event Completed
-                  </div>
-                )}
+                <div className="relative">
+                  <div className="absolute w-3 h-3 bg-primary rounded-full -left-[1.65rem] top-1.5 border-4 border-white shadow-sm"></div>
+                  <h4 className="text-lg font-bold text-slate-900">Keynote Presentation</h4>
+                  <p className="text-slate-500 text-sm mt-1">10:30 AM - 12:00 PM</p>
+                </div>
+                <div className="relative">
+                  <div className="absolute w-3 h-3 bg-primary rounded-full -left-[1.65rem] top-1.5 border-4 border-white shadow-sm"></div>
+                  <h4 className="text-lg font-bold text-slate-900">Interactive Q&A Session</h4>
+                  <p className="text-slate-500 text-sm mt-1">12:00 PM - 1:00 PM</p>
+                </div>
               </div>
             </div>
+            
+            {event.speaker && (
+              <>
+                <h3>Meet the Speaker</h3>
+                <div className="not-prose flex flex-col sm:flex-row gap-6 items-start bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                  <div className="w-20 h-20 rounded-full bg-slate-200 shrink-0 flex items-center justify-center overflow-hidden">
+                    <Users className="w-8 h-8 text-slate-400" />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-bold text-slate-900">{event.speaker}</h4>
+                    <p className="text-primary font-medium text-sm mb-3">Industry Expert</p>
+                    <p className="text-slate-600 text-sm leading-relaxed">
+                      With years of hands-on experience and a passion for teaching, our speaker brings deep industry knowledge and practical insights to help you navigate your career path successfully.
+                    </p>
+                  </div>
+                </div>
+              </>
+            )}
+            
+            <p className="mt-8 font-medium">Don't miss this opportunity to advance your knowledge and take the next step in your career journey.</p>
           </div>
         </div>
       </section>
