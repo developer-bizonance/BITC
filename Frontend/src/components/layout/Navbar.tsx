@@ -56,7 +56,7 @@ export function Navbar() {
       label: "Certification",
       items: [
         { href: "/courses/it", icon: Monitor, title: "IT Certifications", desc: "Software, Data & Cloud" },
-        { href: "/courses/digital-media", icon: Video, title: "Digital Media Technology", desc: "Digital Arts & Marketing" },
+        { href: "/courses/digital-media", icon: Video, title: "Digital media technology", desc: "Digital Arts & Marketing" },
         { href: "/courses/management", icon: LineChart, title: "Management Certifications", desc: "Business & Strategy" },
         { href: "/courses/design", icon: PenTool, title: "Design Certifications", desc: "UI/UX & Graphics" },
         { href: "/certification/verify", icon: ShieldCheck, title: "Verify Certificate", desc: "Validate student credentials" },
@@ -76,7 +76,7 @@ export function Navbar() {
       label: "Resources",
       items: [
         { href: "/resources/blog", icon: BookOpen, title: "Blog", desc: "Latest news & articles" },
-        { href: "/resources/gallery", icon: ImageIcon, title: "Gallery", desc: "Photos from our campus" },
+        { href: "/resources/gallery", icon: ImageIcon, title: "Gallery", desc: "Latest photos and videos" },
         { href: "/resources/faqs", icon: HelpCircle, title: "FAQs", desc: "Questions & answers" },
       ],
     },
@@ -101,14 +101,17 @@ export function Navbar() {
 
           {/* Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center gap-3 xl:gap-6 text-[13.5px] font-semibold text-[#191E27] h-full">
-            {Object.entries(navCategories).map(([key, cat]) => (
+            {Object.entries(navCategories).map(([key, cat]) => {
+              const isActive = cat.items.some(item => pathname === item.href || pathname.startsWith(`${item.href}/`));
+              return (
               <div key={key} className="relative group h-full flex items-center cursor-pointer">
-                <span className="flex items-center hover:text-primary transition-colors py-1.5">
-                  {cat.label} <ChevronDown className="ml-1 h-3.5 w-3.5 text-gray-500 group-hover:rotate-180 transition-transform duration-300" />
+                <span className={`flex items-center hover:text-primary transition-colors py-1.5 ${isActive ? 'text-primary font-bold' : ''}`}>
+                  {cat.label} <ChevronDown className={`ml-1 h-3.5 w-3.5 group-hover:rotate-180 transition-transform duration-300 ${isActive ? 'text-primary' : 'text-gray-500'}`} />
                 </span>
+                <div className={`absolute bottom-0 left-0 right-0 h-[3px] bg-orange-500 rounded-t-md transition-transform duration-300 origin-center ${isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`} />
                 <div className="absolute top-full left-1/2 -translate-x-1/2 hidden group-hover:block w-[280px] bg-white border border-gray-100 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] rounded-2xl p-3 z-50 transition-all opacity-0 group-hover:opacity-100 animate-in fade-in slide-in-from-top-2 duration-300">
                   {cat.items.map((item, i) => (
-                    <Link key={i} href={item.href} className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-gray-50 transition-colors group/link">
+                    <Link key={i} href={item.href} className="flex items-center gap-2.5 p-2 rounded-full hover:bg-gray-50 transition-colors group/link">
                       <div className="w-8 h-8 rounded-md bg-primary/10 text-primary flex items-center justify-center shrink-0 group-hover/link:bg-primary group-hover/link:text-white transition-colors">
                         <item.icon className="w-4 h-4" />
                       </div>
@@ -120,16 +123,19 @@ export function Navbar() {
                   ))}
                 </div>
               </div>
-            ))}
+            )})}
 
-            <Link href="/partnership" className="h-full flex items-center hover:text-primary transition-colors font-medium">
+            <Link href="/partnership" className={`group h-full flex items-center hover:text-primary transition-colors font-medium relative ${pathname.startsWith('/partnership') ? 'text-primary font-bold' : ''}`}>
               Partnership
+              <div className={`absolute bottom-0 left-0 right-0 h-[3px] bg-orange-500 rounded-t-md transition-transform duration-300 origin-center ${pathname.startsWith('/partnership') ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`} />
             </Link>
-            <Link href="/events" className="h-full flex items-center hover:text-primary transition-colors font-medium">
+            <Link href="/events" className={`group h-full flex items-center hover:text-primary transition-colors font-medium relative ${pathname.startsWith('/events') ? 'text-primary font-bold' : ''}`}>
               Events
+              <div className={`absolute bottom-0 left-0 right-0 h-[3px] bg-orange-500 rounded-t-md transition-transform duration-300 origin-center ${pathname.startsWith('/events') ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`} />
             </Link>
-            <Link href="/contact" className="hover:text-primary transition-colors font-medium">
+            <Link href="/contact" className={`group h-full flex items-center hover:text-primary transition-colors font-medium relative ${pathname.startsWith('/contact') ? 'text-primary font-bold' : ''}`}>
               Contact
+              <div className={`absolute bottom-0 left-0 right-0 h-[3px] bg-orange-500 rounded-t-md transition-transform duration-300 origin-center ${pathname.startsWith('/contact') ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`} />
             </Link>
           </nav>
         </div>

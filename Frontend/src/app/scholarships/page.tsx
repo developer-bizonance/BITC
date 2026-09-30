@@ -27,10 +27,10 @@ export default function ScholarshipsPage() {
         <div className="container max-w-[1000px] mx-auto px-4 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-600 text-sm font-medium mb-6">
             <Award className="w-4 h-4" />
-            BITC Scholarship Program
+            BITC Scholarship Certification
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 mb-6 leading-tight tracking-tight">
-            Unlock Up To <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">50% Scholarship</span>
+            Unlock up to <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">50% Scholarship</span>
           </h1>
           <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed font-medium">
             We believe that financial constraints should never stand in the way of true talent. Our scholarship program is designed to empower deserving students to launch their tech careers.
@@ -39,7 +39,7 @@ export default function ScholarshipsPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Dialog>
               <DialogTrigger render={
-                <button className="h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white text-lg font-medium flex items-center justify-center hover:shadow-xl hover:shadow-orange-500/25 hover:-translate-y-1 transition-all">
+                <button className="h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black text-lg font-medium flex items-center justify-center hover:shadow-xl hover:shadow-orange-500/25 hover:-translate-y-1 transition-all">
                   Apply for Scholarship <ArrowRight className="ml-2 w-5 h-5" />
                 </button>
               } />
@@ -126,6 +126,17 @@ export default function ScholarshipsPage() {
                 </p>
               </CardContent>
             </Card>
+            <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden group">
+              <CardContent className="p-8">
+                <div className="w-14 h-14 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Award className="w-7 h-7" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">Extracurricular <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Achievements</span></h3>
+                <p className="text-slate-600 leading-relaxed">
+                  Students who have demonstrated exceptional leadership or excellence in sports, arts, or other extracurricular activities.
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
@@ -188,7 +199,7 @@ export default function ScholarshipsPage() {
           <p className="text-slate-600 text-lg mb-10 max-w-2xl mx-auto font-medium">
             Don't let anything hold you back. Apply today, secure your scholarship, and take the first step towards a high-paying career in tech.
           </p>
-          <Link href="/contact" className="inline-flex h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white text-lg font-medium items-center justify-center hover:scale-105 transition-transform shadow-lg shadow-orange-500/25">
+          <Link href="/contact" className="inline-flex h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black text-lg font-medium items-center justify-center hover:scale-105 transition-transform shadow-lg shadow-orange-500/25">
             Contact Us
           </Link>
         </div>

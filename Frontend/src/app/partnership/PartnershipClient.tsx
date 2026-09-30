@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, BookOpen, Users, Zap, ShieldCheck, CheckCircle2, Briefcase, TrendingUp, Award, Building2, GraduationCap, FileText, Laptop, Mic, PlayCircle, Star, Code, Ticket, Network, Lightbulb, Trophy, X, ChevronDown, Handshake, Target, Mic2 } from "lucide-react";
+import { ArrowRight, BookOpen, Users, Zap, ShieldCheck, CheckCircle2, Briefcase, TrendingUp, Award, Building2, GraduationCap, FileText, Laptop, Mic, PlayCircle, Star, Code, Ticket, Network, Lightbulb, Trophy, X, ChevronDown, Handshake, Target, Mic2, Rocket } from "lucide-react";
 import { PartnerWithUsForm } from "@/components/forms/PartnerWithUsForm";
 import IndustryPartnersGrid from "@/components/IndustryPartnersGrid";
 
@@ -16,7 +16,7 @@ export default function PartnershipClient() {
     { name: "Expert Talks", icon: Mic, color: "text-pink-500", bg: "bg-pink-50" },
     { name: "Webinars", icon: PlayCircle, color: "text-indigo-500", bg: "bg-indigo-50" },
     { name: "Masterclasses", icon: Star, color: "text-orange-500", bg: "bg-orange-50" },
-    { name: "Tech Workshops", icon: TrendingUp, color: "text-emerald-500", bg: "bg-emerald-50" },
+    { name: "Bootcamps", icon: Rocket, color: "text-emerald-500", bg: "bg-emerald-50" },
     { name: "Hackathons", icon: Code, color: "text-cyan-500", bg: "bg-cyan-50" },
     { name: "Industrial Visits", icon: Building2, color: "text-slate-500", bg: "bg-slate-100" },
     { name: "Guest Lectures", icon: Users, color: "text-amber-500", bg: "bg-amber-50" },
@@ -36,7 +36,7 @@ export default function PartnershipClient() {
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10 text-center flex flex-col items-center justify-center flex-1">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-orange-200 text-orange-600 text-sm font-semibold mb-6 shadow-sm">
             <Handshake className="w-4 h-4" />
-            <span>Collaborate With Us</span>
+            <span>Collaborate with us</span>
           </div>
           <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight mb-6 text-slate-900 leading-tight">
             Our <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Partnerships</span>
@@ -51,7 +51,7 @@ export default function PartnershipClient() {
               onClick={() => setActiveTab("educational")}
               className={`px-8 py-4 rounded-full font-bold text-sm md:text-base transition-all duration-300 flex items-center justify-center gap-3 ${
                 activeTab === "educational" 
-                  ? "bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white shadow-xl shadow-orange-500/20 scale-105" 
+                  ? "bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black shadow-xl shadow-orange-500/20 scale-105" 
                   : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-sm"
               }`}
             >
@@ -62,7 +62,7 @@ export default function PartnershipClient() {
               onClick={() => setActiveTab("corporate")}
               className={`px-8 py-4 rounded-full font-bold text-sm md:text-base transition-all duration-300 flex items-center justify-center gap-3 ${
                 activeTab === "corporate" 
-                  ? "bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white shadow-xl shadow-orange-500/20 scale-105" 
+                  ? "bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black shadow-xl shadow-orange-500/20 scale-105" 
                   : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-sm"
               }`}
             >
@@ -176,7 +176,7 @@ export default function PartnershipClient() {
               {[
                 { icon: Briefcase, title: "Corporate Training", desc: "Customized team training programs on modern tech stacks like MERN, Cloud, and AI." },
                 { icon: TrendingUp, title: "Employee Upskilling", desc: "Continuous learning modules to keep your existing workforce sharp and up-to-date." },
-                { icon: Award, title: "Leadership Programs", desc: "Executive development focused on technical leadership, agile management, and strategy." }
+                { icon: Award, title: "Leadership Certifications", desc: "Executive development focused on technical leadership, agile management, and strategy." }
               ].map((item, i) => (
                 <div key={i} className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center">
                   <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center mb-6">
@@ -220,17 +220,17 @@ export default function PartnershipClient() {
             <div>
               <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Partner <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Benefits</span></h2>
-                <p className="text-slate-600 max-w-[600px] mx-auto text-lg">What our industry partnerships bring to students.</p>
+                <p className="text-slate-600 max-w-[600px] mx-auto text-lg">Why leading companies choose to partner with us.</p>
               </div>
 
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[
-                  { title: "Internship Opportunities", icon: Briefcase, desc: "Gain real workplace experience through structured internship programs with partner companies." },
-                  { title: "Placement Support", icon: Target, desc: "Direct hiring pipelines and placement drives connecting students with top employers." },
-                  { title: "Industry Workshops", icon: Code, desc: "Hands-on workshops conducted by industry professionals on the latest technologies." },
-                  { title: "Guest Lectures", icon: Mic2, desc: "Regular sessions by industry leaders sharing insights, trends, and career advice." },
-                  { title: "Live Projects", icon: Building2, desc: "Work on real business problems and contribute to live industry projects." },
-                  { title: "Mentorship", icon: Users, desc: "One-on-one guidance from experienced professionals throughout the learning journey." },
+                  { title: "Access to Top Talent", icon: Target, desc: "Hire pre-assessed, project-ready candidates with hands-on experience in modern tech stacks." },
+                  { title: "Reduced Onboarding Time", icon: Zap, desc: "Our graduates are already trained on industry standards, saving you months of initial training." },
+                  { title: "Customized Upskilling", icon: BookOpen, desc: "Tailored training programs to upgrade your existing workforce on emerging technologies like AI and Cloud." },
+                  { title: "Employer Branding", icon: Star, desc: "Build a strong brand presence on campuses through sponsored hackathons and tech talks." },
+                  { title: "Live Project Outsourcing", icon: Code, desc: "Leverage our talent pool to build prototypes or internal tools under expert guidance." },
+                  { title: "CSR Initiatives", icon: Handshake, desc: "Fulfill Corporate Social Responsibility goals by sponsoring tech education for deserving youth." },
                 ].map((item, i) => (
                   <div key={i} className="bg-white border border-slate-200/80 shadow-sm hover:shadow-md transition-all rounded-xl p-7">
                     <item.icon className="w-10 h-10 text-primary mb-5" />
@@ -254,7 +254,7 @@ export default function PartnershipClient() {
           </p>
           <button 
             onClick={() => setIsModalOpen(true)}
-            className="inline-flex h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white font-bold items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-lg hover:shadow-orange-500/30 gap-2"
+            className="inline-flex h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-bold items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-lg hover:shadow-orange-500/30 gap-2"
           >
             Propose a Partnership <ArrowRight className="w-5 h-5" />
           </button>

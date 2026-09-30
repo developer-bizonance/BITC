@@ -37,7 +37,7 @@ export default async function BlogPage() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* 1. Hero Section */}
-      <section className="bg-white py-16 text-slate-900 text-center">
+      <section className="bg-white pt-16 pb-8 text-slate-900 text-center">
         <div className="container max-w-[1200px] mx-auto px-4">
           <BookOpen className="w-12 h-12 text-primary mx-auto mb-4" />
           <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight mb-4">Our <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Blog</span></h1>
@@ -46,7 +46,7 @@ export default async function BlogPage() {
       </section>
 
       {/* 2. Blog Grid */}
-      <section className="py-16">
+      <section className="pb-16 pt-4">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {blogs.map((blog) => (

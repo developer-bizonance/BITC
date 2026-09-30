@@ -17,7 +17,7 @@ export const defaultStories: TestimonialItem[] = [
     name: "Rahul Sharma",
     role: "Software Engineer",
     company: "TCS",
-    course: "Full Stack Development",
+    course: "Full stack development",
     packageAmt: "6 LPA",
     quote: "The MERN stack certification at BITC gave me the practical skills I needed to clear my interviews with ease.",
     image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&h=300&q=80",
@@ -75,7 +75,7 @@ export const defaultStories: TestimonialItem[] = [
   {
     id: "testi-6",
     name: "Neha Sharma",
-    role: "Information Security Analyst",
+    role: "Information security analyst",
     company: "Tech Mahindra",
     course: "Information Security",
     packageAmt: "9 LPA",

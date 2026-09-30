@@ -109,7 +109,7 @@ export default function DirectorsMessagePage() {
       <section className="py-16 md:py-24 bg-white text-slate-900 relative overflow-hidden">
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
-            <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">What I Believe In</p>
+            <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">What i believe in</p>
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900">Director&apos;s <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Beliefs</span></h2>
           </div>
 
@@ -192,7 +192,7 @@ export default function DirectorsMessagePage() {
           {/* Signature */}
           <div className="border-t border-slate-300/80 pt-4 inline-block">
             <p className="text-base font-bold text-slate-900">Director</p>
-            <p className="text-xs text-slate-600 font-medium">BIZONANCE Industrial Training Centre</p>
+            <p className="text-xs text-slate-600 font-medium">BIZONANCE industrial training centre</p>
             <p className="text-primary font-bold italic mt-1 text-base">— BITC</p>
           </div>
         </div>

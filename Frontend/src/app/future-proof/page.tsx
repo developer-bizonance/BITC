@@ -44,11 +44,11 @@ export default function FutureProofPage() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/courses/it" className="h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white text-lg font-medium flex items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-lg">
-                Explore Programs
+              <Link href="/courses/it" className="h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black text-lg font-medium flex items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-lg">
+                Explore Certifications
               </Link>
               <Link href="#pillars" className="h-14 px-10 rounded-full bg-white text-slate-700 text-lg font-medium flex items-center justify-center hover:bg-gray-50 border border-gray-200 transition-all shadow-sm">
-                Our Core Pillars
+                Our core pillars
               </Link>
             </div>
           </div>
@@ -61,7 +61,7 @@ export default function FutureProofPage() {
           <div className="bg-white rounded-3xl shadow-xl border border-slate-100 p-8 flex flex-col md:flex-row justify-between divide-y md:divide-y-0 md:divide-x divide-slate-100">
             <div className="flex-1 text-center py-4 md:py-0 px-4">
               <div className="text-4xl font-black text-slate-900 mb-1">6 Mo</div>
-              <div className="text-sm font-semibold text-slate-500 uppercase tracking-wider">Curriculum Refresh Rate</div>
+              <div className="text-sm font-semibold text-slate-500 uppercase tracking-wider">Curriculum refresh rate</div>
             </div>
             <div className="flex-1 text-center py-4 md:py-0 px-4">
               <div className="text-4xl font-black text-slate-900 mb-1">100%</div>
@@ -170,7 +170,7 @@ export default function FutureProofPage() {
             The best time to future-proof your career was 5 years ago. The second best time is today. Join BITC and become the talent that top companies are desperate to hire.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact" className="h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white text-lg font-medium flex items-center justify-center hover:scale-105 transition-transform shadow-lg shadow-orange-500/25">
+            <Link href="/contact" className="h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black text-lg font-medium flex items-center justify-center hover:scale-105 transition-transform shadow-lg shadow-orange-500/25">
               Get Started <ArrowRight className="ml-2 w-5 h-5" />
             </Link>
             <Link href="/contact" className="h-14 px-10 rounded-full bg-white text-slate-900 border-2 border-slate-200 text-lg font-medium flex items-center justify-center hover:border-slate-400 transition-colors">

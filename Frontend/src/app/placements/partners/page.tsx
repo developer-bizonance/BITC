@@ -62,7 +62,7 @@ const whyHire = [
     icon: CheckCircle2,
   },
   {
-    title: "Strong Soft Skills",
+    title: "Strong soft skills",
     desc: "We rigorously train our students in communication, teamwork, and corporate etiquette to fit seamlessly into any culture.",
     icon: Users,
   }
@@ -111,7 +111,7 @@ export default async function HiringPartnersPage() {
           <div className="w-full max-w-6xl mx-auto rounded-3xl overflow-hidden shadow-2xl border border-slate-200/60 mt-2 flex-1 max-h-[45vh] relative">
             <img 
               src="/recruiting-partners.png" 
-              alt="Our Recruiting Partners" 
+              alt="Our recruiting partners" 
               className="w-full h-full object-cover object-top"
             />
           </div>
@@ -189,7 +189,7 @@ export default async function HiringPartnersPage() {
                 For Employers
               </div>
               <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">
-                Why Should You Hire <br />
+                Why should you hire <br />
                 <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC Certified?</span>
               </h2>
               <p className="text-slate-600 text-lg mb-8 leading-relaxed font-medium">
@@ -242,7 +242,7 @@ export default async function HiringPartnersPage() {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link href="/contact">
-              <Button className="h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] text-lg font-medium shadow-xl shadow-primary/20 hover:-translate-y-1 transition-all border-0 w-full sm:w-auto">
+              <Button className="h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] text-lg font-medium shadow-xl shadow-primary/20 hover:-translate-y-1 transition-all border-0 w-full sm:w-auto">
                 Become a Hiring Partner
               </Button>
             </Link>

@@ -39,7 +39,7 @@ export default function VideoTestimonialCard({ video }: { video: any }) {
           >
             <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors" />
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-16 h-16 rounded-full text-white flex items-center justify-center group-hover:scale-110 transition-transform shadow-xl shadow-orange-500/30 bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)]">
+              <div className="w-16 h-16 rounded-full text-black flex items-center justify-center group-hover:scale-110 transition-transform shadow-xl shadow-orange-500/30 bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)]">
                 <PlayCircle className="w-8 h-8 ml-1" />
               </div>
             </div>

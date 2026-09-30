@@ -53,7 +53,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent" />
         
         <div className="container max-w-[800px] mx-auto px-4 relative z-10 text-center mt-16">
-          <div className="inline-block bg-primary/20 backdrop-blur-md text-primary px-4 py-1.5 rounded-full text-sm font-semibold mb-6 border border-primary/30">
+          <div className="inline-block bg-primary/20 backdrop-blur-md text-white px-4 py-1.5 rounded-full text-sm font-semibold mb-6 border border-primary/30">
             {category}
           </div>
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-6 leading-tight">

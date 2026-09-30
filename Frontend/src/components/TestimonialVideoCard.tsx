@@ -40,7 +40,7 @@ export default function TestimonialVideoCard({ story, index, className }: { stor
               className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover border-2 border-white shadow-md ring-2 ring-amber-500/15"
             />
             <div
-              className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-emerald-500 border border-white flex items-center justify-center text-white text-[9px] font-medium shadow-xs"
+              className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-emerald-500 border border-white flex items-center justify-center text-black text-[9px] font-medium shadow-xs"
               title="Verified Placement"
             >
               ✓
@@ -58,7 +58,7 @@ export default function TestimonialVideoCard({ story, index, className }: { stor
               {story.role} {story.company && <span className="text-amber-600 font-extrabold">• {story.company}</span>}
             </p>
 
-            {/* Placement / Course Badge */}
+            {/* Placement / Certification Badge */}
             {story.packageAmt && (
               <div className="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-extrabold border border-emerald-200 w-fit">
                 <TrendingUp className="w-2.5 h-2.5 text-emerald-600" />

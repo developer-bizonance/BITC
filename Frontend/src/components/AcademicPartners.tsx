@@ -13,7 +13,7 @@ interface Partner {
 
 const defaultPartners: Partner[] = [
   {
-    name: "Sant Gadge Baba Amravati University",
+    name: "Sant gadge baba amravati university",
     logo: "/univercity.png",
   },
   {
@@ -106,7 +106,7 @@ export default function AcademicPartners() {
       <div className="container max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
         <div className="mb-6 text-center sm:text-left max-w-4xl mx-auto sm:mx-0">
-          <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-2">Our Academic Partners</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-2">Our academic partners</h2>
           <p className="text-gray-600 text-[14px] leading-relaxed">
             We proudly collaborate with leading colleges and universities through strategic Memorandums of Understanding (MoUs) to provide industry-focused training, internships, certifications, workshops, research initiatives, and career development opportunities.
           </p>

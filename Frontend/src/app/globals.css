@@ -123,9 +123,7 @@
   *::after {
     outline: none !important;
   }
-  h1, h2, h3, h4, h5, h6, button, label {
-    text-transform: capitalize;
-  }
+  
   *:focus,
   *:focus-visible,
   *:active,

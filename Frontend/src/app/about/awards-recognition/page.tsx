@@ -110,7 +110,7 @@ export default function AwardsRecognitionPage() {
               <h3 className="text-2xl font-bold text-slate-900 mb-4"><span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span></h3>
               <p className="text-gray-600 mb-6">Our programs are designed to help students earn industry-recognized certifications.</p>
               <ul className="space-y-3">
-                {["Microsoft Certified", "AWS Cloud Practitioner", "Google Data Analytics", "CompTIA Security+", "Meta Front-End Developer"].map((cert, i) => (
+                {["Microsoft Certified", "AWS cloud practitioner", "Google data analytics", "CompTIA Security+", "Meta Front-End Developer"].map((cert, i) => (
                   <li key={i} className="flex items-center gap-3 text-gray-700">
                     <div className="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0" />
                     <span className="font-medium">{cert}</span>
@@ -124,7 +124,7 @@ export default function AwardsRecognitionPage() {
               <h3 className="text-2xl font-bold text-slate-900 mb-4">Media <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Coverage</span></h3>
               <p className="text-gray-600 mb-6">BITC has been featured in leading education and technology media outlets.</p>
               <ul className="space-y-3">
-                {["Education Times", "TechCrunch India", "Business Standard", "The Hindu Education", "YourStory"].map((media, i) => (
+                {["Education Times", "TechCrunch India", "Business Standard", "The hindu education", "YourStory"].map((media, i) => (
                   <li key={i} className="flex items-center gap-3 text-gray-700">
                     <div className="w-2 h-2 rounded-full bg-amber-500 flex-shrink-0" />
                     <span className="font-medium">{media}</span>
@@ -167,8 +167,8 @@ export default function AwardsRecognitionPage() {
             We are just getting started. Our goal is to continue raising the bar for industry-integrated education in India and beyond.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/courses" className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white font-semibold flex items-center gap-2 justify-center hover:shadow-xl transition-all text-lg">
-              Explore Programs <ArrowRight className="w-5 h-5" />
+            <Link href="/courses" className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-semibold flex items-center gap-2 justify-center hover:shadow-xl transition-all text-lg">
+              Explore Certifications <ArrowRight className="w-5 h-5" />
             </Link>
             <Link href="/contact" className="h-14 px-8 rounded-full bg-white/80 text-slate-700 font-semibold flex items-center justify-center border border-blue-200/80 hover:border-blue-300 hover:bg-white transition-all text-lg shadow-sm backdrop-blur-sm">
               Contact Us

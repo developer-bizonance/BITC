@@ -66,7 +66,7 @@ export default async function ITCoursesPage() {
               <span>INFORMATION TECHNOLOGY</span>
             </div>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
-              IT <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span> & Programs
+              IT <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span> & Certifications
             </h1>
             <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-8 font-medium max-w-2xl mx-auto">
               Industry-focused IT certification programs designed by experts. Master in-demand technologies, build real projects, and launch your tech career with confidence.
@@ -75,11 +75,11 @@ export default async function ITCoursesPage() {
             <div className="flex flex-wrap justify-center gap-3">
               <div className="flex items-center gap-2 text-slate-700 text-xs md:text-sm font-semibold bg-slate-50 px-4 py-2 rounded-full border border-slate-200/80 shadow-xs">
                 <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-                <span>8 Specialized Programs</span>
+                <span>8 Specialized Certifications</span>
               </div>
               <div className="flex items-center gap-2 text-slate-700 text-xs md:text-sm font-semibold bg-slate-50 px-4 py-2 rounded-full border border-slate-200/80 shadow-xs">
                 <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-                <span>Industry Expert Mentors</span>
+                <span>Industry expert mentors</span>
               </div>
               <div className="flex items-center gap-2 text-slate-700 text-xs md:text-sm font-semibold bg-slate-50 px-4 py-2 rounded-full border border-slate-200/80 shadow-xs">
                 <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
@@ -90,7 +90,7 @@ export default async function ITCoursesPage() {
         </div>
       </section>
 
-      {/* Courses Grid */}
+      {/* Certifications Grid */}
       <section className="py-14 md:py-20 bg-white/70">
         <div className="container max-w-[1360px] mx-auto px-4">
 
@@ -169,8 +169,8 @@ export default async function ITCoursesPage() {
                       </div>
 
                       <Link href={`/courses/${course.id}`} className="block w-full">
-                        <Button className="w-full h-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:opacity-90 text-white font-medium text-xs transition-all duration-300 shadow-sm cursor-pointer flex items-center justify-center gap-2 group/btn">
-                          <span>View Program</span>
+                        <Button className="w-full h-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:opacity-90 text-black font-medium text-xs transition-all duration-300 shadow-sm cursor-pointer flex items-center justify-center gap-2 group/btn">
+                          <span>View Certification</span>
                           <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
                         </Button>
                       </Link>
@@ -228,7 +228,7 @@ export default async function ITCoursesPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
             {[
               {
-                title: "Massive Tech Talent Shortage",
+                title: "Massive tech talent shortage",
                 desc: "With the rise of Cloud, AI, and Cybersecurity, companies are struggling to find qualified professionals. Certifications prove you have the exact skills they need.",
                 icon: <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
               },
@@ -238,7 +238,7 @@ export default async function ITCoursesPage() {
                 icon: <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
               },
               {
-                title: "Global Remote Opportunities",
+                title: "Global remote opportunities",
                 desc: "Tech skills transcend borders. A recognized certification opens doors to high-paying remote roles at top tech companies worldwide.",
                 icon: <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
               }

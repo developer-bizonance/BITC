@@ -7,7 +7,7 @@ import { defaultStories, TestimonialItem } from "@/data/defaultStories";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: "Placement Success Stories",
+  title: "Placement success stories",
   description: "Read inspiring career transformation and placement success stories from BITC Amravati alumni.",
   openGraph: {
     title: "Placement Success Stories | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
@@ -59,8 +59,8 @@ export default async function SuccessStoriesPage() {
           </p>
           <div className="flex justify-center gap-4 mb-8">
             <Link href="/courses">
-              <Button className="h-12 px-8 rounded-full text-white shadow-lg shadow-orange-500/20 text-base font-semibold bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] border-0">
-                Start Your Journey
+              <Button className="h-12 px-8 rounded-full text-black shadow-lg shadow-orange-500/20 text-base font-medium bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] border-0">
+                Start your journey
               </Button>
             </Link>
           </div>
@@ -131,8 +131,8 @@ export default async function SuccessStoriesPage() {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link href="/courses">
-              <Button className="h-14 px-10 rounded-full text-white text-lg font-medium shadow-xl shadow-orange-500/20 hover:-translate-y-1 transition-all w-full sm:w-auto bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] border-0">
-                Explore Programs
+              <Button className="h-14 px-10 rounded-full text-black text-lg font-medium shadow-xl shadow-orange-500/20 hover:-translate-y-1 transition-all w-full sm:w-auto bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] border-0">
+                Explore Certifications
               </Button>
             </Link>
             <Link href="/contact">

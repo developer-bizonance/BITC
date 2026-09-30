@@ -15,12 +15,12 @@ interface AlumniItem {
 }
 
 const defaultAlumni: AlumniItem[] = [
-  { name: "Rahul Sharma", role: "Software Engineer", company: "Google", photo: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&h=150&q=80", batch: "23-24", linkedin: "https://linkedin.com", certification: "Full Stack Web Development" },
+  { name: "Rahul Sharma", role: "Software Engineer", company: "Google", photo: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&h=150&q=80", batch: "23-24", linkedin: "https://linkedin.com", certification: "Full stack web development" },
   { name: "Priya Patel", role: "Data Analyst", company: "Microsoft", photo: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&h=150&q=80", batch: "22-23", linkedin: "https://linkedin.com", certification: "Data Science & AI" },
   { name: "Amit Kumar", role: "Product Manager", company: "Amazon", photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80", batch: "21-22", linkedin: "https://linkedin.com", certification: "Digital Marketing" },
   { name: "Sara Jones", role: "UX Designer", company: "Apple", photo: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&h=150&q=80", batch: "23-24", linkedin: "https://linkedin.com", certification: "UI/UX Design" },
   { name: "Mike Brown", role: "DevOps Engineer", company: "Netflix", photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&h=150&q=80", batch: "22-23", linkedin: "https://linkedin.com", certification: "Cloud Computing" },
-  { name: "Emily Davis", role: "Frontend Dev", company: "Meta", photo: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&h=150&q=80", batch: "23-24", linkedin: "https://linkedin.com", certification: "Full Stack Web Development" }
+  { name: "Emily Davis", role: "Frontend Dev", company: "Meta", photo: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&h=150&q=80", batch: "23-24", linkedin: "https://linkedin.com", certification: "Full stack web development" }
 ];
 
 interface AlumniCompanyItem {

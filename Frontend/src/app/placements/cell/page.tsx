@@ -40,7 +40,7 @@ const activities = [
     bg: "bg-emerald-500/10"
   },
   {
-    title: "Soft Skills Development",
+    title: "Soft skills development",
     description: "Personality development, communication skills, and corporate etiquette workshops.",
     icon: Users,
     color: "text-orange-500",
@@ -126,7 +126,7 @@ export default function PlacementCellPage() {
       <section className="py-20 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">How We Prepare <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">You</span></h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">How we prepare <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">You</span></h2>
             <p className="text-gray-500 text-lg leading-relaxed">
               Our comprehensive placement preparation program goes beyond traditional academics to ensure you are completely industry-ready by the time you graduate.
             </p>
@@ -163,7 +163,7 @@ export default function PlacementCellPage() {
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent" />
-                <div className="absolute bottom-6 left-6 right-6 text-white">
+                <div className="absolute bottom-6 left-6 right-6 text-black">
                   <div className="text-xl font-bold mb-1">Structured Path to Success</div>
                   <p className="text-gray-200 text-sm">Our 5-step process ensures no one is left behind.</p>
                 </div>
@@ -172,7 +172,7 @@ export default function PlacementCellPage() {
 
             <div className="flex-1 w-full space-y-6">
               <div>
-                <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Our Proven Placement <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Process</span></h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Our proven placement <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Process</span></h2>
                 <p className="text-gray-500 text-base mb-6">We follow a rigorous, step-by-step methodology to transform students into highly employable professionals.</p>
               </div>
 
@@ -180,7 +180,7 @@ export default function PlacementCellPage() {
                 {process.map((p, i) => (
                   <div key={i} className="flex gap-5 group">
                     <div className="flex flex-col items-center">
-                      <div className="w-10 h-10 rounded-full text-white flex items-center justify-center font-extrabold text-base shrink-0 bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] shadow-sm">
+                      <div className="w-10 h-10 rounded-full text-black flex items-center justify-center font-extrabold text-base shrink-0 bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] shadow-sm">
                         {p.step}
                       </div>
                       {i !== process.length - 1 && (
@@ -203,19 +203,19 @@ export default function PlacementCellPage() {
       <section className="py-20 bg-white text-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[800px] mx-auto px-4 relative z-10 text-center">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">Your Dream Job <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Awaits</span></h2>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">Your dream job <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Awaits</span></h2>
           <p className="text-xl text-slate-600 font-medium mb-10 leading-relaxed">
             Take the first step towards a successful career. Get in touch with the BITC Placement Cell today.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link href="/contact">
-              <Button className="w-full sm:w-auto h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] text-lg font-medium shadow-xl shadow-primary/20 hover:-translate-y-1 transition-all border-0">
-                Contact Placement Officer
+              <Button className="w-full sm:w-auto h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] text-lg font-medium shadow-xl shadow-primary/20 hover:-translate-y-1 transition-all border-0">
+                Contact placement officer
               </Button>
             </Link>
             <Link href="/placements/partners">
               <Button variant="outline" className="w-full sm:w-auto h-14 px-10 rounded-full border-blue-200/80 text-slate-700 hover:bg-white hover:border-blue-300 text-lg font-medium hover:-translate-y-1 transition-all bg-white/80 backdrop-blur-sm shadow-sm">
-                View Hiring Partners
+                View hiring partners
               </Button>
             </Link>
           </div>

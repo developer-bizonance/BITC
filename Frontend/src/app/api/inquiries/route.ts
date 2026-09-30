@@ -8,7 +8,7 @@ export async function POST(request: Request) {
 
     if (!name || !email || !phone) {
       return NextResponse.json(
-        { error: "Name, email, and phone number are required" },
+        { error: "Name, email, and mobile number are required" },
         { status: 400 }
       );
     }
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
           name,
           email,
           phone,
-          message: message || "Interested in BITC Certification Courses",
+          message: message || "Interested in BITC Certification Certifications",
           status: "PENDING",
           courseId: targetCourseId || null,
         },

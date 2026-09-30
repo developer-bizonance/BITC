@@ -63,7 +63,7 @@ export function AuthModal() {
   const isValidEmail = (value: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
 
-  // Phone must be exactly 10 digits, no letters/symbols
+  // Mobile must be exactly 10 digits, no letters/symbols
   const isValidPhone = (value: string) =>
     /^[0-9]{10}$/.test(value.trim());
 
@@ -90,13 +90,13 @@ export function AuthModal() {
   const validateApplyForm = () => {
     const errors: Record<string, string> = {};
     if (!isValidName(name)) errors.name = "Name must contain only letters";
-    if (!isValidEmail(email)) errors.email = "Enter a valid email address";
-    if (!phone.trim()) errors.phone = "Phone number is required";
+    if (!isValidEmail(email)) errors.email = "Enter a valid Email Id";
+    if (!phone.trim()) errors.phone = "Mobile number is required";
     else if (!isValidPhone(phone)) errors.phone = "Enter exactly 10 digits, numbers only";
     if (!city.trim()) errors.city = "City is required";
     if (!qualification.trim()) errors.qualification = "Qualification is required";
     if (!specialization.trim()) errors.specialization = "Specialization is required";
-    if (!course.trim()) errors.course = "Course is required";
+    if (!course.trim()) errors.course = "Certification is required";
     if (!message.trim()) errors.message = "Message is required";
     setFieldErrors(errors);
     return Object.keys(errors).length === 0;
@@ -174,7 +174,7 @@ export function AuthModal() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-500 font-bold">Status:</span>
-                  <span className="font-bold text-emerald-600">Under Admission Review</span>
+                  <span className="font-bold text-emerald-600">Under admission review</span>
                 </div>
               </div>
 
@@ -184,7 +184,7 @@ export function AuthModal() {
 
               <Button
                 onClick={handleClose}
-                className="w-full h-11 rounded-2xl bg-slate-900 text-white font-extrabold hover:bg-slate-800 mt-2"
+                className="w-full h-11 rounded-full bg-slate-900 text-white font-medium hover:bg-slate-800 mt-2"
               >
                 Done & Return to Site
               </Button>
@@ -209,7 +209,7 @@ export function AuthModal() {
                 </div>
               )}
 
-              {/* COURSE APPLICATION CONFIRMATION (APPLY) */}
+              {/* CERTIFICATION APPLICATION CONFIRMATION (APPLY) */}
               <form onSubmit={handleApplySubmit} className="space-y-3" noValidate>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
@@ -236,7 +236,7 @@ export function AuthModal() {
                       />
                     </div>
                     {fieldErrors.name && (
-                      <p className="text-[11px] font-bold text-red-600 mt-1">{fieldErrors.name}</p>
+                      <p className="text-[11px] font-medium text-red-500 mt-1">{fieldErrors.name}</p>
                     )}
                   </div>
 
@@ -264,7 +264,7 @@ export function AuthModal() {
                       />
                     </div>
                     {fieldErrors.email && (
-                      <p className="text-[11px] font-bold text-red-600 mt-1">{fieldErrors.email}</p>
+                      <p className="text-[11px] font-medium text-red-500 mt-1">{fieldErrors.email}</p>
                     )}
                   </div>
 
@@ -285,7 +285,7 @@ export function AuthModal() {
                         }}
                         onBlur={() => {
                           if (!phone.trim()) {
-                            setFieldErrors((prev) => ({ ...prev, phone: "Phone number is required" }));
+                            setFieldErrors((prev) => ({ ...prev, phone: "Mobile number is required" }));
                           } else if (!isValidPhone(phone)) {
                             setFieldErrors((prev) => ({ ...prev, phone: "Enter exactly 10 digits, numbers only" }));
                           }
@@ -298,7 +298,7 @@ export function AuthModal() {
                       />
                     </div>
                     {fieldErrors.phone && (
-                      <p className="text-[11px] font-bold text-red-600 mt-1">{fieldErrors.phone}</p>
+                      <p className="text-[11px] font-medium text-red-500 mt-1">{fieldErrors.phone}</p>
                     )}
                   </div>
 
@@ -319,7 +319,7 @@ export function AuthModal() {
                       placeholder="Enter your city"
                       className={`w-full h-10 px-4 bg-slate-50 border rounded-xl text-xs font-semibold focus:outline-none focus:bg-white transition-all text-slate-900 placeholder:text-slate-400 placeholder:font-medium ${fieldErrors.city ? "border-red-400 focus:border-red-500" : "border-slate-200 focus:border-primary"}`}
                     />
-                    {fieldErrors.city && <p className="text-[11px] font-bold text-red-600 mt-1">{fieldErrors.city}</p>}
+                    {fieldErrors.city && <p className="text-[11px] font-medium text-red-500 mt-1">{fieldErrors.city}</p>}
                   </div>
 
                   <div>
@@ -352,7 +352,7 @@ export function AuthModal() {
                       <option value="M.B.A">M.B.A</option>
                       <option value="Other">Other</option>
                     </select>
-                    {fieldErrors.qualification && <p className="text-[11px] font-bold text-red-600 mt-1">{fieldErrors.qualification}</p>}
+                    {fieldErrors.qualification && <p className="text-[11px] font-medium text-red-500 mt-1">{fieldErrors.qualification}</p>}
                   </div>
 
                   <div>
@@ -372,12 +372,12 @@ export function AuthModal() {
                       placeholder="Ex. CSE"
                       className={`w-full h-10 px-4 bg-slate-50 border rounded-xl text-xs font-semibold focus:outline-none focus:bg-white transition-all text-slate-900 placeholder:text-slate-400 placeholder:font-medium ${fieldErrors.specialization ? "border-red-400 focus:border-red-500" : "border-slate-200 focus:border-primary"}`}
                     />
-                    {fieldErrors.specialization && <p className="text-[11px] font-bold text-red-600 mt-1">{fieldErrors.specialization}</p>}
+                    {fieldErrors.specialization && <p className="text-[11px] font-medium text-red-500 mt-1">{fieldErrors.specialization}</p>}
                   </div>
 
                   <div className="sm:col-span-2">
                     <label className="text-xs font-bold text-slate-700 block mb-1">
-                      Course <span className="text-red-500">*</span>
+                      Certification <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -405,13 +405,13 @@ export function AuthModal() {
                     placeholder="Enter your message"
                     className={`w-full p-4 bg-slate-50 border rounded-xl text-xs font-semibold focus:outline-none focus:bg-white transition-all resize-none text-slate-900 placeholder:text-slate-400 placeholder:font-medium ${fieldErrors.message ? "border-red-400 focus:border-red-500" : "border-slate-200 focus:border-primary"}`}
                   />
-                  {fieldErrors.message && <p className="text-[11px] font-bold text-red-600 mt-1">{fieldErrors.message}</p>}
+                  {fieldErrors.message && <p className="text-[11px] font-medium text-red-500 mt-1">{fieldErrors.message}</p>}
                 </div>
 
                 <Button
                   type="submit"
                   disabled={submitting}
-                  className="w-full h-11 rounded-xl bg-slate-900 text-white text-sm font-extrabold hover:bg-slate-800 shadow-md shadow-slate-900/20 border-0 transition-all mt-2"
+                  className="w-full h-11 rounded-full bg-slate-900 text-white text-sm font-medium hover:bg-slate-800 shadow-md shadow-slate-900/20 border-0 transition-all mt-2"
                 >
                   {submitting ? (
                     <RefreshCw className="w-5 h-5 animate-spin" />

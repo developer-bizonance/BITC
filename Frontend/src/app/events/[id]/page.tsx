@@ -55,10 +55,10 @@ export default async function EventDetailsPage({ params }: { params: Promise<{ i
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/70 to-transparent" />
         
         <div className="container max-w-[800px] mx-auto px-4 relative z-10 mt-16 text-center">
-          <div className="inline-block bg-primary/20 backdrop-blur-md text-primary px-4 py-1.5 rounded-full text-sm font-semibold mb-4 border border-primary/30 uppercase tracking-widest">
+          <div className="inline-block bg-primary/20 backdrop-blur-md text-white px-4 py-1.5 rounded-full text-sm font-semibold mb-4 border border-primary/30 uppercase tracking-widest">
             {event.category}
           </div>
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-8 leading-tight">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-black tracking-tight mb-8 leading-tight">
             {event.title}
           </h1>
           
@@ -67,7 +67,7 @@ export default async function EventDetailsPage({ params }: { params: Promise<{ i
               <CalendarDays className="w-5 h-5 text-primary" />
               <div className="text-left">
                 <p className="text-xs text-slate-400 uppercase tracking-wider mb-0.5">Date</p>
-                <p className="font-medium text-white">{event.date}</p>
+                <p className="font-medium text-black">{event.date}</p>
               </div>
             </div>
             
@@ -76,7 +76,7 @@ export default async function EventDetailsPage({ params }: { params: Promise<{ i
                 <MapPin className="w-5 h-5 text-primary" />
                 <div className="text-left">
                   <p className="text-xs text-slate-400 uppercase tracking-wider mb-0.5">Venue</p>
-                  <p className="font-medium text-white">{event.venue}</p>
+                  <p className="font-medium text-black">{event.venue}</p>
                 </div>
               </div>
             )}
@@ -85,8 +85,8 @@ export default async function EventDetailsPage({ params }: { params: Promise<{ i
               <div className="flex items-center gap-3">
                 <Users className="w-5 h-5 text-primary" />
                 <div className="text-left">
-                  <p className="text-xs text-slate-400 uppercase tracking-wider mb-0.5">Speaker</p>
-                  <p className="font-medium text-white">{event.speaker}</p>
+                  <p className="text-xs text-slate-400 uppercase tracking-wider mb-0.5">Industry expert</p>
+                  <p className="font-medium text-black">{event.speaker}</p>
                 </div>
               </div>
             )}
@@ -113,7 +113,7 @@ export default async function EventDetailsPage({ params }: { params: Promise<{ i
               <li><strong>Networking:</strong> Connect with peers, mentors, and industry leaders in a collaborative environment.</li>
             </ul>
             
-            <h3>Who Should Attend</h3>
+            <h3>Who should attend</h3>
             <p>This event is perfectly suited for:</p>
             <ul>
               <li>Students and recent graduates looking to upskill and gain industry exposure.</li>
@@ -144,7 +144,7 @@ export default async function EventDetailsPage({ params }: { params: Promise<{ i
             
             {event.speaker && (
               <>
-                <h3>Meet the Speaker</h3>
+                <h3>Meet the Industry expert</h3>
                 <div className="not-prose flex flex-col sm:flex-row gap-6 items-start bg-slate-50 p-6 rounded-2xl border border-slate-100">
                   <div className="w-20 h-20 rounded-full bg-slate-200 shrink-0 flex items-center justify-center overflow-hidden">
                     <Users className="w-8 h-8 text-slate-400" />
@@ -153,7 +153,7 @@ export default async function EventDetailsPage({ params }: { params: Promise<{ i
                     <h4 className="text-xl font-bold text-slate-900">{event.speaker}</h4>
                     <p className="text-primary font-medium text-sm mb-3">Industry Expert</p>
                     <p className="text-slate-600 text-sm leading-relaxed">
-                      With years of hands-on experience and a passion for teaching, our speaker brings deep industry knowledge and practical insights to help you navigate your career path successfully.
+                      With years of hands-on experience and a passion for teaching, our industry expert brings deep industry knowledge and practical insights to help you navigate your career path successfully.
                     </p>
                   </div>
                 </div>

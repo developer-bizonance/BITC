@@ -16,7 +16,7 @@ export async function POST(request: Request) {
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!email || typeof email !== "string" || !emailRegex.test(email.trim())) {
-      return NextResponse.json({ error: "Please enter a valid email address (e.g. name@gmail.com)." }, { status: 400 });
+      return NextResponse.json({ error: "Please enter a valid Email Id (e.g. name@gmail.com)." }, { status: 400 });
     }
 
     const cleanPhone = (phone || "").replace(/[^0-9]/g, "");
@@ -81,7 +81,7 @@ NEW INQUIRY RECEIVED FROM BITC WEBSITE
 Submitted At : ${timestamp}
 Full Name    : ${fullName.trim()}
 Email        : ${email.trim()}
-Phone        : ${phone.trim()}
+Mobile        : ${phone.trim()}
 City         : ${city.trim()}
 Enquiry Type : ${selectedEnquiry}
 
@@ -123,15 +123,15 @@ Target Recipient: ${recipientEmail}
         : `<div style="font-size: 24px; font-weight: 900; color: #0f172a; letter-spacing: 1px;">BIZ<span style="color: #ff9900;">O</span>NANCE</div>`
       }
             <div class="header-title" style="text-align: center;">INDUSTRIAL TRAINING CENTER</div>
-            <p class="header-sub" style="text-align: center;">New Contact Form Submission</p>
+            <p class="header-sub" style="text-align: center;">New contact form submission</p>
           </div>
         </div>
         <div class="body">
           <div class="badge">${selectedEnquiry}</div>
           <table class="info-table">
             <tr><td class="label">Full Name:</td><td class="value">${fullName.trim()}</td></tr>
-            <tr><td class="label">Email Address:</td><td class="value"><a href="mailto:${email.trim()}">${email.trim()}</a></td></tr>
-            <tr><td class="label">Phone Number:</td><td class="value"><a href="tel:${phone.trim()}">${phone.trim()}</a></td></tr>
+            <tr><td class="label">Email Id:</td><td class="value"><a href="mailto:${email.trim()}">${email.trim()}</a></td></tr>
+            <tr><td class="label">Mobile Number:</td><td class="value"><a href="tel:${phone.trim()}">${phone.trim()}</a></td></tr>
             <tr><td class="label">City:</td><td class="value">${city.trim()}</td></tr>
           </table>
 

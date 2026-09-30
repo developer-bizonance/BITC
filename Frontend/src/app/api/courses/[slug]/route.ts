@@ -32,7 +32,7 @@ export async function GET(
 
     if (!staticCourse) {
       return NextResponse.json(
-        { success: false, error: "Course not found" },
+        { success: false, error: "Certification not found" },
         { status: 404 }
       );
     }

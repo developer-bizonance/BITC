@@ -3,10 +3,10 @@ export type CourseModule = {
   topics: string[];
 };
 
-export type Course = {
+export type Certification = {
   slug: string;
   title: string;
-  category: "Information Technology" | "Management" | "Design" | "Digital Media Technology";
+  category: "Information Technology" | "Management Certifications" | "Design Certifications" | "Digital media technology";
   duration: string;
   fees: string;
   price: number;
@@ -16,7 +16,7 @@ export type Course = {
   curriculum: CourseModule[];
 };
 
-export let courses: Course[] = [
+export const courses: Certification[] = [
   // --- Information Technology ---
   {
     slug: "mern-stack",
@@ -26,7 +26,7 @@ export let courses: Course[] = [
     fees: "₹36,000",
     price: 36000,
     description: "Deep dive into the industry-favorite MERN stack (MongoDB, Express, React, Node) to become a highly sought-after Full Stack JavaScript Developer.",
-    features: ["Specialized JS Focus", "Real-time Web Sockets", "AI-Assisted Debugging"],
+    features: ["Specialized js focus", "Real-time Web Sockets", "AI-Assisted Debugging"],
     image: "/MERN.jpg",
     curriculum: [
       {
@@ -36,8 +36,8 @@ export let courses: Course[] = [
           "Client vs Server Model",
           "HTTP / HTTPS Protocols",
           "Request & Response Lifecycle",
-          "REST API Basics",
-          "DNS Lookup System",
+          "REST api basics",
+          "DNS lookup system",
           "Browser Architecture & Rendering Engine",
           "Frontend vs Backend Breakdown",
           "JSON Format & Serialization",
@@ -58,7 +58,7 @@ export let courses: Course[] = [
           "Forms, Form Controls & Validations",
           "Advanced Input Types & Attributes",
           "Audio & Video Elements",
-          "Semantic HTML5 Elements",
+          "Semantic html5 elements",
           "HTML5 APIs (Geolocation, Drag & Drop)",
           "Web Accessibility (WCAG & ARIA)",
           "SEO Fundamentals & Meta Tags"
@@ -74,7 +74,7 @@ export let courses: Course[] = [
           "Positioning (Static, Relative, Absolute, Fixed, Sticky)",
           "Flexbox Layout Engine (Flex-Direction, Justify, Align)",
           "CSS Grid System & Template Areas",
-          "Responsive Design Principles",
+          "Responsive design principles",
           "Media Queries for Multi-Device Layouts",
           "CSS Animations & Keyframes",
           "Transitions & Transformations",
@@ -115,11 +115,11 @@ export let courses: Course[] = [
           "Remote Repositories (git push, git pull)",
           "Branching Strategies (git branch, git checkout, git switch)",
           "Branch Merging & Rebase Basics",
-          "Merge Conflict Resolution",
+          "Merge conflict resolution",
           ".gitignore Files & Security Best Practices",
           "GitHub Pull Requests (PRs) & Code Reviews",
           "GitHub Issues, Projects & README Documentation",
-          "Collaborative Git Workflows"
+          "Collaborative git workflows"
         ]
       },
       {
@@ -135,7 +135,7 @@ export let courses: Course[] = [
           "Forms & Controlled / Uncontrolled Components",
           "React Core Hooks (useState, useEffect, useContext)",
           "Advanced Hooks (useReducer, useRef, useMemo, useCallback)",
-          "Custom React Hooks Architecture",
+          "Custom react hooks architecture",
           "React Router v6 (Nested Routes, Dynamic Routes, Protected Routes)",
           "Lazy Loading & Code Splitting (React.lazy, Suspense)",
           "Error Boundaries & Exception Recovery",
@@ -178,8 +178,8 @@ export let courses: Course[] = [
           "Custom & Built-in Middleware Pipelines",
           "Request & Response Object Lifecycle",
           "Controller Design & Business Logic Separation",
-          "RESTful API Endpoint Construction",
-          "Global Error Handling Middleware",
+          "RESTful api endpoint construction",
+          "Global error handling middleware",
           "CORS Configuration & Security Headers",
           "Request Body Data Validation (Joi / Express-Validator)",
           "File Upload Processing (Multer Integration)",
@@ -233,7 +233,7 @@ export let courses: Course[] = [
           "Production Build Process & Optimization",
           "Deploying Frontend Apps to Vercel / Netlify",
           "Deploying Backend Servers to Render / Railway / AWS",
-          "MongoDB Atlas Production Cluster Setup",
+          "MongoDB atlas production cluster setup",
           "Custom Domain Mapping & SSL/HTTPS Certificates",
           "CI/CD Automated Pipelines Basics",
           "Project 1: Todo Application with Full CRUD",
@@ -255,7 +255,7 @@ export let courses: Course[] = [
     fees: "₹36,000",
     price: 36000,
     description: "Master enterprise full-stack web development using MongoDB, Express.js, Angular, and Node.js (MEAN) for building robust dynamic applications.",
-    features: ["Angular Framework Mastery", "Real-Time Web Apps", "AI-Assisted Workflows", "Industry Certification"],
+    features: ["Angular framework mastery", "Real-Time Web Apps", "AI-Assisted Workflows", "Industry Certification"],
     curriculum: [
       {
         title: "Phase 1 — Web Fundamentals",
@@ -264,8 +264,8 @@ export let courses: Course[] = [
           "Client vs Server Model",
           "HTTP / HTTPS Protocols",
           "Request & Response Lifecycle",
-          "REST API Basics",
-          "DNS Lookup System",
+          "REST api basics",
+          "DNS lookup system",
           "Frontend vs Backend Breakdown",
           "JSON Format & Serialization",
           "Cookies & Sessions Management",
@@ -279,7 +279,7 @@ export let courses: Course[] = [
           "HTML Tags & Attributes",
           "Headings, Paragraphs & Links",
           "Forms, Input Types & Validations",
-          "Semantic HTML5 Elements",
+          "Semantic html5 elements",
           "Web Accessibility (WCAG & ARIA)",
           "SEO Fundamentals & Meta Tags"
         ]
@@ -289,9 +289,9 @@ export let courses: Course[] = [
         topics: [
           "Selectors, Specificity & Cascade",
           "Box Model (Content, Padding, Border, Margin)",
-          "Flexbox Layout Engine",
-          "CSS Grid System",
-          "Responsive Design Principles",
+          "Flexbox layout engine",
+          "CSS grid system",
+          "Responsive design principles",
           "Media Queries for Multi-Device Layouts",
           "CSS Animations & Keyframes"
         ]
@@ -307,7 +307,7 @@ export let courses: Course[] = [
           "DOM Manipulation & Selection",
           "Event Handling & Delegation",
           "Callbacks, Promises & Async/Await",
-          "Fetch API Data Retrieval",
+          "Fetch api data retrieval",
           "ES6 Modules (Import/Export)",
           "Closures, Scope & Event Loop"
         ]
@@ -376,11 +376,11 @@ export let courses: Course[] = [
         topics: [
           "Express.js Setup & Application Routing",
           "Custom & Built-in Middleware Pipelines",
-          "RESTful API Endpoint Architecture",
+          "RESTful api endpoint architecture",
           "Controllers & Service Layer Separation",
           "MVC (Model-View-Controller) Architecture Pattern",
-          "Global Error Handling Middleware",
-          "Request Body Data Validation",
+          "Global error handling middleware",
+          "Request body data validation",
           "API Authentication & CORS Security Headers"
         ]
       },
@@ -413,7 +413,7 @@ export let courses: Course[] = [
         title: "Phase 11 — Testing & Quality Assurance",
         topics: [
           "Jasmine Testing Framework Basics & Assertions",
-          "Karma Test Runner Configuration",
+          "Karma test runner configuration",
           "Jest Testing Framework for Angular & Node",
           "Angular Component & Service Unit Testing",
           "API Endpoint Testing with Postman & Supertest"
@@ -425,7 +425,7 @@ export let courses: Course[] = [
           "Angular Production Build Optimization (`ng build --configuration production`)",
           "Deploying Node.js Backend to Render / Railway / AWS",
           "Deploying Angular Frontend to Vercel / Netlify / Cloudflare",
-          "MongoDB Atlas Production Cluster Deployment",
+          "MongoDB atlas production cluster deployment",
           "Environment Variables Management (.env)",
           "CI/CD Automated Deployment Pipelines",
           "Project 1: Todo Application with Angular & Express",
@@ -441,35 +441,35 @@ export let courses: Course[] = [
   },
   {
     slug: "full-stack-java",
-    title: "Full Stack Java",
+    title: "Full stack java",
     category: "Information Technology",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
     description: "Learn enterprise-grade full stack development using Java 21, Spring Boot 3, Hibernate JPA, React, and SQL. Ideal for large-scale enterprise careers.",
-    features: ["Enterprise Architecture", "Microservices & Spring Boot", "Full Stack Integration", "Mock Interviews & Placement"],
+    features: ["Enterprise Architecture", "Microservices & Spring Boot", "Full stack integration", "Mock Interviews & Placement"],
     curriculum: [
       { title: "Module 1: Core Java 21 & OOP Paradigm", topics: ["Java 21 Syntax & Virtual Threads", "Object-Oriented Programming (Inheritance, Polymorphism, Encapsulation)", "Exception Handling & Custom Exceptions", "Java Collections Framework (List, Set, Map)", "Java 8+ Features (Lambda Expressions, Stream API, Optional)"] },
       { title: "Module 2: Advanced Java, Concurrency & SQL", topics: ["Multithreading & Executor Framework", "JDBC Connection & Statement Management", "Advanced SQL Querying (Joins, Indexing, Triggers)", "PostgreSQL & MySQL Database Design", "Unit Testing with JUnit 5 & Mockito"] },
       { title: "Module 3: Spring Framework 6 & Spring Boot 3", topics: ["Spring IoC Container & Dependency Injection", "Spring MVC & Building RESTful Controllers", "Spring Data JPA & Hibernate ORM Mapping", "Bean Validation & Global Exception Handling", "Spring Boot Actuator & Logging"] },
-      { title: "Module 4: Spring Security 6 & Microservices Architecture", topics: ["Spring Security 6 with JWT Authentication", "Role-Based Authorization Policies", "Microservices Concepts & Architecture Patterns", "Spring Cloud Eureka Service Discovery", "API Gateway Routing & Resilience4j Circuit Breakers"] },
+      { title: "Module 4: Spring Security 6 & Microservices Architecture", topics: ["Spring Security 6 with JWT Authentication", "Role-Based Authorization Policies", "Microservices Concepts & Architecture Patterns", "Spring cloud eureka service discovery", "API Gateway Routing & Resilience4j Circuit Breakers"] },
       { title: "Module 5: Modern Front-End Integration with React", topics: ["HTML5, CSS3 & JavaScript ES6+ Fundamentals", "React Component Hierarchy & Hooks", "Axios HTTP Client Integration with Spring Boot", "State Management & React Router", "UI Component Libraries (MUI/Tailwind)"] },
-      { title: "Module 6: Containerization, DevOps & Banking Capstone", topics: ["Dockerizing Spring Boot & React Applications", "Kubernetes Deployment Fundamentals", "CI/CD Pipeline Setup", "Full-Stack Enterprise Banking/FinTech Capstone Build", "Technical Mock Interviews & Career Coaching"] }
+      { title: "Module 6: Containerization, DevOps & Banking Capstone", topics: ["Dockerizing Spring Boot & React Applications", "Kubernetes deployment fundamentals", "CI/CD Pipeline Setup", "Full-Stack Enterprise Banking/FinTech Capstone Build", "Technical Mock Interviews & Career Coaching"] }
     ]
   },
   {
     slug: "full-stack-python",
-    title: "Full Stack Python",
+    title: "Full stack python",
     category: "Information Technology",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
     description: "Master full stack web development using Python 3.12, Django 5, FastAPI, React, and PostgreSQL for building modern data-driven applications.",
-    features: ["Python & Django Framework", "React Front-End", "RESTful APIs", "Live Industry Projects"],
+    features: ["Python & Django Framework", "React Front-End", "RESTful APIs", "Live industry projects"],
     curriculum: [
       { title: "Module 1: Python 3.12 Core & Advanced Programming", topics: ["Python 3.12 Syntax & Data Structures", "Object-Oriented Programming in Python", "Decorators, Generators & Iterators", "Exception Handling & Context Managers", "File I/O & Package Management with PIP/UV"] },
       { title: "Module 2: Web Scraping, Automation & Databases", topics: ["Web Scraping with BeautifulSoup & Selenium", "Relational Database Design with PostgreSQL", "Complex SQL Queries & Indexing", "Python Database Adapters (Psycopg3)", "Data Processing with Pandas Basics"] },
-      { title: "Module 3: Django 5 Web Framework & MVT", topics: ["Django Architecture (Model-View-Template)", "Django ORM & Database Migrations", "Django Admin Customization", "Django Forms & User Authentication System", "Middleware & Template Tags"] },
+      { title: "Module 3: Django 5 Web Framework & MVT", topics: ["Django Architecture (Model-View-Template)", "Django ORM & Database Migrations", "Django admin customization", "Django Forms & User Authentication System", "Middleware & Template Tags"] },
       { title: "Module 4: Django REST Framework (DRF) & FastAPI", topics: ["Building REST APIs with DRF Serializers", "Class-Based Views & ViewSets", "JWT Authentication in DRF", "Asynchronous High-Performance APIs with FastAPI", "Swagger/OpenAPI Documentation"] },
       { title: "Module 5: Front-End React & Async Processing", topics: ["React.js Component Architecture & Hooks", "Integrating React SPA with Django REST Backend", "Asynchronous Task Queues with Celery & Redis", "Real-Time WebSockets with Django Channels", "Git Workflow & Version Control"] },
       { title: "Module 6: Cloud Deployment & SaaS Capstone Build", topics: ["Containerization with Docker & Docker Compose", "Deploying Python Apps on AWS Elastic Beanstalk / Vercel", "Nginx & Gunicorn Production Server Setup", "Complete AI-Powered SaaS Product Capstone", "Portfolio & Job Placement Assistance"] }
@@ -487,7 +487,7 @@ export let courses: Course[] = [
     curriculum: [
       { title: "Module 1: Math Foundations & Python AI Stack", topics: ["Linear Algebra & Matrix Operations", "Multivariable Calculus & Gradient Descent", "Probability Theory & Descriptive Statistics", "NumPy & Pandas High-Performance Data Processing", "Matplotlib & Seaborn Data Visualization"] },
       { title: "Module 2: Supervised & Unsupervised Machine Learning", topics: ["Linear & Logistic Regression", "Decision Trees, Random Forests & XGBoost", "Support Vector Machines (SVM) & K-Nearest Neighbors", "K-Means Clustering & Hierarchical Clustering", "Principal Component Analysis (PCA) Dimensionality Reduction"] },
-      { title: "Module 3: Deep Learning & Neural Network Architecture", topics: ["Artificial Neural Network (ANN) Fundamentals", "Backpropagation & Optimization Algorithms (Adam, SGD)", "TensorFlow 2.x & Keras Masterclass", "PyTorch Neural Network Pipeline Development", "Hyperparameter Tuning & Regularization (Dropout, L1/L2)"] },
+      { title: "Module 3: Deep Learning & Neural Network Architecture", topics: ["Artificial Neural Network (ANN) Fundamentals", "Backpropagation & Optimization Algorithms (Adam, SGD)", "TensorFlow 2.x & Keras Masterclass", "PyTorch neural network pipeline development", "Hyperparameter Tuning & Regularization (Dropout, L1/L2)"] },
       { title: "Module 4: Computer Vision & Natural Language Processing", topics: ["Convolutional Neural Networks (CNNs) & Image Classification", "OpenCV for Real-Time Image & Video Processing", "Recurrent Neural Networks (RNNs) & LSTMs", "Text Preprocessing & Word Embeddings (Word2Vec, GloVe)", "Attention Mechanism & Transformer Architecture"] },
       { title: "Module 5: Generative AI, LLMs & Prompt Engineering", topics: ["Large Language Models (LLMs) & Fine-Tuning", "Retrieval-Augmented Generation (RAG) Systems", "LangChain Framework & Vector Databases (Pinecone/ChromaDB)", "Building AI Agents with OpenAI & Hugging Face", "Prompt Engineering & Guardrails"] },
       { title: "Module 6: MLOps, Cloud Deployment & AI Capstone", topics: ["Model Serialization & Versioning (MLflow)", "Serving ML Models with FastAPI & Streamlit", "Docker Containers for Machine Learning Solutions", "Deploying AI Models on AWS SageMaker / GCP", "Autonomous AI Agent / Predictive Analytics Capstone"] }
@@ -503,12 +503,12 @@ export let courses: Course[] = [
     description: "Turn raw complex data into actionable business intelligence. Master data wrangling, advanced analytics, and predictive modeling.",
     features: ["Python & R", "Tableau/PowerBI", "Big Data", "Real-world Datasets"],
     curriculum: [
-      { title: "Module 1: Data Analytics Foundations & Advanced SQL", topics: ["Data Mining & Cleaning Methodologies", "Complex SQL Queries, Window Functions & CTEs", "Data Transformation & Normalization", "Relational Database Analytics Architecture", "Excel Advanced Analytics & Pivot Automation"] },
-      { title: "Module 2: Python Data Science Ecosystem", topics: ["Pandas DataFrames for Wrangling & Manipulation", "NumPy Numerical Computing", "SciPy Statistical Methods", "Handling Missing Data, Outliers & Feature Scaling", "Automated Data Cleaning Pipelines"] },
-      { title: "Module 3: Data Visualization & Business Intelligence", topics: ["Exploratory Data Analysis (EDA) Best Practices", "Interactive Visualizations with Seaborn & Plotly", "Power BI Data Modeling & DAX Expressions", "Tableau Dashboard Design & Storytelling", "Executive Insight Reporting"] },
+      { title: "Module 1: Data Analytics Foundations & Advanced SQL", topics: ["Data Mining & Cleaning Methodologies", "Complex SQL Queries, Window Functions & CTEs", "Data Transformation & Normalization", "Relational database analytics architecture", "Excel Advanced Analytics & Pivot Automation"] },
+      { title: "Module 2: Python Data Science Ecosystem", topics: ["Pandas DataFrames for Wrangling & Manipulation", "NumPy numerical computing", "SciPy statistical methods", "Handling Missing Data, Outliers & Feature Scaling", "Automated data cleaning pipelines"] },
+      { title: "Module 3: Data Visualization & Business Intelligence", topics: ["Exploratory Data Analysis (EDA) Best Practices", "Interactive Visualizations with Seaborn & Plotly", "Power BI Data Modeling & DAX Expressions", "Tableau Dashboard Design & Storytelling", "Executive insight reporting"] },
       { title: "Module 4: Applied Statistical Modeling & A/B Testing", topics: ["Probability Distributions & Hypothesis Testing", "Z-Tests, T-Tests & ANOVA Tests", "A/B Testing Experiment Design & Analysis", "Time Series Analysis & Forecasting (ARIMA/Prophet)", "Correlation & Causality Analysis"] },
       { title: "Module 5: Machine Learning for Data Science", topics: ["Feature Selection & Feature Engineering", "Supervised Learning Models (Regression, Classification)", "Unsupervised Clustering & Customer Segmentation", "Model Evaluation Metrics (ROC-AUC, Confusion Matrix)", "Churn Prediction & Recommendation Algorithms"] },
-      { title: "Module 6: Big Data Processing & Capstone Project", topics: ["Apache Spark & PySpark Big Data Processing", "Cloud Data Warehouses (Google BigQuery / Snowflake)", "Building Automated Data Pipelines", "End-to-End Industry Analytics Capstone Project", "Executive Presentation & Portfolio Preparation"] }
+      { title: "Module 6: Big Data Processing & Capstone Project", topics: ["Apache Spark & PySpark Big Data Processing", "Cloud Data Warehouses (Google BigQuery / Snowflake)", "Building automated data pipelines", "End-to-End Industry Analytics Capstone Project", "Executive Presentation & Portfolio Preparation"] }
     ]
   },
 
@@ -520,14 +520,14 @@ export let courses: Course[] = [
     fees: "₹36,000",
     price: 36000,
     description: "Master enterprise cloud architecture, serverless computing, container orchestration, and DevOps automated infrastructure.",
-    features: ["AWS/Azure/GCP", "DevOps Integration", "Serverless Architecture", "Cloud Cert Prep"],
+    features: ["AWS/Azure/GCP", "DevOps Integration", "Serverless Architecture", "Cloud cert prep"],
     curriculum: [
       { title: "Module 1: Cloud Fundamentals & Networking Architecture", topics: ["Cloud Service Models (IaaS, PaaS, SaaS, Serverless)", "Virtualization Technologies & Hypervisors", "Cloud Virtual Private Cloud (VPC) & Subnetting", "Route Tables, Internet Gateways & NAT Gateways", "Domain Name System (DNS) & Content Delivery Networks (CDN)"] },
       { title: "Module 2: AWS Core Compute, Storage & Database Services", topics: ["Amazon EC2 Instances & Security Groups", "Amazon S3 Storage Buckets & Lifecycle Policies", "AWS IAM Roles, Users & Policies", "Relational Databases (AWS RDS & Aurora)", "NoSQL Databases (DynamoDB)"] },
       { title: "Module 3: High Availability, Auto-Scaling & Serverless", topics: ["Elastic Load Balancing (ALB/NLB) Setup", "Auto Scaling Groups (ASG) & Health Checks", "AWS Lambda Event-Driven Serverless Compute", "API Gateway Integration & Microservices", "Amazon SQS & SNS Messaging Queues"] },
       { title: "Module 4: Containerization & Orchestration", topics: ["Docker Architecture & Dockerfile Creation", "Docker Compose Multi-Container Setup", "Kubernetes Cluster Architecture & Concepts", "Deploying Pods, Services & Ingress Controllers", "Helm Charts for Application Management"] },
-      { title: "Module 5: Infrastructure as Code (IaC) & DevOps CI/CD", topics: ["Terraform Declarative Configuration (HCL)", "State Management & Remote Backends", "GitHub Actions CI/CD Pipeline Construction", "Automated Infrastructure Provisioning", "CloudWatch Monitoring & AWS CloudTrail Logging"] },
-      { title: "Module 6: Multi-Cloud, Cost Optimization & Cloud Capstone", topics: ["Microsoft Azure & GCP Core Equivalents", "Cloud Cost Optimization & FinOps Strategies", "Disaster Recovery & High Availability Planning", "Deploying Enterprise Multi-Region Scalable Application Capstone", "AWS Solutions Architect Certification Prep"] }
+      { title: "Module 5: Infrastructure as Code (IaC) & DevOps CI/CD", topics: ["Terraform Declarative Configuration (HCL)", "State Management & Remote Backends", "GitHub Actions CI/CD Pipeline Construction", "Automated infrastructure provisioning", "CloudWatch Monitoring & AWS CloudTrail Logging"] },
+      { title: "Module 6: Multi-Cloud, Cost Optimization & Cloud Capstone", topics: ["Microsoft Azure & GCP Core Equivalents", "Cloud Cost Optimization & FinOps Strategies", "Disaster Recovery & High Availability Planning", "Deploying Enterprise Multi-Region Scalable Application Capstone", "AWS solutions architect certification prep"] }
     ]
   },
 
@@ -535,23 +535,23 @@ export let courses: Course[] = [
   {
     slug: "digital-marketing",
     title: "Digital Marketing",
-    category: "Management",
+    category: "Management Certifications",
     duration: "3 Months",
     fees: "₹36,000",
     price: 36000,
     description: "Master performance marketing, SEO, Google Ads, Meta Ads, and AI-driven content growth strategies to scale digital brands.",
-    features: ["SEO & SEM", "Social Media Ads", "AI Content Generation", "Google Certifications"],
+    features: ["SEO & SEM", "Social media ads", "AI Content Generation", "Google Certifications"],
     curriculum: [
-      { title: "Module 1: Digital Marketing Strategy & Brand Positioning", topics: ["Digital Marketing Funnel Architecture (AIDA)", "Customer Buyer Persona Development", "Competitor Benchmarking & Market Research", "Brand Identity & Value Proposition Design", "Website Architecture & UX for Conversion"] },
+      { title: "Module 1: Digital Marketing Strategy & Brand Positioning", topics: ["Digital Marketing Funnel Architecture (AIDA)", "Customer buyer persona development", "Competitor Benchmarking & Market Research", "Brand Identity & Value Proposition Design", "Website Architecture & UX for Conversion"] },
       { title: "Module 2: Search Engine Optimization (SEO Masterclass)", topics: ["Keyword Research Tools (Ahrefs, Semrush, Google Keyword Planner)", "On-Page SEO Optimization (Meta Tags, Content Structure)", "Technical SEO Audits (Site Speed, Schema Markup, Crawlability)", "Off-Page SEO & High-Authority Backlink Building", "Local SEO & Google Business Profile Optimization"] },
       { title: "Module 3: Performance Marketing (Google Ads & Meta PPC)", topics: ["Google Search Ads Campaign Setup & Bidding Strategies", "Google Display, Video (YouTube) & Shopping Ads", "Meta (Facebook/Instagram) Ad Account & Pixel Setup", "Custom & Lookalike Audience Targeting Strategies", "Retargeting Campaigns & Conversion Rate Optimization (CRO)"] },
-      { title: "Module 4: Social Media, Content Automation & Web Analytics", topics: ["Social Media Content Calendar Strategy (LinkedIn, Instagram, YouTube)", "AI-Powered Content Copywriting (ChatGPT, Jasper)", "Email Marketing Automation & Lead Nurturing (Mailchimp/Klaviyo)", "Google Analytics 4 (GA4) Custom Dashboard Setup", "Live Brand Growth Campaign Capstone Project"] }
+      { title: "Module 4: Social Media, Content Automation & Web Analytics", topics: ["Social Media Content Calendar Strategy (LinkedIn, Instagram, YouTube)", "AI-Powered Content Copywriting (ChatGPT, Jasper)", "Email Marketing Automation & Lead Nurturing (Mailchimp/Klaviyo)", "Google Analytics 4 (GA4) Custom Dashboard Setup", "Live brand growth campaign capstone project"] }
     ]
   },
   {
     slug: "business-analyst",
     title: "Business Analytics",
-    category: "Management",
+    category: "Management Certifications",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
@@ -559,35 +559,35 @@ export let courses: Course[] = [
     features: ["Data-Driven Decision Making", "KPI Tracking", "BI Tools", "Strategy Planning"],
     curriculum: [
       { title: "Module 1: Advanced Business Excel & Automation", topics: ["Advanced Lookup Functions (VLOOKUP, XLOOKUP, INDEX/MATCH)", "Pivot Tables, Slicers & Dynamic Charting", "Data Cleansing & Error Handling Techniques", "Financial Modeling & Business Math Functions", "VBA & Macro Automation Fundamentals"] },
-      { title: "Module 2: SQL for Business Decision Making", topics: ["Relational Database Structures & SQL Basics", "Aggregations, Grouping & Business KPI Extraction", "Joins, Subqueries & CTEs for Complex Analysis", "Window Functions for Trend & Cohort Analysis", "Database Query Performance Optimization"] },
+      { title: "Module 2: SQL for Business Decision Making", topics: ["Relational Database Structures & SQL Basics", "Aggregations, Grouping & Business KPI Extraction", "Joins, Subqueries & CTEs for Complex Analysis", "Window Functions for Trend & Cohort Analysis", "Database query performance optimization"] },
       { title: "Module 3: Business Intelligence with Power BI & Tableau", topics: ["Connecting & Cleaning Data with Power Query", "Data Modeling & Star Schema Architecture", "DAX Formulas & Measures for Business Metrics", "Interactive Tableau Dashboards & Story Points", "Executive Dashboard Publishing & Scheduled Refresh"] },
       { title: "Module 4: Predictive Business Analytics & Forecasting", topics: ["Linear & Multiple Regression for Sales Forecasting", "Customer Segmentation & RFM Analysis", "Customer Lifetime Value (CLV) & Churn Modeling", "Market Basket Analysis & Cross-Selling Insights", "Risk & Scenario Analysis (Monte Carlo Simulation)"] },
-      { title: "Module 5: AI & Automation in Business Intelligence", topics: ["Prompt Engineering for Analytical Reports (ChatGPT/Claude)", "Automating Data Ingestion & ETL Pipelines", "Natural Language Queries in BI Tools", "Ethical AI & Data Governance Frameworks", "Executive Presentation Strategies"] },
-      { title: "Module 6: Capstone Business Consulting Project", topics: ["Real-World Corporate Business Case Study", "End-to-End Data Extraction, Cleaning & Analysis", "Interactive Executive Dashboard Creation", "Final Strategic Business Recommendation Report", "Consulting Pitch Presentation"] }
+      { title: "Module 5: AI & Automation in Business Intelligence", topics: ["Prompt Engineering for Analytical Reports (ChatGPT/Claude)", "Automating Data Ingestion & ETL Pipelines", "Natural Language Queries in BI Tools", "Ethical AI & Data Governance Frameworks", "Executive presentation strategies"] },
+      { title: "Module 6: Capstone Business Consulting Project", topics: ["Real-World Corporate Business Case Study", "End-to-End Data Extraction, Cleaning & Analysis", "Interactive executive dashboard creation", "Final strategic business recommendation report", "Consulting pitch presentation"] }
     ]
   },
   {
     slug: "finance",
     title: "Finance",
-    category: "Management",
+    category: "Management Certifications",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
     description: "Gain deep expertise in corporate finance, financial modeling, valuation techniques, Indian tax compliance, and investment analysis.",
     features: ["Financial Modeling", "Valuation", "Risk Management", "FinTech Trends"],
     curriculum: [
-      { title: "Module 1: Financial Accounting & Statement Analysis", topics: ["Understanding Balance Sheets, Income Statements & Cash Flows", "Financial Ratio Analysis (Liquidity, Solvency, Profitability)", "Working Capital Management", "Audit Standards & Financial Reporting", "Interpreting Annual Reports & SEC Filings"] },
-      { title: "Module 2: Corporate Finance & Capital Budgeting", topics: ["Time Value of Money (TVM) & Discounting", "Cost of Capital (WACC Calculation)", "Capital Budgeting Techniques (NPV, IRR, Payback Period)", "Capital Structure & Leverage Analysis", "Corporate Dividend Policies"] },
-      { title: "Module 3: Financial Modeling & Valuation Masterclass", topics: ["Excel Financial Modeling Best Practices", "Building 3-Statement Financial Models", "Discounted Cash Flow (DCF) Valuation Modeling", "Comparable Company Analysis (Comps) & Precedent Transactions", "Sensitivity & Scenario Analysis"] },
+      { title: "Module 1: Financial Accounting & Statement Analysis", topics: ["Understanding Balance Sheets, Income Statements & Cash Flows", "Financial Ratio Analysis (Liquidity, Solvency, Profitability)", "Working capital management", "Audit Standards & Financial Reporting", "Interpreting Annual Reports & SEC Filings"] },
+      { title: "Module 2: Corporate Finance & Capital Budgeting", topics: ["Time Value of Money (TVM) & Discounting", "Cost of Capital (WACC Calculation)", "Capital Budgeting Techniques (NPV, IRR, Payback Period)", "Capital Structure & Leverage Analysis", "Corporate dividend policies"] },
+      { title: "Module 3: Financial Modeling & Valuation Masterclass", topics: ["Excel financial modeling best practices", "Building 3-Statement Financial Models", "Discounted Cash Flow (DCF) Valuation Modeling", "Comparable Company Analysis (Comps) & Precedent Transactions", "Sensitivity & Scenario Analysis"] },
       { title: "Module 4: Tally Prime, GST & Indian Taxation Compliance", topics: ["Tally Prime Accounting Setup & Ledger Management", "GST Registration, Invoicing & E-Way Bills", "GSTR-1, GSTR-3B Return Filing Procedures", "Tax Deducted at Source (TDS) Calculation & Compliance", "Income Tax Filing & Direct Taxation Rules"] },
       { title: "Module 5: Investment Analysis & Portfolio Management", topics: ["Equity Research & Valuation Metrics (P/E, EV/EBITDA)", "Fixed Income Securities & Bond Yield Calculations", "Derivatives (Futures, Options & Hedging Strategies)", "Modern Portfolio Theory & Asset Allocation", "FinTech Trends & Algorithmic Trading Basics"] },
-      { title: "Module 6: Comprehensive Corporate Finance Capstone", topics: ["Full Company Financial Model & DCF Valuation", "Mergers & Acquisitions (M&A) Deal Structuring", "Investment Pitch Deck Preparation", "Valuation Defense Presentation", "Career Guidance for Banking & Finance Roles"] }
+      { title: "Module 6: Comprehensive Corporate Finance Capstone", topics: ["Full Company Financial Model & DCF Valuation", "Mergers & Acquisitions (M&A) Deal Structuring", "Investment pitch deck preparation", "Valuation defense presentation", "Career Guidance for Banking & Finance Roles"] }
     ]
   },
   {
     slug: "hr",
     title: "Human Resources (HR)",
-    category: "Management",
+    category: "Management Certifications",
     duration: "3 Months",
     fees: "₹36,000",
     price: 36000,
@@ -597,23 +597,23 @@ export let courses: Course[] = [
       { title: "Module 1: Strategic Talent Acquisition & Recruitment", topics: ["End-to-End Recruitment Lifecycle Management", "Strategic Sourcing via LinkedIn Recruiter & Job Portals", "Writing Compelling Job Descriptions & Employer Branding", "Behavioral & Competency-Based Interviewing Techniques", "Offer Letter Negotiation & Candidate Experience"] },
       { title: "Module 2: Core HR Operations & Employee Engagement", topics: ["Employee Onboarding & Documentation Workflows", "Performance Management Systems (PMS: OKRs vs KPIs)", "Employee Engagement & Retention Strategies", "Conflict Resolution & Grievance Redressal", "Organizational Culture & Change Management"] },
       { title: "Module 3: Payroll Management & Indian Statutory Compliance", topics: ["Salary Structure Designing (CTC, Basic, HRA, Special Allowance)", "Provident Fund (PF), ESIC & Professional Tax (PT) Compliance", "Gratuity, Bonus Act & Leave Policy Drafting", "Payroll Software Automation & Tax Computations", "Indian Labour Laws & Workplace Compliance"] },
-      { title: "Module 4: HR Analytics, HRIS & AI in Human Resources", topics: ["HRIS Software Implementation (Zoho People, Workday)", "People Analytics Metrics (Turnover Rate, Time-to-Hire, eNPS)", "Predictive Employee Retention Modeling", "AI Tools for Resume Screening & Talent Matching", "HR Project Capstone & Mock Interview Coaching"] }
+      { title: "Module 4: HR Analytics, HRIS & AI in Human Resources", topics: ["HRIS Software Implementation (Zoho People, Workday)", "People Analytics Metrics (Turnover Rate, Time-to-Hire, eNPS)", "Predictive employee retention modeling", "AI Tools for Resume Screening & Talent Matching", "HR Project Capstone & Mock Interview Coaching"] }
     ]
   },
   {
     slug: "sales-and-marketing",
     title: "Sales & Business Development",
-    category: "Management",
+    category: "Management Certifications",
     duration: "3 Months",
     fees: "₹36,000",
     price: 36000,
     description: "Master consultative B2B & B2C selling, strategic negotiation, CRM pipeline management, and revenue growth strategies.",
     features: ["B2B Sales", "Negotiation Tactics", "CRM Mastery", "Lead Generation"],
     curriculum: [
-      { title: "Module 1: Consultative Selling & Prospecting Masterclass", topics: ["B2B vs B2C Sales Funnel Architecture", "Cold Outreach via Email, Phone & LinkedIn Sales Navigator", "Prospect Qualification (BANT & MEDDPICC Frameworks)", "SPIN Selling & Challenger Sales Methodologies", "Crafting High-Converting Sales Pitches"] },
+      { title: "Module 1: Consultative Selling & Prospecting Masterclass", topics: ["B2B vs B2C Sales Funnel Architecture", "Cold Outreach via Email, Mobile & LinkedIn Sales Navigator", "Prospect Qualification (BANT & MEDDPICC Frameworks)", "SPIN Selling & Challenger Sales Methodologies", "Crafting High-Converting Sales Pitches"] },
       { title: "Module 2: Strategic Negotiation & Closing Techniques", topics: ["Understanding Buyer Psychology & Pain Points", "Overcoming Pricing & Competition Objections", "Value-Based Selling vs Price Discounting", "Closing Tactics & Contract Negotiation", "Building Long-Term Client Trust & Rapport"] },
-      { title: "Module 3: CRM Management & Sales Automation", topics: ["Salesforce & HubSpot CRM Setup & Administration", "Managing Sales Pipelines & Deal Stages", "Automating Lead Nurturing Workflows", "Sales Forecast Reporting & Metric Analysis", "AI Tools for Cold Email Writing & Lead Intelligence"] },
-      { title: "Module 4: Key Account Management & Revenue Growth", topics: ["Key Account Management Strategies", "Upselling, Cross-Selling & Renewal Tactics", "Territory Planning & Quota Attainment", "RFP (Request for Proposal) Response Drafting", "Live Business Development Campaign Capstone Build"] }
+      { title: "Module 3: CRM Management & Sales Automation", topics: ["Salesforce & HubSpot CRM Setup & Administration", "Managing Sales Pipelines & Deal Stages", "Automating lead nurturing workflows", "Sales Forecast Reporting & Metric Analysis", "AI Tools for Cold Email Writing & Lead Intelligence"] },
+      { title: "Module 4: Key Account Management & Revenue Growth", topics: ["Key account management strategies", "Upselling, Cross-Selling & Renewal Tactics", "Territory Planning & Quota Attainment", "RFP (Request for Proposal) Response Drafting", "Live business development campaign capstone build"] }
     ]
   },
 
@@ -621,41 +621,43 @@ export let courses: Course[] = [
   {
     slug: "ui-ux-design",
     title: "UI/UX Design",
-    category: "Design",
+    category: "Design Certifications",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
     description: "Design intuitive, beautiful, user-centric digital products. Master Figma, UX research, interactive prototyping, and design systems.",
     features: ["Figma Mastery", "User Research", "Prototyping", "Design Systems"],
     curriculum: [
-      { title: "Module 1: Design Thinking & UX Research Methodology", topics: ["Double Diamond Design Thinking Framework", "User Research Methods (Interviews, Surveys, Contextual Inquiry)", "User Persona Creation & Empathy Mapping", "User Journey Mapping & Problem Statements", "Competitive UX Audits & Heuristic Evaluation"] },
+      { title: "Module 1: Design Thinking & UX Research Methodology", topics: ["Double diamond design thinking framework", "User Research Methods (Interviews, Surveys, Contextual Inquiry)", "User Persona Creation & Empathy Mapping", "User Journey Mapping & Problem Statements", "Competitive UX Audits & Heuristic Evaluation"] },
       { title: "Module 2: Information Architecture & Wireframing", topics: ["Card Sorting & Information Architecture (IA)", "Creating Site Maps & App Task Flows", "Low-Fidelity Paper Sketching & Digital Wireframing", "Content Strategy & Copywriting for Interfaces", "Balsamiq & Figma Low-Fi Prototyping"] },
       { title: "Module 3: Visual UI Design & Figma Mastery", topics: ["Visual Hierarchy, Layout Grids & Composition", "Color Psychology & Accessible Palette Creation", "Typography Selection & Type Scale Systems", "Figma Advanced Tools (Auto-Layout, Constraints, Variants)", "Designing Components & UI Elements (Buttons, Inputs, Cards)"] },
-      { title: "Module 4: Design Systems & Interactive Prototyping", topics: ["Building Scalable Design Systems & Token Architecture", "Figma Interactive Components & Micro-Animations", "Smart Animate & Advanced Transition Physics", "Designing for Mobile (iOS Human Interface / Material 3)", "Responsive Web Interface Design"] },
+      { title: "Module 4: Design Systems & Interactive Prototyping", topics: ["Building Scalable Design Systems & Token Architecture", "Figma Interactive Components & Micro-Animations", "Smart Animate & Advanced Transition Physics", "Designing for Mobile (iOS Human Interface / Material 3)", "Responsive web interface design"] },
       { title: "Module 5: Usability Testing, Accessibility & AI Tools", topics: ["Conducting Moderated & Unmoderated Usability Tests", "Analyzing User Metrics & Iterating Designs", "WCAG 2.1 Accessibility Standards & Color Contrast", "AI Plugins for Figma & Asset Generation (Midjourney)", "Developer Handoff Specifications & Redlines"] },
-      { title: "Module 6: Capstone UI/UX Project & Portfolio", topics: ["End-to-End Mobile App or Web Product Design Project", "Comprehensive UX Case Study Documentation", "Publishing Portfolio on Behance, Dribbble & Personal Site", "Interactive Prototype Presentation", "Design Interview Prep & Portfolio Defense"] }
+      { title: "Module 6: Capstone UI/UX Project & Portfolio", topics: ["End-to-End Mobile App or Web Product Design Project", "Comprehensive ux case study documentation", "Publishing Portfolio on Behance, Dribbble & Personal Site", "Interactive prototype presentation", "Design Interview Prep & Portfolio Defense"] }
     ]
   },
   {
     slug: "graphic-design",
     title: "Graphic Design",
-    category: "Design",
-    duration: "3 Months",
+    category: "Design Certifications",
+    duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
     description: "Master visual communication, vector illustration, photo retouching, and brand identity design using Adobe Creative Cloud.",
-    features: ["Adobe Creative Cloud", "Branding", "Print & Digital Media", "Portfolio Build"],
+    features: ["Adobe creative cloud", "Branding", "Print & Digital Media", "Portfolio Build"],
     curriculum: [
       { title: "Module 1: Graphic Design Principles & Color Psychology", topics: ["Core Design Principles (Balance, Contrast, Alignment, Proximity)", "Color Theory, Harmonies & Psychological Impact", "Typography Masterclass (Font Pairing, Kerning, Tracking)", "Composition Grids & Golden Ratio in Design", "Visual Storytelling & Brand Concepts"] },
       { title: "Module 2: Vector Art & Logo Design with Adobe Illustrator", topics: ["Pen Tool Mastery & Vector Path Manipulation", "Logo Design Process & Mark Creation", "Iconography & Custom Vector Illustrations", "Brand Style Guide & Stationery Suite Creation", "Packaging & Label Design Fundamentals"] },
       { title: "Module 3: Photo Editing & Compositing with Adobe Photoshop", topics: ["Non-Destructive Image Editing & Layer Masks", "High-End Photo Retouching & Color Correction", "Advanced Compositing & Matte Painting Techniques", "Designing Social Media Creatives & Banners", "Generative AI Fill & Prompt Engineering in Photoshop"] },
-      { title: "Module 4: Print Media with InDesign & Portfolio Build", topics: ["Adobe InDesign Page Layouts & Master Pages", "Brochure, Magazine & Catalog Design", "Pre-Press Preparation, Bleed, Crop & CMYK Exports", "Building a Professional Graphic Design Portfolio", "Freelancing & Client Project Management"] }
+      { title: "Module 4: Print Media with InDesign & Portfolio Build", topics: ["Adobe InDesign Page Layouts & Master Pages", "Brochure, Magazine & Catalog Design", "Pre-Press Preparation, Bleed, Crop & CMYK Exports", "Building a Professional Graphic Design Portfolio", "Freelancing & Client Project Management"] },
+      { title: "Module 5: UI & Web Graphics Foundations", topics: ["Designing for Digital Mediums (Web vs Print)", "Introduction to Figma for Graphic Designers", "Creating Social Media Ad Campaigns", "Designing Engaging Email Newsletters"] },
+      { title: "Module 6: Capstone Project & Agency Workflow", topics: ["Handling Live Client Briefs & Feedback", "Advanced Mockup Presentations", "File Organization & Handoff Processes", "Final Graphic Design Portfolio Presentation"] }
     ]
   },
   {
     slug: "motion-graphics",
     title: "Motion Graphics",
-    category: "Design",
+    category: "Design Certifications",
     duration: "3 Months",
     fees: "₹36,000",
     price: 36000,
@@ -663,7 +665,7 @@ export let courses: Course[] = [
     features: ["After Effects", "Kinetic Typography", "2D Animation", "VFX Basics"],
     curriculum: [
       { title: "Module 1: Principles of Animation & Motion Basics", topics: ["12 Principles of Animation Applied to Motion Graphics", "Keyframe Types, Easing Curves & Speed Graphs", "Timeline Architecture & Composition Setup in After Effects", "Importing & Organizing Illustrator/Photoshop Assets", "Pre-compositions & Layer Parent-Child Hierarchy"] },
-      { title: "Module 2: Shape Layers & Kinetic Typography", topics: ["Shape Layer Animators & Trim Paths", "Kinetic Typography Animation Techniques", "Text Animators, Range Selectors & Expressions", "Logo Animation & Motion Branding", "Infographic & Data Visualization Animation"] },
+      { title: "Module 2: Shape Layers & Kinetic Typography", topics: ["Shape Layer Animators & Trim Paths", "Kinetic typography animation techniques", "Text Animators, Range Selectors & Expressions", "Logo Animation & Motion Branding", "Infographic & Data Visualization Animation"] },
       { title: "Module 3: 3D Layers, Cameras & Visual Effects", topics: ["Working with 3D Layers & Lights in After Effects", "Camera Motion, Orbiting & Depth of Field", "Green Screen Chroma Keying & Rotoscoping", "Particle Systems (Particular) & Fractal Noise Effects", "Duik Bassel 2D Character Rigging & Animation"] },
       { title: "Module 4: Commercial Reel & Showreel Production", topics: ["Audio Synchronization & Sound Design Integration", "Third-Party Plugins (Element 3D, Motion 3)", "Render Queue & Adobe Media Encoder Compression", "Assembling a Professional Motion Design Showreel", "Portfolio Publishing & Client Presentation"] }
     ]
@@ -671,8 +673,8 @@ export let courses: Course[] = [
   {
     slug: "video-editing",
     title: "Video Editing",
-    category: "Design",
-    duration: "3 Months",
+    category: "Design Certifications",
+    duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
     description: "Tell compelling visual stories. Master Adobe Premiere Pro, DaVinci Resolve color grading, audio engineering, and social content cuts.",
@@ -681,13 +683,15 @@ export let courses: Course[] = [
       { title: "Module 1: Video Editing Principles & Storytelling", topics: ["The Art of Editing: Cuts, Transitions & Pacing", "Analyzing Footage & Script/Storyboard Mapping", "File Management, Media Ingest & Proxy Workflows", "Rough Cut vs Fine Cut Editing Techniques", "B-Roll Placement & Narrative Pacing"] },
       { title: "Module 2: Adobe Premiere Pro Masterclass", topics: ["Timeline Editing Tools (Ripple, Roll, Slip, Slide)", "Multi-Camera Editing & Audio Syncing", "Text, Lower Thirds & Motion Graphics Templates (MOGRTs)", "Speed Ramping, Optical Flow & Time Remapping", "Green Screen Keying & Mask Tracking"] },
       { title: "Module 3: DaVinci Resolve & Professional Color Grading", topics: ["Color Correction vs Creative Color Grading", "Reading Scopes (Waveform, Vectorscope, Histogram)", "Primary & Secondary Color Adjustments", "Applying & Customizing LUTs (Look-Up Tables)", "DaVinci Resolve Node Architecture & Shot Matching"] },
-      { title: "Module 4: Audio Engineering & Short-Form Content", topics: ["Audio Noise Reduction & Equalization (EQ)", "Sound Design, Foley & Background Score Mixing", "Editing High-Engagement Shorts, Reels & YouTube Content", "AI Auto-Reframing & Captions Generation", "Final Rendering Codecs & Master File Export"] }
+      { title: "Module 4: Audio Engineering & Short-Form Content", topics: ["Audio Noise Reduction & Equalization (EQ)", "Sound Design, Foley & Background Score Mixing", "Editing High-Engagement Shorts, Reels & YouTube Content", "AI Auto-Reframing & Captions Generation", "Final Rendering Codecs & Master File Export"] },
+      { title: "Module 5: Motion Graphics Integration", topics: ["Dynamic Transitions & Glitch Effects", "Working with After Effects Dynamic Link", "Custom Text Animations & Subtitles", "Advanced Keyframing Techniques"] },
+      { title: "Module 6: Capstone Project & Platform Strategy", topics: ["Editing a Full Mini-Documentary or Vlog", "Understanding the YouTube Algorithm", "Creating Clickable Thumbnails (Photoshop Integration)", "Building a Video Editing Showreel"] }
     ]
   },
   {
     slug: "animation",
     title: "Animation",
-    category: "Design",
+    category: "Design Certifications",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
@@ -697,80 +701,104 @@ export let courses: Course[] = [
       { title: "Module 1: 3D Space & Hard-Surface Modeling", topics: ["Navigating 3D Viewports (Blender & Maya)", "Polygon Modeling Tools (Extrude, Bevel, Loop Cut)", "Hard-Surface Modeling (Props, Vehicles, Environments)", "Non-Destructive Modifiers & Sub-Division Surfaces", "3D Scene Composition & Camera Placement"] },
       { title: "Module 2: Texturing, Shading & UV Unwrapping", topics: ["UV Unwrapping & Seam Placement Techniques", "PBR (Physically Based Rendering) Shader Creation", "Texture Painting & Node-Based Materials", "Substance Painter Workflows for 3D Assets", "Lighting Setups (3-Point Lighting, HDRI Environment Maps)"] },
       { title: "Module 3: Character Rigging & Skeleton Setup", topics: ["Bones, Armatures & Skeleton Hierarchy Creation", "Inverse Kinematics (IK) vs Forward Kinematics (FK)", "Weight Painting & Vertex Group Skinning", "Custom Control Handles & Constraints", "Facial Rig Controls & Blend Shapes"] },
-      { title: "Module 4: 3D Character Animation", topics: ["Applying 12 Animation Principles to 3D Space", "Walk & Run Cycles for Characters", "Weight, Balance, Anticipation & Momentum", "Acting, Body Language & Lip Sync Animation", "Graph Editor Curve Adjustment"] },
+      { title: "Module 4: 3D Character Animation", topics: ["Applying 12 Animation Principles to 3D Space", "Walk & Run Cycles for Characters", "Weight, Balance, Anticipation & Momentum", "Acting, Body Language & Lip Sync Animation", "Graph editor curve adjustment"] },
       { title: "Module 5: Rendering Engines & Visual Effects Compositing", topics: ["Raytracing Render Engines (Blender Cycles / Maya Arnold)", "Render Passes (AOV, Depth, Normal, Shadow Passes)", "Particle Systems & Physics Simulations (Cloth, Rigid Body)", "Compositing 3D Renders in After Effects / Nuke", "AI Denoisers & Render Optimization"] },
       { title: "Module 6: 3D Short Film Capstone & Showreel", topics: ["Pre-Production (Storyboarding & Animatic Creation)", "Complete 3D Short Film or Character Animation Project", "Post-Production Editing & Audio Integration", "Industry-Ready 3D Animation Showreel", "Portfolio Review & Placement Guidance for Game/VFX Studios"] }
     ]
   },
   {
     slug: "contain-creation",
-    title: "Contain Creation",
-    category: "Design",
+    title: "Content Creation",
+    category: "Design Certifications",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
     description: "Learn how to create engaging content and manage digital brands effectively.",
     features: ["Content Strategy", "Digital Branding", "Creative Writing", "AI Tools"],
     curriculum: [
-      { title: "Module 1: Content Creation Basics", topics: ["Introduction to Content Strategy", "Understanding Your Audience"] }
+      { title: "Module 1: Content Strategy & Ideation", topics: ["Understanding Target Audiences & Personas", "Content Pillars & Topic Clusters", "Brainstorming & Viral Content Mechanics", "Building a Content Calendar"] },
+      { title: "Module 2: Copywriting & Blogging", topics: ["Writing for the Web (SEO Basics)", "Storytelling in Text (Hooks & CTAs)", "Blogging Platforms (WordPress, Medium)", "Email Newsletters & Substack"] },
+      { title: "Module 3: Visual Content Creation", topics: ["Graphic Design Basics for Non-Designers (Canva)", "Photography Basics & Composition", "Creating Infographics & Memes", "Brand Visual Guidelines"] },
+      { title: "Module 4: Social Media Management", topics: ["Platform Specific Strategies (Instagram, LinkedIn, X)", "Community Management & Engagement", "Scheduling Tools (Buffer, Hootsuite)", "Navigating Platform Algorithms"] },
+      { title: "Module 5: Video Content & Podcasting", topics: ["Scriptwriting for Short-Form Video (TikTok/Reels)", "Shooting & Editing Basics on Mobile (CapCut)", "Starting a Podcast: Audio Recording & Hosting", "Live Streaming Strategies"] },
+      { title: "Module 6: Analytics & Monetization", topics: ["Tracking Engagement Rates & Reach", "Monetization: Sponsorships, Ads & Affiliate Marketing", "Building a Personal Brand Portfolio", "Pitching to Brands & Agencies"] }
     ]
   },
   {
     slug: "meta-advertising-and-marketing",
     title: "META Advertising and Marketing",
-    category: "Digital Media Technology",
+    category: "Digital media technology",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
     description: "Master advertising on Meta platforms including Facebook and Instagram to drive high ROI.",
     features: ["Facebook Ads", "Instagram Ads", "Retargeting", "Conversion Tracking"],
     curriculum: [
-      { title: "Module 1: Meta Ads Fundamentals", topics: ["Ad Manager Overview", "Campaign Objectives", "Audience Targeting"] }
+      { title: "Module 1: Introduction to Meta Ecosystem & Business Manager", topics: ["Overview of Facebook & Instagram Ads", "Setting up Meta Business Manager", "Navigating the Ads Manager Dashboard", "Understanding Campaign Structure (Campaign, Ad Set, Ad)"] },
+      { title: "Module 2: Campaign Objectives & Facebook Pixel Setup", topics: ["Choosing the Right Campaign Objective", "Setting up the Facebook Pixel & Event Tracking", "Understanding Aggregated Event Measurement", "Budgeting Strategies (CBO vs ABO)"] },
+      { title: "Module 3: Advanced Audience Targeting & Lookalikes", topics: ["Core Audiences: Demographics, Interests & Behaviors", "Creating Custom Audiences from Data Sources", "Lookalike Audiences & Scaling Strategies", "Audience Overlap & Exclusion Rules"] },
+      { title: "Module 4: Ad Creatives, Formats & Copywriting", topics: ["Single Image, Carousel & Video Ad Formats", "Writing High-Converting Ad Copy", "Designing Creatives that Stop the Scroll", "Dynamic Creative Optimization (DCO)"] },
+      { title: "Module 5: Retargeting Strategies & Conversion API", topics: ["Building Effective Retargeting Funnels", "Implementing the Conversions API (CAPI)", "Overcoming iOS 14.5+ Data Loss", "Dynamic Product Ads (DPA) for E-commerce"] },
+      { title: "Module 6: Analytics, Reporting & Optimization", topics: ["Understanding Key Metrics (ROAS, CPA, CTR, CPM)", "A/B Testing (Split Testing) Variables", "Scaling Winning Campaigns Profitably", "Automated Rules & Custom Reports"] }
     ]
   },
   {
     slug: "google-advertising-and-marketing",
     title: "Google Advertising and Marketing",
-    category: "Digital Media Technology",
+    category: "Digital media technology",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
     description: "Learn Google Ads and SEM strategies to maximize search visibility and conversions.",
     features: ["Search Ads", "Display Ads", "Google Analytics", "Keyword Planning"],
     curriculum: [
-      { title: "Module 1: Google Ads Essentials", topics: ["Search Network Basics", "Keyword Match Types", "Ad Extensions"] }
+      { title: "Module 1: Search Engine Marketing (SEM) Fundamentals", topics: ["How Google Search works", "SEO vs SEM Differences", "The Google Ads Auction System", "Understanding Quality Score & Ad Rank"] },
+      { title: "Module 2: Google Ads Account Setup & Keyword Research", topics: ["Creating and Structuring a Google Ads Account", "Keyword Match Types (Broad, Phrase, Exact)", "Negative Keywords & Search Terms Report", "Using Google Keyword Planner & Competitor Research"] },
+      { title: "Module 3: Search Network Campaigns & Bidding Strategies", topics: ["Creating Highly Relevant Search Campaigns", "Manual CPC vs Automated Smart Bidding", "Maximizing Clicks, Conversions, & Target CPA/ROAS", "Creating Ad Extensions (Sitelinks, Callouts, Structured Snippets)"] },
+      { title: "Module 4: Display Network, Video (YouTube) & Shopping Ads", topics: ["Setting up Google Display Network (GDN) Campaigns", "Responsive Display Ads & Audience Targeting", "YouTube TrueView, Bumper & In-Stream Ads", "Google Merchant Center & Performance Max (PMax)"] },
+      { title: "Module 5: Conversion Tracking & Google Analytics Integration", topics: ["Setting up Google Tag Manager (GTM)", "Tracking Form Submissions & Purchases", "Linking Google Ads with GA4", "Understanding Attribution Models"] },
+      { title: "Module 6: Optimization, Quality Score & A/B Testing", topics: ["Improving Ad Relevance & Landing Page Experience", "A/B Testing Ad Copy & Landing Pages", "Identifying & Fixing Wasted Ad Spend", "Generating Performance Reports & Insights"] }
     ]
   },
   {
     slug: "business-consultant",
     title: "Business Consultant",
-    category: "Management",
+    category: "Management Certifications",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
     description: "Develop skills to advise organizations on strategic growth, operations, and restructuring.",
     features: ["Strategic Planning", "Market Analysis", "Financial Advisory", "Problem Solving"],
     curriculum: [
-      { title: "Module 1: Introduction to Consulting", topics: ["Consulting Frameworks", "Client Relationship Management"] }
+      { title: "Module 1: Introduction to Management Consulting", topics: ["Consulting Frameworks (SWOT, PESTLE, Porter's Five Forces)", "The Consulting Process & Lifecycle", "Problem Solving & Hypothesis-Driven Analysis", "Client Relationship Management (CRM)"] },
+      { title: "Module 2: Market Analysis & Competitive Strategy", topics: ["Conducting Market Research & Feasibility Studies", "Competitive Benchmarking & Gap Analysis", "Go-To-Market (GTM) Strategies", "Growth Strategy & Market Expansion"] },
+      { title: "Module 3: Financial Advisory & Operational Efficiency", topics: ["Financial Statement Analysis & KPI Tracking", "Cost Reduction & Process Optimization", "Lean Management & Six Sigma Basics", "Business Model Innovation"] },
+      { title: "Module 4: Organizational Change & Restructuring", topics: ["Change Management Frameworks (Kotter's 8-Step)", "Navigating Mergers & Acquisitions (M&A)", "Cultural Transformation & Employee Buy-In", "Stakeholder Management & Alignment"] },
+      { title: "Module 5: Digital Transformation & Strategy", topics: ["Assessing Digital Maturity of Organizations", "Implementing Automation & AI in Business", "Data-Driven Decision Making & BI Tools", "Managing IT and Tech Strategy Transformations"] },
+      { title: "Module 6: Capstone Consulting Project", topics: ["Executing a Live Client Case Study", "Data Gathering, Analysis & Synthesis", "Creating Executive Presentations (Slide Deck)", "Delivering the Final Consulting Pitch & Recommendations"] }
     ]
   },
   {
     slug: "human-resource",
     title: "Human Resource",
-    category: "Management",
+    category: "Management Certifications",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
     description: "Learn modern HR practices, recruitment strategies, and organizational behavior.",
     features: ["Recruitment", "Employee Relations", "HR Analytics", "Compliance"],
     curriculum: [
-      { title: "Module 1: Core HR Practices", topics: ["Talent Acquisition", "Onboarding", "Performance Management"] }
+      { title: "Module 1: Strategic Human Resource Management", topics: ["Evolution & Role of Modern HR", "Aligning HR Strategy with Business Goals", "Workforce Planning & Talent Forecasting", "Diversity, Equity & Inclusion (DEI) Fundamentals"] },
+      { title: "Module 2: Talent Acquisition & Employer Branding", topics: ["End-to-End Recruitment Lifecycle", "Writing Job Descriptions & Screening Resumes", "Behavioral & Competency-Based Interviewing", "Building a Strong Employer Brand & Culture"] },
+      { title: "Module 3: Employee Relations & Engagement", topics: ["Onboarding & Orientation Best Practices", "Employee Engagement Strategies & eNPS", "Conflict Resolution & Grievance Handling", "Fostering a Positive Organizational Culture"] },
+      { title: "Module 4: Performance Management & Compensation", topics: ["Designing KPI & OKR Frameworks", "Conducting Effective Performance Appraisals", "Compensation, Benefits & Payroll Structuring", "Reward & Recognition Programs"] },
+      { title: "Module 5: Labor Laws & Statutory Compliance", topics: ["Understanding Local & National Labor Laws", "Workplace Safety & OSHA Regulations", "Handling Terminations & Exit Interviews", "HR Ethics, Data Privacy & Confidentiality"] },
+      { title: "Module 6: HR Analytics & HRIS Implementation", topics: ["Introduction to HR Information Systems (HRIS)", "Tracking HR Metrics (Turnover, Cost-per-Hire)", "Predictive Analytics for Talent Retention", "Capstone: Designing an End-to-End HR Strategy for a Startup"] }
     ]
   }
 ];
 
-export function getCourseBySlug(slug: string): Course | undefined {
+export function getCourseBySlug(slug: string): Certification | undefined {
   const normalizedSlug = decodeURIComponent(slug).toLowerCase().replace(/[\s_]+/g, '-');
   return courses.find(course => course.slug === normalizedSlug);
 }
-

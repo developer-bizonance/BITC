@@ -28,24 +28,24 @@ const initialCoursesData: Record<string, CourseCardItem[]> = {
   "Information Technology": [
     { title: "MERN Stack", duration: "6 Months", icon: Database, image: "/MERN.jpg", fees: "₹36,000" },
     { title: "MEAN Stack", duration: "6 Months", icon: Database, image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
-    { title: "Full Stack Java", duration: "6 Months", icon: Coffee, image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
-    { title: "Full Stack Python", duration: "6 Months", icon: Terminal, image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
+    { title: "Full stack java", duration: "6 Months", icon: Coffee, image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
+    { title: "Full stack python", duration: "6 Months", icon: Terminal, image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
     { title: "AI & Machine Learning", duration: "6 Months", icon: BrainCircuit, image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "Top Rated" },
     { title: "Data Science", duration: "6 Months", icon: BarChart, image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "High Demand" },
     { title: "Complete DevOps & Cloud Computing", duration: "6 Months", icon: Cloud, image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "AWS / Azure" },
   ],
-  "Digital Media Technology": [
+  "Digital media technology": [
     { title: "META Advertising and Marketing", duration: "6 Months", icon: TrendingUp, image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
     { title: "Google Advertising and Marketing", duration: "6 Months", icon: BarChart, image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
     { title: "Digital Marketing", duration: "3 Months", icon: TrendingUp, image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "Placement Assistance" },
   ],
-  "Management Programs": [
+  "Management Certifications": [
     { title: "Business Analytics", duration: "6 Months", icon: PieChart, image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
     { title: "Finance", duration: "6 Months", icon: Landmark, image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
     { title: "HR", duration: "3 Months", icon: Users, image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
     { title: "Sales", duration: "3 Months", icon: TrendingUp, image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800&auto=format&fit=crop", fees: "₹36,000" },
   ],
-  "Design Programs": [
+  "Design Certifications": [
     { title: "UI/UX Design", duration: "6 Months", icon: LayoutTemplate, image: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "Figma & Prototyping" },
     { title: "Graphic Design", duration: "3 Months", icon: PenTool, image: "https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "Adobe Suite" },
     { title: "Motion Graphics", duration: "3 Months", icon: Video, image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop", fees: "₹36,000", badge: "After Effects" },
@@ -56,9 +56,9 @@ const initialCoursesData: Record<string, CourseCardItem[]> = {
 
 const categoryRoutes: Record<string, string> = {
   "Information Technology": "/courses/it",
-  "Digital Media Technology": "/courses/digital-media",
-  "Management Programs": "/courses/management",
-  "Design Programs": "/courses/design",
+  "Digital media technology": "/courses/digital-media",
+  "Management Certifications": "/courses/management",
+  "Design Certifications": "/courses/design",
 };
 
 const getApiUrl = () => {
@@ -143,7 +143,7 @@ export default function FeaturedCertifications() {
       <div className="flex justify-start mb-5 overflow-x-auto pb-2">
         <TabsList className="bg-transparent p-0 gap-3">
           {Object.keys(coursesData).map((category) => (
-            <TabsTrigger key={category} value={category} className="cursor-pointer rounded-full px-6 py-2.5 bg-gray-100 text-gray-600 hover:bg-gray-200 data-active:bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] data-active:text-white data-active:shadow-md transition-all">
+            <TabsTrigger key={category} value={category} className="cursor-pointer rounded-full px-6 py-2.5 bg-gray-100 text-gray-600 hover:bg-gray-200 data-active:bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] data-active:text-black data-active:shadow-md transition-all">
               {category}
             </TabsTrigger>
           ))}
@@ -213,7 +213,7 @@ export default function FeaturedCertifications() {
                       </div>
                     </div>
 
-                    {/* Bottom Section: Certification Fees & View Program Button */}
+                    {/* Bottom Section: Certification Fees & View Certification Button */}
                     <div className="mt-auto pt-2.5 border-t border-slate-100 space-y-2">
                       <div className="flex items-center justify-between text-xs text-slate-600">
                         <span className="font-medium text-slate-500">Certification Fees:</span>
@@ -223,8 +223,8 @@ export default function FeaturedCertifications() {
                       </div>
 
                       <Link href={`/courses/${course.title.toLowerCase().replace(/ & /g, '-').replace(/[\/\s]+/g, '-')}`} className="block w-full">
-                        <Button className="w-full h-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:opacity-90 text-white font-medium text-xs transition-all duration-300 shadow-sm cursor-pointer flex items-center justify-center gap-2 group/btn">
-                          <span>View Program</span>
+                        <Button className="w-full h-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:opacity-90 text-black font-medium text-xs transition-all duration-300 shadow-sm cursor-pointer flex items-center justify-center gap-2 group/btn">
+                          <span>View Certification</span>
                           <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
                         </Button>
                       </Link>
@@ -238,8 +238,8 @@ export default function FeaturedCertifications() {
             {hasMore && (
               <div className="flex justify-center mt-10">
                 <Link href={categoryRoutes[category] || "/courses"}>
-                  <Button variant="outline" className="rounded-full px-8 py-5 bg-transparent border-2 border-amber-500 text-amber-600 hover:bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:text-white hover:border-transparent font-medium transition-all duration-300 flex items-center gap-2.5 text-sm md:text-base cursor-pointer shadow-none">
-                    <span>See More Certifications</span>
+                  <Button variant="outline" className="rounded-full px-8 py-5 bg-transparent border-2 border-amber-500 text-amber-600 hover:bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:text-black hover:border-transparent font-medium transition-all duration-300 flex items-center gap-2.5 text-sm md:text-base cursor-pointer shadow-none">
+                    <span>See more certifications</span>
                     <ArrowRight className="w-5 h-5" />
                   </Button>
                 </Link>

@@ -35,7 +35,7 @@ export default function StudentConsultingCenter() {
             <Dialog>
               <DialogTrigger render={
                 <button className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-900 text-lg font-medium flex items-center justify-center hover:opacity-90 transition-all shadow-lg shadow-orange-500/20 hover:-translate-y-0.5 cursor-pointer">
-                  Book Your Consultation <ArrowRight className="ml-2 w-5 h-5" />
+                  Book your consultation <ArrowRight className="ml-2 w-5 h-5" />
                 </button>
               } />
               <DialogContent className="sm:max-w-md bg-white border border-gray-100 p-6 md:p-8 rounded-3xl">
@@ -55,7 +55,7 @@ export default function StudentConsultingCenter() {
       <section className="py-20 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">How We Can Help <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">You</span></h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">How we can help <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">You</span></h2>
             <p className="text-gray-600 max-w-2xl mx-auto text-lg">We provide comprehensive support at every stage of your educational and professional journey.</p>
           </div>
 
@@ -63,7 +63,7 @@ export default function StudentConsultingCenter() {
             {[
               {
                 icon: Target,
-                title: "Career Path Mapping",
+                title: "Career path mapping",
                 desc: "We analyze your strengths, interests, and background to recommend the most suitable career domains."
               },
               {

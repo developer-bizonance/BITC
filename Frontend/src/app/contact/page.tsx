@@ -7,15 +7,15 @@ import { Mail, Phone, MapPin, Send, MessageSquare, CheckCircle2, AlertCircle, Lo
 const DEFAULT_ENQUIRY_TYPES = [
   "Academic Collaboration (MOU)",
   "Technical Workshop",
-  "Faculty Development Program (FDP)",
+  "Faculty Development Certification (FDP)",
   "Industry Visit",
   "Corporate Training",
   "Employee Upskill",
-  "Leadership Program",
+  "Leadership Certification",
   "Hiring Partners / Industry Partnership",
   "Placement & Student Recruitment",
   "Scholarship Application",
-  "Course & Certification Inquiry",
+  "Certification & Certification Inquiry",
   "Other Enquiry"
 ];
 
@@ -60,15 +60,15 @@ export default function ContactPage() {
         return "";
 
       case "email":
-        if (!value.trim()) return "Email address is required.";
+        if (!value.trim()) return "Email Id is required.";
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!emailRegex.test(value.trim())) return "Please enter a valid email address (e.g. name@gmail.com).";
+        if (!emailRegex.test(value.trim())) return "Please enter a valid Email Id (e.g. name@gmail.com).";
         return "";
 
       case "phone":
         const cleanPhone = value.replace(/[^0-9]/g, "");
-        if (!value.trim()) return "Phone number is required.";
-        if (cleanPhone.length !== 10) return "Phone number must be exactly 10 digits.";
+        if (!value.trim()) return "Mobile number is required.";
+        if (cleanPhone.length !== 10) return "Mobile number must be exactly 10 digits.";
         if (!/^[6-9]\d{9}$/.test(cleanPhone)) return "Mobile number must start with 6, 7, 8, or 9.";
         return "";
 
@@ -166,19 +166,19 @@ export default function ContactPage() {
               <br />
               <span className="text-[#111]">We're here to help.</span>
             </h1>
-            <p className="mt-4 max-w-xl text-sm leading-relaxed text-[#666] sm:mt-5 sm:text-base lg:text-lg">
-              Whether you have a question about our programs, need career guidance, or want to explore partnership opportunities — our team is ready to assist you.
+            <p className="mt-4 max-w-xl mx-auto lg:mx-0 text-sm leading-relaxed text-[#666] sm:mt-5 sm:text-base lg:text-lg">
+              Whether you have a question about our certifications, need career guidance, or want to explore partnership opportunities — our team is ready to assist you.
             </p>
-            <div className="mt-6 flex flex-wrap justify-center gap-2.5 sm:mt-7 sm:gap-3 lg:justify-start">
-              <a href="https://wa.me/918956727311?text=Hello%2C%20I%20want%20to%20get%20in%20touch%20with%20BITC" target="_blank" rel="noreferrer" className="group flex items-center gap-2 rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-[#111827] shadow-sm transition-shadow duration-200 hover:shadow-md sm:px-6 sm:py-3">
-                <svg viewBox="0 0 32 32" width="18" height="18" fill="#25D366" aria-hidden="true">
-                  <path d="M16.001 3C9.007 3 3 9.007 3 16.001c0 2.813.92 5.412 2.482 7.512L3.5 29l5.653-1.955A12.94 12.94 0 0 0 16 29c6.994 0 13-6.006 13-13S22.995 3 16.001 3zm0 23.6a10.55 10.55 0 0 1-5.4-1.5l-.387-.23-3.354 1.16 1.128-3.267-.253-.4A10.56 10.56 0 1 1 26.6 16c0 5.85-4.75 10.6-10.599 10.6zm5.79-7.94c-.318-.159-1.884-.93-2.176-1.037-.292-.107-.505-.159-.717.16-.212.318-.823 1.036-1.009 1.249-.186.212-.372.24-.69.08-.318-.159-1.343-.495-2.558-1.577-.945-.843-1.583-1.884-1.769-2.203-.186-.318-.02-.49.139-.649.143-.142.318-.372.478-.557.16-.186.212-.318.318-.53.106-.212.053-.398-.026-.557-.08-.16-.717-1.729-.983-2.368-.259-.622-.523-.717-.548l-.611-.011c-.212 0-.557.08-.849.398-.292.318-1.113 1.089-1.113 2.657 0 1.567 1.14 3.083 1.299 3.295.159.212 2.245 3.43 5.44 4.81.76.328 1.353.524 1.815.671.762.243 1.457.209 2.006.127.612-.091 1.884-.771 2.15-1.516.265-.744.265-1.383.186-1.516-.08-.132-.292-.212-.61-.371z"></path>
+            <div className="mt-6 flex flex-wrap justify-center gap-2.5 sm:mt-7 sm:gap-3 lg:justify-start animate-in fade-in slide-in-from-bottom-4 duration-700 delay-[300ms] fill-mode-both">
+              <a href="https://wa.me/918956727311?text=Hello%2C%20I%20want%20to%20get%20in%20touch%20with%20BITC" target="_blank" rel="noreferrer" className="group flex items-center gap-2 rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-[#111827] shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 sm:px-6 sm:py-3">
+                <svg viewBox="0 0 32 32" width="18" height="18" fill="#25D366" aria-hidden="true" className="shrink-0">
+                  <path d="M16.001 3C9.007 3 3 9.007 3 16.001c0 2.813.92 5.412 2.482 7.512L3.5 29l5.653-1.955A12.94 12.94 0 0 0 16 29c6.994 0 13-6.006 13-13S22.995 3 16.001 3zm0 23.6a10.55 10.55 0 0 1-5.4-1.5l-.387-.23-3.354 1.16 1.128-3.267-.253-.4A10.56 10.56 0 1 1 26.6 16c0 5.85-4.75 10.6-10.599 10.6zm5.79-7.94c-.318-.159-1.884-.93-2.176-1.037-.292-.107-.505-.159-.717.16-.212.318-.823 1.036-1.009 1.249-.186.212-.372.24-.69.08-.318-.159-1.343-.495-2.558-1.577-.945-.843-1.583-1.884-1.769-2.203-.186-.318-.02-.49.139-.649.143-.142.318-.372.478-.557.16-.186.212-.318.318-.53.106-.212.053-.398-.026-.557-.08-.16-.717-1.729-.983-2.368-.259-.622-.523-.538-.717-.548l-.611-.011c-.212 0-.557.08-.849.398-.292.318-1.113 1.089-1.113 2.657 0 1.567 1.14 3.083 1.299 3.295.159.212 2.245 3.43 5.44 4.81.76.328 1.353.524 1.815.671.762.243 1.457.209 2.006.127.612-.091 1.884-.771 2.15-1.516.265-.744.265-1.383.186-1.516-.08-.132-.292-.212-.61-.371z"></path>
                 </svg> Chat with us
               </a>
-              <a href="tel:+918956727311" className="group flex items-center gap-2 rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-[#111827] shadow-sm transition-shadow duration-200 hover:shadow-md sm:px-6 sm:py-3">
+              <a href="tel:+918956727311" className="group flex items-center gap-2 rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-[#111827] shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 sm:px-6 sm:py-3">
                 <Phone className="w-[15px] h-[15px] text-[#f97316]" /> Call us
               </a>
-              <a href="mailto:info@bizonance.in" className="group flex items-center gap-2 rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-[#111827] shadow-sm transition-shadow duration-200 hover:shadow-md sm:px-6 sm:py-3">
+              <a href="mailto:info@bizonance.in" className="group flex items-center gap-2 rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-[#111827] shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 sm:px-6 sm:py-3">
                 <Mail className="w-[15px] h-[15px] text-[#2f55d4]" /> Email us
               </a>
             </div>
@@ -192,7 +192,7 @@ export default function ContactPage() {
       </section>
 
       {/* 2. Form & Cards Section */}
-      <section className="bg-[#f5f5f5] px-4 py-8 sm:px-6 sm:py-16">
+      <section className="bg-white px-4 py-8 sm:px-6 sm:py-16 border-t border-slate-100">
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 text-center sm:mb-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <h2 className="mt-4 text-2xl font-bold text-[#111] sm:mt-5 sm:text-4xl md:text-5xl">Contact <span className="bg-gradient-to-r from-[#ff7b00] to-[#f4b400] bg-clip-text text-transparent">us</span></h2>
@@ -239,7 +239,7 @@ export default function ContactPage() {
                     <input
                       required
                       type="text"
-                      placeholder="Enter your name"
+                      placeholder="Enter your full name"
                       className={`w-full rounded-xl border px-4 py-3 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100 ${fieldErrors.fullName ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-white'}`}
                       value={formData.fullName}
                       onChange={(e) => handleChange("fullName", e.target.value)}
@@ -263,7 +263,7 @@ export default function ContactPage() {
                       {fieldErrors.email && <p className="text-xs text-red-500 font-medium">{fieldErrors.email}</p>}
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-bold text-slate-700">Phone <span className="text-red-500">*</span></label>
+                      <label className="text-xs font-bold text-slate-700">Contact <span className="text-red-500">*</span></label>
                       <input
                         required
                         type="tel"
@@ -344,7 +344,7 @@ export default function ContactPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="group flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-yellow-400 py-3.5 text-sm font-bold text-white shadow-lg shadow-orange-300/40 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl sm:py-4 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                    className="group flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-yellow-400 py-3.5 text-sm font-medium text-black shadow-lg shadow-orange-300/40 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl sm:py-4 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                   >
                     {loading ? (
                       <>
@@ -370,12 +370,12 @@ export default function ContactPage() {
             <div className="flex h-full flex-col gap-3 sm:gap-4 lg:w-[360px]">
 
               <div className="flex items-start gap-3.5 rounded-2xl border border-gray-200/80 bg-white p-4 shadow-md sm:gap-4 sm:p-5 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-[100ms]">
-                <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white shadow-md border border-gray-100/80 sm:h-12 sm:w-12 text-orange-500">
-                  <MapPin className="w-5 h-5" />
+                <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white shadow-md border border-gray-100/80 sm:h-12 sm:w-12 p-2.5 sm:p-2.5">
+                  <Image src="/icons/map.png" alt="Corporate Office" width={48} height={48} className="h-full w-full object-contain" />
                 </div>
                 <div>
                   <p className="mb-1 text-xs font-bold text-[#888]">Corporate Office</p>
-                  <p className="text-sm leading-relaxed font-semibold text-[#111]">Bizonance Industrial Training Centre</p>
+                  <p className="text-sm leading-relaxed font-semibold text-[#111]">BIZONANCE industrial training centre</p>
                   <p className="text-sm leading-relaxed text-[#555]">Near Delhi Public School, Ravi Kiran Colony, Saturna, Amravati MH 444605</p>
                   <a href="https://www.google.com/maps/dir/?api=1&destination=BIZONANCE+INDIA+PVT.+LTD.+Near+Delhi+Public+School+Saturna+Amravati" target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-orange-50 border border-orange-200/80 px-3 py-1.5 text-xs font-bold text-orange-600 hover:bg-orange-100 transition-colors">
                     <Navigation className="w-3.5 h-3.5" />
@@ -386,8 +386,8 @@ export default function ContactPage() {
               </div>
 
               <div className="flex items-start gap-3.5 rounded-2xl border border-gray-200/80 bg-white p-4 shadow-md sm:gap-4 sm:p-5 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-[180ms]">
-                <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white shadow-md border border-gray-100/80 sm:h-12 sm:w-12 text-[#f97316]">
-                  <Phone className="w-5 h-5" />
+                <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white shadow-md border border-gray-100/80 sm:h-12 sm:w-12 p-2.5 sm:p-2.5">
+                  <Image src="/icons/call.png" alt="Customer Support" width={48} height={48} className="h-full w-full object-contain" />
                 </div>
                 <div>
                   <p className="mb-1 text-xs font-bold text-[#888]">Customer Support</p>
@@ -396,8 +396,8 @@ export default function ContactPage() {
               </div>
 
               <div className="flex items-start gap-3.5 rounded-2xl border border-gray-200/80 bg-white p-4 shadow-md sm:gap-4 sm:p-5 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-[260ms]">
-                <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white shadow-md border border-gray-100/80 sm:h-12 sm:w-12 text-[#2f55d4]">
-                  <Mail className="w-5 h-5" />
+                <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white shadow-md border border-gray-100/80 sm:h-12 sm:w-12 p-2.5 sm:p-2.5">
+                  <Image src="/icons/Mail.png" alt="Official Email" width={48} height={48} className="h-full w-full object-contain" />
                 </div>
                 <div>
                   <p className="mb-1 text-xs font-bold text-[#888]">Official Email</p>
@@ -406,8 +406,8 @@ export default function ContactPage() {
               </div>
 
               <div className="flex items-start gap-3.5 rounded-2xl border border-gray-200/80 bg-white p-4 shadow-md sm:gap-4 sm:p-5 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-[340ms]">
-                <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white shadow-md border border-gray-100/80 sm:h-12 sm:w-12 text-slate-700">
-                  <Clock className="w-5 h-5" />
+                <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white shadow-md border border-gray-100/80 sm:h-12 sm:w-12 p-1 sm:p-1.5">
+                  <Image src="/icons/clock.png" alt="Working Hours" width={48} height={48} className="h-full w-full object-contain" />
                 </div>
                 <div>
                   <p className="mb-1 text-xs font-bold text-[#888]">Working Hours</p>

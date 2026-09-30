@@ -1,3 +1,5 @@
+"use client";
+
 import { Button as ButtonPrimitive } from "@base-ui/react/button"
 import { cva, type VariantProps } from "class-variance-authority"
 
@@ -8,7 +10,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-primary-foreground hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] shadow-sm border-none font-medium",
+        default: "bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] shadow-sm border-none font-medium",
         outline:
           "bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:bg-input/30 dark:hover:bg-input/50",
         secondary:
@@ -44,11 +46,12 @@ function Button({
   className,
   variant = "default",
   size = "default",
+  "data-slot": dataSlot,
   ...props
-}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
+}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants> & { "data-slot"?: string }) {
   return (
     <ButtonPrimitive
-      data-slot="button"
+      data-slot={dataSlot || "button"}
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     />

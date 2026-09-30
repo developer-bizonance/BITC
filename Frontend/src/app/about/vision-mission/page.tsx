@@ -89,7 +89,7 @@ export default function VisionMissionPage() {
             <div className="lg:col-span-2 lg:sticky lg:top-28">
               <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">Our Mission</p>
               <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 leading-tight">
-                Empowering Careers Through <span className="text-primary">Expert-Led</span> Learning
+                Empowering careers through <span className="text-primary">Expert-Led</span> Learning
               </h2>
               <p className="text-gray-600 text-lg leading-relaxed mb-6">
                 Our mission is to provide practical, industry-oriented education that enables students and professionals to build successful careers through expert mentorship, hands-on learning, internships, and career-focused development.
@@ -128,8 +128,8 @@ export default function VisionMissionPage() {
       <section className="py-20 md:py-28 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-16">
-            <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">What We Stand For</p>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">The Values That Define <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC</span></h2>
+            <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">What we stand for</p>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">The values that define <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC</span></h2>
             <p className="text-gray-600 max-w-[600px] mx-auto text-lg">Six principles that shape every decision, program, and outcome.</p>
           </div>
 
@@ -206,8 +206,8 @@ export default function VisionMissionPage() {
                </div>
                <ul className="space-y-3">
                  {[
-                   { text: "Build Live Projects", icon: Lightbulb },
-                   { text: "Gain Internship Experience", icon: Briefcase }
+                   { text: "Build live projects", icon: Lightbulb },
+                   { text: "Gain internship experience", icon: Briefcase }
                  ].map((item, i) => (
                     <li key={i} className="flex items-center gap-3 bg-slate-50/80 hover:bg-purple-50/50 transition-colors p-3.5 rounded-xl border border-transparent hover:border-purple-100">
                       <item.icon className="w-5 h-5 text-purple-500 flex-shrink-0" />
@@ -230,7 +230,7 @@ export default function VisionMissionPage() {
                <ul className="space-y-3">
                  {[
                    { text: "Earn Certification", icon: Award },
-                   { text: "Develop Professional Skills", icon: Sparkles },
+                   { text: "Develop professional skills", icon: Sparkles },
                    { text: "Launch a Successful Career", icon: Target }
                  ].map((item, i) => (
                     <li key={i} className="flex items-center gap-3 bg-slate-50/80 hover:bg-green-50/50 transition-colors p-3.5 rounded-xl border border-transparent hover:border-green-100">
@@ -259,7 +259,7 @@ export default function VisionMissionPage() {
               <div className="grid sm:grid-cols-2 gap-4">
                 {[
                   "Learning from Industry Experts",
-                  "Practical Skill Development",
+                  "Practical skill development",
                   "Hands-on Project Experience",
                   "Internship Opportunities",
                   "Career Mentorship",
@@ -308,7 +308,7 @@ export default function VisionMissionPage() {
       {/* ── 7. PREPARING LEARNERS FOR TOMORROW ── */}
       <section className="py-20 md:py-28 bg-white">
         <div className="container max-w-[1000px] mx-auto px-4 text-center">
-          <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">Why It Matters</p>
+          <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">Why it matters</p>
           <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">Preparing Learners for <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Tomorrow</span></h2>
           <p className="text-gray-600 text-xl leading-relaxed max-w-[750px] mx-auto">
             The future belongs to professionals who continuously learn, adapt, and innovate. BITC is committed to creating an environment where education, technology, and industry come together to shape successful careers and lifelong learners.

@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import { getCourseBySlug, Course } from "@/data/courses";
+import { getCourseBySlug, Certification } from "@/data/courses";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -21,7 +21,7 @@ interface PageProps {
   };
 }
 
-async function fetchCourse(slug: string): Promise<Course | null> {
+async function fetchCourse(slug: string): Promise<Certification | null> {
   const normalizedSlug = decodeURIComponent(slug).toLowerCase().replace(/[\s_]+/g, '-');
   
   // 1. Try Backend API first for live dynamic curriculum & details
@@ -94,7 +94,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       `${course.title} Certification Amravati`,
       `${course.category} Certification`,
       "BITC Training",
-      "BIZONANCE Industrial Training Centre",
+      "BIZONANCE industrial training centre",
     ],
     openGraph: {
       title: `${course.title} Certification | BIZONANCE Industrial Training Centre. (BITC) | Amravati`,
@@ -137,7 +137,7 @@ export default async function CoursePage({ params }: PageProps) {
               <div className="flex flex-wrap items-center gap-5 mb-8">
                 <div className="flex items-center gap-2">
                   <Clock className="w-4 h-4 text-orange-500" />
-                  <span className="text-sm font-semibold text-slate-700">{course.duration} Program</span>
+                  <span className="text-sm font-semibold text-slate-700">{course.duration} Certification</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Award className="w-4 h-4 text-orange-500" />
@@ -158,7 +158,7 @@ export default async function CoursePage({ params }: PageProps) {
               <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/10 via-blue-500/10 to-emerald-500/10 rounded-[2rem] blur-3xl pointer-events-none" />
               <Card className="bg-white border-slate-200/80 shadow-2xl shadow-slate-900/5 relative z-10 overflow-hidden rounded-[2rem]">
                 <CardContent className="p-8 md:p-10">
-                  {/* Course Feature Image */}
+                  {/* Certification Feature Image */}
 
 
                   {/* Certification Fees Banner */}
@@ -174,7 +174,7 @@ export default async function CoursePage({ params }: PageProps) {
 
                   <h3 className="text-xl md:text-2xl font-extrabold text-slate-900 mb-6 flex items-center gap-3">
                     <Sparkles className="w-6 h-6 text-orange-500" />
-                    Program Highlights
+                    Certification Highlights
                   </h3>
                   <ul className="space-y-3.5">
                     {Array.from(new Set([
@@ -199,7 +199,7 @@ export default async function CoursePage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* Course Content / Curriculum Section - PREMIUM REDESIGN */}
+      {/* Certification Content / Curriculum Section - PREMIUM REDESIGN */}
       <section id="curriculum" className="py-20 lg:py-28 bg-white relative overflow-hidden">
         <div className="container max-w-[1100px] mx-auto px-4 relative z-10">
           
@@ -230,7 +230,7 @@ export default async function CoursePage({ params }: PageProps) {
               </div>
               <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl text-xs font-medium text-slate-800">
                 <Rocket className="w-4 h-4 text-emerald-600" />
-                <span>Live Capstone Project</span>
+                <span>Live capstone project</span>
               </div>
             </div>
           </div>

@@ -167,7 +167,7 @@ export default function FeaturedEventBanner({ event }: FeaturedEventBannerProps)
 
               <Link
                 href={`/events/${event.id}`}
-                className="inline-flex items-center justify-center w-full sm:w-auto h-13 px-8 py-3 rounded-xl text-white text-base font-semibold transition-all hover:-translate-y-0.5 bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:shadow-lg hover:shadow-orange-400/30"
+                className="inline-flex items-center justify-center w-full sm:w-auto h-13 px-8 py-3 rounded-full text-black text-base font-semibold transition-all hover:-translate-y-0.5 bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:shadow-lg hover:shadow-orange-400/30"
               >
                 View Details
                 <ArrowRight className="w-4 h-4 ml-2" />

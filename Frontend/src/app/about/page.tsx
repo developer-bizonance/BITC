@@ -97,8 +97,8 @@ export default function AboutPage() {
               <div key={i} className="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 flex flex-col justify-center relative group overflow-hidden cursor-default">
                 <div className="absolute -right-4 -top-4 w-20 h-20 bg-primary/5 rounded-full group-hover:scale-150 transition-transform duration-500" />
                 <div className="flex items-center gap-4 relative z-10">
-                  <div className="w-10 h-10 shrink-0 rounded-full text-white flex items-center justify-center font-black text-lg shadow-sm bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">
-                    <CheckCircle2 className="w-5 h-5 text-white" />
+                  <div className="w-10 h-10 shrink-0 rounded-full text-black flex items-center justify-center font-black text-lg shadow-sm bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">
+                    <CheckCircle2 className="w-5 h-5 text-black" />
                   </div>
                   <h3 className="text-base md:text-[16px] font-bold text-slate-800 leading-tight">{item}</h3>
                 </div>
@@ -163,7 +163,7 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="order-1 lg:order-2">
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Who Can Join <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC?</span></h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Who can join <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC?</span></h2>
               <p className="text-sm text-gray-600 leading-relaxed mb-6">
                 Whether you are starting your career or looking to upgrade your skills, BITC provides learning opportunities tailored to your goals. Our programs are designed for individuals across various educational and professional backgrounds who are eager to bridge the gap between theory and practice.
               </p>
@@ -183,7 +183,7 @@ export default function AboutPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-[1100px] mx-auto text-left">
             {[
-              "Meet Industry Experts",
+              "Meet industry experts",
               "Practical Learning",
               "Hands-on Labs",
               "Live Projects",
@@ -196,7 +196,7 @@ export default function AboutPage() {
               <div key={i} className="bg-white p-5 md:p-6 rounded-2xl shadow-sm border-none hover:shadow-md transition-all duration-300 flex flex-col justify-center relative group overflow-hidden cursor-default">
                 <div className="absolute -right-4 -top-4 w-20 h-20 bg-primary/5 rounded-full group-hover:scale-150 transition-transform duration-500" />
                 <div className="flex items-center gap-4 relative z-10">
-                  <div className="w-10 h-10 shrink-0 rounded-full text-white flex items-center justify-center font-black text-lg shadow-sm bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">
+                  <div className="w-10 h-10 shrink-0 rounded-full text-black flex items-center justify-center font-black text-lg shadow-sm bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">
                     {i + 1}
                   </div>
                   <h3 className="text-base md:text-[17px] font-bold text-slate-800">{step}</h3>
@@ -216,7 +216,7 @@ export default function AboutPage() {
               { number: "10+", label: "Industry Partners" },
               { number: "10+", label: "Expert Mentors" },
               { number: "95%", label: "Placement Support" },
-              { number: "200+", label: "Live Projects Covered" },
+              { number: "200+", label: "Live projects covered" },
               { number: "10+", label: "Industry Workshops" }
             ].map((stat, i) => (
               <div key={i} className="p-6 bg-slate-50 rounded-2xl border border-slate-100/90 shadow-sm hover:bg-white hover:border-primary/60 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary/10 group flex flex-col items-center justify-center">
@@ -225,7 +225,7 @@ export default function AboutPage() {
                     {stat.number}
                   </span>
                 </div>
-                <div className="text-sm font-bold text-slate-800 capitalize leading-tight">{stat.label}</div>
+                <div className="text-sm font-bold text-slate-800  leading-tight">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -287,8 +287,8 @@ export default function AboutPage() {
             Join BITC and experience an education designed around industry, innovation, and career growth.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/courses" className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white font-semibold flex items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 text-lg">
-              Explore Programs
+            <Link href="/courses" className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-semibold flex items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 text-lg">
+              Explore Certifications
             </Link>
             <Link href="/contact" className="h-14 px-8 rounded-full bg-white text-slate-700 font-semibold flex items-center justify-center border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all text-lg">
               Contact Us

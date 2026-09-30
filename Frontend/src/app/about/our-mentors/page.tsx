@@ -30,12 +30,12 @@ interface MentorItem {
 }
 
 const defaultMentors: MentorItem[] = [
-  { name: "Rahul Sharma", role: "Senior Software Engineer", company: "Google", exp: "12+ Years", skills: ["React", "Node.js", "System Design"], area: "Full Stack Development", img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=800", thought: "\"The best code is the code you don't have to write.\"" },
-  { name: "Priya Patel", role: "Data Science Lead", company: "Microsoft", exp: "10+ Years", skills: ["Python", "TensorFlow", "SQL"], area: "Data Science & AI", img: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=800", thought: "\"Data without context is just noise. Focus on the insights.\"" },
-  { name: "Amit Verma", role: "Cloud Architect", company: "Amazon Web Services", exp: "14+ Years", skills: ["AWS", "Azure", "Kubernetes"], area: "Cloud Computing", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800", thought: "\"Architect for failure, and you'll never be surprised when it happens.\"" },
-  { name: "Sneha Gupta", role: "Information Security Consultant", company: "Deloitte", exp: "9+ Years", skills: ["Penetration Testing", "SIEM", "Compliance"], area: "Information Security", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=800", thought: "\"Security is a process, not a product. Always stay vigilant.\"" },
-  { name: "Vikram Reddy", role: "UX Design Director", company: "Adobe", exp: "11+ Years", skills: ["Figma", "User Research", "Prototyping"], area: "UI/UX Design", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=800", thought: "\"Design is how it works, not just how it looks and feels.\"" },
-  { name: "Neha Joshi", role: "Business Strategy Head", company: "McKinsey", exp: "13+ Years", skills: ["Strategy", "Analytics", "Leadership"], area: "Business & Management", img: "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?auto=format&fit=crop&q=80&w=800", thought: "\"Execution eats strategy for breakfast. Build things that matter.\"" },
+  { name: "Rahul Sharma", role: "Senior software engineer", company: "Google", exp: "12+ Years", skills: ["React", "Node.js", "System Design"], area: "Full stack development", img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=800", thought: "\"The best code is the code you don't have to write.\"" },
+  { name: "Priya Patel", role: "Data science lead", company: "Microsoft", exp: "10+ Years", skills: ["Python", "TensorFlow", "SQL"], area: "Data Science & AI", img: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=800", thought: "\"Data without context is just noise. Focus on the insights.\"" },
+  { name: "Amit Verma", role: "Cloud Architect", company: "Amazon web services", exp: "14+ Years", skills: ["AWS", "Azure", "Kubernetes"], area: "Cloud Computing", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800", thought: "\"Architect for failure, and you'll never be surprised when it happens.\"" },
+  { name: "Sneha Gupta", role: "Information security consultant", company: "Deloitte", exp: "9+ Years", skills: ["Penetration Testing", "SIEM", "Compliance"], area: "Information Security", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=800", thought: "\"Security is a process, not a product. Always stay vigilant.\"" },
+  { name: "Vikram Reddy", role: "UX design director", company: "Adobe", exp: "11+ Years", skills: ["Figma", "User Research", "Prototyping"], area: "UI/UX Design", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=800", thought: "\"Design is how it works, not just how it looks and feels.\"" },
+  { name: "Neha Joshi", role: "Business strategy head", company: "McKinsey", exp: "13+ Years", skills: ["Strategy", "Analytics", "Leadership"], area: "Business & Management", img: "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?auto=format&fit=crop&q=80&w=800", thought: "\"Execution eats strategy for breakfast. Build things that matter.\"" },
 ];
 
 export default function OurMentorsPage() {
@@ -167,7 +167,7 @@ export default function OurMentorsPage() {
                       <Briefcase className="w-3.5 h-3.5 text-primary" />
                       <span className="text-[11px] font-bold">{mentor.exp}</span>
                     </div>
-                    <div className="w-8 h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:border-primary group-hover:text-white transition-all duration-300 hover:scale-105 cursor-pointer bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] shadow-sm">
+                    <div className="w-8 h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:border-primary group-hover:text-black transition-all duration-300 hover:scale-105 cursor-pointer bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] shadow-sm">
                       <ExternalLink className="w-4 h-4" />
                     </div>
                   </div>
@@ -189,7 +189,7 @@ export default function OurMentorsPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
               { title: "AI & Machine Learning", icon: Brain, color: "bg-purple-500/5 text-purple-600" },
-              { title: "Full Stack Development", icon: Code, color: "bg-blue-500/5 text-blue-600" },
+              { title: "Full stack development", icon: Code, color: "bg-blue-500/5 text-blue-600" },
               { title: "Data Science", icon: BarChart3, color: "bg-green-500/5 text-green-600" },
               { title: "Cloud Computing", icon: Cloud, color: "bg-sky-500/5 text-sky-600" },
               { title: "Information Security", icon: Shield, color: "bg-red-500/5 text-red-600" },
@@ -214,7 +214,7 @@ export default function OurMentorsPage() {
             Are you an industry professional who wants to give back? Join BITC as a mentor and shape the careers of the next generation.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/apply?role=Industry%20Expert%20%26%20Mentor" className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white font-semibold flex items-center gap-2 justify-center hover:shadow-xl transition-all text-lg shadow-orange-500/20">
+            <Link href="/apply?role=Industry%20Expert%20%26%20Mentor" className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-semibold flex items-center gap-2 justify-center hover:shadow-xl transition-all text-lg shadow-orange-500/20">
               Apply as Mentor <ArrowRight className="w-5 h-5" />
             </Link>
             <Link href="/contact" className="h-14 px-8 rounded-full bg-white text-slate-900 font-semibold flex items-center justify-center border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all text-lg shadow-sm">

@@ -12,6 +12,7 @@ async function main() {
       update: {
         fees: course.fees,
         price: course.price,
+        curriculum: course.curriculum,
       },
       create: {
         slug: course.slug,
@@ -22,6 +23,7 @@ async function main() {
         price: course.price,
         description: course.description,
         features: course.features,
+        curriculum: course.curriculum,
         image: course.image || "",
       }
     });

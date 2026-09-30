@@ -27,7 +27,7 @@ const sampleCertificates: Record<string, CertificateRecord> = {
   "BITC-2026-FS-1042": {
     id: "BITC-2026-FS-1042",
     studentName: "Rahul Sharma",
-    courseName: "Full Stack Web Development",
+    courseName: "Full stack web development",
     category: "Information Technology",
     issueDate: "January 15, 2026",
     completionDate: "January 10, 2026",
@@ -95,7 +95,7 @@ export default function CertificateVerificationPage() {
         setResult({
           id: query,
           studentName: "Certified BITC Graduate",
-          courseName: "Professional Certification Program",
+          courseName: "Professional certification certification",
           category: "Industrial Training",
           issueDate: "2026",
           completionDate: "2026",
@@ -123,7 +123,7 @@ export default function CertificateVerificationPage() {
         <div className="container max-w-[1100px] mx-auto px-4 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-extrabold mb-6">
             <ShieldCheck className="w-4 h-4 text-primary" />
-            <span>OFFICIAL CERTIFICATE VALIDATION</span>
+            <span>OFFICIAL certificate validation</span>
           </div>
 
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight mb-6 leading-tight">
@@ -157,7 +157,7 @@ export default function CertificateVerificationPage() {
               <Button
                 type="submit"
                 disabled={searching}
-                className="h-14 px-8 rounded-2xl bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white text-base font-extrabold hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] shadow-lg shadow-orange-500/20 border-0 transition-all shrink-0"
+                className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black text-base font-medium hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] shadow-lg shadow-orange-500/20 border-0 transition-all shrink-0"
               >
                 {searching ? (
                   <RefreshCw className="w-5 h-5 animate-spin" />
@@ -214,7 +214,7 @@ export default function CertificateVerificationPage() {
               </p>
               <Link href="/contact">
                 <Button variant="outline" className="rounded-full border-red-300 text-red-700 hover:bg-red-100 font-medium">
-                  Contact Support Desk
+                  Contact support desk
                 </Button>
               </Link>
             </Card>
@@ -245,7 +245,7 @@ export default function CertificateVerificationPage() {
                   </div>
                 </div>
 
-                {/* Main Student & Course Grid */}
+                {/* Main Student & Certification Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 my-8">
                   <div className="space-y-6">
                     <div className="flex items-start gap-3">
@@ -259,7 +259,7 @@ export default function CertificateVerificationPage() {
                     <div className="flex items-start gap-3">
                       <BookOpen className="w-5 h-5 text-primary shrink-0 mt-1" />
                       <div>
-                        <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Program / Course</span>
+                        <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Certification / Certification</span>
                         <span className="text-lg font-bold text-slate-800">{result.courseName}</span>
                         <span className="text-xs text-slate-500 block font-medium mt-0.5">{result.category}</span>
                       </div>
@@ -334,7 +334,7 @@ export default function CertificateVerificationPage() {
 
                     <Link href="/courses">
                       <Button className="rounded-full bg-slate-900 text-white font-medium hover:bg-slate-800 flex-1 sm:flex-none">
-                        Explore Programs
+                        Explore Certifications
                       </Button>
                     </Link>
                   </div>

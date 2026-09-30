@@ -37,14 +37,14 @@ export default async function ManagementCoursesPage() {
   }
 
   if (!dynamicCourses || dynamicCourses.length === 0) {
-    dynamicCourses = staticCourses.filter(c => c.category === "Management Programs");
+    dynamicCourses = staticCourses.filter(c => c.category === "Management Certifications");
   }
 
   const finalCourses = dynamicCourses.map((c: any) => {
     return {
       id: c.slug || c.title.toLowerCase().replace(/ & /g, '-').replace(/[\/\s]+/g, '-'),
       title: c.title,
-      tag: c.category || "Management Programs",
+      tag: c.category || "Management Certifications",
       duration: c.duration || "6 Months",
       fees: c.fees || "₹36,000",
       icon: Briefcase,
@@ -65,7 +65,7 @@ export default async function ManagementCoursesPage() {
               <span>BUSINESS & MANAGEMENT</span>
             </div>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
-              Management <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span> & Programs
+              Management <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span> & Certifications
             </h1>
             <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-8 font-medium max-w-2xl mx-auto">
               Equip yourself with practical business acumen, leadership skills, and strategic thinking to fast-track your corporate growth.
@@ -78,7 +78,7 @@ export default async function ManagementCoursesPage() {
               </div>
               <div className="flex items-center gap-2 text-slate-700 text-xs md:text-sm font-semibold bg-slate-50 px-4 py-2 rounded-full border border-slate-200/80 shadow-xs">
                 <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />
-                <span>Industry Case Studies</span>
+                <span>Industry case studies</span>
               </div>
               <div className="flex items-center gap-2 text-slate-700 text-xs md:text-sm font-semibold bg-slate-50 px-4 py-2 rounded-full border border-slate-200/80 shadow-xs">
                 <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />
@@ -89,7 +89,7 @@ export default async function ManagementCoursesPage() {
         </div>
       </section>
 
-      {/* Courses Grid */}
+      {/* Certifications Grid */}
       <section className="py-14 md:py-20 bg-white/70">
         <div className="container max-w-[1360px] mx-auto px-4">
 
@@ -166,8 +166,8 @@ export default async function ManagementCoursesPage() {
                     </div>
 
                     <Link href={`/courses/${course.id}`} className="block w-full">
-                      <Button className="w-full h-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:opacity-90 text-white font-medium text-xs transition-all duration-300 shadow-sm cursor-pointer flex items-center justify-center gap-2 group/btn">
-                        <span>View Program</span>
+                      <Button className="w-full h-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:opacity-90 text-black font-medium text-xs transition-all duration-300 shadow-sm cursor-pointer flex items-center justify-center gap-2 group/btn">
+                        <span>View Certification</span>
                         <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
                       </Button>
                     </Link>
@@ -191,7 +191,7 @@ export default async function ManagementCoursesPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { title: "Real Business Cases", desc: "Analyze actual market cases from Fortune 500 companies and startups.", icon: Briefcase },
+              { title: "Real business cases", desc: "Analyze actual market cases from Fortune 500 companies and startups.", icon: Briefcase },
               { title: "Executive Mentors", desc: "Get mentored by seasoned executives, marketing heads, and founders.", icon: GraduationCap },
               { title: "Live Ad Spend & Tools", desc: "Manage real budgets on Meta, Google, CRM, and analytics platforms.", icon: Target },
               { title: "Placement Leadership", desc: "Fast-track your entry into management and high-growth commercial roles.", icon: ArrowRight },

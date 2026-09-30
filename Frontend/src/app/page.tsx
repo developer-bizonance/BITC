@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import ConsultationForm from "@/components/ConsultationForm";
-import { ArrowRight, BookOpen, Building2, CheckCircle2, GraduationCap, Users, Briefcase, Star, Search, ChevronLeft, ChevronRight, PlayCircle, Shield, Clock, Award, TrendingUp, Sparkles, Target, Trophy, Monitor, Compass, UserCheck, Network, Code, Medal } from "lucide-react";
+import { ArrowRight, BookOpen, Building2, CheckCircle2, GraduationCap, Users, Briefcase, Star, Search, ChevronLeft, ChevronRight, PlayCircle, Shield, Clock, Award, TrendingUp, Sparkles, Target, Trophy, Monitor, Compass, UserCheck, Network, Code, Medal, Handshake } from "lucide-react";
 import type { Metadata } from "next";
 import FeaturedCertifications from "@/components/FeaturedCertifications";
 import AcademicPartners from "@/components/AcademicPartners";
@@ -46,7 +46,7 @@ export default function Home() {
 
             {/* Goals / Badges */}
             <div className="flex flex-wrap items-center gap-2 lg:gap-3 mb-6 lg:mb-8">
-              {["Learn", "Certificate", "Intern", "Get a job"].map((goal, i) => (
+              {["Learn", "Certified", "Intern", "Get a job"].map((goal, i) => (
                 <span key={i} className="px-3 py-1 lg:px-4 lg:py-1.5 rounded-full border border-gray-100 text-[12px] lg:text-[14px] font-medium text-gray-600 bg-white shadow-xs flex items-center gap-1.5 lg:gap-2 hover:border-primary/30 transition-colors">
                   <CheckCircle2 className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-orange-500" />
                   {goal}
@@ -55,8 +55,8 @@ export default function Home() {
             </div>
 
             <div className="flex flex-wrap items-center gap-3 lg:gap-4">
-              <Link href="#featured-certifications" className="h-11 sm:h-12 lg:h-14 px-6 sm:px-7 lg:px-9 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white text-sm sm:text-base lg:text-lg font-medium flex items-center justify-center hover:opacity-90 transition-all shadow-lg shadow-orange-500/25 hover:shadow-xl hover:-translate-y-0.5">
-                Explore Programs <ArrowRight className="ml-2 w-4 h-4 lg:w-5 lg:h-5" />
+              <Link href="#featured-certifications" className="h-11 sm:h-12 lg:h-14 px-6 sm:px-7 lg:px-9 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black text-sm sm:text-base lg:text-lg font-medium flex items-center justify-center hover:opacity-90 transition-all shadow-lg shadow-orange-500/25 hover:shadow-xl hover:-translate-y-0.5">
+                Explore Certifications <ArrowRight className="ml-2 w-4 h-4 lg:w-5 lg:h-5" />
               </Link>
               <Link href="/contact" className="h-11 sm:h-12 lg:h-14 px-6 sm:px-7 lg:px-9 rounded-full bg-gray-100 text-slate-700 text-sm sm:text-base lg:text-lg font-medium flex items-center justify-center hover:bg-gray-200 transition-all shadow-xs">
                 Contact Us
@@ -117,8 +117,8 @@ export default function Home() {
                 We believe financial constraints should never hold back true talent. Unlock your potential and let us fund your tech career journey.
               </p>
 
-              <Link href="/scholarships" className="inline-flex h-14 items-center justify-center rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] px-8 text-lg font-extrabold text-white shadow-lg hover:shadow-xl hover:scale-105 hover:shadow-orange-500/20 transition-all duration-300">
-                Check Eligibility Criteria <ArrowRight className="ml-2 w-5 h-5" />
+              <Link href="/scholarships" className="inline-flex h-14 items-center justify-center rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] px-8 text-lg font-extrabold text-black shadow-lg hover:shadow-xl hover:scale-105 hover:shadow-orange-500/20 transition-all duration-300">
+                Check eligibility criteria <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
             </div>
 
@@ -162,7 +162,7 @@ export default function Home() {
               },
               {
                 title: "Placement Assistance",
-                icon: Trophy,
+                icon: Handshake,
                 desc: "Receive end-to-end placement support including mock interviews and job referrals."
               },
               {
@@ -171,7 +171,7 @@ export default function Home() {
                 desc: "Earn certificates that validate your skills and make you competitive in the job market."
               },
               {
-                title: "Modern Learning Environment",
+                title: "Modern learning environment",
                 icon: Monitor,
                 desc: "Learn in well-equipped computer labs with access to the latest software and tools."
               },
@@ -183,8 +183,8 @@ export default function Home() {
             ].map((feature, i) => (
               <Card key={i} className="border border-gray-100 shadow-sm hover:shadow-md transition-shadow group bg-white">
                 <CardContent className="p-5 flex items-start gap-4">
-                  <div className="w-12 h-12 bg-primary/5 flex items-center justify-center rounded-xl shrink-0 group-hover:bg-primary group-hover:-translate-y-1 transition-all duration-300">
-                    <feature.icon className="h-6 w-6 text-primary group-hover:text-white transition-colors" />
+                  <div className="w-10 h-10 bg-primary/5 flex items-center justify-center rounded-xl shrink-0 group-hover:bg-primary group-hover:-translate-y-1 transition-all duration-300">
+                    <feature.icon className="h-4 w-4 text-primary group-hover:text-black transition-colors" />
                   </div>
                   <div>
                     <h3 className="text-[15px] font-bold mb-1.5 leading-tight text-slate-900 group-hover:text-primary transition-colors">{feature.title}</h3>
@@ -211,14 +211,14 @@ export default function Home() {
 
             <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-2 md:gap-0 relative z-10">
               {[
-                { title: <>Enroll With <br /> BITC</>, icon: Users },
-                { title: "Learn With Industry Experts", icon: BookOpen },
-                { title: "Do Multiple Assignments", icon: Code },
-                { title: <>Get Internship <br /> Opportunity in BIPL</>, icon: Target },
-                { title: "Work on Live Projects", icon: Briefcase },
-                { title: <>Get<br /> Certifications</>, icon: Award },
-                { title: <>Improve <br /> Soft Skills</>, icon: UserCheck },
-                { title: "Placement Guidance", icon: Trophy }
+                { title: <>Enroll with <br /> BITC</>, icon: Users },
+                { title: "Learn with industry experts", icon: BookOpen },
+                { title: "Do multiple assignments", icon: Code },
+                { title: <>Get internship <br /> opportunity in BIPL</>, icon: Target },
+                { title: "Work on live projects", icon: Briefcase },
+                { title: <>Get<br /> certifications</>, icon: Award },
+                { title: <>Improve <br /> soft skills</>, icon: UserCheck },
+                { title: "Placement guidance", icon: Trophy }
               ].map((step, i, arr) => (
                 <div key={i} className="flex flex-col items-center relative w-full md:w-32 group cursor-pointer">
                   <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center border-4 border-gray-100 shadow-sm text-primary mb-4 group-hover:border-orange-500/30 group-hover:bg-orange-50 group-hover:scale-110 transition-all duration-300 relative z-10">
@@ -267,7 +267,7 @@ export default function Home() {
                     {item.stat}
                   </span>
                 </div>
-                <div className="text-[14px] font-extrabold text-slate-800 capitalize tracking-wider">{item.label}</div>
+                <div className="text-[14px] font-extrabold text-slate-800  tracking-wider">{item.label}</div>
               </div>
             ))}
           </div>
@@ -334,7 +334,7 @@ export default function Home() {
           <div className="md:w-[55%] text-center md:text-left">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-sm font-medium mb-6 shadow-sm">
               <Compass className="w-4 h-4" />
-              Student Counseling Center
+              Student counseling center
             </div>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">Career Guidance & <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Counseling</span></h2>
             <p className="text-gray-600 text-lg mb-8 max-w-lg mx-auto md:mx-0 leading-relaxed">
@@ -343,7 +343,7 @@ export default function Home() {
             <div className="flex flex-wrap justify-center md:justify-start gap-4">
               <Dialog>
                 <DialogTrigger className="h-12 md:h-14 px-6 md:px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-900 text-base md:text-lg font-medium flex items-center justify-center hover:opacity-90 transition-all shadow-lg shadow-orange-500/20">
-                  Book Your Consultation <ArrowRight className="ml-2 w-5 h-5" />
+                  Book your consultation <ArrowRight className="ml-2 w-5 h-5" />
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-md bg-white border border-gray-100 p-6 md:p-8 rounded-3xl">
                   <DialogHeader>

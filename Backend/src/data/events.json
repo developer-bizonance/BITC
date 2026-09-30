@@ -1,5 +1,49 @@
 [
   {
+    "id": "test-upcoming-1",
+    "title": "Cybersecurity Masterclass",
+    "date": "2026-11-05T10:00:00.000Z",
+    "type": "WORKSHOP",
+    "imageUrl": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&auto=format&fit=crop",
+    "venue": "BITC Seminar Hall",
+    "speaker": "Mr. Rohan Sharma",
+    "isFeatured": true,
+    "createdAt": "2026-09-30T10:50:48.229Z"
+  },
+  {
+    "id": "test-upcoming-2",
+    "title": "Web3 & Blockchain Seminar",
+    "date": "2026-12-12T14:00:00.000Z",
+    "type": "SEMINAR",
+    "imageUrl": "https://images.unsplash.com/photo-1639762681485-074b7f4ec651?q=80&w=800&auto=format&fit=crop",
+    "venue": "BITC Main Auditorium",
+    "speaker": "Dr. Neha Gupta",
+    "isFeatured": false,
+    "createdAt": "2026-09-30T10:50:48.230Z"
+  },
+  {
+    "id": "test-upcoming-3",
+    "title": "Cloud Computing Bootcamp",
+    "date": "2027-01-15T09:00:00.000Z",
+    "type": "WORKSHOP",
+    "imageUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop",
+    "venue": "BITC Lab 4",
+    "speaker": "Mr. Amit Verma",
+    "isFeatured": false,
+    "createdAt": "2026-09-30T10:50:48.230Z"
+  },
+  {
+    "id": "test-upcoming-4",
+    "title": "UI/UX Design Sprint",
+    "date": "2027-02-10T10:00:00.000Z",
+    "type": "WORKSHOP",
+    "imageUrl": "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=800&auto=format&fit=crop",
+    "venue": "BITC Design Studio",
+    "speaker": "Ms. Priya Desai",
+    "isFeatured": false,
+    "createdAt": "2026-09-30T10:50:48.230Z"
+  },
+  {
     "id": "1ea97d96-e0a4-4040-8f9d-63f235158ccb",
     "title": "National Level Hackathon 2026",
     "date": "2026-10-15T09:00:00.000Z",

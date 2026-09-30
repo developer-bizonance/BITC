@@ -56,9 +56,9 @@ const defaultOpenings: JobOpeningItem[] = [
 // All courses & certifications available across BITC website categorized
 const courseCertificationOptions = [
   { category: "Information Technology", courses: [] },
-  { category: "Digital Media Technology", courses: [] },
-  { category: "Management Programs", courses: [] },
-  { category: "Design Programs", courses: [] },
+  { category: "Digital media technology", courses: [] },
+  { category: "Management Certifications", courses: [] },
+  { category: "Design Certifications", courses: [] },
 ];
 
 export default function CareersPage() {
@@ -144,14 +144,14 @@ export default function CareersPage() {
     } else if (name === "email") {
       const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       if (!value.trim()) {
-        error = "Email address is required.";
+        error = "Email Id is required.";
       } else if (!emailRegex.test(value.trim())) {
-        error = "Please enter a valid email address (e.g. name@example.com).";
+        error = "Please enter a valid Email Id (e.g. name@example.com).";
       }
     } else if (name === "phone") {
       const cleanPhone = value.replace(/\D/g, "");
       if (!cleanPhone) {
-        error = "Phone number is required.";
+        error = "Mobile number is required.";
       } else if (cleanPhone.length < 10) {
         error = `Please enter full 10-digit number (${cleanPhone.length}/10).`;
       } else if (!/^[6-9]\d{9}$/.test(cleanPhone)) {
@@ -375,7 +375,7 @@ export default function CareersPage() {
           <div className="flex flex-wrap justify-center gap-4">
             <button
               onClick={() => openApplyModal()}
-              className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white font-semibold flex items-center gap-2 justify-center hover:shadow-xl shadow-orange-500/20 hover:-translate-y-0.5 transition-all text-base cursor-pointer"
+              className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-semibold flex items-center gap-2 justify-center hover:shadow-xl shadow-orange-500/20 hover:-translate-y-0.5 transition-all text-base cursor-pointer"
             >
               <Sparkles className="w-5 h-5" /> Apply as Faculty / Trainer
             </button>
@@ -429,7 +429,7 @@ export default function CareersPage() {
                 </div>
                 <button
                   onClick={() => openApplyModal(job.title)}
-                  className="px-6 py-2.5 rounded-full text-white font-semibold text-sm hover:shadow-lg shadow-orange-500/20 transition-all whitespace-nowrap bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:opacity-90 cursor-pointer"
+                  className="px-6 py-2.5 rounded-full text-black font-semibold text-sm hover:shadow-lg shadow-orange-500/20 transition-all whitespace-nowrap bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:opacity-90 cursor-pointer"
                 >
                   Apply Now
                 </button>
@@ -478,7 +478,7 @@ export default function CareersPage() {
                   </p>
                   <button
                     onClick={() => setIsApplyModalOpen(false)}
-                    className="px-8 py-3 rounded-xl bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white font-medium text-sm hover:shadow-lg transition-all cursor-pointer"
+                    className="px-8 py-3 rounded-xl bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-medium text-sm hover:shadow-lg transition-all cursor-pointer"
                   >
                     Close
                   </button>
@@ -507,7 +507,7 @@ export default function CareersPage() {
                       {errors.fullName && touched.fullName && <p className="text-red-500 text-[10px] ml-1">{errors.fullName}</p>}
                     </div>
                     <div className="space-y-1 text-left">
-                      <label className="text-xs font-semibold text-slate-700">Email Address</label>
+                      <label className="text-xs font-semibold text-slate-700">Email Id</label>
                       <input
                         type="email"
                         required
@@ -523,7 +523,7 @@ export default function CareersPage() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div className="space-y-1 text-left">
-                      <label className="text-xs font-semibold text-slate-700">Phone Number</label>
+                      <label className="text-xs font-semibold text-slate-700">Contact </label>
                       <input
                         type="tel"
                         required
@@ -533,7 +533,7 @@ export default function CareersPage() {
                         value={form.phone}
                         onChange={(e) => handleChange("phone", e.target.value)}
                         onBlur={() => handleBlur("phone")}
-                        placeholder="Enter Your Phone Number"
+                        placeholder="Enter your mobile number"
                         className={`w-full px-3 py-2 rounded-xl border ${errors.phone && touched.phone ? 'border-red-400 bg-red-50' : 'border-slate-200 bg-slate-50'} focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all text-sm`}
                       />
                       {errors.phone && touched.phone && <p className="text-red-500 text-[10px] ml-1">{errors.phone}</p>}
@@ -559,7 +559,7 @@ export default function CareersPage() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div className="space-y-1 text-left">
-                      <label className="text-xs font-semibold text-slate-700">Certification Category</label>
+                      <label className="text-xs font-semibold text-slate-700">Certification Domain</label>
                       <div className="relative">
                         <select
                           value={form.subjectCourse}
@@ -596,7 +596,7 @@ export default function CareersPage() {
                           <option value="BCA / B.Sc CS">BCA / B.Sc. CS</option>
                           <option value="PhD / Doctorate">PhD / Doctorate</option>
                           <option value="MBA / PGDM">MBA / PGDM</option>
-                          <option value="Industry Certified Professional">Industry Certified Professional</option>
+                          <option value="Industry certified professional">Industry certified professional</option>
                           <option value="Other">Other</option>
                         </select>
                         <ChevronDown className="w-4 h-4 text-slate-500 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
@@ -618,7 +618,7 @@ export default function CareersPage() {
                   )}
 
                   <div className="space-y-1 text-left">
-                    <label className="text-xs font-semibold text-slate-700">LinkedIn Profile URL</label>
+                    <label className="text-xs font-semibold text-slate-700">LinkedIn profile url</label>
                     <input
                       type="url"
                       value={form.linkedinUrl}
@@ -638,7 +638,7 @@ export default function CareersPage() {
                         <button
                           type="button"
                           onClick={removeResumeFile}
-                          className="p-1 rounded text-red-500 hover:bg-red-50 transition-colors"
+                          className="p-1 rounded text-red-500 hover:bg-red-50 transition-colors rounded-full"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -663,7 +663,7 @@ export default function CareersPage() {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="w-full h-11 rounded-xl bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white text-[15px] font-medium flex items-center justify-center hover:shadow-lg hover:shadow-orange-500/25 hover:-translate-y-0.5 transition-all mt-1 disabled:opacity-50"
+                    className="w-full h-11 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black text-[15px] font-medium flex items-center justify-center hover:shadow-lg hover:shadow-orange-500/25 hover:-translate-y-0.5 transition-all mt-1 disabled:opacity-50"
                   >
                     {submitting ? "Submitting..." : "Submit Details"} <ArrowRight className="ml-2 w-4 h-4" />
                   </button>

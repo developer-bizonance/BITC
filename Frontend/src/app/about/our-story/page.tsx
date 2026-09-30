@@ -54,7 +54,7 @@ export default function OurStoryPage() {
               </div>
             </div>
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Where It All <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Started</span></h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Where it all <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Started</span></h2>
               <div className="space-y-4 text-gray-600 leading-relaxed text-base md:text-lg">
                 <p>
                   In today's rapidly evolving world, industries require professionals who possess more than academic knowledge. Employers seek individuals with practical skills, problem-solving abilities, industry exposure, and the confidence to perform from day one.
@@ -78,7 +78,7 @@ export default function OurStoryPage() {
       <section className="py-16 md:py-24 bg-white text-slate-900 relative overflow-hidden">
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">The Challenge We <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Identified</span></h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">The challenge we <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Identified</span></h2>
             <p className="text-slate-600 max-w-[700px] mx-auto text-lg">
               Traditional education often leaves students asking difficult questions about their future.
             </p>
@@ -107,10 +107,10 @@ export default function OurStoryPage() {
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
-                "Learn from Industry Experts", "Build Live Projects", 
+                "Learn from Industry Experts", "Build live projects", 
                 "Work with Modern Technologies", "Participate in Workshops",
-                "Gain Internship Experience", "Build Professional Networks",
-                "Develop Career Skills", "Become Industry Ready"
+                "Gain internship experience", "Build professional networks",
+                "Develop career skills", "Become industry ready"
               ].map((item, i) => (
                 <div key={i} className="flex flex-col items-center text-center gap-3 bg-slate-50 p-4 rounded-xl border border-slate-200/60 hover:border-primary/50 transition-colors">
                   <CheckCircle2 className="w-6 h-6 text-primary flex-shrink-0" />
@@ -132,7 +132,7 @@ export default function OurStoryPage() {
               Our Evolution
             </div>
             <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-2 tracking-tight">
-              Milestones That Shaped <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Our Journey</span>
+              Milestones that shaped <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Our Journey</span>
             </h2>
             <p className="text-slate-600 max-w-[600px] mx-auto text-sm md:text-base leading-relaxed font-medium">
               A 5-step evolution from vision to empowering thousands of job-ready professionals across India.
@@ -176,7 +176,7 @@ export default function OurStoryPage() {
                   icon: Code,
                   desc: "Integrated real client codebases, production apps, and internship training.",
                   iconGlow: "from-emerald-500 to-teal-600",
-                  tag: "Real Client Apps",
+                  tag: "Real client apps",
                 },
                 {
                   num: "05",
@@ -229,13 +229,13 @@ export default function OurStoryPage() {
                 <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
                   <Target className="w-7 h-7 text-primary" />
                 </div>
-                <h3 className="text-2xl font-bold text-slate-900 mb-4">The Problem We <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Solve</span></h3>
+                <h3 className="text-2xl font-bold text-slate-900 mb-4">The problem we <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Solve</span></h3>
                 <p className="text-gray-600 mb-6 font-medium text-base">Education Alone Isn't Enough. Today's employers expect professionals who can:</p>
                 <ul className="space-y-4">
                   {[
-                    "Solve Real Problems", "Communicate Effectively", 
+                    "Solve real problems", "Communicate Effectively", 
                     "Work in Teams", "Adapt Quickly", 
-                    "Use Modern Technologies", "Think Critically"
+                    "Use modern technologies", "Think Critically"
                   ].map((item, i) => (
                     <li key={i} className="flex items-center gap-3 text-gray-700">
                       <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0" />
@@ -271,7 +271,7 @@ export default function OurStoryPage() {
                     "Emerging Technologies", 
                     "Hiring Trends", 
                     "Employer Expectations", 
-                    "Industry Best Practices"
+                    "Industry best practices"
                   ].map((item, i) => (
                     <li key={i} className="flex items-center gap-3 text-gray-700">
                       <div className="w-2.5 h-2.5 rounded-full bg-blue-500 flex-shrink-0" />
@@ -292,7 +292,7 @@ export default function OurStoryPage() {
             {/* Today */}
             <div className="bg-gray-50 p-8 md:p-12 rounded-[2rem] border border-gray-100">
               <div className="inline-block px-4 py-1.5 bg-primary/10 text-primary font-medium rounded-full text-sm uppercase tracking-wider mb-6">Today</div>
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Who We Are <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Today</span></h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Who we are <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Today</span></h2>
               <p className="text-lg text-gray-600 leading-relaxed mb-6">
                 Today, BITC is growing into an industry-integrated learning ecosystem where students, professionals, colleges, and companies collaborate to create meaningful learning experiences.
               </p>
@@ -314,8 +314,8 @@ export default function OurStoryPage() {
                 {[
                   "AI-Powered Learning", "International Certifications",
                   "Startup Incubation", "Innovation Labs",
-                  "Research Programs", "Global Industry Partnerships",
-                  "Entrepreneurship Development", "Digital Learning Platform"
+                  "Research Certifications", "Global industry partnerships",
+                  "Entrepreneurship Development", "Digital learning platform"
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3 bg-white p-3 rounded-xl border border-blue-100/50 shadow-sm">
                     <div className="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0" />
@@ -347,8 +347,8 @@ export default function OurStoryPage() {
           </p>
           
           <div className="flex flex-wrap justify-center gap-3">
-            <Link href="/courses" className="h-11 px-6 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white font-semibold flex items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-md shadow-primary/25 hover:shadow-lg text-base">
-              Explore Programs
+            <Link href="/courses" className="h-11 px-6 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-semibold flex items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-md shadow-primary/25 hover:shadow-lg text-base">
+              Explore Certifications
             </Link>
             <Link href="/contact" className="h-11 px-6 rounded-full bg-white/80 text-slate-700 font-semibold flex items-center justify-center border border-blue-200/80 hover:border-blue-300 hover:bg-white transition-all text-base shadow-sm backdrop-blur-sm">
               Contact Us

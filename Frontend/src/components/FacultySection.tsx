@@ -30,7 +30,7 @@ const facultyData = [
   },
   {
     name: "Rahul Verma",
-    role: "Lead Full Stack Developer",
+    role: "Lead full stack developer",
     workingAt: "Microsoft",
     image: "https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&q=80&w=300&h=300",
     expertise: ["React", "Node.js", "System Design", "TypeScript"],
@@ -38,7 +38,7 @@ const facultyData = [
   },
   {
     name: "Priya Desai",
-    role: "UX Strategy Lead",
+    role: "UX strategy lead",
     workingAt: "Amazon",
     image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=300&h=300",
     expertise: ["User Research", "Figma", "UI/UX", "Prototyping"],
@@ -46,7 +46,7 @@ const facultyData = [
   },
   {
     name: "Vikram Singh",
-    role: "Information Security Analyst",
+    role: "Information security analyst",
     workingAt: "IBM",
     image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300&h=300",
     expertise: ["Network Security", "Ethical Hacking", "Cryptography"],
@@ -92,7 +92,7 @@ export default function FacultySection() {
             <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">
               Master your craft with <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">renowned faculty</span>
             </h2>
-            <p className="text-slate-700 font-semibold text-[16px] capitalize tracking-wider">Instructors</p>
+            <p className="text-slate-700 font-semibold text-[16px]  tracking-wider">Instructors</p>
           </div>
           <Link href="/about/our-mentors" className="shrink-0 inline-flex items-center gap-1.5 text-sm font-bold text-slate-700 hover:text-primary transition-colors cursor-pointer">
             See More <span className="text-lg leading-none" aria-hidden="true">&rarr;</span>
@@ -151,11 +151,21 @@ export default function FacultySection() {
 
                   {/* Content Section */}
                   <div className="p-5 flex flex-col flex-grow">
-                    <h3 className="text-lg font-bold text-slate-900 leading-tight mb-1">{faculty.name}</h3>
+                    <div className="flex items-center justify-between mb-1">
+                      <h3 className="text-lg font-bold text-slate-900 leading-tight">{faculty.name}</h3>
+                      <a 
+                        href={faculty.linkedin} 
+                        target="_blank" 
+                        rel="noreferrer"
+                        className="text-[#0077b5] hover:text-[#006097] transition-colors"
+                      >
+                        <FaLinkedin className="w-5 h-5" />
+                      </a>
+                    </div>
                     <p className="text-xs font-medium text-slate-500 mb-4">{faculty.role}</p>
 
                     <div className="mb-4 flex items-center gap-2">
-                      <p className="text-[11px] font-bold text-slate-400 capitalize tracking-wider">Working At:</p>
+                      <p className="text-[11px] font-bold text-slate-400  tracking-wider">Working at:</p>
                       <div className="flex items-center gap-1.5">
                         <img src={getCompanyLogo(faculty.workingAt)} alt={faculty.workingAt} className="w-4 h-4 object-contain" title={faculty.workingAt} />
                         <span className="text-sm font-bold text-slate-800">{faculty.workingAt}</span>
@@ -163,7 +173,7 @@ export default function FacultySection() {
                     </div>
 
                     <div className="mb-6 flex-grow">
-                      <p className="text-[11px] font-bold text-slate-400 capitalize tracking-wider mb-2">Technical Expertise</p>
+                      <p className="text-[11px] font-bold text-slate-400  tracking-wider mb-2">Key specialization</p>
                       <div className="flex flex-wrap gap-1.5">
                         {faculty.expertise.map((skill, i) => (
                           <span key={i} className="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-md text-[11px] font-semibold border border-slate-200">
@@ -173,16 +183,6 @@ export default function FacultySection() {
                       </div>
                     </div>
 
-                    <div className="mt-auto">
-                      <a 
-                        href={faculty.linkedin} 
-                        target="_blank" 
-                        rel="noreferrer"
-                        className="inline-flex items-center justify-center gap-2 text-xs font-bold text-white bg-[#0077b5] hover:bg-[#006097] px-4 py-1.5 rounded-full transition-colors self-start mt-2"
-                      >
-                        <FaLinkedin className="w-3.5 h-3.5" /> LinkedIn
-                      </a>
-                    </div>
                   </div>
                 </div>
               ))}
@@ -206,11 +206,21 @@ export default function FacultySection() {
 
                   {/* Content Section */}
                   <div className="p-5 flex flex-col flex-grow">
-                    <h3 className="text-lg font-bold text-slate-900 leading-tight mb-1">{faculty.name}</h3>
+                    <div className="flex items-center justify-between mb-1">
+                      <h3 className="text-lg font-bold text-slate-900 leading-tight">{faculty.name}</h3>
+                      <a 
+                        href={faculty.linkedin} 
+                        target="_blank" 
+                        rel="noreferrer"
+                        className="text-[#0077b5] hover:text-[#006097] transition-colors"
+                      >
+                        <FaLinkedin className="w-5 h-5" />
+                      </a>
+                    </div>
                     <p className="text-xs font-medium text-slate-500 mb-4">{faculty.role}</p>
 
                     <div className="mb-4 flex items-center gap-2">
-                      <p className="text-[11px] font-bold text-slate-400 capitalize tracking-wider">Working At:</p>
+                      <p className="text-[11px] font-bold text-slate-400  tracking-wider">Working at:</p>
                       <div className="flex items-center gap-1.5">
                         <img src={getCompanyLogo(faculty.workingAt)} alt={faculty.workingAt} className="w-4 h-4 object-contain" title={faculty.workingAt} />
                         <span className="text-sm font-bold text-slate-800">{faculty.workingAt}</span>
@@ -218,7 +228,7 @@ export default function FacultySection() {
                     </div>
 
                     <div className="mb-6 flex-grow">
-                      <p className="text-[11px] font-bold text-slate-400 capitalize tracking-wider mb-2">Technical Expertise</p>
+                      <p className="text-[11px] font-bold text-slate-400  tracking-wider mb-2">Key specialization</p>
                       <div className="flex flex-wrap gap-1.5">
                         {faculty.expertise.map((skill, i) => (
                           <span key={i} className="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-md text-[11px] font-semibold border border-slate-200">
@@ -228,16 +238,6 @@ export default function FacultySection() {
                       </div>
                     </div>
 
-                    <div className="mt-auto">
-                      <a 
-                        href={faculty.linkedin} 
-                        target="_blank" 
-                        rel="noreferrer"
-                        className="inline-flex items-center justify-center gap-2 text-xs font-bold text-white bg-[#0077b5] hover:bg-[#006097] px-4 py-1.5 rounded-full transition-colors self-start mt-2"
-                      >
-                        <FaLinkedin className="w-3.5 h-3.5" /> LinkedIn
-                      </a>
-                    </div>
                   </div>
                 </div>
               ))}

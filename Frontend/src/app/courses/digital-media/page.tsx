@@ -11,7 +11,7 @@ import {
 import { courses as staticCourses } from "@/data/courses";
 
 export const metadata: Metadata = {
-  title: "Digital Media Technology Certifications",
+  title: "Digital media technology certifications",
   description: "Master Digital Arts, Video Editing, Animation, and Media Production with hands-on projects at BITC Amravati.",
   openGraph: {
     title: "Digital Media Technology Certifications | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
@@ -35,14 +35,14 @@ export default async function DigitalMediaCoursesPage() {
   }
 
   if (!dynamicCourses || dynamicCourses.length === 0) {
-    dynamicCourses = staticCourses.filter(c => c.category === "Digital Media Technology");
+    dynamicCourses = staticCourses.filter(c => c.category === "Digital media technology");
   }
 
   const finalCourses = dynamicCourses.map((c: any) => {
     return {
       id: c.slug || c.title.toLowerCase().replace(/ & /g, '-').replace(/[\/\s]+/g, '-'),
       title: c.title,
-      tag: c.category || "Digital Media Technology",
+      tag: c.category || "Digital media technology",
       duration: c.duration || "6 Months",
       fees: c.fees || "₹36,000",
       icon: Video,
@@ -63,7 +63,7 @@ export default async function DigitalMediaCoursesPage() {
               <span>DIGITAL MEDIA TECHNOLOGY</span>
             </div>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
-              Digital Media <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span> & Programs
+              Digital Media <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span> & Certifications
             </h1>
             <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-8 font-medium max-w-2xl mx-auto">
               Master the art of visual storytelling. Learn industry-standard tools for video editing, animation, and digital media production to launch your creative career.
@@ -72,7 +72,7 @@ export default async function DigitalMediaCoursesPage() {
             <div className="flex flex-wrap justify-center gap-3">
               <div className="flex items-center gap-2 text-slate-700 text-xs md:text-sm font-semibold bg-slate-50 px-4 py-2 rounded-full border border-slate-200/80 shadow-xs">
                 <CheckCircle2 className="w-4 h-4 text-rose-600 shrink-0" />
-                <span>Specialized Creative Tracks</span>
+                <span>Specialized creative tracks</span>
               </div>
               <div className="flex items-center gap-2 text-slate-700 text-xs md:text-sm font-semibold bg-slate-50 px-4 py-2 rounded-full border border-slate-200/80 shadow-xs">
                 <CheckCircle2 className="w-4 h-4 text-rose-600 shrink-0" />
@@ -80,14 +80,14 @@ export default async function DigitalMediaCoursesPage() {
               </div>
               <div className="flex items-center gap-2 text-slate-700 text-xs md:text-sm font-semibold bg-slate-50 px-4 py-2 rounded-full border border-slate-200/80 shadow-xs">
                 <CheckCircle2 className="w-4 h-4 text-rose-600 shrink-0" />
-                <span>Industry Design Mentors</span>
+                <span>Industry design mentors</span>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Courses Grid */}
+      {/* Certifications Grid */}
       <section className="py-14 md:py-20 bg-white/70">
         <div className="container max-w-[1360px] mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -160,8 +160,8 @@ export default async function DigitalMediaCoursesPage() {
                     </div>
 
                     <Link href={`/courses/${course.id}`} className="block w-full">
-                      <Button className="w-full h-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:opacity-90 text-white font-medium text-xs transition-all duration-300 shadow-sm cursor-pointer flex items-center justify-center gap-2 group/btn">
-                        <span>View Program</span>
+                      <Button className="w-full h-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:opacity-90 text-black font-medium text-xs transition-all duration-300 shadow-sm cursor-pointer flex items-center justify-center gap-2 group/btn">
+                        <span>View Certification</span>
                         <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
                       </Button>
                     </Link>
@@ -185,7 +185,7 @@ export default async function DigitalMediaCoursesPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { title: "Live Client Briefs", desc: "Work on real media briefs for brands, startups, and agencies.", icon: Eye },
+              { title: "Live client briefs", desc: "Work on real media briefs for brands, startups, and agencies.", icon: Eye },
               { title: "Portfolio Development", desc: "Graduate with a polished showreel and portfolio ready for interviews.", icon: Layers },
               { title: "Industry Mentorship", desc: "Learn directly from senior media producers and artists.", icon: GraduationCap },
               { title: "Tool Mastery", desc: "Master Premiere Pro, After Effects, and industry-standard tools.", icon: MonitorPlay },
@@ -207,7 +207,7 @@ export default async function DigitalMediaCoursesPage() {
         <div className="container max-w-[1360px] mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
-              Importance of <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Digital Media Certifications</span> in Today's Era
+              Importance of <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Digital media certifications</span> in Today's Era
             </h2>
             <p className="text-base md:text-lg text-slate-600 font-medium leading-relaxed">
               Media is the currency of the modern web. Here is why certified digital media professionals are critical to every industry.
@@ -217,7 +217,7 @@ export default async function DigitalMediaCoursesPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
             {[
               {
-                title: "Booming Creator Economy",
+                title: "Booming creator economy",
                 desc: "With the explosive growth of social media, video platforms, and digital advertising, brands are desperate for creators who can produce high-quality, engaging content.",
                 icon: <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
               },

@@ -60,7 +60,7 @@ export default function IndustryPartnersGrid() {
   return (
     <section className="py-16 md:py-24 bg-white border-y border-gray-100">
       <div className="container max-w-[1200px] mx-auto px-4 text-center">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Our Industry Partners</h2>
+        <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Our industry partners</h2>
         <p className="text-gray-600 max-w-[600px] mx-auto text-lg mb-12">Trusted by leading companies across India.</p>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6">

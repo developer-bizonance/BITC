@@ -37,14 +37,14 @@ export default async function DesignCoursesPage() {
   }
 
   if (!dynamicCourses || dynamicCourses.length === 0) {
-    dynamicCourses = staticCourses.filter(c => c.category === "Design Programs");
+    dynamicCourses = staticCourses.filter(c => c.category === "Design Certifications");
   }
 
   const finalCourses = dynamicCourses.map((c: any) => {
     return {
       id: c.slug || c.title.toLowerCase().replace(/ & /g, '-').replace(/[\/\s]+/g, '-'),
       title: c.title,
-      tag: c.category || "Design Programs",
+      tag: c.category || "Design Certifications",
       duration: c.duration || "6 Months",
       fees: c.fees || "₹36,000",
       icon: Palette,
@@ -65,7 +65,7 @@ export default async function DesignCoursesPage() {
               <span>DESIGN & CREATIVE ARTS</span>
             </div>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
-              Design <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span> & Programs
+              Design <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span> & Certifications
             </h1>
             <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-8 font-medium max-w-2xl mx-auto">
               Unleash your creativity with hands-on design courses. Learn Figma, Adobe Creative Suite, 3D tools, and build a portfolio that lands jobs.
@@ -82,14 +82,14 @@ export default async function DesignCoursesPage() {
               </div>
               <div className="flex items-center gap-2 text-slate-700 text-xs md:text-sm font-semibold bg-slate-50 px-4 py-2 rounded-full border border-slate-200/80 shadow-xs">
                 <CheckCircle2 className="w-4 h-4 text-purple-600 shrink-0" />
-                <span>Industry Design Mentors</span>
+                <span>Industry design mentors</span>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Courses Grid */}
+      {/* Certifications Grid */}
       <section className="py-14 md:py-20 bg-white/70">
         <div className="container max-w-[1360px] mx-auto px-4">
 
@@ -166,8 +166,8 @@ export default async function DesignCoursesPage() {
                     </div>
 
                     <Link href={`/courses/${course.id}`} className="block w-full">
-                      <Button className="w-full h-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:opacity-90 text-white font-medium text-xs transition-all duration-300 shadow-sm cursor-pointer flex items-center justify-center gap-2 group/btn">
-                        <span>View Program</span>
+                      <Button className="w-full h-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:opacity-90 text-black font-medium text-xs transition-all duration-300 shadow-sm cursor-pointer flex items-center justify-center gap-2 group/btn">
+                        <span>View Certification</span>
                         <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
                       </Button>
                     </Link>
@@ -191,7 +191,7 @@ export default async function DesignCoursesPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { title: "Live Client Briefs", desc: "Work on real design briefs for brands, startups, and agencies.", icon: Eye },
+              { title: "Live client briefs", desc: "Work on real design briefs for brands, startups, and agencies.", icon: Eye },
               { title: "Portfolio Development", desc: "Graduate with a polished Behance & Figma portfolio ready for interviews.", icon: Layers },
               { title: "Industry Mentorship", desc: "Learn directly from senior UI/UX and visual designers.", icon: GraduationCap },
               { title: "Tool Mastery", desc: "Master Figma, Photoshop, Illustrator, Premiere Pro, and After Effects.", icon: PenTool },
@@ -223,7 +223,7 @@ export default async function DesignCoursesPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
             {[
               {
-                title: "Booming Digital Economy",
+                title: "Booming digital economy",
                 desc: "Every startup, agency, and corporation needs a digital presence, creating a massive, unending demand for skilled UI/UX and graphic designers.",
                 icon: <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
               },
@@ -233,7 +233,7 @@ export default async function DesignCoursesPage() {
                 icon: <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
               },
               {
-                title: "Global Remote Opportunities",
+                title: "Global remote opportunities",
                 desc: "Design is a universal language. A strong portfolio and recognized certification open doors to high-paying remote opportunities anywhere in the world.",
                 icon: <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
               }

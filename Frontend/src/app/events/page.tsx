@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 import Link from "next/link";
 import FeaturedEventBanner from "./FeaturedEventBanner";
 import EventRegistrationModal from "@/components/events/EventRegistrationModal";
+import ConductedEventsTabs from "./ConductedEventsTabs";
 import {
   Carousel,
   CarouselContent,
@@ -24,7 +25,7 @@ import {
   CalendarDays, MapPin, Users, ArrowRight, PlayCircle, Clock, 
   Mic, Code, Laptop, Lightbulb, TrendingUp, Trophy, Network,
   Building, GraduationCap, Briefcase, Ticket, ChevronRight,
-  Star
+  Star, Rocket
 } from "lucide-react";
 
 const eventCategories = [
@@ -33,8 +34,9 @@ const eventCategories = [
   { name: "Expert Talks", icon: Mic, color: "text-rose-500", bg: "bg-rose-500/10" },
   { name: "Webinars", icon: PlayCircle, color: "text-indigo-500", bg: "bg-indigo-500/10" },
   { name: "Masterclasses", icon: Star, color: "text-amber-500", bg: "bg-amber-500/10" },
-  { name: "Tech Workshops", icon: TrendingUp, color: "text-emerald-500", bg: "bg-emerald-500/10" },
+
   { name: "Hackathons", icon: Code, color: "text-cyan-500", bg: "bg-cyan-500/10" },
+  { name: "Bootcamps", icon: Rocket, color: "text-emerald-500", bg: "bg-emerald-500/10" },
   { name: "Industrial Visits", icon: Building, color: "text-slate-500", bg: "bg-slate-500/10" },
   { name: "Guest Lectures", icon: Users, color: "text-orange-500", bg: "bg-orange-500/10" },
   { name: "Career Fair", icon: Briefcase, color: "text-fuchsia-500", bg: "bg-fuchsia-500/10" },
@@ -48,9 +50,14 @@ export default async function EventsPage() {
   let upcomingEvents: any[] = [];
   let conductedEvents: any[] = [];
   let featuredEvent: any = null;
+  let conductedEventsByYear: Record<string, any[]> = {};
+  let sortedYears: string[] = [];
 
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://bitc-backend-theta.vercel.app/api"}/events`, { cache: 'no-store' });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api"}/events`,
+      { cache: "no-store" },
+    );
     if (res.ok) {
       const data = await res.json();
       if (data.events && data.events.length > 0) {
@@ -76,6 +83,14 @@ export default async function EventsPage() {
         conductedEvents = mappedEvents
           .filter((e: any) => e.rawDate < now.toISOString())
           .sort((a: any, b: any) => new Date(b.rawDate).getTime() - new Date(a.rawDate).getTime());
+
+        conductedEventsByYear = conductedEvents.reduce((acc: Record<string, any[]>, event: any) => {
+          const year = new Date(event.rawDate).getFullYear().toString();
+          if (!acc[year]) acc[year] = [];
+          acc[year].push(event);
+          return acc;
+        }, {});
+        sortedYears = Object.keys(conductedEventsByYear).sort((a, b) => Number(b) - Number(a));
 
         const foundFeatured = mappedEvents.find((e: any) => e.isFeatured);
         if (foundFeatured) {
@@ -115,11 +130,11 @@ export default async function EventsPage() {
             Experience hands-on learning through workshops, seminars, expert talks, hackathons, industrial visits, and networking events with industry professionals.
           </p>
           <div className="flex justify-center gap-4">
-            <Link href="#upcoming-events" className="inline-flex items-center justify-center h-12 px-8 rounded-full text-white shadow-lg shadow-orange-500/30 text-base font-semibold transition-colors bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)]">
-              Explore Upcoming Events
+            <Link href="#upcoming-events" className="inline-flex items-center justify-center h-12 px-8 rounded-full text-black shadow-lg shadow-orange-500/30 text-base font-semibold transition-colors bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)]">
+              Explore upcoming events
             </Link>
             <Link href="/resources/gallery" className="inline-flex items-center justify-center h-12 px-8 rounded-full bg-slate-100 text-slate-900 hover:bg-slate-200 border border-slate-300/80 text-base font-semibold transition-all shadow-sm">
-              View Past Gallery
+              View past gallery
             </Link>
           </div>
         </div>
@@ -161,7 +176,7 @@ export default async function EventsPage() {
               <p className="text-gray-500 text-lg">Don&apos;t miss out on these exclusive learning opportunities.</p>
             </div>
             {upcomingEvents.length > 3 && (
-              <Link href="/contact" className="hidden md:flex items-center gap-2 text-primary font-semibold hover:text-orange-600 transition-colors">
+              <Link href="/events/upcoming" className="hidden md:flex items-center gap-2 text-primary font-semibold hover:text-orange-600 transition-colors">
                 View More <ArrowRight className="w-4 h-4" />
               </Link>
             )}
@@ -204,17 +219,18 @@ export default async function EventsPage() {
                           {event.speaker && (
                           <div className="flex items-center gap-3 text-sm text-gray-600">
                             <Users className="w-4.5 h-4.5 text-primary shrink-0" />
-                            <span className="text-slate-700">Speaker: <span className="font-semibold">{event.speaker}</span></span>
+                            <span className="text-slate-700">Industry expert: <span className="font-semibold">{event.speaker}</span></span>
                           </div>
                           )}
                         </div>
 
                         <div className="flex items-center justify-end pt-5 border-t border-gray-100 mt-auto">
-                          <EventRegistrationModal eventId={event.id} eventName={event.title}>
-                            <Button className="w-full bg-slate-50 hover:bg-primary hover:text-white text-slate-900 font-medium transition-all duration-300 rounded-full py-6 shadow-none hover:shadow-lg hover:shadow-primary/20">
-                              Register Now <ChevronRight className="w-4 h-4 ml-1" />
-                            </Button>
-                          </EventRegistrationModal>
+                          <EventRegistrationModal 
+                            eventId={event.id} 
+                            eventName={event.title}
+                            triggerClassName="w-full bg-slate-50 hover:bg-primary hover:text-black text-slate-900 font-medium transition-all duration-300 rounded-full py-6 shadow-none hover:shadow-lg hover:shadow-primary/20"
+                            triggerText="Register Now"
+                          />
                         </div>
                       </CardContent>
                     </Card>
@@ -234,7 +250,7 @@ export default async function EventsPage() {
       )}
 
       {/* 5. Conducted Events */}
-      {conductedEvents.length > 0 && (
+      {sortedYears.length > 0 && (
       <section id="conducted-events" className="py-10 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="flex justify-between items-end mb-8">
@@ -243,74 +259,17 @@ export default async function EventsPage() {
               <p className="text-gray-500 text-lg">Take a look back at our successful workshops, hackathons, and industrial visits.</p>
             </div>
             {conductedEvents.length > 3 && (
-              <Link href="/resources/gallery" className="hidden md:flex items-center gap-2 text-primary font-semibold hover:text-orange-600 transition-colors">
+              <Link href="/events/conducted" className="hidden md:flex items-center gap-2 text-primary font-semibold hover:text-orange-600 transition-colors">
                 View More <ArrowRight className="w-4 h-4" />
               </Link>
             )}
           </div>
 
-          <Carousel className="w-full px-2 md:px-0">
-            <CarouselContent className="-ml-4 py-4">
-              {conductedEvents.map((event) => (
-                <CarouselItem key={event.id} className="pl-4 md:basis-1/2 lg:basis-1/3">
-                  <div className="h-full p-2">
-                    <Card className="h-full overflow-hidden border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-300 group rounded-3xl bg-white flex flex-col hover:-translate-y-1 p-0 gap-0">
-                      {event.image ? (
-                        <div className="w-full h-56 relative overflow-hidden bg-gray-100 transition-all duration-500">
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10 opacity-60 group-hover:opacity-80 transition-opacity" />
-                          <img 
-                            src={event.image} 
-                            alt={event.title} 
-                            referrerPolicy="no-referrer"
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                          />
-                          <div className="absolute top-4 left-4 z-20 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full text-[11px] font-medium text-slate-900 shadow-sm uppercase tracking-wider">
-                            {event.category}
-                          </div>
-                        </div>
-                      ) : null}
-                      <CardContent className="p-6 md:p-8 flex flex-col flex-1">
-                        <h3 className="text-xl font-bold text-slate-900 mb-5 line-clamp-2 leading-tight group-hover:text-primary transition-colors">{event.title}</h3>
-                        
-                        <div className="space-y-3.5 mb-8 flex-1">
-                          <div className="flex items-start gap-3 text-sm text-gray-600">
-                            <CalendarDays className="w-4.5 h-4.5 text-primary shrink-0 mt-0.5" />
-                            <div className="font-semibold text-slate-800">{event.date}</div>
-                          </div>
-                          {event.venue && (
-                          <div className="flex items-center gap-3 text-sm text-gray-600">
-                            <MapPin className="w-4.5 h-4.5 text-primary shrink-0" />
-                            <span className="text-slate-700">{event.venue}</span>
-                          </div>
-                          )}
-                          {event.speaker && (
-                          <div className="flex items-center gap-3 text-sm text-gray-600">
-                            <Users className="w-4.5 h-4.5 text-primary shrink-0" />
-                            <span className="text-slate-700">Speaker: <span className="font-semibold">{event.speaker}</span></span>
-                          </div>
-                          )}
-                        </div>
+          <ConductedEventsTabs 
+            conductedEventsByYear={conductedEventsByYear} 
+            sortedYears={sortedYears} 
+          />
 
-                        <div className="flex items-center justify-end pt-5 border-t border-gray-100 mt-auto">
-                          <Link href={`/events/${event.id}`} className="w-full">
-                            <Button className="w-full text-white font-bold transition-all duration-300 rounded-full py-6 shadow-none hover:shadow-lg hover:shadow-orange-500/20 bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:-translate-y-0.5">
-                              View Details <ChevronRight className="w-4 h-4 ml-1" />
-                            </Button>
-                          </Link>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            {conductedEvents.length > 3 && (
-              <>
-                <CarouselPrevious className="hidden md:flex -left-12 bg-white text-slate-900 border-slate-200 hover:bg-slate-50 hover:text-primary h-12 w-12 shadow-sm" />
-                <CarouselNext className="hidden md:flex -right-12 bg-white text-slate-900 border-slate-200 hover:bg-slate-50 hover:text-primary h-12 w-12 shadow-sm" />
-              </>
-            )}
-          </Carousel>
         </div>
       </section>
       )}

@@ -20,17 +20,17 @@ export const metadata: Metadata = {
   keywords: [
     "BITC",
     "BIZONANCE Industrial Training Centre. (BITC) | Amravati",
-    "BIZONANCE Industrial Training Centre",
+    "BIZONANCE industrial training centre",
     "BIZONANCE INDIA PRIVATE LIMITED",
-    "Industrial Training Amravati",
+    "Industrial training amravati",
     "IT Certifications Amravati",
-    "Full Stack Development Certification",
+    "Full stack development certification",
     "AI Machine Learning Training",
-    "Data Science Certification Amravati",
-    "UI UX Design Academy",
-    "Coding Bootcamp Amravati",
+    "Data science certification amravati",
+    "UI ux design academy",
+    "Coding bootcamp amravati",
     "Placement Support IT Certifications",
-    "Saturna Amravati Training Institute",
+    "Saturna amravati training institute",
   ],
   authors: [{ name: "BIZONANCE INDIA PRIVATE LIMITED", url: "https://bizonance.in" }],
   creator: "BIZONANCE INDIA PRIVATE LIMITED",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     url: "https://bitc-eight.vercel.app",
     title: "BIZONANCE Industrial Training Centre | Amravati",
     description:
-      "Empowering Future Professionals with Industry-Ready Skills. Hands-on training in Software, AI, Data Science & Management with top company placements.",
+      "Empowering future professionals with industry-ready skills. Hands-on training in Software, AI, Data Science & Management with top company placements.",
     siteName: "BIZONANCE Industrial Training Centre | Amravati",
     images: [
       {

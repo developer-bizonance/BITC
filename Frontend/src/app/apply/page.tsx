@@ -122,14 +122,14 @@ function ApplyFormContent() {
     } else if (name === "email") {
       const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       if (!value.trim()) {
-        error = "Email address is required.";
+        error = "Email Id is required.";
       } else if (!emailRegex.test(value.trim())) {
-        error = "Please enter a valid email address (e.g. name@example.com).";
+        error = "Please enter a valid Email Id (e.g. name@example.com).";
       }
     } else if (name === "phone") {
       const cleanPhone = value.replace(/\D/g, "");
       if (!cleanPhone) {
-        error = "Phone number is required.";
+        error = "Mobile number is required.";
       } else if (cleanPhone.length < 10) {
         error = `Please enter full 10-digit number (${cleanPhone.length}/10).`;
       } else if (!/^[6-9]\d{9}$/.test(cleanPhone)) {
@@ -389,11 +389,11 @@ function ApplyFormContent() {
         </div>
       ) : (
         <div className="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
-          <div className="p-6 md:p-8 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white">
+          <div className="p-6 md:p-8 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-black">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 text-yellow-300 text-xs font-medium uppercase tracking-wider mb-2 border border-primary/30">
-              <Sparkles className="w-3.5 h-3.5" /> Official Application Portal
+              <Sparkles className="w-3.5 h-3.5" /> Official application portal
             </div>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-white">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-black">
               Faculty & Trainer <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Application Form</span>
             </h2>
             <p className="text-slate-300 text-sm mt-1">
@@ -413,7 +413,7 @@ function ApplyFormContent() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
-                  Full Name <span className="text-red-500">*</span>
+                  Name <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -428,14 +428,14 @@ function ApplyFormContent() {
                   }`}
                 />
                 {touched.fullName && errors.fullName && (
-                  <p className="text-red-500 text-xs mt-1.5 font-bold flex items-center gap-1">
+                  <p className="text-red-500 text-xs mt-1.5 font-medium flex items-center gap-1">
                     <AlertCircle className="w-3.5 h-3.5" /> {errors.fullName}
                   </p>
                 )}
               </div>
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
-                  Email Address <span className="text-red-500">*</span>
+                  Email Id <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="email"
@@ -450,18 +450,18 @@ function ApplyFormContent() {
                   }`}
                 />
                 {touched.email && errors.email && (
-                  <p className="text-red-500 text-xs mt-1.5 font-bold flex items-center gap-1">
+                  <p className="text-red-500 text-xs mt-1.5 font-medium flex items-center gap-1">
                     <AlertCircle className="w-3.5 h-3.5" /> {errors.email}
                   </p>
                 )}
               </div>
             </div>
 
-            {/* Phone & Applying Role */}
+            {/* Mobile & Applying Role */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
-                  Phone / WhatsApp Number <span className="text-red-500">*</span>
+                  Contact <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="tel"
@@ -479,14 +479,14 @@ function ApplyFormContent() {
                   }`}
                 />
                 {touched.phone && errors.phone && (
-                  <p className="text-red-500 text-xs mt-1.5 font-bold flex items-center gap-1">
+                  <p className="text-red-500 text-xs mt-1.5 font-medium flex items-center gap-1">
                     <AlertCircle className="w-3.5 h-3.5" /> {errors.phone}
                   </p>
                 )}
               </div>
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
-                  Position Applied For <span className="text-red-500">*</span>
+                  Position applied for <span className="text-red-500">*</span>
                 </label>
                 <select
                   value={form.position}
@@ -497,21 +497,21 @@ function ApplyFormContent() {
                   <option value="Technical Trainer – Data Science">Technical Trainer – Data Science</option>
                   <option value="Industry Expert & Mentor">Industry Expert & Mentor</option>
                   <option value="T and P Office (Placement Cell)">T and P Office (Placement Cell)</option>
-                  <option value="Visiting Corporate Trainer">Visiting Corporate Trainer</option>
+                  <option value="Visiting corporate trainer">Visiting corporate trainer</option>
                   <option value="Soft Skills & Aptitude Trainer">Soft Skills & Aptitude Trainer</option>
                 </select>
               </div>
             </div>
 
-            {/* 🌟 SPECIAL COURSE & CERTIFICATION DROPDOWN 🌟 */}
+            {/* 🌟 SPECIAL CERTIFICATION & CERTIFICATION DROPDOWN 🌟 */}
             <div className="bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-yellow-500/10 p-5 rounded-2xl border-2 border-primary/40 shadow-sm">
               <label className="block text-xs font-extrabold text-slate-900 mb-2 uppercase tracking-wider flex items-center justify-between">
                 <span className="flex items-center gap-2 text-primary font-black text-sm">
                   <GraduationCap className="w-5 h-5 text-primary" />
-                  Which Course / Certification will you teach? <span className="text-red-500">*</span>
+                  Which Certification / Certification will you teach? <span className="text-red-500">*</span>
                 </span>
                 <span className="text-[11px] font-medium text-orange-600 bg-orange-100 px-2.5 py-0.5 rounded-full">
-                  All Website Specializations
+                  All website specializations
                 </span>
               </label>
               <select
@@ -535,7 +535,7 @@ function ApplyFormContent() {
                 ))}
               </select>
               {touched.subjectCourse && errors.subjectCourse && (
-                <p className="text-red-500 text-xs mt-1.5 font-bold flex items-center gap-1">
+                <p className="text-red-500 text-xs mt-1.5 font-medium flex items-center gap-1">
                   <AlertCircle className="w-3.5 h-3.5" /> {errors.subjectCourse}
                 </p>
               )}
@@ -572,7 +572,7 @@ function ApplyFormContent() {
                   <option value="BCA / B.Sc CS">BCA / B.Sc. Computer Science</option>
                   <option value="PhD / Doctorate">PhD / Doctorate</option>
                   <option value="MBA / PGDM">MBA / PGDM</option>
-                  <option value="Industry Certified Professional">Industry Certified Professional</option>
+                  <option value="Industry certified professional">Industry certified professional</option>
                   <option value="Other">Other (Please specify degree)</option>
                 </select>
               </div>
@@ -612,7 +612,7 @@ function ApplyFormContent() {
                   }`}
                 />
                 {touched.otherQualification && errors.otherQualification && (
-                  <p className="text-red-500 text-xs mt-1.5 font-bold flex items-center gap-1">
+                  <p className="text-red-500 text-xs mt-1.5 font-medium flex items-center gap-1">
                     <AlertCircle className="w-3.5 h-3.5" /> {errors.otherQualification}
                   </p>
                 )}
@@ -665,7 +665,7 @@ function ApplyFormContent() {
                     }`}
                   />
                   {touched.dateToJoin && errors.dateToJoin && (
-                    <p className="text-red-500 text-xs mt-1.5 font-bold flex items-center gap-1">
+                    <p className="text-red-500 text-xs mt-1.5 font-medium flex items-center gap-1">
                       <AlertCircle className="w-3.5 h-3.5" /> {errors.dateToJoin}
                     </p>
                   )}
@@ -696,7 +696,7 @@ function ApplyFormContent() {
                   <button
                     type="button"
                     onClick={removeResumeFile}
-                    className="p-2 rounded-xl text-red-500 hover:bg-red-100/50 transition-colors"
+                    className="p-2 rounded-full text-red-500 hover:bg-red-100/50 transition-colors"
                     title="Remove file"
                   >
                     <Trash2 className="w-5 h-5" />
@@ -726,7 +726,7 @@ function ApplyFormContent() {
             {/* LinkedIn Profile */}
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
-                LinkedIn Profile URL
+                LinkedIn profile url
               </label>
               <input
                 type="url"
@@ -756,7 +756,7 @@ function ApplyFormContent() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full py-4 rounded-2xl bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-white font-black text-base hover:shadow-2xl shadow-orange-500/30 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 hover:-translate-y-0.5"
+                className="w-full py-4 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-medium text-base hover:shadow-2xl shadow-orange-500/30 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 hover:-translate-y-0.5"
               >
                 {submitting ? (
                   <>Submitting Your Application...</>

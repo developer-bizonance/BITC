@@ -1,6 +1,6 @@
 import { createHmac } from "crypto";
 
-const JWT_SECRET = process.env.JWT_SECRET || "bizonance-bitc-secure-jwt-secret-key-2026";
+const JWT_SECRET = process.env.JWT_SECRET || "BIZONANCE-bitc-secure-jwt-secret-key-2026";
 
 function base64UrlEncode(str: string): string {
   return Buffer.from(str)

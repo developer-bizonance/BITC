@@ -21,10 +21,10 @@ export function Footer() {
 
   const socials = [
     { icon: GoogleIcon, href: 'https://google.com/maps/search/BIZONANCE/@20.911,77.7443,17z?hl=en', label: 'Google', color: null, bg: '#f1f3f4' },
-    { icon: FaFacebook, href: 'https://www.facebook.com/bizonance', label: 'Facebook', color: '#1877F2', bg: '#e7f0fd' },
-    { icon: FaInstagram, href: 'https://www.instagram.com/bizonance/', label: 'Instagram', color: '#E1306C', bg: '#fce4ec' },
-    { icon: FaLinkedin, href: 'https://www.linkedin.com/company/bizonance/', label: 'LinkedIn', color: '#0A66C2', bg: '#e3f0fb' },
-    { icon: FaYoutube, href: 'https://www.youtube.com/@bizonance', label: 'YouTube', color: '#FF0000', bg: '#ffebee' },
+    { icon: FaFacebook, href: 'https://www.facebook.com/BIZONANCE', label: 'Facebook', color: '#1877F2', bg: '#e7f0fd' },
+    { icon: FaInstagram, href: 'https://www.instagram.com/BIZONANCE/', label: 'Instagram', color: '#E1306C', bg: '#fce4ec' },
+    { icon: FaLinkedin, href: 'https://www.linkedin.com/company/BIZONANCE/', label: 'LinkedIn', color: '#0A66C2', bg: '#e3f0fb' },
+    { icon: FaYoutube, href: 'https://www.youtube.com/@BIZONANCE', label: 'YouTube', color: '#FF0000', bg: '#ffebee' },
   ];
 
   const impLinks = [
@@ -69,7 +69,7 @@ export function Footer() {
                   />
                 </div>
                 <p className="text-[14px] sm:text-[15px] leading-relaxed text-slate-600 font-normal pr-0 sm:pr-2">
-                  Empowering Future Professionals with Industry-Ready Skills. We bridge academic learning and industry requirements with cutting-edge tech education.
+                  Empowering future professionals with industry-ready skills. We bridge academic learning and industry requirements with cutting-edge tech education.
                 </p>
               </div>
 
@@ -118,11 +118,11 @@ export function Footer() {
               </div>
             </div>
 
-            {/* 2. Links Grid: IMP LINKS, COMPANY & PROGRAMS (Col 5-9) */}
+            {/* 2. Links Grid: IMP LINKS, COMPANY & CERTIFICATIONS (Col 5-9) */}
             <div className="lg:col-span-5 grid grid-cols-2 sm:grid-cols-3 gap-5 sm:gap-6 pt-1">
               {/* Imp Links Column */}
               <div>
-                <h4 className="font-bold text-slate-900 mb-3 sm:mb-4 text-[15px] sm:text-[16px] capitalize tracking-wide">Links</h4>
+                <h4 className="font-bold text-slate-900 mb-3 sm:mb-4 text-[15px] sm:text-[16px]  tracking-wide">Links</h4>
                 <ul className="space-y-2.5 text-[14px] sm:text-[15px] font-normal">
                   {impLinks.map((item) => (
                     <li key={item.name}>
@@ -134,9 +134,9 @@ export function Footer() {
                 </ul>
               </div>
 
-              {/* Programs Column */}
+              {/* Certifications Column */}
               <div>
-                <h4 className="font-bold text-slate-900 mb-3 sm:mb-4 text-[15px] sm:text-[16px] capitalize tracking-wide">Programs</h4>
+                <h4 className="font-bold text-slate-900 mb-3 sm:mb-4 text-[15px] sm:text-[16px]  tracking-wide">Certifications</h4>
                 <ul className="space-y-2.5 text-[14px] sm:text-[15px] font-normal">
                   {programLinks.map((item) => (
                     <li key={item.name}>
@@ -150,7 +150,7 @@ export function Footer() {
 
               {/* Company Column */}
               <div>
-                <h4 className="font-bold text-slate-900 mb-3 sm:mb-4 text-[15px] sm:text-[16px] capitalize tracking-wide">Company</h4>
+                <h4 className="font-bold text-slate-900 mb-3 sm:mb-4 text-[15px] sm:text-[16px]  tracking-wide">Company</h4>
                 <ul className="space-y-2.5 text-[14px] sm:text-[15px] font-normal">
                   {companyLinks.map((item) => (
                     <li key={item.name}>
@@ -168,7 +168,7 @@ export function Footer() {
 
               {/* Company Legal Badge */}
               <div className="w-full sm:w-auto lg:self-end rounded-2xl border border-orange-200 bg-orange-50 px-3.5 py-2.5 text-left sm:px-4 sm:py-3 sm:text-right shadow-2xs">
-                <p className="text-[12px] sm:text-[13px] font-semibold text-[#111] whitespace-nowrap">BIZONANCE Industrial Training Centre</p>
+                <p className="text-[12px] sm:text-[13px] font-semibold text-[#111] whitespace-nowrap">BIZONANCE industrial training centre</p>
                 <p className="text-[10.5px] sm:text-[11px] font-medium text-orange-600 whitespace-nowrap">A Unit of BIZONANCE India Private Limited</p>
                 <p className="mt-0.5 text-[10.5px] text-[#888] sm:text-[11px] whitespace-nowrap">CIN: U74999MH2017PTC301018</p>
                 <p className="text-[10.5px] text-[#888] sm:text-[11px] whitespace-nowrap">Registered Trademark · IP India</p>
