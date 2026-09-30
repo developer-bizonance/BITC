@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 
 export const metadata: Metadata = {
   title: "Student Consulting Center | BIZONANCE Industrial Training Centre",
-  description: "Get personalized career guidance and expert advice on courses at the BITC Student Consulting Center.",
+  description: "Get personalized career guidance and expert advice on certifications at the BITC Student Consulting Center.",
 };
 
 export default function StudentConsultingCenter() {

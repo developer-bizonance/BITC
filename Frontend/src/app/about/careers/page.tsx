@@ -167,7 +167,7 @@ export default function CareersPage() {
       }
     } else if (name === "subjectCourse") {
       if (!value) {
-        error = "Please select a course / certification specialization.";
+        error = "Please select a certification specialization.";
       }
     }
     return error;
