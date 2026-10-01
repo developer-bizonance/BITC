@@ -24,7 +24,7 @@ export default function OurInfrastructurePage() {
         </p>
         <Link 
           href="/" 
-          className="inline-flex h-14 items-center justify-center rounded-full px-10 text-base font-semibold text-black shadow-lg transition-all hover:-translate-y-0.5 bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)]"
+          className="inline-flex h-14 items-center justify-center rounded-full px-10 text-base font-medium text-black shadow-lg transition-all hover:-translate-y-0.5 bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)]"
         >
           Return Home
         </Link>

@@ -130,14 +130,14 @@ export function PartnerWithUsForm({ onSuccess, type = "corporate" }: { onSuccess
             <label className="text-xs font-semibold text-slate-700">
               {type === "educational" ? "Institution / College Name" : "Company Name"} <span className="text-red-500">*</span>
             </label>
-            <input required name="organizationName" value={formData.organizationName} onChange={handleChange} onBlur={() => handleBlur("organizationName")} type="text" className={`w-full px-3 py-2 rounded-xl border focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all text-sm ${fieldErrors.organizationName ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'}`} />
+            <input required name="organizationName" value={formData.organizationName} onChange={handleChange} onBlur={() => handleBlur("organizationName")} type="text" placeholder={type === "educational" ? "Enter institution/college name" : "Enter company name"} className={`w-full px-3 py-2 rounded-xl border focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all text-sm ${fieldErrors.organizationName ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'}`} />
             {fieldErrors.organizationName && <p className="text-[10px] text-red-500 font-medium">{fieldErrors.organizationName}</p>}
           </div>
           <div className="space-y-1 text-left">
             <label className="text-xs font-semibold text-slate-700">
               {type === "educational" ? "Institution Website" : "Company Website"} <span className="text-red-500">*</span>
             </label>
-            <input required name="website" value={formData.website} onChange={handleChange} onBlur={() => handleBlur("website")} type="url" className={`w-full px-3 py-2 rounded-xl border focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all text-sm ${fieldErrors.website ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'}`} />
+            <input required name="website" value={formData.website} onChange={handleChange} onBlur={() => handleBlur("website")} type="url" placeholder="https://www.example.com" className={`w-full px-3 py-2 rounded-xl border focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all text-sm ${fieldErrors.website ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'}`} />
             {fieldErrors.website && <p className="text-[10px] text-red-500 font-medium">{fieldErrors.website}</p>}
           </div>
         </div>
@@ -145,12 +145,12 @@ export function PartnerWithUsForm({ onSuccess, type = "corporate" }: { onSuccess
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div className="space-y-1 text-left">
             <label className="text-xs font-semibold text-slate-700">Contact Person <span className="text-red-500">*</span></label>
-            <input required name="contactPerson" value={formData.contactPerson} onChange={handleChange} onBlur={() => handleBlur("contactPerson")} type="text" className={`w-full px-3 py-2 rounded-xl border focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all text-sm ${fieldErrors.contactPerson ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'}`} />
+            <input required name="contactPerson" value={formData.contactPerson} onChange={handleChange} onBlur={() => handleBlur("contactPerson")} type="text" placeholder="Enter contact person's name" className={`w-full px-3 py-2 rounded-xl border focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all text-sm ${fieldErrors.contactPerson ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'}`} />
             {fieldErrors.contactPerson && <p className="text-[10px] text-red-500 font-medium">{fieldErrors.contactPerson}</p>}
           </div>
           <div className="space-y-1 text-left">
             <label className="text-xs font-semibold text-slate-700">Designation / Job Title <span className="text-red-500">*</span></label>
-            <input required name="designation" value={formData.designation} onChange={handleChange} onBlur={() => handleBlur("designation")} type="text" className={`w-full px-3 py-2 rounded-xl border focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all text-sm ${fieldErrors.designation ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'}`} />
+            <input required name="designation" value={formData.designation} onChange={handleChange} onBlur={() => handleBlur("designation")} type="text" placeholder="Enter designation or job title" className={`w-full px-3 py-2 rounded-xl border focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all text-sm ${fieldErrors.designation ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'}`} />
             {fieldErrors.designation && <p className="text-[10px] text-red-500 font-medium">{fieldErrors.designation}</p>}
           </div>
         </div>
@@ -158,12 +158,12 @@ export function PartnerWithUsForm({ onSuccess, type = "corporate" }: { onSuccess
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div className="space-y-1 text-left">
             <label className="text-xs font-semibold text-slate-700">Email Id <span className="text-red-500">*</span></label>
-            <input required name="email" value={formData.email} onChange={handleChange} onBlur={() => handleBlur("email")} type="email" className={`w-full px-3 py-2 rounded-xl border focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all text-sm ${fieldErrors.email ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'}`} />
+            <input required name="email" value={formData.email} onChange={handleChange} onBlur={() => handleBlur("email")} type="email" placeholder="Enter your email id" className={`w-full px-3 py-2 rounded-xl border focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all text-sm ${fieldErrors.email ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'}`} />
             {fieldErrors.email && <p className="text-[10px] text-red-500 font-medium">{fieldErrors.email}</p>}
           </div>
           <div className="space-y-1 text-left">
             <label className="text-xs font-semibold text-slate-700">Contact <span className="text-red-500">*</span></label>
-            <input required name="phone" value={formData.phone} onChange={handleChange} onBlur={() => handleBlur("phone")} type="tel" className={`w-full px-3 py-2 rounded-xl border focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all text-sm ${fieldErrors.phone ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'}`} />
+            <input required name="phone" value={formData.phone} onChange={handleChange} onBlur={() => handleBlur("phone")} type="tel" placeholder="Enter your mobile number" className={`w-full px-3 py-2 rounded-xl border focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all text-sm ${fieldErrors.phone ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'}`} />
             {fieldErrors.phone && <p className="text-[10px] text-red-500 font-medium">{fieldErrors.phone}</p>}
           </div>
         </div>
@@ -204,7 +204,7 @@ export function PartnerWithUsForm({ onSuccess, type = "corporate" }: { onSuccess
 
         <div className="space-y-1 text-left">
           <label className="text-xs font-semibold text-slate-700">Message <span className="text-red-500">*</span></label>
-          <textarea required name="message" value={formData.message} onChange={handleChange} onBlur={() => handleBlur("message")} rows={2} className={`w-full px-3 py-2 rounded-xl border focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all resize-none text-sm ${fieldErrors.message ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'}`}></textarea>
+          <textarea required name="message" value={formData.message} onChange={handleChange} onBlur={() => handleBlur("message")} rows={2} placeholder="Write your message here..." className={`w-full px-3 py-2 rounded-xl border focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all resize-none text-sm ${fieldErrors.message ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'}`}></textarea>
           {fieldErrors.message && <p className="text-[10px] text-red-500 font-medium">{fieldErrors.message}</p>}
         </div>
 

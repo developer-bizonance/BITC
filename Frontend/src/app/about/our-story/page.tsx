@@ -192,7 +192,7 @@ export default function OurStoryPage() {
                   className="border-none shadow-sm hover:shadow-xl transition-all duration-300 group bg-white flex flex-col items-center text-center p-5 h-full hover:-translate-y-2 rounded-2xl relative overflow-hidden"
                 >
                   {/* Step Number Pill */}
-                  <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200/80 mb-4 group-hover:bg-primary/10 group-hover:text-primary transition-colors">
+                  <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-slate-100 text-slate-700 border border-slate-200/80 mb-4 group-hover:bg-primary/10 group-hover:text-primary transition-colors">
                     STEP {milestone.num}
                   </div>
 
@@ -347,10 +347,10 @@ export default function OurStoryPage() {
           </p>
           
           <div className="flex flex-wrap justify-center gap-3">
-            <Link href="/courses" className="h-11 px-6 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-semibold flex items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-md shadow-primary/25 hover:shadow-lg text-base">
+            <Link href="/courses" className="h-11 px-6 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-medium flex items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-md shadow-primary/25 hover:shadow-lg text-base">
               Explore Certifications
             </Link>
-            <Link href="/contact" className="h-11 px-6 rounded-full bg-white/80 text-slate-700 font-semibold flex items-center justify-center border border-blue-200/80 hover:border-blue-300 hover:bg-white transition-all text-base shadow-sm backdrop-blur-sm">
+            <Link href="/contact" className="h-11 px-6 rounded-full bg-white/80 text-slate-700 font-medium flex items-center justify-center border border-blue-200/80 hover:border-blue-300 hover:bg-white transition-all text-base shadow-sm backdrop-blur-sm">
               Contact Us
             </Link>
           </div>

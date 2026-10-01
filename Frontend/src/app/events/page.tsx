@@ -119,7 +119,7 @@ export default async function EventsPage() {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] opacity-25 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent pointer-events-none" />
         
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-semibold mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             BITC EVENTS
           </div>
@@ -130,10 +130,10 @@ export default async function EventsPage() {
             Experience hands-on learning through workshops, seminars, expert talks, hackathons, industrial visits, and networking events with industry professionals.
           </p>
           <div className="flex justify-center gap-4">
-            <Link href="#upcoming-events" className="inline-flex items-center justify-center h-12 px-8 rounded-full text-black shadow-lg shadow-orange-500/30 text-base font-semibold transition-colors bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)]">
+            <Link href="#upcoming-events" className="inline-flex items-center justify-center h-12 px-8 rounded-full text-black shadow-lg shadow-orange-500/30 text-base font-medium transition-colors bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)]">
               Explore upcoming events
             </Link>
-            <Link href="/resources/gallery" className="inline-flex items-center justify-center h-12 px-8 rounded-full bg-slate-100 text-slate-900 hover:bg-slate-200 border border-slate-300/80 text-base font-semibold transition-all shadow-sm">
+            <Link href="/resources/gallery" className="inline-flex items-center justify-center h-12 px-8 rounded-full bg-slate-100 text-slate-900 hover:bg-slate-200 border border-slate-300/80 text-base font-medium transition-all shadow-sm">
               View past gallery
             </Link>
           </div>

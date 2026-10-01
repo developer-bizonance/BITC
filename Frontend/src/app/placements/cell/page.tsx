@@ -77,7 +77,7 @@ export default function PlacementCellPage() {
       {/* 1. Hero Banner */}
       <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center py-8 md:py-12 bg-white overflow-hidden">
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10 text-center flex flex-col items-center h-full">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-semibold mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-4">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             BITC PLACEMENT CELL
           </div>
@@ -180,7 +180,7 @@ export default function PlacementCellPage() {
                 {process.map((p, i) => (
                   <div key={i} className="flex gap-5 group">
                     <div className="flex flex-col items-center">
-                      <div className="w-10 h-10 rounded-full text-black flex items-center justify-center font-extrabold text-base shrink-0 bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] shadow-sm">
+                      <div className="w-10 h-10 rounded-full text-black flex items-center justify-center font-medium text-base shrink-0 bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] shadow-sm">
                         {p.step}
                       </div>
                       {i !== process.length - 1 && (

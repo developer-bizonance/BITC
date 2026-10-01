@@ -170,15 +170,15 @@ export default function ContactPage() {
               Whether you have a question about our certifications, need career guidance, or want to explore partnership opportunities — our team is ready to assist you.
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-2.5 sm:mt-7 sm:gap-3 lg:justify-start animate-in fade-in slide-in-from-bottom-4 duration-700 delay-[300ms] fill-mode-both">
-              <a href="https://wa.me/918956727311?text=Hello%2C%20I%20want%20to%20get%20in%20touch%20with%20BITC" target="_blank" rel="noreferrer" className="group flex items-center gap-2 rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-[#111827] shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 sm:px-6 sm:py-3">
+              <a href="https://wa.me/918956727311?text=Hello%2C%20I%20want%20to%20get%20in%20touch%20with%20BITC" target="_blank" rel="noreferrer" className="group flex items-center gap-2 rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-[#111827] shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 sm:px-6 sm:py-3">
                 <svg viewBox="0 0 32 32" width="18" height="18" fill="#25D366" aria-hidden="true" className="shrink-0">
                   <path d="M16.001 3C9.007 3 3 9.007 3 16.001c0 2.813.92 5.412 2.482 7.512L3.5 29l5.653-1.955A12.94 12.94 0 0 0 16 29c6.994 0 13-6.006 13-13S22.995 3 16.001 3zm0 23.6a10.55 10.55 0 0 1-5.4-1.5l-.387-.23-3.354 1.16 1.128-3.267-.253-.4A10.56 10.56 0 1 1 26.6 16c0 5.85-4.75 10.6-10.599 10.6zm5.79-7.94c-.318-.159-1.884-.93-2.176-1.037-.292-.107-.505-.159-.717.16-.212.318-.823 1.036-1.009 1.249-.186.212-.372.24-.69.08-.318-.159-1.343-.495-2.558-1.577-.945-.843-1.583-1.884-1.769-2.203-.186-.318-.02-.49.139-.649.143-.142.318-.372.478-.557.16-.186.212-.318.318-.53.106-.212.053-.398-.026-.557-.08-.16-.717-1.729-.983-2.368-.259-.622-.523-.538-.717-.548l-.611-.011c-.212 0-.557.08-.849.398-.292.318-1.113 1.089-1.113 2.657 0 1.567 1.14 3.083 1.299 3.295.159.212 2.245 3.43 5.44 4.81.76.328 1.353.524 1.815.671.762.243 1.457.209 2.006.127.612-.091 1.884-.771 2.15-1.516.265-.744.265-1.383.186-1.516-.08-.132-.292-.212-.61-.371z"></path>
                 </svg> Chat with us
               </a>
-              <a href="tel:+918956727311" className="group flex items-center gap-2 rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-[#111827] shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 sm:px-6 sm:py-3">
+              <a href="tel:+918956727311" className="group flex items-center gap-2 rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-[#111827] shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 sm:px-6 sm:py-3">
                 <Phone className="w-[15px] h-[15px] text-[#f97316]" /> Call us
               </a>
-              <a href="mailto:info@bizonance.in" className="group flex items-center gap-2 rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-[#111827] shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 sm:px-6 sm:py-3">
+              <a href="mailto:info@bizonance.in" className="group flex items-center gap-2 rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-[#111827] shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 sm:px-6 sm:py-3">
                 <Mail className="w-[15px] h-[15px] text-[#2f55d4]" /> Email us
               </a>
             </div>

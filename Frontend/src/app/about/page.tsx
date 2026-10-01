@@ -167,7 +167,7 @@ export default function AboutPage() {
               <p className="text-sm text-gray-600 leading-relaxed mb-6">
                 Whether you are starting your career or looking to upgrade your skills, BITC provides learning opportunities tailored to your goals. Our programs are designed for individuals across various educational and professional backgrounds who are eager to bridge the gap between theory and practice.
               </p>
-              <div className="inline-flex items-center gap-2 text-primary font-semibold bg-primary/5 px-6 py-3 rounded-full">
+              <div className="inline-flex items-center gap-2 text-primary font-medium bg-primary/5 px-6 py-3 rounded-full">
                 <GraduationCap className="w-5 h-5" />
                 <span>Empowering learners at every stage of their journey</span>
               </div>
@@ -287,10 +287,10 @@ export default function AboutPage() {
             Join BITC and experience an education designed around industry, innovation, and career growth.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/courses" className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-semibold flex items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 text-lg">
+            <Link href="/courses" className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-medium flex items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 text-lg">
               Explore Certifications
             </Link>
-            <Link href="/contact" className="h-14 px-8 rounded-full bg-white text-slate-700 font-semibold flex items-center justify-center border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all text-lg">
+            <Link href="/contact" className="h-14 px-8 rounded-full bg-white text-slate-700 font-medium flex items-center justify-center border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all text-lg">
               Contact Us
             </Link>
           </div>

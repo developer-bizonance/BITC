@@ -55,7 +55,7 @@ export default async function EventDetailsPage({ params }: { params: Promise<{ i
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/70 to-transparent" />
         
         <div className="container max-w-[800px] mx-auto px-4 relative z-10 mt-16 text-center">
-          <div className="inline-block bg-primary/20 backdrop-blur-md text-white px-4 py-1.5 rounded-full text-sm font-semibold mb-4 border border-primary/30 uppercase tracking-widest">
+          <div className="inline-block bg-primary/20 backdrop-blur-md text-white px-4 py-1.5 rounded-full text-sm font-medium mb-4 border border-primary/30 uppercase tracking-widest">
             {event.category}
           </div>
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-black tracking-tight mb-8 leading-tight">

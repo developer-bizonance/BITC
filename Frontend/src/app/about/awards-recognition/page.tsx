@@ -167,10 +167,10 @@ export default function AwardsRecognitionPage() {
             We are just getting started. Our goal is to continue raising the bar for industry-integrated education in India and beyond.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/courses" className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-semibold flex items-center gap-2 justify-center hover:shadow-xl transition-all text-lg">
+            <Link href="/courses" className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-medium flex items-center gap-2 justify-center hover:shadow-xl transition-all text-lg">
               Explore Certifications <ArrowRight className="w-5 h-5" />
             </Link>
-            <Link href="/contact" className="h-14 px-8 rounded-full bg-white/80 text-slate-700 font-semibold flex items-center justify-center border border-blue-200/80 hover:border-blue-300 hover:bg-white transition-all text-lg shadow-sm backdrop-blur-sm">
+            <Link href="/contact" className="h-14 px-8 rounded-full bg-white/80 text-slate-700 font-medium flex items-center justify-center border border-blue-200/80 hover:border-blue-300 hover:bg-white transition-all text-lg shadow-sm backdrop-blur-sm">
               Contact Us
             </Link>
           </div>

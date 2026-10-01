@@ -34,7 +34,7 @@ export default function PartnershipClient() {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] opacity-40 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-orange-500/30 via-transparent to-transparent pointer-events-none" />
         
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10 text-center flex flex-col items-center justify-center flex-1">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-orange-200 text-orange-600 text-sm font-semibold mb-6 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-orange-200 text-orange-600 text-sm font-medium mb-6 shadow-sm">
             <Handshake className="w-4 h-4" />
             <span>Collaborate with us</span>
           </div>
@@ -49,7 +49,7 @@ export default function PartnershipClient() {
           <div className="flex flex-col sm:flex-row justify-center gap-4 relative z-10">
             <button
               onClick={() => setActiveTab("educational")}
-              className={`px-8 py-4 rounded-full font-bold text-sm md:text-base transition-all duration-300 flex items-center justify-center gap-3 ${
+              className={`px-8 py-4 rounded-full font-medium text-sm md:text-base transition-all duration-300 flex items-center justify-center gap-3 ${
                 activeTab === "educational" 
                   ? "bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black shadow-xl shadow-orange-500/20 scale-105" 
                   : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-sm"
@@ -60,7 +60,7 @@ export default function PartnershipClient() {
             </button>
             <button
               onClick={() => setActiveTab("corporate")}
-              className={`px-8 py-4 rounded-full font-bold text-sm md:text-base transition-all duration-300 flex items-center justify-center gap-3 ${
+              className={`px-8 py-4 rounded-full font-medium text-sm md:text-base transition-all duration-300 flex items-center justify-center gap-3 ${
                 activeTab === "corporate" 
                   ? "bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black shadow-xl shadow-orange-500/20 scale-105" 
                   : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-sm"
@@ -254,7 +254,7 @@ export default function PartnershipClient() {
           </p>
           <button 
             onClick={() => setIsModalOpen(true)}
-            className="inline-flex h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-bold items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-lg hover:shadow-orange-500/30 gap-2"
+            className="inline-flex h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-medium items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-lg hover:shadow-orange-500/30 gap-2"
           >
             Propose a Partnership <ArrowRight className="w-5 h-5" />
           </button>

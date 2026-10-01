@@ -261,7 +261,7 @@ export default async function CoursePage({ params }: PageProps) {
                     </div>
 
                     <div className="flex items-center gap-3 self-start md:self-center">
-                      <span className="text-xs font-semibold px-3 py-1 bg-slate-100 text-slate-600 rounded-full border border-slate-200 shrink-0">
+                      <span className="text-xs font-medium px-3 py-1 bg-slate-100 text-slate-600 rounded-full border border-slate-200 shrink-0">
                         {module.topics.length} Key Topics
                       </span>
                     </div>

@@ -121,7 +121,7 @@ export default function CertificateVerificationPage() {
         </div>
 
         <div className="container max-w-[1100px] mx-auto px-4 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-extrabold mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6">
             <ShieldCheck className="w-4 h-4 text-primary" />
             <span>OFFICIAL certificate validation</span>
           </div>
@@ -181,7 +181,7 @@ export default function CertificateVerificationPage() {
                       setCertIdInput(id);
                       handleVerify(id);
                     }}
-                    className="text-xs font-bold px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-primary/10 hover:text-primary border border-slate-200 transition-colors"
+                    className="text-xs font-medium px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-primary/10 hover:text-primary border border-slate-200 transition-colors"
                   >
                     {id}
                   </button>

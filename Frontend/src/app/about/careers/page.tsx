@@ -375,13 +375,13 @@ export default function CareersPage() {
           <div className="flex flex-wrap justify-center gap-4">
             <button
               onClick={() => openApplyModal()}
-              className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-semibold flex items-center gap-2 justify-center hover:shadow-xl shadow-orange-500/20 hover:-translate-y-0.5 transition-all text-base cursor-pointer"
+              className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-medium flex items-center gap-2 justify-center hover:shadow-xl shadow-orange-500/20 hover:-translate-y-0.5 transition-all text-base cursor-pointer"
             >
               <Sparkles className="w-5 h-5" /> Apply as Faculty / Trainer
             </button>
             <Link
               href="#current-openings"
-              className="h-14 px-8 rounded-full bg-slate-100 text-slate-900 font-semibold flex items-center justify-center border border-slate-200 hover:bg-slate-200 transition-all text-base"
+              className="h-14 px-8 rounded-full bg-slate-100 text-slate-900 font-medium flex items-center justify-center border border-slate-200 hover:bg-slate-200 transition-all text-base"
             >
               View Openings
             </Link>
@@ -429,7 +429,7 @@ export default function CareersPage() {
                 </div>
                 <button
                   onClick={() => openApplyModal(job.title)}
-                  className="px-6 py-2.5 rounded-full text-black font-semibold text-sm hover:shadow-lg shadow-orange-500/20 transition-all whitespace-nowrap bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:opacity-90 cursor-pointer"
+                  className="px-6 py-2.5 rounded-full text-black font-medium text-sm hover:shadow-lg shadow-orange-500/20 transition-all whitespace-nowrap bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:opacity-90 cursor-pointer"
                 >
                   Apply Now
                 </button>
