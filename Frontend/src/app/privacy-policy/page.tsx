@@ -27,12 +27,12 @@ export default function PrivacyPolicyPage() {
             At <strong>BIZONANCE Industrial Training Centre (BITC)</strong>, accessible from bitc-eight.vercel.app, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by BITC and how we use it.
           </p>
           
-          <h2 className="text-xl font-bold text-slate-900 pt-4">Information We <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Collect</span></h2>
+          <h2 className="text-xl font-bold text-slate-900 pt-4">Information we <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Collect</span></h2>
           <p>
             When you register for a certification program, submit an application form, or contact us, we may collect personal information including your name, Email Id, mobile number, qualification details, and certification interest.
           </p>
           
-          <h2 className="text-xl font-bold text-slate-900 pt-4">How we use your <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Information</span></h2>
+          <h2 className="text-xl font-bold text-slate-900 pt-4">How we Use Your <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Information</span></h2>
           <ul className="list-disc pl-6 space-y-2">
             <li>To process certification applications and enrollment.</li>
             <li>To provide, operate, and maintain our educational services.</li>

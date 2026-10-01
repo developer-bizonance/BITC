@@ -109,7 +109,7 @@ export function PartnerWithUsForm({ onSuccess, type = "corporate" }: { onSuccess
         <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
           <CheckCircle2 className="w-10 h-10 text-emerald-600" />
         </div>
-        <h3 className="text-2xl font-bold text-slate-900 mb-4">Request Received!</h3>
+        <h3 className="text-2xl font-bold text-slate-900 mb-4">Request received!</h3>
         <p className="text-slate-600 mb-8 max-w-sm mx-auto">
           Thank you for your interest in partnering with BITC. Our corporate relations team will reach out to you shortly.
         </p>
@@ -120,7 +120,7 @@ export function PartnerWithUsForm({ onSuccess, type = "corporate" }: { onSuccess
   return (
     <div className="bg-white p-5 md:p-6 relative overflow-hidden rounded-2xl">
       <div className="mb-4 text-center">
-        <h3 className="text-2xl font-bold text-slate-900 mb-1">Partner <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">With Us</span></h3>
+        <h3 className="text-2xl font-bold text-slate-900 mb-1">Partner <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">with us</span></h3>
         <p className="text-slate-600 text-xs md:text-sm">Join our network to hire talent, train your workforce, or collaborate on tech.</p>
       </div>
 

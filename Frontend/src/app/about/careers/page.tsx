@@ -367,7 +367,7 @@ export default function CareersPage() {
             Careers & Faculty Hiring
           </div>
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-slate-900 leading-[1.2]">
-            Teach & Inspire at <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC</span>
+            Teach & Inspire At <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC</span>
           </h1>
           <p className="text-base md:text-lg text-gray-600 max-w-[900px] mx-auto leading-relaxed mb-8">
             Join a premier industrial training centre. Share your industry expertise, mentor passionate students, and shape the next generation of tech leaders.

@@ -113,7 +113,7 @@ export default async function EventDetailsPage({ params }: { params: Promise<{ i
               <li><strong>Networking:</strong> Connect with peers, mentors, and industry leaders in a collaborative environment.</li>
             </ul>
             
-            <h3>Who should attend</h3>
+            <h3>Who Should Attend</h3>
             <p>This event is perfectly suited for:</p>
             <ul>
               <li>Students and recent graduates looking to upskill and gain industry exposure.</li>
@@ -136,7 +136,7 @@ export default async function EventDetailsPage({ params }: { params: Promise<{ i
                 </div>
                 <div className="relative">
                   <div className="absolute w-3 h-3 bg-primary rounded-full -left-[1.65rem] top-1.5 border-4 border-white shadow-sm"></div>
-                  <h4 className="text-lg font-bold text-slate-900">Interactive Q&A Session</h4>
+                  <h4 className="text-lg font-bold text-slate-900">Interactive Q&a Session</h4>
                   <p className="text-slate-500 text-sm mt-1">12:00 PM - 1:00 PM</p>
                 </div>
               </div>
@@ -144,7 +144,7 @@ export default async function EventDetailsPage({ params }: { params: Promise<{ i
             
             {event.speaker && (
               <>
-                <h3>Meet the Industry expert</h3>
+                <h3>Meet the Industry Expert</h3>
                 <div className="not-prose flex flex-col sm:flex-row gap-6 items-start bg-slate-50 p-6 rounded-2xl border border-slate-100">
                   <div className="w-20 h-20 rounded-full bg-slate-200 shrink-0 flex items-center justify-center overflow-hidden">
                     <Users className="w-8 h-8 text-slate-400" />

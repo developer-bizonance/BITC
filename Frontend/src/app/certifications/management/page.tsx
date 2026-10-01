@@ -57,15 +57,15 @@ export default async function ManagementCoursesPage() {
 
       {/* Hero Banner */}
       <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-start pt-16 md:pt-20 lg:pt-24 bg-white overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[1360px] mx-auto px-4 relative z-10 text-center">
           <div className="max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 text-xs md:text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs md:text-sm font-medium mb-6">
               <Briefcase className="w-4 h-4" />
               <span>BUSINESS & MANAGEMENT</span>
             </div>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
-              Management <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span> & Certifications
+              Management <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span>
             </h1>
             <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-8 font-medium max-w-2xl mx-auto">
               Equip yourself with practical business acumen, leadership skills, and strategic thinking to fast-track your corporate growth.
@@ -73,15 +73,15 @@ export default async function ManagementCoursesPage() {
 
             <div className="flex flex-wrap justify-center gap-3">
               <div className="flex items-center gap-2 text-slate-700 text-xs md:text-sm font-semibold bg-slate-50 px-4 py-2 rounded-full border border-slate-200/80 shadow-xs">
-                <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
                 <span>5 Business Tracks</span>
               </div>
               <div className="flex items-center gap-2 text-slate-700 text-xs md:text-sm font-semibold bg-slate-50 px-4 py-2 rounded-full border border-slate-200/80 shadow-xs">
-                <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
                 <span>Industry case studies</span>
               </div>
               <div className="flex items-center gap-2 text-slate-700 text-xs md:text-sm font-semibold bg-slate-50 px-4 py-2 rounded-full border border-slate-200/80 shadow-xs">
-                <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
                 <span>Corporate Mentors</span>
               </div>
             </div>
@@ -118,7 +118,7 @@ export default async function ManagementCoursesPage() {
                 <div className="p-4 flex flex-col flex-1 justify-between">
                   <div>
                     {/* Title */}
-                    <h3 className="text-base font-extrabold text-slate-900 group-hover:text-blue-600 transition-colors flex items-center leading-snug mb-3">
+                    <h3 className="text-base font-extrabold text-slate-900 group-hover:text-primary transition-colors flex items-center leading-snug mb-3">
                       {course.title}
                     </h3>
 
@@ -126,25 +126,25 @@ export default async function ManagementCoursesPage() {
                     <div className="space-y-2 mb-4">
                       {/* 1. Duration */}
                       <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
-                        <Clock className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                        <Clock className="w-3.5 h-3.5 text-primary shrink-0" />
                         <span>Duration: <strong className="text-slate-900 font-semibold">{course.duration}</strong></span>
                       </div>
 
                       {/* 2. Learn from Experts */}
                       <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
-                        <Users className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                        <Users className="w-3.5 h-3.5 text-primary shrink-0" />
                         <span>Learn from Experts</span>
                       </div>
 
                       {/* 3. Assignments & Live Projects */}
                       <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
-                        <Laptop className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                        <Laptop className="w-3.5 h-3.5 text-primary shrink-0" />
                         <span>Assignments & Live Projects</span>
                       </div>
 
                       {/* 4. Internship Opportunity */}
                       <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
-                        <Briefcase className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                        <Briefcase className="w-3.5 h-3.5 text-primary shrink-0" />
                         <span>Internship Opportunity</span>
                       </div>
 
@@ -165,7 +165,7 @@ export default async function ManagementCoursesPage() {
                       </span>
                     </div>
 
-                    <Link href={`/courses/${course.id}`} className="block w-full">
+                    <Link href={`/certifications/${course.id}`} className="block w-full">
                       <Button className="w-full h-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:opacity-90 text-black font-medium text-xs transition-all duration-300 shadow-sm cursor-pointer flex items-center justify-center gap-2 group/btn">
                         <span>View Certification</span>
                         <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
@@ -183,7 +183,7 @@ export default async function ManagementCoursesPage() {
       <section className="py-16 md:py-20 bg-white">
         <div className="container max-w-[1360px] mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Why Study Management at <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC?</span></h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Why Study Management At <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC?</span></h2>
             <p className="text-gray-500 max-w-2xl mx-auto text-base">
               Learn business execution, data-backed decision making, and leadership from corporate executives.
             </p>
@@ -197,7 +197,7 @@ export default async function ManagementCoursesPage() {
               { title: "Placement Leadership", desc: "Fast-track your entry into management and high-growth commercial roles.", icon: ArrowRight },
             ].map((item, i) => (
               <div key={i} className="text-center p-6 rounded-2xl bg-slate-50/80 border border-slate-200/80 hover:border-blue-300 hover:bg-white hover:shadow-lg transition-all">
-                <div className="w-13 h-13 rounded-2xl bg-blue-50 flex items-center justify-center mx-auto mb-4 text-blue-600">
+                <div className="w-13 h-13 rounded-2xl bg-blue-50 flex items-center justify-center mx-auto mb-4 text-primary">
                   <item.icon className="w-6 h-6" />
                 </div>
                 <h3 className="text-base font-bold text-slate-900 mb-2">{item.title}</h3>

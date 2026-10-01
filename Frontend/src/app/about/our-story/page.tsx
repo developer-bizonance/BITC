@@ -78,7 +78,7 @@ export default function OurStoryPage() {
       <section className="py-16 md:py-24 bg-white text-slate-900 relative overflow-hidden">
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">The challenge we <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Identified</span></h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">The Challenge we <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Identified</span></h2>
             <p className="text-slate-600 max-w-[700px] mx-auto text-lg">
               Traditional education often leaves students asking difficult questions about their future.
             </p>
@@ -99,7 +99,7 @@ export default function OurStoryPage() {
 
           <div className="max-w-[900px] mx-auto bg-white border border-slate-200/80 rounded-[2rem] p-8 md:p-12 shadow-xl">
             <div className="text-center mb-10">
-              <h3 className="text-2xl md:text-3xl font-bold mb-4 text-slate-900">Transforming Learning into <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Experience</span></h3>
+              <h3 className="text-2xl md:text-3xl font-bold mb-4 text-slate-900">Transforming Learning Into <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Experience</span></h3>
               <p className="text-slate-600 text-lg">
                 BITC was created to answer these questions by bringing students closer to the industry through hands-on learning and expert mentorship. We believe students shouldn't wait until their first job to experience the professional world.
               </p>
@@ -132,7 +132,7 @@ export default function OurStoryPage() {
               Our Evolution
             </div>
             <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-2 tracking-tight">
-              Milestones that shaped <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Our Journey</span>
+              Milestones That Shaped <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Our Journey</span>
             </h2>
             <p className="text-slate-600 max-w-[600px] mx-auto text-sm md:text-base leading-relaxed font-medium">
               A 5-step evolution from vision to empowering thousands of job-ready professionals across India.
@@ -229,7 +229,7 @@ export default function OurStoryPage() {
                 <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
                   <Target className="w-7 h-7 text-primary" />
                 </div>
-                <h3 className="text-2xl font-bold text-slate-900 mb-4">The problem we <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Solve</span></h3>
+                <h3 className="text-2xl font-bold text-slate-900 mb-4">The Problem we <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Solve</span></h3>
                 <p className="text-gray-600 mb-6 font-medium text-base">Education Alone Isn't Enough. Today's employers expect professionals who can:</p>
                 <ul className="space-y-4">
                   {[
@@ -264,7 +264,7 @@ export default function OurStoryPage() {
                 <div className="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-6">
                   <Globe className="w-7 h-7 text-blue-500" />
                 </div>
-                <h3 className="text-2xl font-bold text-slate-900 mb-4">Inspired by <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Industry</span></h3>
+                <h3 className="text-2xl font-bold text-slate-900 mb-4">Inspired By <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Industry</span></h3>
                 <p className="text-gray-600 mb-6 font-medium text-base">We continuously study the market to ensure our training remains relevant and future-focused:</p>
                 <ul className="space-y-4">
                   {[
@@ -333,9 +333,9 @@ export default function OurStoryPage() {
         <div className="container max-w-[900px] mx-auto px-4 text-center relative z-10">
           <Quote className="w-9 h-9 text-primary mx-auto mb-4 opacity-80" />
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-slate-900 leading-snug mb-6 tracking-tight max-w-[900px] mx-auto">
-            "Education provides knowledge. Experience builds confidence. Industry creates professionals.{" "}
+            "Education Provides Knowledge. Experience Builds Confidence. Industry Creates Professionals.{" "}
             <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">
-              BITC brings them together.
+              BITC Brings Them Together.
             </span>"
           </h2>
           

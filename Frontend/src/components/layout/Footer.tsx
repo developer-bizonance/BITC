@@ -42,10 +42,10 @@ export function Footer() {
   ];
 
   const programLinks = [
-    { name: 'Information Technology', href: '/courses/it' },
-    { name: 'Digital Media Technology', href: '/courses/digital-media' },
-    { name: 'Management Programs', href: '/courses/management' },
-    { name: 'Design Programs', href: '/courses/design' }
+    { name: 'Information Technology', href: '/certifications/it' },
+    { name: 'Digital Media Technology', href: '/certifications/digital-media' },
+    { name: 'Management Programs', href: '/certifications/management' },
+    { name: 'Design Programs', href: '/certifications/design' }
   ];
 
   return (
@@ -58,14 +58,14 @@ export function Footer() {
 
             {/* 1. Brand & Description & Socials (Col 1-4) */}
             <div className="lg:col-span-4 flex flex-col justify-between gap-3.5 sm:gap-4 h-full">
-              <div className="space-y-3.5">
-                <div className="flex items-center gap-3">
+              <div className="space-y-4">
+                <div className="flex items-center">
                   <Image
-                    src="/logos.png"
+                    src="/BITC.svg"
                     alt="BITC Logo"
-                    width={180}
-                    height={50}
-                    className="h-10 sm:h-12 w-auto object-contain -ml-1"
+                    width={260}
+                    height={85}
+                    className="h-[26px] sm:h-[29px] w-auto object-contain ml-1"
                   />
                 </div>
                 <p className="text-[14px] sm:text-[15px] leading-relaxed text-slate-600 font-normal pr-0 sm:pr-2">
@@ -90,7 +90,7 @@ export function Footer() {
                       onMouseLeave={() => setHoveredIndex(null)}
                     >
                       {isGoogle ? (
-                         <>
+                        <>
                           <span className="sm:hidden transition-all duration-300">
                             <GoogleIcon size={15} />
                           </span>

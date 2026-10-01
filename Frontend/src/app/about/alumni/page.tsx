@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { FaLinkedin } from 'react-icons/fa';
 
 interface AlumniItem {
   id?: string;
@@ -115,61 +116,44 @@ function AlumniSection() {
         </FadeUp>
 
         {/* Alumni cards */}
-        <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
           {alumniList.map((a, i) => (
             <FadeUp key={a.id || i} delay={i * 0.07}
-              className="group flex flex-col items-center gap-2 rounded-xl border border-gray-100 bg-white p-2.5 text-center shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-orange-200 hover:shadow-xl sm:gap-3 sm:rounded-2xl sm:p-6"
+              className="group flex flex-col items-center gap-2 rounded-2xl border border-[#dadce0] bg-white p-4 text-center sm:p-5 transition-all duration-200 hover:-translate-y-1 hover:border-orange-300 hover:shadow-[0_8px_24px_rgba(255,123,0,0.12)]"
             >
-              <div className="relative">
-                {/* Photo */}
-                <div className="relative h-14 w-14 overflow-hidden rounded-full shadow-md sm:h-[100px] sm:w-[100px] bg-slate-100">
-                  <img
-                    src={a.photo}
-                    alt={a.name}
-                    onError={() => setImgError((prev) => ({ ...prev, [a.id || i]: true }))}
-                    className="h-full w-full object-cover object-top"
-                  />
-                </div>
+              {/* Photo */}
+              <div className="relative h-20 w-20 overflow-hidden rounded-full border border-gray-200 shadow-xs sm:h-[88px] sm:w-[88px] bg-slate-100 shrink-0">
+                <img
+                  src={a.photo}
+                  alt={a.name}
+                  onError={() => setImgError((prev) => ({ ...prev, [a.id || i]: true }))}
+                  className="h-full w-full object-cover object-top"
+                />
               </div>
 
-              <div className="flex flex-col flex-1 w-full text-center mt-1 px-1">
-                <div className="flex flex-col gap-1.5 flex-1 items-center">
-                  <div className="w-full">
-                    <span className="block text-[8px] text-gray-400 uppercase tracking-wider font-bold mb-0.5">Name</span>
-                    <p className="text-[12px] font-bold leading-snug text-[#111]">{a.name}</p>
-                  </div>
-                  
-                  {a.certification && (
-                    <div className="w-full">
-                      <span className="block text-[8px] text-gray-400 uppercase tracking-wider font-bold mb-0.5">Certification</span>
-                      <p className="text-[11px] font-medium text-orange-600 leading-tight">{a.certification}</p>
-                    </div>
-                  )}
-                  
-                  <div className="w-full">
-                    <span className="block text-[8px] text-gray-400 uppercase tracking-wider font-bold mb-0.5">Designation</span>
-                    <p className="text-[11px] text-[#555] font-medium leading-tight">{a.role}</p>
-                  </div>
-                  
-                  <div className="w-full">
-                    <span className="block text-[8px] text-gray-400 uppercase tracking-wider font-bold mb-1">Company</span>
-                    <span className="inline-block mx-auto rounded-full border border-blue-200 bg-blue-50 px-2 py-0.5 text-[8px] font-medium uppercase tracking-wider text-[#2f55d4]">
-                      {a.company}
-                    </span>
-                  </div>
-                </div>
+              {/* Name & Role */}
+              <p className="mt-1 text-[13px] font-bold leading-snug text-[#111] sm:text-sm">{a.name}</p>
+              <p className="text-[11px] font-medium text-[#666] sm:text-xs leading-tight">{a.role}</p>
 
-                <div className="mt-3 w-full border-t border-gray-100 pt-2 flex flex-wrap items-center justify-between gap-1 text-[10px] text-gray-500">
-                  {a.batch && (
-                    <span className="font-semibold bg-gray-50 px-1.5 py-0.5 rounded border border-gray-100">Batch: {a.batch}</span>
-                  )}
-                  {a.linkedin && (
-                    <a href={a.linkedin} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-700 font-semibold hover:underline flex items-center bg-blue-50/50 px-1.5 py-0.5 rounded">
-                      LinkedIn
-                    </a>
-                  )}
-                </div>
-              </div>
+              {/* Batch badge */}
+              {a.batch && (
+                <span className="mt-1 inline-block rounded-full bg-orange-50 px-2.5 py-0.5 text-[10px] font-bold text-[#ff7b00] border border-orange-200/80">
+                  Batch {a.batch.includes('-') ? `20${a.batch.split('-')[1]}` : a.batch}
+                </span>
+              )}
+
+              {/* LinkedIn button */}
+              {a.linkedin && (
+                <a
+                  href={a.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 flex items-center gap-1.5 rounded-full bg-[#0A66C2] px-3.5 py-1.5 text-[11px] font-semibold text-white transition-all duration-200 hover:bg-[#084e96] hover:shadow-sm hover:scale-105"
+                >
+                  <FaLinkedin className="w-3.5 h-3.5" />
+                  LinkedIn
+                </a>
+              )}
             </FadeUp>
           ))}
         </div>

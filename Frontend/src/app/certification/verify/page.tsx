@@ -360,7 +360,7 @@ export default function CertificateVerificationPage() {
 
               <Card className="border-0 shadow-md bg-white rounded-2xl p-6 text-center">
                 <Sparkles className="w-8 h-8 text-emerald-500 mx-auto mb-3" />
-                <h3 className="font-extrabold text-slate-900 mb-1"><span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Tamper-Proof</span></h3>
+                <h3 className="font-extrabold text-slate-900 mb-1"><span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Tamper-proof</span></h3>
                 <p className="text-xs text-slate-600">Every certificate features a unique cryptographic hash and digital signature seal.</p>
               </Card>
             </div>

@@ -162,9 +162,9 @@ export default function ContactPage() {
         <div className="relative mx-auto flex w-full max-w-7xl flex-col-reverse items-center gap-6 sm:gap-10 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex w-full flex-col justify-center text-center lg:w-[46%] lg:flex-none lg:text-left animate-in fade-in slide-in-from-left-8 duration-700">
             <h1 className="text-2xl font-bold leading-tight text-[#111] sm:text-3xl md:text-4xl xl:text-5xl">
-              <span>Get in touch with <span className="bg-gradient-to-r from-[#ff7b00] to-[#f4b400] bg-clip-text text-transparent">BITC</span></span>
+              <span>Get in Touch With <span className="bg-gradient-to-r from-[#ff7b00] to-[#f4b400] bg-clip-text text-transparent">BITC</span></span>
               <br />
-              <span className="text-[#111]">We're here to help.</span>
+              <span className="text-[#111]">We're Here to Help.</span>
             </h1>
             <p className="mt-4 max-w-xl mx-auto lg:mx-0 text-sm leading-relaxed text-[#666] sm:mt-5 sm:text-base lg:text-lg">
               Whether you have a question about our certifications, need career guidance, or want to explore partnership opportunities — our team is ready to assist you.
@@ -195,7 +195,7 @@ export default function ContactPage() {
       <section className="bg-white px-4 py-8 sm:px-6 sm:py-16 border-t border-slate-100">
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 text-center sm:mb-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h2 className="mt-4 text-2xl font-bold text-[#111] sm:mt-5 sm:text-4xl md:text-5xl">Contact <span className="bg-gradient-to-r from-[#ff7b00] to-[#f4b400] bg-clip-text text-transparent">us</span></h2>
+            <h2 className="mt-4 text-2xl font-bold text-[#111] sm:mt-5 sm:text-4xl md:text-5xl">Contact <span className="bg-gradient-to-r from-[#ff7b00] to-[#f4b400] bg-clip-text text-transparent">Us</span></h2>
             <p className="mx-auto mt-3 max-w-2xl text-sm text-[#666] sm:text-base">
               Fill out the form below and our team will get back to you within 24 hours.
             </p>

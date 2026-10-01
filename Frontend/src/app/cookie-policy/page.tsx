@@ -27,12 +27,12 @@ export default function CookiePolicyPage() {
             This is the Cookie Policy for <strong>BIZONANCE Industrial Training Centre (BITC)</strong>.
           </p>
           
-          <h2 className="text-xl font-bold text-slate-900 pt-4">What Are <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Cookies</span></h2>
+          <h2 className="text-xl font-bold text-slate-900 pt-4">What are <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Cookies</span></h2>
           <p>
             As is common practice with almost all professional websites, this site uses cookies, which are tiny files downloaded to your computer, to improve your browsing experience.
           </p>
           
-          <h2 className="text-xl font-bold text-slate-900 pt-4">How we use <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Cookies</span></h2>
+          <h2 className="text-xl font-bold text-slate-900 pt-4">How we Use <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Cookies</span></h2>
           <p>
             We use cookies for essential session management, analytics to understand visitor preferences, and performance optimizations.
           </p>

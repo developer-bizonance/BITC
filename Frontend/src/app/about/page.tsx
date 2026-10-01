@@ -50,7 +50,7 @@ export default function AboutPage() {
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Who We <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Are</span></h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Who we <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Are</span></h2>
               <div className="space-y-4 text-gray-600 leading-relaxed text-sm">
                 <p>
                   BITC (BIZONANCE Industrial Training Centre) is the professional training and skill development division of <strong>BIZONANCE INDIA PVT. LTD.</strong>, established with a clear vision to bridge the gap between academic education and industry requirements.
@@ -163,7 +163,7 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="order-1 lg:order-2">
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Who can join <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC?</span></h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Who Can Join <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC?</span></h2>
               <p className="text-sm text-gray-600 leading-relaxed mb-6">
                 Whether you are starting your career or looking to upgrade your skills, BITC provides learning opportunities tailored to your goals. Our programs are designed for individuals across various educational and professional backgrounds who are eager to bridge the gap between theory and practice.
               </p>

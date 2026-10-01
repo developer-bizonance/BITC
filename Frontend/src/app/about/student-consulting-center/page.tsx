@@ -20,11 +20,11 @@ export default function StudentConsultingCenter() {
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10 flex flex-col items-center text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6">
             <Compass className="w-4 h-4" />
-            Career Guidance & Counseling
+            Student Consoling Centre
           </div>
           
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-slate-900 max-w-4xl leading-tight">
-            Navigate Your Career with <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Expert Consulting</span>
+            Navigate Your Career With <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Expert Consulting</span>
           </h1>
           
           <p className="text-base md:text-lg text-gray-600 mb-10 max-w-2xl leading-relaxed">
@@ -55,7 +55,7 @@ export default function StudentConsultingCenter() {
       <section className="py-20 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">How we can help <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">You</span></h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">How we Can Help <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">You</span></h2>
             <p className="text-gray-600 max-w-2xl mx-auto text-lg">We provide comprehensive support at every stage of your educational and professional journey.</p>
           </div>
 

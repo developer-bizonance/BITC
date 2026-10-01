@@ -66,7 +66,7 @@ export default async function ITCoursesPage() {
               <span>INFORMATION TECHNOLOGY</span>
             </div>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
-              IT <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span> & Certifications
+              IT <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span>
             </h1>
             <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-8 font-medium max-w-2xl mx-auto">
               Industry-focused IT certification programs designed by experts. Master in-demand technologies, build real projects, and launch your tech career with confidence.
@@ -168,7 +168,7 @@ export default async function ITCoursesPage() {
                         </span>
                       </div>
 
-                      <Link href={`/courses/${course.id}`} className="block w-full">
+                      <Link href={`/certifications/${course.id}`} className="block w-full">
                         <Button className="w-full h-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:opacity-90 text-black font-medium text-xs transition-all duration-300 shadow-sm cursor-pointer flex items-center justify-center gap-2 group/btn">
                           <span>View Certification</span>
                           <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
@@ -187,7 +187,7 @@ export default async function ITCoursesPage() {
       <section className="py-16 md:py-20 bg-white">
         <div className="container max-w-[1360px] mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Why Learn IT at <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC?</span></h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Why Learn IT At <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC?</span></h2>
             <p className="text-gray-500 max-w-2xl mx-auto text-base">
               Our IT programs go beyond theory — every certification program is built around industry practice.
             </p>
@@ -218,7 +218,7 @@ export default async function ITCoursesPage() {
         <div className="container max-w-[1360px] mx-auto px-4 relative z-10">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
-              Importance of <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">IT Certifications</span> in Today's Era
+              Importance of <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">It Certifications</span> in Today's Era
             </h2>
             <p className="text-base md:text-lg text-slate-600 font-medium leading-relaxed">
               Technology is evolving at an unprecedented pace. Here is why certified IT professionals are the most sought-after talent globally.

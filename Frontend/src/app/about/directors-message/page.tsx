@@ -47,7 +47,7 @@ export default function DirectorsMessagePage() {
                 Message from the Director
               </div>
               <h1 className="text-4xl md:text-5xl font-black text-slate-900 leading-[1.15] mb-6">
-                A Vision for <br />
+                a Vision for <br />
                 <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#0052D4_0%,#4364F7_50%,#6FB1FC_100%)]">Transformative Education</span>
               </h1>
               <p className="text-xl text-slate-600 leading-relaxed mb-8 font-medium max-w-[90%]">
@@ -139,7 +139,7 @@ export default function DirectorsMessagePage() {
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-16">
             <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">Director&apos;s Vision</p>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Where BITC Is <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Heading</span></h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Where BITC is <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Heading</span></h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -147,7 +147,7 @@ export default function DirectorsMessagePage() {
               <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
                 <Target className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">Short-Term <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Milestones</span></h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Short-term <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Milestones</span></h3>
               <p className="text-gray-600 leading-relaxed text-sm">
                 Become one of India's most recognized industry-integrated Training Centers with 50,000+ students trained, 500+ industry partnerships, and presence across multiple cities.
               </p>
@@ -157,7 +157,7 @@ export default function DirectorsMessagePage() {
               <div className="w-16 h-16 rounded-full bg-blue-500/10 flex items-center justify-center mx-auto mb-6">
                 <TrendingUp className="w-8 h-8 text-blue-600" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">Long-Term <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Aspiration</span></h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Long-term <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Aspiration</span></h3>
               <p className="text-gray-600 leading-relaxed text-sm">
                 Build a global learning ecosystem with international certifications, AI-powered learning platforms, startup incubation, and research partnerships with leading universities.
               </p>

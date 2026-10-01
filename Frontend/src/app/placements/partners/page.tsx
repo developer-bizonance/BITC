@@ -157,7 +157,7 @@ export default async function HiringPartnersPage() {
       <section className="py-20 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Industries We <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Serve</span></h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Industries we <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Serve</span></h2>
             <p className="text-gray-500 text-lg">Our diverse talent pool meets the demands of various high-growth sectors.</p>
           </div>
 
@@ -189,7 +189,7 @@ export default async function HiringPartnersPage() {
                 For Employers
               </div>
               <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">
-                Why should you hire <br />
+                Why Should You Hire <br />
                 <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC Certified?</span>
               </h2>
               <p className="text-slate-600 text-lg mb-8 leading-relaxed font-medium">

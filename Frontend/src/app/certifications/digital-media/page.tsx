@@ -4,50 +4,48 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import {
-  LayoutTemplate, PenTool, Video, Film, Clapperboard,
+  Video, Film, Clapperboard, MonitorPlay, Camera,
   GraduationCap, Clock, CheckCircle2, ArrowRight, Sparkles,
   Palette, Eye, Layers, IndianRupee, Award, Star, Users, Laptop, Briefcase
 } from "lucide-react";
 import { courses as staticCourses } from "@/data/courses";
 
 export const metadata: Metadata = {
-  title: "Design Programs",
-  description: "Master UI/UX Design, Graphic Design, 3D Animation, and Video Editing with hands-on projects at BITC Amravati.",
+  title: "Digital Media Technology certifications",
+  description: "Master Digital Arts, Video Editing, Animation, and Media Production with hands-on projects at BITC Amravati.",
   openGraph: {
-    title: "Design Programs | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
-    description: "Creative & UI/UX design certification programs.",
+    title: "Digital Media Technology Certifications | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
+    description: "Creative digital media certification programs.",
   },
 };
 
-
-
 export const dynamic = 'force-dynamic';
 
-export default async function DesignCoursesPage() {
+export default async function DigitalMediaCoursesPage() {
   let dynamicCourses = [];
   try {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
-    const res = await fetch(`${API_URL}/certifications?category=Design%20Programs`, { cache: "no-store" });
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:5000/api";
+    const res = await fetch(`${API_URL}/certifications?category=Digital%20Media%20Technology`, { cache: "no-store" });
     if (res.ok) {
       const data = await res.json();
       dynamicCourses = data.certifications || [];
     }
   } catch (error) {
-    console.error("Failed to fetch Design courses:", error);
+    console.error("Failed to fetch Digital Media courses:", error);
   }
 
   if (!dynamicCourses || dynamicCourses.length === 0) {
-    dynamicCourses = staticCourses.filter(c => c.category === "Design Programs");
+    dynamicCourses = staticCourses.filter(c => c.category === "Digital Media Technology");
   }
 
   const finalCourses = dynamicCourses.map((c: any) => {
     return {
       id: c.slug || c.title.toLowerCase().replace(/ & /g, '-').replace(/[\/\s]+/g, '-'),
       title: c.title,
-      tag: c.category || "Design Programs",
+      tag: c.category || "Digital Media Technology",
       duration: c.duration || "6 Months",
       fees: c.fees || "₹36,000",
-      icon: Palette,
+      icon: Video,
       image: (c.image && (c.image.startsWith('http') || c.image.startsWith('/'))) ? c.image : "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop",
     };
   });
@@ -57,31 +55,31 @@ export default async function DesignCoursesPage() {
 
       {/* Hero Banner */}
       <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-start pt-16 md:pt-20 lg:pt-24 bg-white overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-500/10 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[1360px] mx-auto px-4 relative z-10 text-center">
           <div className="max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-600 text-xs md:text-sm font-medium mb-6">
-              <Palette className="w-4 h-4" />
-              <span>DESIGN & CREATIVE ARTS</span>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs md:text-sm font-medium mb-6">
+              <Video className="w-4 h-4" />
+              <span>DIGITAL MEDIA TECHNOLOGY</span>
             </div>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
-              Design <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span> & Certifications
+              Digital Media <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span>
             </h1>
             <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-8 font-medium max-w-2xl mx-auto">
-              Unleash your creativity with hands-on design courses. Learn Figma, Adobe Creative Suite, 3D tools, and build a portfolio that lands jobs.
+              Master the art of visual storytelling. Learn industry-standard tools for video editing, animation, and digital media production to launch your creative career.
             </p>
 
             <div className="flex flex-wrap justify-center gap-3">
               <div className="flex items-center gap-2 text-slate-700 text-xs md:text-sm font-semibold bg-slate-50 px-4 py-2 rounded-full border border-slate-200/80 shadow-xs">
-                <CheckCircle2 className="w-4 h-4 text-purple-600 shrink-0" />
-                <span>5 Creative Tracks</span>
+                <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
+                <span>Specialized creative tracks</span>
               </div>
               <div className="flex items-center gap-2 text-slate-700 text-xs md:text-sm font-semibold bg-slate-50 px-4 py-2 rounded-full border border-slate-200/80 shadow-xs">
-                <CheckCircle2 className="w-4 h-4 text-purple-600 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
                 <span>Portfolio-First Learning</span>
               </div>
               <div className="flex items-center gap-2 text-slate-700 text-xs md:text-sm font-semibold bg-slate-50 px-4 py-2 rounded-full border border-slate-200/80 shadow-xs">
-                <CheckCircle2 className="w-4 h-4 text-purple-600 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
                 <span>Industry design mentors</span>
               </div>
             </div>
@@ -92,8 +90,6 @@ export default async function DesignCoursesPage() {
       {/* Certifications Grid */}
       <section className="py-14 md:py-20 bg-white/70">
         <div className="container max-w-[1360px] mx-auto px-4">
-
-
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {finalCourses.map((course: any) => (
               <Card
@@ -110,15 +106,13 @@ export default async function DesignCoursesPage() {
                     className="object-cover group-hover:scale-108 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/20 to-transparent" />
-
-
                 </div>
 
                 {/* Body Content */}
                 <div className="p-4 flex flex-col flex-1 justify-between">
                   <div>
                     {/* Title */}
-                    <h3 className="text-base font-extrabold text-slate-900 group-hover:text-purple-600 transition-colors flex items-center leading-snug mb-3">
+                    <h3 className="text-base font-extrabold text-slate-900 group-hover:text-primary transition-colors flex items-center leading-snug mb-3">
                       {course.title}
                     </h3>
 
@@ -126,25 +120,25 @@ export default async function DesignCoursesPage() {
                     <div className="space-y-2 mb-4">
                       {/* 1. Duration */}
                       <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
-                        <Clock className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                        <Clock className="w-3.5 h-3.5 text-primary shrink-0" />
                         <span>Duration: <strong className="text-slate-900 font-semibold">{course.duration}</strong></span>
                       </div>
 
                       {/* 2. Learn from Experts */}
                       <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
-                        <Users className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                        <Users className="w-3.5 h-3.5 text-primary shrink-0" />
                         <span>Learn from Experts</span>
                       </div>
 
                       {/* 3. Assignments & Live Projects */}
                       <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
-                        <Laptop className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                        <Laptop className="w-3.5 h-3.5 text-primary shrink-0" />
                         <span>Assignments & Live Projects</span>
                       </div>
 
                       {/* 4. Internship Opportunity */}
                       <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
-                        <Briefcase className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                        <Briefcase className="w-3.5 h-3.5 text-primary shrink-0" />
                         <span>Internship Opportunity</span>
                       </div>
 
@@ -165,7 +159,7 @@ export default async function DesignCoursesPage() {
                       </span>
                     </div>
 
-                    <Link href={`/courses/${course.id}`} className="block w-full">
+                    <Link href={`/certifications/${course.id}`} className="block w-full">
                       <Button className="w-full h-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:opacity-90 text-black font-medium text-xs transition-all duration-300 shadow-sm cursor-pointer flex items-center justify-center gap-2 group/btn">
                         <span>View Certification</span>
                         <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
@@ -179,25 +173,25 @@ export default async function DesignCoursesPage() {
         </div>
       </section>
 
-      {/* Why Design at BITC */}
+      {/* Why Digital Media at BITC */}
       <section className="py-16 md:py-20 bg-white">
         <div className="container max-w-[1360px] mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Why Learn Design at <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC?</span></h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Why Learn Digital Media At <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC?</span></h2>
             <p className="text-gray-500 max-w-2xl mx-auto text-base">
-              Learn from real design directors and build projects that stand out to creative agencies.
+              Learn from real digital artists and build projects that stand out to creative agencies and studios.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { title: "Live client briefs", desc: "Work on real design briefs for brands, startups, and agencies.", icon: Eye },
-              { title: "Portfolio Development", desc: "Graduate with a polished Behance & Figma portfolio ready for interviews.", icon: Layers },
-              { title: "Industry Mentorship", desc: "Learn directly from senior UI/UX and visual designers.", icon: GraduationCap },
-              { title: "Tool Mastery", desc: "Master Figma, Photoshop, Illustrator, Premiere Pro, and After Effects.", icon: PenTool },
+              { title: "Live client briefs", desc: "Work on real media briefs for brands, startups, and agencies.", icon: Eye },
+              { title: "Portfolio Development", desc: "Graduate with a polished showreel and portfolio ready for interviews.", icon: Layers },
+              { title: "Industry Mentorship", desc: "Learn directly from senior media producers and artists.", icon: GraduationCap },
+              { title: "Tool Mastery", desc: "Master Premiere Pro, After Effects, and industry-standard tools.", icon: MonitorPlay },
             ].map((item, i) => (
-              <div key={i} className="text-center p-6 rounded-2xl bg-slate-50/80 border border-slate-200/80 hover:border-purple-300 hover:bg-white hover:shadow-lg transition-all">
-                <div className="w-13 h-13 rounded-2xl bg-purple-50 flex items-center justify-center mx-auto mb-4 text-purple-600">
+              <div key={i} className="text-center p-6 rounded-2xl bg-slate-50/80 border border-slate-200/80 hover:border-rose-300 hover:bg-white hover:shadow-lg transition-all">
+                <div className="w-13 h-13 rounded-2xl bg-rose-50 flex items-center justify-center mx-auto mb-4 text-primary">
                   <item.icon className="w-6 h-6" />
                 </div>
                 <h3 className="text-base font-bold text-slate-900 mb-2">{item.title}</h3>
@@ -213,29 +207,29 @@ export default async function DesignCoursesPage() {
         <div className="container max-w-[1360px] mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
-              Importance of <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Design Programs</span> in Today's Era
+              Importance of <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Digital Media Certifications</span> in Today's Era
             </h2>
             <p className="text-base md:text-lg text-slate-600 font-medium leading-relaxed">
-              In a digital-first world, visual communication is more critical than ever. Here is why certified designers are in high demand across the globe.
+              Media is the currency of the modern web. Here is why certified digital media professionals are critical to every industry.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
             {[
               {
-                title: "Booming digital economy",
-                desc: "Every startup, agency, and corporation needs a digital presence, creating a massive, unending demand for skilled UI/UX and graphic designers.",
-                icon: <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                title: "Booming creator economy",
+                desc: "With the explosive growth of social media, video platforms, and digital advertising, brands are desperate for creators who can produce high-quality, engaging content.",
+                icon: <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
               },
               {
-                title: "AI Cannot Replace Creativity",
-                desc: "While AI can generate assets, human empathy, user experience strategy, and creative problem solving remain irreplaceable skills in the design industry.",
+                title: "Omnichannel Marketing",
+                desc: "Companies no longer rely on a single channel. Certifications prove you have the technical ability to adapt content for diverse platforms and audiences.",
+                icon: <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+              },
+              {
+                title: "Future-Proof Creative Skills",
+                desc: "While automation tools advance, the strategic vision, storytelling, and emotional connection of human-led digital media remain an invaluable asset.",
                 icon: <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
-              },
-              {
-                title: "Global remote opportunities",
-                desc: "Design is a universal language. A strong portfolio and recognized certification open doors to high-paying remote opportunities anywhere in the world.",
-                icon: <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
               }
             ].map((item, idx) => (
               <div key={idx} className="bg-white p-8 rounded-2xl border border-slate-200/60 shadow-sm hover:shadow-xl hover:border-amber-500/30 transition-all group">

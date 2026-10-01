@@ -149,7 +149,7 @@ export default async function EventsPage() {
       <section className="py-20 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">What We <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Do</span></h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">What we <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Do</span></h2>
             <p className="text-gray-500 text-lg">We organize a wide variety of events to cater to different learning styles and career goals.</p>
           </div>
 

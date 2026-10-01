@@ -55,10 +55,10 @@ const initialCoursesData: Record<string, CourseCardItem[]> = {
 };
 
 const categoryRoutes: Record<string, string> = {
-  "Information Technology": "/courses/it",
-  "Digital Media Technology": "/courses/digital-media",
-  "Management Programs": "/courses/management",
-  "Design Programs": "/courses/design",
+  "Information Technology": "/certifications/it",
+  "Digital Media Technology": "/certifications/digital-media",
+  "Management Programs": "/certifications/management",
+  "Design Programs": "/certifications/design",
 };
 
 const getApiUrl = () => {
@@ -222,7 +222,7 @@ export default function FeaturedCertifications() {
                         </span>
                       </div>
 
-                      <Link href={`/courses/${course.title.toLowerCase().replace(/ & /g, '-').replace(/[\/\s]+/g, '-')}`} className="block w-full">
+                      <Link href={`/certifications/${course.title.toLowerCase().replace(/ & /g, '-').replace(/[\/\s]+/g, '-')}`} className="block w-full">
                         <Button className="w-full h-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:opacity-90 text-black font-medium text-xs transition-all duration-300 shadow-sm cursor-pointer flex items-center justify-center gap-2 group/btn">
                           <span>View Certification</span>
                           <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />

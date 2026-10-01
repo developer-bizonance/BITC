@@ -42,7 +42,7 @@ export default function RefundPolicyPage() {
             Once your refund request is received and inspected, we will notify you of the approval or rejection of your refund. If approved, your refund will be processed and automatically credited back to your original method of payment within 7-14 business days.
           </p>
           
-          <h2 className="text-xl font-bold text-slate-900 pt-4">Non-Refundable <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Fees</span></h2>
+          <h2 className="text-xl font-bold text-slate-900 pt-4">Non-refundable <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Fees</span></h2>
           <ul className="list-disc pl-6 space-y-2">
             <li>Registration fees or seat booking fees (if explicitly stated as non-refundable).</li>
             <li>Payment gateway transaction charges.</li>

@@ -39,7 +39,7 @@ export default function PartnershipClient() {
             <span>Collaborate with us</span>
           </div>
           <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight mb-6 text-slate-900 leading-tight">
-            Our <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Partnerships</span>
+            Our <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">partnerships</span>
           </h1>
           <p className="text-lg md:text-xl text-slate-600 max-w-[800px] mx-auto leading-relaxed font-medium mb-12">
             Discover how we collaborate with top institutions to elevate academic standards, and partner with leading enterprises to build robust corporate workforces.
@@ -87,7 +87,7 @@ export default function PartnershipClient() {
           <div className="space-y-20">
             {/* Overview */}
             <div className="text-center max-w-3xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Bridging Academia and <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Industry</span></h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Bridging academia and <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">industry</span></h2>
               <p className="text-lg text-slate-600 leading-relaxed">
                 We partner with leading universities, colleges, and educational institutions to deliver cutting-edge, industry-relevant tech training directly to students on their campuses.
               </p>
@@ -114,7 +114,7 @@ export default function PartnershipClient() {
             {/* What We Do Section */}
             <div className="py-10">
               <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">What We <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Do</span></h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">What we <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">do</span></h2>
                 <p className="text-slate-600 max-w-2xl mx-auto">
                   We organize a wide variety of events to cater to different learning styles and career goals.
                 </p>
@@ -135,7 +135,7 @@ export default function PartnershipClient() {
             {/* Benefits List */}
             <div className="flex flex-col lg:flex-row gap-12 items-center bg-slate-50 rounded-[2rem] p-8 md:p-12 border border-slate-100">
               <div className="flex-1">
-                <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6">Why Partner With Us?</h3>
+                <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6">Why partner with us?</h3>
                 <ul className="space-y-4">
                   {[
                     "Industry-Aligned Curriculum supplementing your standard syllabus.",
@@ -165,7 +165,7 @@ export default function PartnershipClient() {
           <div className="space-y-20">
             {/* Overview */}
             <div className="text-center max-w-3xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Empowering Your <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Workforce</span></h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Empowering your <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">workforce</span></h2>
               <p className="text-lg text-slate-600 leading-relaxed">
                 Transform your team's capabilities with our enterprise-grade training solutions. We deliver customized learning paths that align directly with your business goals and technological needs.
               </p>
@@ -191,7 +191,7 @@ export default function PartnershipClient() {
             {/* Benefits List */}
             <div className="flex flex-col lg:flex-row-reverse gap-12 items-center bg-slate-50 rounded-[2rem] p-8 md:p-12 border border-slate-100">
               <div className="flex-1">
-                <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6">Enterprise Advantages</h3>
+                <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6">Enterprise advantages</h3>
                 <ul className="space-y-4">
                   {[
                     "Highly customized syllabi tailored to your specific project needs.",
@@ -219,7 +219,7 @@ export default function PartnershipClient() {
             {/* Partner Benefits */}
             <div>
               <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Partner <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Benefits</span></h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Partner <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">benefits</span></h2>
                 <p className="text-slate-600 max-w-[600px] mx-auto text-lg">Why leading companies choose to partner with us.</p>
               </div>
 
@@ -248,7 +248,7 @@ export default function PartnershipClient() {
 
         {/* Unified CTA */}
         <div className="mt-20 text-center max-w-2xl mx-auto">
-          <h3 className="text-2xl font-bold text-slate-900 mb-6">Ready to Collaborate?</h3>
+          <h3 className="text-2xl font-bold text-slate-900 mb-6">Ready to collaborate?</h3>
           <p className="text-slate-600 mb-8">
             Whether you are an academic institution or a corporate enterprise, let's discuss how we can build a brighter future together.
           </p>

@@ -50,7 +50,7 @@ export default function AcademicPartners() {
   useEffect(() => {
     async function loadPartners() {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL ||
           (typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
             ? "http://localhost:5000/api"
             : "https://bitc-backend-theta.vercel.app/api");
@@ -106,7 +106,7 @@ export default function AcademicPartners() {
       <div className="container max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
         <div className="mb-6 text-center sm:text-left max-w-4xl mx-auto sm:mx-0">
-          <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-2">Our academic partners</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-2">Our Academic Partners</h2>
           <p className="text-gray-600 text-[14px] leading-relaxed">
             We proudly collaborate with leading colleges and universities through strategic Memorandums of Understanding (MoUs) to provide industry-focused training, internships, certifications, workshops, research initiatives, and career development opportunities.
           </p>

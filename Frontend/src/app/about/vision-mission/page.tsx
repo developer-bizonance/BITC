@@ -52,9 +52,9 @@ export default function VisionMissionPage() {
           </div>
 
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-slate-900 leading-[1.2]">
-            Driven by Purpose. <br className="hidden sm:block" />
-            Inspired by Innovation. <br className="hidden sm:block" />
-            <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Focused on Your Future.</span>
+            Driven By Purpose. <br className="hidden sm:block" />
+            Inspired By Innovation. <br className="hidden sm:block" />
+            <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Focused On Your Future.</span>
           </h1>
 
           <p className="text-base md:text-lg text-gray-600 max-w-[900px] mx-auto leading-relaxed">
@@ -89,7 +89,7 @@ export default function VisionMissionPage() {
             <div className="lg:col-span-2 lg:sticky lg:top-28">
               <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">Our Mission</p>
               <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 leading-tight">
-                Empowering careers through <span className="text-primary">Expert-Led</span> Learning
+                Empowering Careers Through <span className="text-primary">Expert-led</span> Learning
               </h2>
               <p className="text-gray-600 text-lg leading-relaxed mb-6">
                 Our mission is to provide practical, industry-oriented education that enables students and professionals to build successful careers through expert mentorship, hands-on learning, internships, and career-focused development.
@@ -129,7 +129,7 @@ export default function VisionMissionPage() {
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-16">
             <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">What we stand for</p>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">The values that define <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC</span></h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">The Values That Define <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC</span></h2>
             <p className="text-gray-600 max-w-[600px] mx-auto text-lg">Six principles that shape every decision, program, and outcome.</p>
           </div>
 

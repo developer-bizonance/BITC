@@ -30,7 +30,7 @@ export default function ScholarshipsPage() {
             BITC Scholarship Certification
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 mb-6 leading-tight tracking-tight">
-            Unlock up to <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">50% Scholarship</span>
+            Unlock Up to <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">50% Scholarship</span>
           </h1>
           <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed font-medium">
             We believe that financial constraints should never stand in the way of true talent. Our scholarship program is designed to empower deserving students to launch their tech careers.
@@ -195,7 +195,7 @@ export default function ScholarshipsPage() {
       <section className="py-20 bg-white text-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[1000px] mx-auto px-4 relative z-10 text-center">
-          <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">Ready to start your <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">journey?</span></h2>
+          <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">Ready to Start Your <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Journey?</span></h2>
           <p className="text-slate-600 text-lg mb-10 max-w-2xl mx-auto font-medium">
             Don't let anything hold you back. Apply today, secure your scholarship, and take the first step towards a high-paying career in tech.
           </p>

@@ -126,7 +126,7 @@ export default function PlacementCellPage() {
       <section className="py-20 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">How we prepare <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">You</span></h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">How we Prepare <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">You</span></h2>
             <p className="text-gray-500 text-lg leading-relaxed">
               Our comprehensive placement preparation program goes beyond traditional academics to ensure you are completely industry-ready by the time you graduate.
             </p>
@@ -172,7 +172,7 @@ export default function PlacementCellPage() {
 
             <div className="flex-1 w-full space-y-6">
               <div>
-                <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Our proven placement <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Process</span></h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Our Proven Placement <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Process</span></h2>
                 <p className="text-gray-500 text-base mb-6">We follow a rigorous, step-by-step methodology to transform students into highly employable professionals.</p>
               </div>
 
@@ -203,7 +203,7 @@ export default function PlacementCellPage() {
       <section className="py-20 bg-white text-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[800px] mx-auto px-4 relative z-10 text-center">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">Your dream job <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Awaits</span></h2>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">Your Dream Job <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Awaits</span></h2>
           <p className="text-xl text-slate-600 font-medium mb-10 leading-relaxed">
             Take the first step towards a successful career. Get in touch with the BITC Placement Cell today.
           </p>

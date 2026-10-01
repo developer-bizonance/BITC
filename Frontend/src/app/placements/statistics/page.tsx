@@ -112,7 +112,7 @@ export default function PlacementStatisticsPage() {
       {/* 5. CTA Section */}
       <section className="py-20 bg-white relative overflow-hidden">
         <div className="container max-w-[800px] mx-auto px-4 text-center relative z-10">
-          <h2 className="text-3xl font-bold text-slate-900 mb-6">Ready to write your own <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">success story?</span></h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-6">Ready to Write Your Own <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Success Story?</span></h2>
           <p className="text-gray-600 mb-10 text-lg">
             Join BITC and get the industry-relevant training, expert mentorship, and placement assistance you need to launch a rewarding career.
           </p>

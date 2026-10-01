@@ -158,7 +158,7 @@ export function AuthModal() {
               <span className="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-extrabold tracking-wider uppercase">
                 APPLICATION SUBMITTED
               </span>
-              <h2 className="text-2xl font-black text-slate-900">Application Received!</h2>
+              <h2 className="text-2xl font-black text-slate-900">Application received!</h2>
               <p className="text-slate-600 text-sm max-w-sm mx-auto">
                 Congratulations <span className="font-bold text-slate-900">{appliedRecord.userName}</span>! Your enrollment application for <span className="font-bold text-primary">{appliedRecord.courseTitle}</span> has been received.
               </p>

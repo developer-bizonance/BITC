@@ -6,11 +6,11 @@ import Image from "next/image";
 import { 
   ArrowRight, CheckCircle2, Clock, BookOpen, Target, Briefcase, 
   Award, Sparkles, LayoutTemplate, Network, IndianRupee, Download, 
-  Layers, Cpu, Laptop, Rocket, FileText, Check, ChevronRight
+  Layers, Cpu, Laptop, Rocket, FileText, Check, ChevronRight, Calendar
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { ApplyButton } from "@/components/courses/ApplyButton";
+import { ApplyButton } from "@/components/certifications/ApplyButton";
 import { FaWhatsapp } from "react-icons/fa";
 
 import type { Metadata } from "next";
@@ -136,8 +136,12 @@ export default async function CoursePage({ params }: PageProps) {
               
               <div className="flex flex-wrap items-center gap-5 mb-8">
                 <div className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-orange-500" />
+                  <span className="text-sm font-semibold text-slate-700">{course.duration}</span>
+                </div>
+                <div className="flex items-center gap-2">
                   <Clock className="w-4 h-4 text-orange-500" />
-                  <span className="text-sm font-semibold text-slate-700">{course.duration} Certification</span>
+                  <span className="text-sm font-semibold text-slate-700">Daily 2h Classroom Session</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Award className="w-4 h-4 text-orange-500" />
@@ -255,7 +259,7 @@ export default async function CoursePage({ params }: PageProps) {
                           MODULE {i + 1}
                         </span>
                         <h3 className="text-lg md:text-xl font-bold text-slate-900 group-hover:text-amber-500 group-data-[state=open]:text-amber-500 transition-colors">
-                          {module.title.replace(/^Module \d+:\s*/i, '')}
+                          {Module.title.replace(/^module \D+:\s*/i, '')}
                         </h3>
                       </div>
                     </div>
@@ -299,7 +303,7 @@ export default async function CoursePage({ params }: PageProps) {
                 <Rocket className="w-3.5 h-3.5" />
                 <span>HANDS-ON INDUSTRIAL CAPSTONE</span>
               </div>
-              <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-3 tracking-tight">Build a Production-Ready Capstone <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Project</span></h3>
+              <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-3 tracking-tight">Build a Production-ready Capstone <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Project</span></h3>
               <p className="text-slate-600 leading-relaxed text-sm md:text-base font-medium">
                 Apply everything you've learned to construct a real-world enterprise project under the guidance of senior software leads. Review your code, optimize performance, and showcase it directly to top tech recruiters.
               </p>
@@ -332,7 +336,7 @@ export default async function CoursePage({ params }: PageProps) {
               <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center mb-4">
                 <Cpu className="w-6 h-6" />
               </div>
-              <h4 className="font-bold text-slate-900 mb-1 text-sm">AI Workflows</h4>
+              <h4 className="font-bold text-slate-900 mb-1 text-sm">Ai Workflows</h4>
               <p className="text-xs text-slate-500">Integrated Copilot, Cursor & AI prompt engineering.</p>
             </div>
 

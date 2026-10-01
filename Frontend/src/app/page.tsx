@@ -36,8 +36,8 @@ export default function Home() {
           {/* Left Content */}
           <div className="w-full lg:w-[55%] xl:w-[52%] flex flex-col justify-center">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-slate-900 leading-[1.2]">
-              <span className="block whitespace-nowrap">Learn from Industry Experts.</span>
-              <span className="block text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] leading-[1.2]">Become Certified and Industry Ready</span>
+              <span className="block whitespace-nowrap">Learn from Industry Experts</span>
+              <span className="block text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] leading-[1.2]">Become a Certified and Industry Ready</span>
             </h1>
 
             <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-5 lg:mb-6 max-w-[500px] lg:max-w-[550px] leading-relaxed">
@@ -111,7 +111,7 @@ export default function Home() {
                 BITC Scholarship for Students
               </div>
               <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-tight tracking-tight">
-                Up to <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">50% Scholarship</span><br />for Deserving Students.
+                Up to <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">50% Scholarship</span><br />For Deserving Students.
               </h2>
               <p className="text-lg text-slate-600 leading-relaxed mb-8 font-medium max-w-xl mx-auto md:mx-0">
                 We believe financial constraints should never hold back true talent. Unlock your potential and let us fund your tech career journey.
@@ -284,7 +284,7 @@ export default function Home() {
                 Trusted By
               </p>
             </div>
-            
+
             <div className="flex-1 overflow-hidden relative w-full [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
               <style dangerouslySetInnerHTML={{
                 __html: `
@@ -358,9 +358,9 @@ export default function Home() {
             </div>
           </div>
           <div className="md:w-[45%] flex justify-center lg:justify-end">
-             <div className="relative w-full max-w-[500px] aspect-[16/10] sm:aspect-[3/2] rounded-3xl overflow-hidden shadow-2xl">
-                <img src="/consulting.jpg" alt="Student Consulting" className="w-full h-full object-cover" />
-             </div>
+            <div className="relative w-full max-w-[500px] aspect-[16/10] sm:aspect-[3/2] rounded-3xl overflow-hidden shadow-2xl">
+              <img src="/consulting.jpg" alt="Student Consulting" className="w-full h-full object-cover" />
+            </div>
           </div>
         </div>
       </section>
