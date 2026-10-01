@@ -731,7 +731,7 @@ export const courses: Certification[] = [
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
-    description: "Master advertising on Meta platforms including Facebook and Instagram to drive high ROI.",
+    description: "Master advertising on Meta platforms including Facebook, Instagram and WhatsApp business to drive high ROI.",
     features: ["Facebook Ads", "Instagram Ads", "Retargeting", "Conversion Tracking"],
     curriculum: [
       { title: "Module 1: Introduction to Meta Ecosystem & Business Manager", topics: ["Overview of Facebook & Instagram Ads", "Setting up Meta Business Manager", "Navigating the Ads Manager Dashboard", "Understanding Campaign Structure (Campaign, Ad Set, Ad)"] },
