@@ -20,68 +20,13 @@ import {
 
 // Categorized courses & certifications available across BITC website
 const courseCertificationOptions = [
-  {
-    category: "💻 IT & Full Stack Software Development",
-    courses: [
-      "MERN Stack Development (MongoDB, Express, React, Node)",
-      "MEAN Stack Development (MongoDB, Express, Angular, Node)",
-      "Full Stack Java Development (Spring Boot, Microservices, React)",
-      "Full Stack Python Development (Django, FastAPI, PostgreSQL)",
-      "React.js & Next.js Frontend Architecture",
-      "Node.js Backend & API Development",
-      "Mobile App Development (Flutter & React Native)",
-      "Software Testing & QA Automation (Selenium, Cypress)",
-    ],
-  },
-  {
-    category: "🤖 AI, Data Science & Analytics",
-    courses: [
-      "Data Science & Machine Learning (Python, Pandas, Scikit-Learn)",
-      "Artificial Intelligence & Deep Learning (TensorFlow, PyTorch)",
-      "Business Intelligence & Data Analytics (PowerBI, Tableau, SQL)",
-      "Big Data Engineering (Spark, Hadoop, Kafka)",
-      "Generative AI & LLM Applications",
-    ],
-  },
-  {
-    category: "☁️ Cloud Computing & ",
-    courses: [
-      "Cloud Computing & Architecture (AWS / Microsoft Azure / GCP)",
-      "DevOps & SRE (Docker, Kubernetes, Jenkins, CI/CD, Terraform)",
-      " & Ethical Hacking",
-      "Network Engineering & Systems Security",
-    ],
-  },
-  {
-    category: "📊 Management, Business & Marketing",
-    courses: [
-      "Digital Marketing & Growth Hacking (SEO, SEM, Meta Ads, SMM)",
-      "Product Management & Agile Scrum Methodology",
-      "Business Analytics & Financial Analysis",
-      "Human Resource Management & Talent Acquisition",
-    ],
-  },
-  {
-    category: "🎨 UI/UX Design & Multimedia",
-    courses: [
-      "UI/UX Design & Design Systems (Figma, Adobe XD)",
-      "Graphic Design & Visual Communication (Photoshop, Illustrator)",
-      "3D Modeling, Motion Graphics & Animation",
-      "Video Editing & Production (Premiere Pro, After Effects)",
-    ],
-  },
-  {
-    category: "🏛️ Placement Cell & Institutional Roles",
-    courses: [
-      "Training & Placement Officer (TPO) / Corporate Relations",
-      "Soft Skills, Communication & Personality Development Trainer",
-      "Quantitative Aptitude & Logical Reasoning Trainer",
-      "Technical Mock Interview & Resume Building Mentor",
-    ],
-  },
+  "Information Technology",
+  "Digital Media Technology",
+  "Management Programs",
+  "Design Programs",
 ];
 
-function ApplyFormContent() {
+export function ApplyFormContent() {
   const searchParams = useSearchParams();
   const initialRole = searchParams.get("role") || "Faculty – Full Stack Development";
 
@@ -89,10 +34,10 @@ function ApplyFormContent() {
     fullName: "",
     email: "",
     phone: "",
-    position: initialRole,
-    subjectCourse: "MERN Stack Development (MongoDB, Express, React, Node)",
+    position: searchParams.get("role") || "",
+    subjectCourse: "",
     experience: "3-5 Years",
-    qualification: "B.Tech / BE",
+    qualification: "",
     otherQualification: "",
     dateToJoin: "",
     joinQuickOption: "Immediate",
@@ -389,19 +334,16 @@ function ApplyFormContent() {
         </div>
       ) : (
         <div className="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
-          <div className="p-6 md:p-8 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-black">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 text-yellow-300 text-xs font-medium uppercase tracking-wider mb-2 border border-primary/30">
-              <Sparkles className="w-3.5 h-3.5" /> Official application portal
-            </div>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-black">
+          <div className="p-5 md:p-6 bg-white text-center border-b border-slate-100">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-2">
               Faculty & Trainer <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Application Form</span>
             </h2>
-            <p className="text-slate-300 text-sm mt-1">
+            <p className="text-slate-600 text-sm max-w-xl mx-auto">
               Select the course or certification you wish to teach, upload your resume, and submit your profile.
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} noValidate className="p-6 md:p-10 space-y-6 bg-slate-50/40">
+          <form onSubmit={handleSubmit} noValidate className="p-5 md:p-6 space-y-6 bg-white">
             {submitError && (
               <div className="p-4 rounded-2xl bg-red-50 border border-red-200 text-red-700 text-xs font-semibold flex items-center gap-2">
                 <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
@@ -420,11 +362,11 @@ function ApplyFormContent() {
                   value={form.fullName}
                   onChange={(e) => handleChange("fullName", e.target.value)}
                   onBlur={() => handleBlur("fullName")}
-                  placeholder="e.g. Dr. Rajesh Sharma"
-                  className={`w-full px-4 py-3.5 bg-white border rounded-xl text-slate-900 text-sm focus:outline-none transition-all font-medium shadow-sm ${
+                  placeholder="Enter your name"
+                  className={`w-full px-4 py-3.5 bg-slate-50 border-2 rounded-xl text-slate-900 text-sm focus:outline-none transition-all font-medium shadow-sm ${
                     touched.fullName && errors.fullName
                       ? "border-red-500 ring-2 ring-red-100 bg-red-50/20"
-                      : "border-slate-200 focus:ring-2 focus:ring-primary focus:border-transparent"
+                      : "border-slate-200 focus:border-primary focus:ring-0 focus:bg-white"
                   }`}
                 />
                 {touched.fullName && errors.fullName && (
@@ -442,11 +384,11 @@ function ApplyFormContent() {
                   value={form.email}
                   onChange={(e) => handleChange("email", e.target.value)}
                   onBlur={() => handleBlur("email")}
-                  placeholder="e.g. rajesh.sharma@example.com"
-                  className={`w-full px-4 py-3.5 bg-white border rounded-xl text-slate-900 text-sm focus:outline-none transition-all font-medium shadow-sm ${
+                  placeholder="Enter your email Id"
+                  className={`w-full px-4 py-3.5 bg-slate-50 border-2 rounded-xl text-slate-900 text-sm focus:outline-none transition-all font-medium shadow-sm ${
                     touched.email && errors.email
                       ? "border-red-500 ring-2 ring-red-100 bg-red-50/20"
-                      : "border-slate-200 focus:ring-2 focus:ring-primary focus:border-transparent"
+                      : "border-slate-200 focus:border-primary focus:ring-0 focus:bg-white"
                   }`}
                 />
                 {touched.email && errors.email && (
@@ -471,11 +413,11 @@ function ApplyFormContent() {
                   value={form.phone}
                   onChange={(e) => handleChange("phone", e.target.value)}
                   onBlur={() => handleBlur("phone")}
-                  placeholder="e.g. 9876543210 (10 Digits)"
-                  className={`w-full px-4 py-3.5 bg-white border rounded-xl text-slate-900 text-sm focus:outline-none transition-all font-medium shadow-sm ${
+                  placeholder="Enter your mobile number"
+                  className={`w-full px-4 py-3.5 bg-slate-50 border-2 rounded-xl text-slate-900 text-sm focus:outline-none transition-all font-medium shadow-sm ${
                     touched.phone && errors.phone
                       ? "border-red-500 ring-2 ring-red-100 bg-red-50/20"
-                      : "border-slate-200 focus:ring-2 focus:ring-primary focus:border-transparent"
+                      : "border-slate-200 focus:border-primary focus:ring-0 focus:bg-white"
                   }`}
                 />
                 {touched.phone && errors.phone && (
@@ -491,8 +433,9 @@ function ApplyFormContent() {
                 <select
                   value={form.position}
                   onChange={(e) => handleChange("position", e.target.value)}
-                  className="w-full px-4 py-3.5 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all font-medium cursor-pointer shadow-sm"
+                  className="w-full px-4 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl text-slate-900 text-sm focus:bg-white focus:border-primary focus:ring-0 outline-none transition-all font-medium cursor-pointer shadow-sm"
                 >
+                  <option value="" disabled>Select position</option>
                   <option value="Faculty – Full Stack Development">Faculty – Full Stack Development</option>
                   <option value="Technical Trainer – Data Science">Technical Trainer – Data Science</option>
                   <option value="Industry Expert & Mentor">Industry Expert & Mentor</option>
@@ -503,35 +446,25 @@ function ApplyFormContent() {
               </div>
             </div>
 
-            {/* 🌟 SPECIAL CERTIFICATION & CERTIFICATION DROPDOWN 🌟 */}
-            <div className="bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-yellow-500/10 p-5 rounded-2xl border-2 border-primary/40 shadow-sm">
-              <label className="block text-xs font-extrabold text-slate-900 mb-2 uppercase tracking-wider flex items-center justify-between">
-                <span className="flex items-center gap-2 text-primary font-black text-sm">
-                  <GraduationCap className="w-5 h-5 text-primary" />
-                  Which Certification / Certification will you teach? <span className="text-red-500">*</span>
-                </span>
-                <span className="text-[11px] font-medium text-orange-600 bg-orange-100 px-2.5 py-0.5 rounded-full">
-                  All website specializations
-                </span>
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
+                Choose Domain <span className="text-red-500">*</span>
               </label>
               <select
                 value={form.subjectCourse}
                 onChange={(e) => handleChange("subjectCourse", e.target.value)}
                 onBlur={() => handleBlur("subjectCourse")}
-                className={`w-full px-4 py-3.5 bg-white border-2 rounded-xl text-slate-900 text-sm font-medium focus:outline-none transition-all cursor-pointer shadow ${
+                className={`w-full px-4 py-3.5 bg-slate-50 border-2 rounded-xl text-slate-900 text-sm focus:border-primary focus:ring-0 focus:bg-white outline-none transition-all font-medium cursor-pointer shadow-sm ${
                   touched.subjectCourse && errors.subjectCourse
-                    ? "border-red-500 ring-2 ring-red-100"
-                    : "border-primary focus:ring-4 focus:ring-primary/20"
+                    ? "border-red-500 ring-2 ring-red-100 bg-red-50/20"
+                    : "border-slate-200"
                 }`}
               >
-                {courseCertificationOptions.map((group) => (
-                  <optgroup key={group.category} label={group.category} className="font-extrabold text-slate-900 bg-slate-100 py-1">
-                    {group.courses.map((course) => (
-                      <option key={course} value={course} className="font-medium text-slate-800 bg-white py-1">
-                        {course}
-                      </option>
-                    ))}
-                  </optgroup>
+                <option value="" disabled>Select domain</option>
+                {courseCertificationOptions.map((domain) => (
+                  <option key={domain} value={domain} className="font-medium text-slate-800 bg-white py-1">
+                    {domain}
+                  </option>
                 ))}
               </select>
               {touched.subjectCourse && errors.subjectCourse && (
@@ -541,8 +474,8 @@ function ApplyFormContent() {
               )}
             </div>
 
-            {/* Highest Qualification & Current Company (Always 2 Columns) */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {/* Highest Qualification (1 Column) */}
+            <div className="grid grid-cols-1 gap-5">
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
                   Highest Qualification <span className="text-red-500">*</span>
@@ -564,8 +497,9 @@ function ApplyFormContent() {
                       });
                     }
                   }}
-                  className="w-full px-4 py-3.5 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm focus:ring-2 focus:ring-primary outline-none transition-all font-medium cursor-pointer shadow-sm"
+                  className="w-full px-4 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl text-slate-900 text-sm focus:bg-white focus:border-primary focus:ring-0 outline-none transition-all font-medium cursor-pointer shadow-sm"
                 >
+                  <option value="" disabled>Select qualification</option>
                   <option value="B.Tech / BE">B.Tech / B.E.</option>
                   <option value="M.Tech / ME">M.Tech / M.E.</option>
                   <option value="MCA / M.Sc IT">MCA / M.Sc. IT / Computer Science</option>
@@ -576,27 +510,11 @@ function ApplyFormContent() {
                   <option value="Other">Other (Please specify degree)</option>
                 </select>
               </div>
-
-              {/* Current Company / College is ALWAYS visible here */}
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
-                  Current Company / College
-                </label>
-                <input
-                  type="text"
-                  value={form.currentOrg}
-                  onChange={(e) => handleChange("currentOrg", e.target.value)}
-                  placeholder="e.g. Infosys, TCS, or Freelance Trainer"
-                  className="w-full px-4 py-3.5 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm focus:ring-2 focus:ring-primary outline-none transition-all font-medium shadow-sm"
-                />
-              </div>
             </div>
 
-            {/* Dedicated Extra Row When 'Other' Education is Selected */}
             {form.qualification === "Other" && (
-              <div className="p-4 bg-orange-50/60 rounded-2xl border-2 border-orange-200 animate-in fade-in zoom-in-95 duration-200">
-                <label className="block text-xs font-bold text-orange-800 mb-1.5 uppercase tracking-wider flex items-center gap-1.5">
-                  <GraduationCap className="w-4 h-4 text-orange-600" />
+              <div className="animate-in fade-in zoom-in-95 duration-200">
+                <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
                   Specify Your Degree / Qualification <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -604,11 +522,11 @@ function ApplyFormContent() {
                   value={form.otherQualification}
                   onChange={(e) => handleChange("otherQualification", e.target.value)}
                   onBlur={() => handleBlur("otherQualification")}
-                  placeholder="e.g. B.Sc Electronics, Diploma in Computer Engineering, M.Phil"
-                  className={`w-full px-4 py-3 bg-white border rounded-xl text-slate-900 text-sm focus:outline-none transition-all font-medium shadow-sm ${
+                  placeholder="Enter your degree / qualification"
+                  className={`w-full px-4 py-3.5 bg-slate-50 border-2 rounded-xl text-slate-900 text-sm focus:outline-none transition-all font-medium shadow-sm ${
                     touched.otherQualification && errors.otherQualification
-                      ? "border-red-500 ring-2 ring-red-100 bg-red-50/30"
-                      : "border-orange-300 focus:ring-2 focus:ring-orange-400 focus:border-transparent"
+                      ? "border-red-500 ring-2 ring-red-100 bg-red-50/20"
+                      : "border-slate-200 focus:border-primary focus:ring-0 focus:bg-white"
                   }`}
                 />
                 {touched.otherQualification && errors.otherQualification && (
@@ -618,60 +536,6 @@ function ApplyFormContent() {
                 )}
               </div>
             )}
-
-            {/* Date to Join / Availability Field */}
-            <div className="bg-slate-100/90 p-5 rounded-2xl border border-slate-200 shadow-sm">
-              <label className="block text-xs font-bold text-slate-900 mb-2.5 uppercase tracking-wider flex items-center gap-1.5">
-                <Calendar className="w-4 h-4 text-primary" /> Expected Date to Join / Availability <span className="text-red-500">*</span>
-              </label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
-                {["Immediate", "Within 15 Days", "1st of Next Month", "Custom Date"].map((opt) => (
-                  <button
-                    key={opt}
-                    type="button"
-                    onClick={() => {
-                      setForm({ ...form, joinQuickOption: opt });
-                      if (opt !== "Custom Date") {
-                        setErrors((prev) => {
-                          const next = { ...prev };
-                          delete next.dateToJoin;
-                          return next;
-                        });
-                      }
-                    }}
-                    className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all border text-center cursor-pointer ${
-                      form.joinQuickOption === opt
-                        ? "bg-slate-900 text-white border-slate-900 shadow"
-                        : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
-                    }`}
-                  >
-                    {opt}
-                  </button>
-                ))}
-              </div>
-
-              {form.joinQuickOption === "Custom Date" && (
-                <div className="mt-2.5 animate-in fade-in duration-150">
-                  <input
-                    type="date"
-                    value={form.dateToJoin}
-                    min={new Date().toISOString().split("T")[0]}
-                    onChange={(e) => handleChange("dateToJoin", e.target.value)}
-                    onBlur={() => handleBlur("dateToJoin")}
-                    className={`w-full px-4 py-3 bg-white border rounded-xl text-slate-900 text-sm focus:outline-none font-medium shadow-sm ${
-                      touched.dateToJoin && errors.dateToJoin
-                        ? "border-red-500 ring-2 ring-red-100 bg-red-50/20"
-                        : "border-slate-200 focus:ring-2 focus:ring-primary"
-                    }`}
-                  />
-                  {touched.dateToJoin && errors.dateToJoin && (
-                    <p className="text-red-500 text-xs mt-1.5 font-medium flex items-center gap-1">
-                      <AlertCircle className="w-3.5 h-3.5" /> {errors.dateToJoin}
-                    </p>
-                  )}
-                </div>
-              )}
-            </div>
 
             {/* Resume Upload Button & Link */}
             <div>
@@ -732,22 +596,8 @@ function ApplyFormContent() {
                 type="url"
                 value={form.linkedinUrl}
                 onChange={(e) => handleChange("linkedinUrl", e.target.value)}
-                placeholder="https://linkedin.com/in/username"
-                className="w-full px-4 py-3.5 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm focus:ring-2 focus:ring-primary outline-none transition-all font-medium shadow-sm"
-              />
-            </div>
-
-            {/* Cover Note */}
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
-                Teaching Philosophy / Brief Introduction
-              </label>
-              <textarea
-                rows={3}
-                value={form.coverNote}
-                onChange={(e) => handleChange("coverNote", e.target.value)}
-                placeholder="Share your practical experience, preferred teaching modules, and passion for training students..."
-                className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm focus:ring-2 focus:ring-primary outline-none transition-all font-medium resize-none shadow-sm"
+                placeholder="Enter your LinkedIn profile URL"
+                className="w-full px-4 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl text-slate-900 text-sm focus:bg-white focus:border-primary focus:ring-0 outline-none transition-all font-medium shadow-sm"
               />
             </div>
 
@@ -759,16 +609,13 @@ function ApplyFormContent() {
                 className="w-full py-4 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-medium text-base hover:shadow-2xl shadow-orange-500/30 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 hover:-translate-y-0.5"
               >
                 {submitting ? (
-                  <>Submitting Your Application...</>
+                  <>Submitting...</>
                 ) : (
                   <>
-                    <Send className="w-5 h-5" /> Submit Faculty & Trainer Application
+                    <Send className="w-5 h-5" /> Submit
                   </>
                 )}
               </button>
-              <p className="text-center text-xs text-slate-400 mt-3 font-medium">
-                🔒 Your application is sent securely to the BITC Academic & Recruitment Board.
-              </p>
             </div>
           </form>
         </div>

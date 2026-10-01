@@ -1,8 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { ApplyFormContent } from "@/app/apply/page";
 import {
   Users,
   ExternalLink,
@@ -90,7 +92,7 @@ export default function OurMentorsPage() {
                   <span className="text-2xl font-serif leading-none mt-2">"</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 leading-tight">
-                  Why Mentors <br className="hidden md:block" />
+                  Why Experts <br className="hidden md:block" />
                   <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Matter</span>
                 </h2>
               </div>
@@ -98,7 +100,7 @@ export default function OurMentorsPage() {
                 <div className="relative pl-0 md:pl-6 border-l-0 md:border-l-2 border-slate-200">
                   <div className="hidden md:block absolute -top-4 -left-4 text-5xl text-slate-200 font-serif leading-none bg-slate-50">"</div>
                   <p className="text-lg md:text-xl text-gray-600 leading-relaxed font-medium relative z-10">
-                    The difference between knowing a concept and applying it in the real world is mentorship. Our mentors don't just teach—they share their experiences, failures, and lessons from years of working in the industry. That's the kind of education that transforms careers.
+                    The difference between knowing a concept and applying it in the real world is expert guidance. Our experts don't just teach—they share their experiences, failures, and lessons from years of working in the industry. That's the kind of education that transforms careers.
                   </p>
                 </div>
               </div>
@@ -188,14 +190,14 @@ export default function OurMentorsPage() {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { title: "AI & Machine Learning", icon: Brain, color: "bg-purple-500/5 text-purple-600" },
               { title: "Full stack development", icon: Code, color: "bg-blue-500/5 text-blue-600" },
-              { title: "Data Science", icon: BarChart3, color: "bg-green-500/5 text-green-600" },
-              { title: "Cloud Computing", icon: Cloud, color: "bg-sky-500/5 text-sky-600" },
-              { title: "Information Security", icon: Shield, color: "bg-red-500/5 text-red-600" },
               { title: "UI/UX Design", icon: Palette, color: "bg-pink-500/5 text-pink-600" },
-              { title: "Business & Strategy", icon: Briefcase, color: "bg-amber-500/5 text-amber-600" },
               { title: "Database & Backend", icon: Database, color: "bg-indigo-500/5 text-indigo-600" },
+              { title: "Cloud Computing", icon: Cloud, color: "bg-sky-500/5 text-sky-600" },
+              { title: "Data Science", icon: BarChart3, color: "bg-green-500/5 text-green-600" },
+              { title: "Information Security", icon: Shield, color: "bg-red-500/5 text-red-600" },
+              { title: "AI & Machine Learning", icon: Brain, color: "bg-purple-500/5 text-purple-600" },
+              { title: "Business & Strategy", icon: Briefcase, color: "bg-amber-500/5 text-amber-600" },
             ].map((area, i) => (
               <div key={i} className={`${area.color.split(" ")[0]} rounded-2xl p-6 text-center hover:shadow-md transition-shadow`}>
                 <area.icon className={`w-10 h-10 ${area.color.split(" ")[1]} mx-auto mb-3`} />
@@ -214,9 +216,16 @@ export default function OurMentorsPage() {
             Are you an industry professional who wants to give back? Join BITC as a mentor and shape the careers of the next generation.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/apply?role=Industry%20Expert%20%26%20Mentor" className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-medium flex items-center gap-2 justify-center hover:shadow-xl transition-all text-lg shadow-orange-500/20">
-              Apply as Mentor <ArrowRight className="w-5 h-5" />
-            </Link>
+            <Dialog>
+              <DialogTrigger className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-medium flex items-center gap-2 justify-center hover:shadow-xl transition-all text-lg shadow-orange-500/20 cursor-pointer">
+                Apply as Mentor <ArrowRight className="w-5 h-5" />
+              </DialogTrigger>
+              <DialogContent className="max-w-3xl sm:max-w-3xl md:max-w-3xl w-[95vw] p-0 border-none bg-transparent shadow-none max-h-[95vh] overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                <Suspense fallback={<div className="p-8 bg-white text-center rounded-xl">Loading form...</div>}>
+                  <ApplyFormContent />
+                </Suspense>
+              </DialogContent>
+            </Dialog>
             <Link href="/contact" className="h-14 px-8 rounded-full bg-white text-slate-900 font-medium flex items-center justify-center border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all text-lg shadow-sm">
               Contact Us
             </Link>

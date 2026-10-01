@@ -94,7 +94,7 @@ export function Navbar() {
               alt="BITC Logo"
               width={260}
               height={85}
-              className="h-[24px] sm:h-[27px] w-auto object-contain"
+              className="h-[23px] sm:h-[26px] w-auto object-contain"
               priority
             />
           </Link>
