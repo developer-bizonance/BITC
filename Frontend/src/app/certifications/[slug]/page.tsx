@@ -259,7 +259,7 @@ export default async function CoursePage({ params }: PageProps) {
                           MODULE {i + 1}
                         </span>
                         <h3 className="text-lg md:text-xl font-bold text-slate-900 group-hover:text-amber-500 group-data-[state=open]:text-amber-500 transition-colors">
-                          {Module.title.replace(/^module \D+:\s*/i, '')}
+                          {module.title.replace(/^module \D+:\s*/i, '')}
                         </h3>
                       </div>
                     </div>
