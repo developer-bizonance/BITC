@@ -252,7 +252,7 @@ export default function EventRegistrationModal({ children, eventId, eventName, i
               disabled={status === "loading"}
               className="w-full h-12 mt-4 text-base rounded-full shadow-md shadow-orange-500/20 bg-primary hover:bg-orange-600"
             >
-              {status === "loading" ? "Submitting..." : (isGeneralUpdate ? "Subscribe to Updates" : "Submit")}
+              {status === "loading" ? "Submitting..." : (isGeneralUpdate ? "Subscribe" : "Submit")}
             </Button>
           </form>
         )}
