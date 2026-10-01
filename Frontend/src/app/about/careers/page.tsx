@@ -56,9 +56,9 @@ const defaultOpenings: JobOpeningItem[] = [
 // All courses & certifications available across BITC website categorized
 const courseCertificationOptions = [
   { category: "Information Technology", courses: [] },
-  { category: "Digital media technology", courses: [] },
-  { category: "Management Certifications", courses: [] },
-  { category: "Design Certifications", courses: [] },
+  { category: "Digital Media Technology", courses: [] },
+  { category: "Management Programs", courses: [] },
+  { category: "Design Programs", courses: [] },
 ];
 
 export default function CareersPage() {

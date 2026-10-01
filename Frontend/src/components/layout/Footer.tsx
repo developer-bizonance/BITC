@@ -42,10 +42,10 @@ export function Footer() {
   ];
 
   const programLinks = [
-    { name: 'Information Tech', href: '/courses/it' },
-    { name: 'Management', href: '/courses/management' },
-    { name: 'Designing', href: '/courses/design' },
-    { name: 'Digital Media', href: '/courses/digital-media' }
+    { name: 'Information Technology', href: '/courses/it' },
+    { name: 'Digital Media Technology', href: '/courses/digital-media' },
+    { name: 'Management Programs', href: '/courses/management' },
+    { name: 'Design Programs', href: '/courses/design' }
   ];
 
   return (
@@ -90,7 +90,7 @@ export function Footer() {
                       onMouseLeave={() => setHoveredIndex(null)}
                     >
                       {isGoogle ? (
-                        <>
+                         <>
                           <span className="sm:hidden transition-all duration-300">
                             <GoogleIcon size={15} />
                           </span>
@@ -119,14 +119,14 @@ export function Footer() {
             </div>
 
             {/* 2. Links Grid: IMP LINKS, COMPANY & CERTIFICATIONS (Col 5-9) */}
-            <div className="lg:col-span-5 grid grid-cols-2 sm:grid-cols-3 gap-5 sm:gap-6 pt-1">
+            <div className="lg:col-span-5 grid grid-cols-2 sm:flex sm:justify-between sm:gap-4 lg:gap-2 xl:gap-6 pt-1">
               {/* Imp Links Column */}
               <div>
                 <h4 className="font-bold text-slate-900 mb-3 sm:mb-4 text-[15px] sm:text-[16px]  tracking-wide">Links</h4>
                 <ul className="space-y-2.5 text-[14px] sm:text-[15px] font-normal">
                   {impLinks.map((item) => (
                     <li key={item.name}>
-                      <Link href={item.href} className="hover:text-primary transition-colors text-slate-600 hover:translate-x-0.5 inline-flex items-center">
+                      <Link href={item.href} className="hover:text-primary transition-colors text-slate-600 hover:translate-x-0.5 inline-flex items-center whitespace-nowrap">
                         {item.name}
                       </Link>
                     </li>
@@ -140,7 +140,7 @@ export function Footer() {
                 <ul className="space-y-2.5 text-[14px] sm:text-[15px] font-normal">
                   {programLinks.map((item) => (
                     <li key={item.name}>
-                      <Link href={item.href} className="hover:text-primary transition-colors text-slate-600 hover:translate-x-0.5 inline-flex items-center">
+                      <Link href={item.href} className="hover:text-primary transition-colors text-slate-600 hover:translate-x-0.5 inline-flex items-center whitespace-nowrap">
                         {item.name}
                       </Link>
                     </li>
@@ -154,7 +154,7 @@ export function Footer() {
                 <ul className="space-y-2.5 text-[14px] sm:text-[15px] font-normal">
                   {companyLinks.map((item) => (
                     <li key={item.name}>
-                      <Link href={item.href} className="hover:text-primary transition-colors text-slate-600 hover:translate-x-0.5 inline-flex items-center">
+                      <Link href={item.href} className="hover:text-primary transition-colors text-slate-600 hover:translate-x-0.5 inline-flex items-center whitespace-nowrap">
                         {item.name}
                       </Link>
                     </li>

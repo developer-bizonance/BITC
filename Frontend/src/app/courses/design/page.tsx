@@ -11,10 +11,10 @@ import {
 import { courses as staticCourses } from "@/data/courses";
 
 export const metadata: Metadata = {
-  title: "Design Certifications",
+  title: "Design Programs",
   description: "Master UI/UX Design, Graphic Design, 3D Animation, and Video Editing with hands-on projects at BITC Amravati.",
   openGraph: {
-    title: "Design Certifications | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
+    title: "Design Programs | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
     description: "Creative & UI/UX design certification programs.",
   },
 };
@@ -37,14 +37,14 @@ export default async function DesignCoursesPage() {
   }
 
   if (!dynamicCourses || dynamicCourses.length === 0) {
-    dynamicCourses = staticCourses.filter(c => c.category === "Design Certifications");
+    dynamicCourses = staticCourses.filter(c => c.category === "Design Programs");
   }
 
   const finalCourses = dynamicCourses.map((c: any) => {
     return {
       id: c.slug || c.title.toLowerCase().replace(/ & /g, '-').replace(/[\/\s]+/g, '-'),
       title: c.title,
-      tag: c.category || "Design Certifications",
+      tag: c.category || "Design Programs",
       duration: c.duration || "6 Months",
       fees: c.fees || "₹36,000",
       icon: Palette,
@@ -213,7 +213,7 @@ export default async function DesignCoursesPage() {
         <div className="container max-w-[1360px] mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
-              Importance of <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Design Certifications</span> in Today's Era
+              Importance of <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Design Programs</span> in Today's Era
             </h2>
             <p className="text-base md:text-lg text-slate-600 font-medium leading-relaxed">
               In a digital-first world, visual communication is more critical than ever. Here is why certified designers are in high demand across the globe.

@@ -11,7 +11,7 @@ import {
 import { courses as staticCourses } from "@/data/courses";
 
 export const metadata: Metadata = {
-  title: "Digital media technology certifications",
+  title: "Digital Media Technology certifications",
   description: "Master Digital Arts, Video Editing, Animation, and Media Production with hands-on projects at BITC Amravati.",
   openGraph: {
     title: "Digital Media Technology Certifications | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
@@ -35,14 +35,14 @@ export default async function DigitalMediaCoursesPage() {
   }
 
   if (!dynamicCourses || dynamicCourses.length === 0) {
-    dynamicCourses = staticCourses.filter(c => c.category === "Digital media technology");
+    dynamicCourses = staticCourses.filter(c => c.category === "Digital Media Technology");
   }
 
   const finalCourses = dynamicCourses.map((c: any) => {
     return {
       id: c.slug || c.title.toLowerCase().replace(/ & /g, '-').replace(/[\/\s]+/g, '-'),
       title: c.title,
-      tag: c.category || "Digital media technology",
+      tag: c.category || "Digital Media Technology",
       duration: c.duration || "6 Months",
       fees: c.fees || "₹36,000",
       icon: Video,

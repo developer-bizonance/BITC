@@ -423,7 +423,7 @@ export function AuthModal() {
                 </Button>
                 
                 <p className="text-center text-[10px] text-slate-400 font-medium mt-4">
-                  By submitting, you agree to our <a href="#" className="underline hover:text-slate-600">Terms & Conditions</a>
+                  By submitting, you agree to our <a href="/terms-of-service" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-600">Terms & Conditions</a>
                 </p>
               </form>
             </>

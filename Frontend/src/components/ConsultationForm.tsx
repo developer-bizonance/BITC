@@ -189,7 +189,7 @@ export default function ConsultationForm({ theme = "light" }: ConsultationFormPr
         disabled={status === "loading"}
         className="w-full h-12 md:h-14 mt-2 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-900 text-base font-medium hover:opacity-90 transition-all shadow-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {status === "loading" ? "Submitting..." : "Book Consultation"}
+        {status === "loading" ? "Submitting..." : "Submit"}
       </button>
     </form>
   );

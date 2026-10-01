@@ -243,7 +243,7 @@ export function ScholarshipApplicationForm() {
                 <option value="" disabled>Select Domain</option>
                 {Array.from(new Set(courses.map(c => c.category)))
                   .sort((a, b) => {
-                    const order = ["Information Technology", "Digital media technology", "Management Certifications", "Design Certifications"];
+                    const order = ["Information Technology", "Digital Media Technology", "Management Programs", "Design Programs"];
                     return order.indexOf(a) - order.indexOf(b);
                   })
                   .map(category => (

@@ -37,14 +37,14 @@ export default async function ManagementCoursesPage() {
   }
 
   if (!dynamicCourses || dynamicCourses.length === 0) {
-    dynamicCourses = staticCourses.filter(c => c.category === "Management Certifications");
+    dynamicCourses = staticCourses.filter(c => c.category === "Management Programs");
   }
 
   const finalCourses = dynamicCourses.map((c: any) => {
     return {
       id: c.slug || c.title.toLowerCase().replace(/ & /g, '-').replace(/[\/\s]+/g, '-'),
       title: c.title,
-      tag: c.category || "Management Certifications",
+      tag: c.category || "Management Programs",
       duration: c.duration || "6 Months",
       fees: c.fees || "₹36,000",
       icon: Briefcase,
@@ -214,7 +214,7 @@ export default async function ManagementCoursesPage() {
         <div className="container max-w-[1360px] mx-auto px-4 relative z-10">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
-              Importance of <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Management Certifications</span> in Today's Era
+              Importance of <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Management Programs</span> in Today's Era
             </h2>
             <p className="text-base md:text-lg text-slate-600 font-medium leading-relaxed">
               Business paradigms are shifting rapidly. Here is why certified management professionals are essential to navigating modern challenges.

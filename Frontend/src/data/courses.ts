@@ -6,7 +6,7 @@ export type CourseModule = {
 export type Certification = {
   slug: string;
   title: string;
-  category: "Information Technology" | "Management Certifications" | "Design Certifications" | "Digital media technology";
+  category: "Information Technology" | "Management Programs" | "Design Programs" | "Digital Media Technology";
   duration: string;
   fees: string;
   price: number;
@@ -535,7 +535,7 @@ export const courses: Certification[] = [
   {
     slug: "digital-marketing",
     title: "Digital Marketing",
-    category: "Management Certifications",
+    category: "Management Programs",
     duration: "3 Months",
     fees: "₹36,000",
     price: 36000,
@@ -551,7 +551,7 @@ export const courses: Certification[] = [
   {
     slug: "business-analyst",
     title: "Business Analytics",
-    category: "Management Certifications",
+    category: "Management Programs",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
@@ -569,7 +569,7 @@ export const courses: Certification[] = [
   {
     slug: "finance",
     title: "Finance",
-    category: "Management Certifications",
+    category: "Management Programs",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
@@ -587,7 +587,7 @@ export const courses: Certification[] = [
   {
     slug: "hr",
     title: "Human Resources (HR)",
-    category: "Management Certifications",
+    category: "Management Programs",
     duration: "3 Months",
     fees: "₹36,000",
     price: 36000,
@@ -603,7 +603,7 @@ export const courses: Certification[] = [
   {
     slug: "sales-and-marketing",
     title: "Sales & Business Development",
-    category: "Management Certifications",
+    category: "Management Programs",
     duration: "3 Months",
     fees: "₹36,000",
     price: 36000,
@@ -621,7 +621,7 @@ export const courses: Certification[] = [
   {
     slug: "ui-ux-design",
     title: "UI/UX Design",
-    category: "Design Certifications",
+    category: "Design Programs",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
@@ -639,7 +639,7 @@ export const courses: Certification[] = [
   {
     slug: "graphic-design",
     title: "Graphic Design",
-    category: "Design Certifications",
+    category: "Design Programs",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
@@ -657,7 +657,7 @@ export const courses: Certification[] = [
   {
     slug: "motion-graphics",
     title: "Motion Graphics",
-    category: "Design Certifications",
+    category: "Design Programs",
     duration: "3 Months",
     fees: "₹36,000",
     price: 36000,
@@ -673,7 +673,7 @@ export const courses: Certification[] = [
   {
     slug: "video-editing",
     title: "Video Editing",
-    category: "Design Certifications",
+    category: "Design Programs",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
@@ -691,7 +691,7 @@ export const courses: Certification[] = [
   {
     slug: "animation",
     title: "Animation",
-    category: "Design Certifications",
+    category: "Design Programs",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
@@ -709,7 +709,7 @@ export const courses: Certification[] = [
   {
     slug: "contain-creation",
     title: "Content Creation",
-    category: "Design Certifications",
+    category: "Design Programs",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
@@ -727,7 +727,7 @@ export const courses: Certification[] = [
   {
     slug: "meta-advertising-and-marketing",
     title: "META Advertising and Marketing",
-    category: "Digital media technology",
+    category: "Digital Media Technology",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
@@ -745,7 +745,7 @@ export const courses: Certification[] = [
   {
     slug: "google-advertising-and-marketing",
     title: "Google Advertising and Marketing",
-    category: "Digital media technology",
+    category: "Digital Media Technology",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
@@ -763,7 +763,7 @@ export const courses: Certification[] = [
   {
     slug: "business-consultant",
     title: "Business Consultant",
-    category: "Management Certifications",
+    category: "Management Programs",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,
@@ -781,7 +781,7 @@ export const courses: Certification[] = [
   {
     slug: "human-resource",
     title: "Human Resource",
-    category: "Management Certifications",
+    category: "Management Programs",
     duration: "6 Months",
     fees: "₹36,000",
     price: 36000,

@@ -28,7 +28,7 @@ export default function StudentConsultingCenter() {
           </h1>
           
           <p className="text-base md:text-lg text-gray-600 mb-10 max-w-2xl leading-relaxed">
-            Not sure which Certification to choose? Confused about career paths? Our expert counselors are here to help you make informed decisions and build a clear roadmap for success.
+            Not sure which certification to choose? Confused about career paths? Our expert counselors are here to help you make informed decisions and build a clear roadmap for success.
           </p>
           
           <div className="flex flex-wrap justify-center gap-4">

@@ -117,7 +117,7 @@ export default function Home() {
                 We believe financial constraints should never hold back true talent. Unlock your potential and let us fund your tech career journey.
               </p>
 
-              <Link href="/scholarships" className="inline-flex h-14 items-center justify-center rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] px-8 text-lg font-extrabold text-black shadow-lg hover:shadow-xl hover:scale-105 hover:shadow-orange-500/20 transition-all duration-300">
+              <Link href="/scholarships" className="inline-flex h-14 items-center justify-center rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] px-8 text-lg font-medium text-black shadow-lg hover:shadow-xl hover:scale-105 hover:shadow-orange-500/20 transition-all duration-300">
                 Check eligibility criteria <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
             </div>

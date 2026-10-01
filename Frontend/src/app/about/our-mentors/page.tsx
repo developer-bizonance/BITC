@@ -214,10 +214,10 @@ export default function OurMentorsPage() {
             Are you an industry professional who wants to give back? Join BITC as a mentor and shape the careers of the next generation.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/apply?role=Industry%20Expert%20%26%20Mentor" className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-semibold flex items-center gap-2 justify-center hover:shadow-xl transition-all text-lg shadow-orange-500/20">
+            <Link href="/apply?role=Industry%20Expert%20%26%20Mentor" className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-medium flex items-center gap-2 justify-center hover:shadow-xl transition-all text-lg shadow-orange-500/20">
               Apply as Mentor <ArrowRight className="w-5 h-5" />
             </Link>
-            <Link href="/contact" className="h-14 px-8 rounded-full bg-white text-slate-900 font-semibold flex items-center justify-center border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all text-lg shadow-sm">
+            <Link href="/contact" className="h-14 px-8 rounded-full bg-white text-slate-900 font-medium flex items-center justify-center border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all text-lg shadow-sm">
               Contact Us
             </Link>
           </div>
