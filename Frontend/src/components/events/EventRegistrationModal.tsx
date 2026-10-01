@@ -89,7 +89,7 @@ export default function EventRegistrationModal({ children, eventId, eventName, i
     }
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api"}/event-registrations`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === "development" ? "http://localhost:5000/api" : "https://bitc-backend-theta.vercel.app/api")}/event-registrations`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -24,7 +24,7 @@ export const dynamic = 'force-dynamic';
 export default async function DigitalMediaCoursesPage() {
   let dynamicCourses = [];
   try {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:5000/api";
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === "development" ? "http://localhost:5000/api" : "https://bitc-backend-theta.vercel.app/api");
     const res = await fetch(`${API_URL}/certifications?category=Digital%20Media%20Technology`, { cache: "no-store" });
     if (res.ok) {
       const data = await res.json();

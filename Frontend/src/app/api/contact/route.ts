@@ -178,7 +178,7 @@ Target Recipient: ${recipientEmail}
 
     // Save inquiry via Express Backend (single source of truth)
     try {
-      const backendUrl = process.env.BACKEND_API_URL || "http://127.0.0.1:5000/api/contact";
+      const backendUrl = process.env.BACKEND_API_URL || (process.env.NODE_ENV === "development" ? "http://localhost:5000/api/contact" : "https://bitc-backend-theta.vercel.app/api/contact");
       await fetch(backendUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

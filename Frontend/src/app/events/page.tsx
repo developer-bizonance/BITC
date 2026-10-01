@@ -55,7 +55,7 @@ export default async function EventsPage() {
 
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api"}/events`,
+      `${process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === "development" ? "http://localhost:5000/api" : "https://bitc-backend-theta.vercel.app/api")}/events`,
       { cache: "no-store" },
     );
     if (res.ok) {

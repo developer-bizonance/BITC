@@ -26,7 +26,7 @@ async function fetchCourse(slug: string): Promise<Certification | null> {
   
   // 1. Try Backend API first for live dynamic curriculum & details
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:5000/api";
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === "development" ? "http://localhost:5000/api" : "https://bitc-backend-theta.vercel.app/api");
     const res = await fetch(`${apiUrl}/courses/${normalizedSlug}`, { cache: "no-store" });
     if (res.ok) {
       const data = await res.json();

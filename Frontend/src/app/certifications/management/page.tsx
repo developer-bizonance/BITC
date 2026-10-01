@@ -26,7 +26,7 @@ export const dynamic = 'force-dynamic';
 export default async function ManagementCoursesPage() {
   let dynamicCourses = [];
   try {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === "development" ? "http://localhost:5000/api" : "https://bitc-backend-theta.vercel.app/api");
     const res = await fetch(`${API_URL}/certifications?category=Management%20Programs`, { cache: "no-store" });
     if (res.ok) {
       const data = await res.json();
