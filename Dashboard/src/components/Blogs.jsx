@@ -67,10 +67,12 @@ const Blogs = () => {
       });
       const data = await res.json();
       if (res.ok) {
-        setBlogs(data.blogs || [data.blog, ...blogs]);
+        setBlogs(prev => [data.blog, ...prev]);
         setIsAddOpen(false);
-        setForm({ title: "", slug: "", content: "", author: "Admin", publishedAt: "" });
+        setForm({ title: "", slug: "", content: "", author: "", publishedAt: "" });
         showNotification("Blog added successfully!");
+        // Re-fetch to ensure full list is accurate
+        fetchBlogs();
       } else {
         showNotification(data.error || "Failed to add blog", "error");
       }
@@ -87,8 +89,10 @@ const Blogs = () => {
       const res = await fetch(`${apiUrl}/blogs/${id}`, { method: "DELETE" });
       const data = await res.json();
       if (res.ok) {
-        setBlogs(data.blogs || blogs.filter((b) => b.id !== id));
+        setBlogs(prev => prev.filter((b) => b.id !== id));
         showNotification(`Blog "${title}" removed.`);
+        // Re-fetch to ensure full list is accurate
+        fetchBlogs();
       } else {
         showNotification(data.error || "Failed to delete blog", "error");
       }
@@ -124,9 +128,10 @@ const Blogs = () => {
       });
       const data = await res.json();
       if (res.ok) {
-        setBlogs(data.blogs || blogs.map((b) => (b.id === editingBlogId ? data.blog : b)));
+        setBlogs(prev => prev.map((b) => (b.id === editingBlogId ? data.blog : b)));
         setIsEditOpen(false);
         showNotification("Blog updated successfully!");
+        fetchBlogs();
       } else {
         showNotification(data.error || "Failed to update blog", "error");
       }

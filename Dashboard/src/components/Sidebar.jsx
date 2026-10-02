@@ -103,23 +103,6 @@ const sidebarItems = [
         ],
     },
     {
-        title: "Events",
-        Icon: Calendar,
-        Content: Events,
-        subItems: [
-            {
-                id: "manage-events",
-                title: "Manage Events",
-                Icon: Calendar,
-            },
-            {
-                id: "view-registrations",
-                title: "View Registrations",
-                Icon: Users,
-            },
-        ],
-    },
-    {
         title: "Resources",
         Icon: BookOpen,
         Content: Blogs,
@@ -157,6 +140,23 @@ const sidebarItems = [
                 Icon: Briefcase,
             }
         ]
+    },
+    {
+        title: "Events",
+        Icon: Calendar,
+        Content: Events,
+        subItems: [
+            {
+                id: "manage-events",
+                title: "Manage Events",
+                Icon: Calendar,
+            },
+            {
+                id: "view-registrations",
+                title: "View Registrations",
+                Icon: Users,
+            },
+        ],
     },
 
     {

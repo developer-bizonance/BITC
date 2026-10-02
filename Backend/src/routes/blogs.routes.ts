@@ -10,20 +10,21 @@ const router = Router();
 // GET /api/blogs
 router.get("/", async (req: Request, res: Response) => {
   try {
-    let dbBlogs = null;
+    let dbBlogs: any[] = [];
     try {
-      dbBlogs = await prisma.blog.findMany({
+      const result = await prisma.blog.findMany({
         orderBy: { createdAt: "desc" },
       });
+      if (result) dbBlogs = result;
     } catch (e) {
       console.warn("Prisma query failed, falling back to in-memory blogs:", e);
     }
 
-    if (dbBlogs && dbBlogs.length > 0) {
-      return res.json({ success: true, blogs: dbBlogs });
-    }
+    const fileBlogs = readJsonDb("blogs.json") || [];
+    const dbBlogIds = new Set(dbBlogs.map(b => b.id));
+    const mergedBlogs = [...dbBlogs, ...fileBlogs.filter(b => !dbBlogIds.has(b.id))];
 
-    return res.json({ success: true, blogs: readJsonDb("blogs.json") });
+    return res.json({ success: true, blogs: mergedBlogs });
   } catch (error: any) {
     return res.status(500).json({ success: false, error: "Failed to fetch blogs" });
   }
