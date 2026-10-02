@@ -74,55 +74,20 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
           </Link>
           
           <div className="prose prose-slate prose-lg md:prose-xl max-w-none text-slate-700">
-            {/* Original API Content */}
-            <div className="mb-12 font-medium text-slate-900 text-xl border-l-4 border-primary pl-6">
+            {/* Actual Blog Content */}
+            <div className="font-medium text-slate-800 text-lg leading-relaxed space-y-6">
               {blog.content ? (
                 blog.content.includes('<') ? (
                   <div dangerouslySetInnerHTML={{ __html: blog.content }} />
                 ) : (
                   blog.content.split('\n').map((paragraph: string, i: number) => (
-                    <p key={`intro-${i}`} className="mb-0">{paragraph}</p>
+                    <p key={`intro-${i}`}>{paragraph}</p>
                   ))
                 )
               ) : (
                 <p className="italic text-slate-500">No content available for this blog post.</p>
               )}
             </div>
-
-            {/* Extended Dummy Content for Layout Purposes */}
-            <h2>The Changing Landscape of Technology</h2>
-            <p>
-              In today&apos;s fast-paced digital world, staying ahead of the curve is more important than ever. 
-              The technological landscape is constantly evolving, bringing new frameworks, paradigms, and methodologies 
-              that reshape how we approach problem-solving and application development. As professionals, we must embrace continuous learning.
-            </p>
-            
-            <h3>Key Takeaways</h3>
-            <ul>
-              <li><strong>Adaptability is crucial:</strong> Technologies will change, but the ability to learn quickly remains constant.</li>
-              <li><strong>Fundamentals matter:</strong> Deep knowledge of core principles makes learning new tools much easier.</li>
-              <li><strong>Community and collaboration:</strong> The best innovations come from teams that share knowledge openly.</li>
-            </ul>
-
-            <p>
-              Looking closely at industry trends, we can observe a significant shift towards more distributed, 
-              scalable, and resilient architectures. Cloud-native development is no longer just a buzzword; it is 
-              the standard for modern software engineering. Companies are increasingly relying on automation, 
-              continuous integration, and robust delivery pipelines to maintain competitive advantages.
-            </p>
-
-            <blockquote>
-              "Innovation distinguishes between a leader and a follower. To lead in tech, you must be willing to dismantle what works today to build what is needed tomorrow."
-            </blockquote>
-
-            <h2>Looking Ahead</h2>
-            <p>
-              As we look to the future, the boundaries between different domains of technology will continue to blur. 
-              Artificial intelligence, cloud computing, and advanced web capabilities are converging to create unprecedented 
-              opportunities for those willing to seize them. The key to success will be maintaining a balance between 
-              practical application and visionary thinking.
-            </p>
-          </div>
         </div>
       </section>
     </div>
