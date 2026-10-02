@@ -22,7 +22,8 @@ router.get("/", async (req: Request, res: Response) => {
 
     const fileBlogs = readJsonDb("blogs.json") || [];
     const dbBlogIds = new Set(dbBlogs.map(b => b.id));
-    const mergedBlogs = [...dbBlogs, ...fileBlogs.filter(b => !dbBlogIds.has(b.id))];
+    const dbBlogSlugs = new Set(dbBlogs.map(b => b.slug));
+    const mergedBlogs = [...dbBlogs, ...fileBlogs.filter(b => !dbBlogIds.has(b.id) && !dbBlogSlugs.has(b.slug))];
 
     return res.json({ success: true, blogs: mergedBlogs });
   } catch (error: any) {
@@ -57,6 +58,7 @@ router.post("/", async (req: Request, res: Response) => {
     try {
       const dbBlog = await prisma.blog.create({
         data: {
+          id: newBlog.id,
           title: newBlog.title,
           slug: newBlog.slug,
           content: newBlog.content,
