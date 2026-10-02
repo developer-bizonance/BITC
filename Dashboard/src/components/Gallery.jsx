@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Plus, Trash2, Pencil, RefreshCw, X, Image as ImageIcon } from "lucide-react";
+import ImageUpload from "./ImageUpload";
 
 const Gallery = () => {
   const [gallery, setGallery] = useState([]);
@@ -41,8 +42,8 @@ const Gallery = () => {
 
   const handleAdd = async (e) => {
     e.preventDefault();
-    if (!form.title.trim() || !form.imgUrl.trim()) {
-      showNotification("Please fill in both title and image URL", "error");
+    if (!form.title.trim() || !form.imgUrl) {
+      showNotification("Please fill in the title and upload an image", "error");
       return;
     }
     setSubmitting(true);
@@ -92,7 +93,7 @@ const Gallery = () => {
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    if (!editForm.title.trim() || !editForm.imgUrl.trim()) {
+    if (!editForm.title.trim() || !editForm.imgUrl) {
       showNotification("Please fill in both fields", "error");
       return;
     }
@@ -209,14 +210,12 @@ const Gallery = () => {
                   <input type="text" required value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium text-sm" placeholder="e.g. Campus Orientation" />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Image URL</label>
-                  <input type="text" required value={form.imgUrl} onChange={(e) => setForm({ ...form, imgUrl: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium text-sm" placeholder="https://..." />
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Upload Image</label>
+                  <ImageUpload
+                    value={form.imgUrl}
+                    onChange={(url) => setForm({ ...form, imgUrl: url })}
+                  />
                 </div>
-                {form.imgUrl && (
-                  <div className="mt-4 rounded-xl overflow-hidden border border-gray-200 h-40">
-                     <img src={form.imgUrl} alt="Preview" className="w-full h-full object-cover" onError={(e) => e.target.style.display = 'none'} />
-                  </div>
-                )}
               </form>
             </div>
             <div className="px-6 py-4 border-t border-gray-100 flex justify-end gap-3 bg-gray-50">
@@ -246,14 +245,12 @@ const Gallery = () => {
                   <input type="text" required value={editForm.title} onChange={(e) => setEditForm({ ...editForm, title: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium text-sm" />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Image URL</label>
-                  <input type="text" required value={editForm.imgUrl} onChange={(e) => setEditForm({ ...editForm, imgUrl: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium text-sm" />
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Upload Image</label>
+                  <ImageUpload
+                    value={editForm.imgUrl}
+                    onChange={(url) => setEditForm({ ...editForm, imgUrl: url })}
+                  />
                 </div>
-                {editForm.imgUrl && (
-                  <div className="mt-4 rounded-xl overflow-hidden border border-gray-200 h-40">
-                     <img src={editForm.imgUrl} alt="Preview" className="w-full h-full object-cover" onError={(e) => e.target.style.display = 'none'} />
-                  </div>
-                )}
               </form>
             </div>
             <div className="px-6 py-4 border-t border-gray-100 flex justify-end gap-3 bg-gray-50">

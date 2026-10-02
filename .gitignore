@@ -37,3 +37,10 @@ Thumbs.db
 # Temporary
 *.tmp
 *.temp
+
+# Scratch / test scripts
+scratch/
+**/scratch/
+
+# User-uploaded files (generated at runtime)
+Backend/public/uploads/

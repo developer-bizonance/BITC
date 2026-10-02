@@ -152,10 +152,10 @@ const About = ({ activeSubTopic = "mentors" }) => {
   // Alumni Form Data
   const [alumniForm, setAlumniForm] = useState({
     name: "",
-    role: "Software Engineer",
-    company: "Google",
-    photo: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&h=150&q=80",
-    batch: "2024",
+    role: "",
+    company: "",
+    photo: "",
+    batch: "",
     certification: "",
     linkedin: "",
   });
@@ -594,10 +594,10 @@ const About = ({ activeSubTopic = "mentors" }) => {
         setIsAddAlumniOpen(false);
         setAlumniForm({
           name: "",
-          role: "Software Engineer",
-          company: "Google",
-          photo: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&h=150&q=80",
-          batch: "2024",
+          role: "",
+          company: "",
+          photo: "",
+          batch: "",
           certification: "",
           linkedin: "",
         });
@@ -2255,19 +2255,16 @@ const About = ({ activeSubTopic = "mentors" }) => {
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
                   />
                 </div>
+              </div>
 
-                <div>
-                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
-                    Photo URL / Image Path
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="https://images.unsplash.com/... or /profile.png"
-                    value={alumniForm.photo}
-                    onChange={(e) => setAlumniForm({ ...alumniForm, photo: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
-                  />
-                </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
+                  Upload Photo
+                </label>
+                <ImageUpload
+                  value={alumniForm.photo}
+                  onChange={(url) => setAlumniForm({ ...alumniForm, photo: url })}
+                />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -2398,19 +2395,16 @@ const About = ({ activeSubTopic = "mentors" }) => {
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
                   />
                 </div>
+              </div>
 
-                <div>
-                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
-                    Photo URL / Image Path
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="https://images.unsplash.com/... or /profile.png"
-                    value={editAlumniForm.photo}
-                    onChange={(e) => setEditAlumniForm({ ...editAlumniForm, photo: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
-                  />
-                </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
+                  Upload Photo
+                </label>
+                <ImageUpload
+                  value={editAlumniForm.photo}
+                  onChange={(url) => setEditAlumniForm({ ...editAlumniForm, photo: url })}
+                />
               </div>
 
               <div className="grid grid-cols-2 gap-4">

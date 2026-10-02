@@ -176,7 +176,7 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
   const [isAddPartnerOpen, setIsAddPartnerOpen] = useState(false);
   const [partnerFormData, setPartnerFormData] = useState({
     name: "",
-    city: "Amravati",
+    city: "",
     logo: "",
   });
   const [submittingPartner, setSubmittingPartner] = useState(false);
@@ -207,9 +207,9 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
   const [isAddCertOpen, setIsAddCertOpen] = useState(false);
   const [certFormData, setCertFormData] = useState({
     title: "",
-    category: "Information Technology",
-    duration: "6 Months",
-    fees: "₹36,000",
+    category: "",
+    duration: "",
+    fees: "",
     badge: "",
     image: "",
   });
@@ -248,14 +248,14 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
   const [editingTestiId, setEditingTestiId] = useState(null);
   const [testiFormData, setTestiFormData] = useState({
     name: "",
-    role: "Software Engineer",
-    company: "TCS",
-    course: "Full Stack Development",
-    packageAmt: "6 LPA",
+    role: "",
+    company: "",
+    course: "",
+    packageAmt: "",
     quote: "",
-    image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&h=150&q=80",
+    image: "",
     rating: 5,
-    youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    youtubeUrl: "",
   });
   const [editTestiData, setEditTestiData] = useState({
     name: "",
@@ -457,8 +457,8 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
         setIsAddPartnerOpen(false);
         setPartnerFormData({
           name: "",
-          logo: "/univercity.png",
-          city: "Amravati",
+          logo: "",
+          city: "",
           website: "",
         });
         showNotification("Academic partner added successfully!");
@@ -643,10 +643,10 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
         setIsAddCertOpen(false);
         setCertFormData({
           title: "",
-          category: "Information Technology",
-          duration: "6 Months",
-          fees: "₹36,000",
-          badge: "Integrated with AI",
+          category: "",
+          duration: "",
+          fees: "",
+          badge: "",
           image: "",
         });
         showNotification("Featured certification added successfully!");
@@ -873,14 +873,14 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
         setIsAddTestiOpen(false);
         setTestiFormData({
           name: "",
-          role: "Software Engineer",
-          company: "TCS",
-          course: "Full Stack Development",
-          packageAmt: "6 LPA",
+          role: "",
+          company: "",
+          course: "",
+          packageAmt: "",
           quote: "",
-          image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&h=150&q=80",
+          image: "",
           rating: 5,
-          youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          youtubeUrl: "",
         });
         showNotification("Success story added successfully!");
       } else {
