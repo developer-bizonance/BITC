@@ -24,9 +24,11 @@ import {
     Image,
     Download,
     HelpCircle,
+    LayoutDashboard,
 } from "lucide-react"
 
 // Import dashboard components
+import Overview from "./Overview.jsx"
 import Home from "./Home.jsx"
 import About from "./About.jsx"
 import ContactEntries from "./ContactEntries.jsx"
@@ -48,6 +50,11 @@ import PartnershipApplications from "./PartnershipApplications.jsx"
 
 // Sidebar configuration with Home, About, and Contact Inquiries tabs
 const sidebarItems = [
+    {
+        title: "Dashboard",
+        Icon: LayoutDashboard,
+        Content: Overview,
+    },
     {
         title: "Home",
         Icon: HomeIcon,
@@ -75,11 +82,6 @@ const sidebarItems = [
         Icon: AboutIcon,
         Content: About,
         subItems: [
-            {
-                id: "industry-partners",
-                title: "Industry Partners",
-                Icon: Handshake,
-            },
 
             {
                 id: "mentors",
@@ -198,16 +200,16 @@ const sidebarItems = [
 
 function Sidebar({ isOpen: propIsOpen }) {
     const [activeTab, setActiveTab] = useState(() => {
-        try { return localStorage.getItem("bitc_activeTab") || "Home" } catch { return "Home" }
+        try { return localStorage.getItem("bitc_activeTab") || "Dashboard" } catch { return "Dashboard" }
     })
     const [activeSubTopic, setActiveSubTopic] = useState(() => {
         try { return localStorage.getItem("bitc_activeSubTopic") || "academic-partners" } catch { return "academic-partners" }
     })
     const [expandedMenu, setExpandedMenu] = useState(() => {
         try {
-            const tab = localStorage.getItem("bitc_activeTab") || "Home"
+            const tab = localStorage.getItem("bitc_activeTab") || "Dashboard"
             return { [tab]: true }
-        } catch { return { Home: true } }
+        } catch { return { Dashboard: true } }
     })
     const [isMobile, setIsMobile] = useState(false)
     const [isOpen, setIsOpen] = useState(propIsOpen)
@@ -236,15 +238,29 @@ function Sidebar({ isOpen: propIsOpen }) {
         }))
     }
 
+    const iconColors = [
+        { bg: "bg-blue-100", text: "text-blue-600" },
+        { bg: "bg-purple-100", text: "text-purple-600" },
+        { bg: "bg-green-100", text: "text-green-600" },
+        { bg: "bg-cyan-100", text: "text-cyan-600" },
+        { bg: "bg-orange-100", text: "text-orange-600" },
+        { bg: "bg-pink-100", text: "text-pink-600" },
+        { bg: "bg-yellow-100", text: "text-yellow-600" },
+        { bg: "bg-red-100", text: "text-red-600" },
+        { bg: "bg-teal-100", text: "text-teal-600" },
+        { bg: "bg-indigo-100", text: "text-indigo-600" },
+    ];
+
     const renderSidebarItem = (item, index) => {
         const isParentActive = activeTab === item.title
         const isExpanded = !!expandedMenu[item.title]
+        const colorStyle = iconColors[index % iconColors.length];
 
         return (
             <div key={index} className="flex flex-col mb-1.5">
                 {/* Parent Menu Item */}
                 <motion.div
-                    className="relative group px-2"
+                    className="relative group pr-2"
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.99 }}
                 >
@@ -258,20 +274,20 @@ function Sidebar({ isOpen: propIsOpen }) {
                             }
                             toggleExpand(item.title)
                         }}
-                        className={`flex items-center justify-between w-full py-2.5 px-3.5 text-left transition-all duration-200 ease-in-out rounded-xl text-sm font-bold cursor-pointer ${
+                        className={`flex items-center justify-between w-full py-3 px-4 text-left transition-all duration-200 ease-in-out rounded-r-full text-sm font-semibold cursor-pointer ${
                             isParentActive
-                                ? "bg-blue-50 text-blue-900"
-                                : "text-gray-700 hover:bg-gray-100"
+                                ? "bg-[#d9efff] text-gray-900"
+                                : "text-gray-700 hover:bg-[#e4ebf3]"
                         }`}
                     >
-                        <div className="flex items-center space-x-3">
-                            <item.Icon
-                                className={`w-4 h-4 ${
-                                    isParentActive ? "text-blue-700" : "text-gray-500"
-                                }`}
-                            />
+                        <div className="flex items-center space-x-4">
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${colorStyle.bg}`}>
+                                <item.Icon
+                                    className={`w-4 h-4 ${colorStyle.text}`}
+                                />
+                            </div>
                             {isOpen && (
-                                <span className="font-bold text-gray-800">
+                                <span className={`font-semibold ${isParentActive ? "text-gray-900" : "text-gray-700"}`}>
                                     {item.title}
                                 </span>
                             )}
@@ -344,22 +360,18 @@ function Sidebar({ isOpen: propIsOpen }) {
             <div className="flex h-[calc(100vh-5rem)]">
                 {/* Sidebar Navigation */}
                 <motion.div
-                    className="sidebar flex flex-col shadow-sm pt-6 bg-white z-10 border-r border-gray-100"
-                    animate={{ width: isOpen ? "16rem" : "5rem" }}
+                    className="sidebar flex flex-col pt-4 bg-[#f4f7f9] z-10 overflow-y-auto pb-10 overflow-x-hidden [&::-webkit-scrollbar]:hidden"
+                    style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }}
+                    animate={{ width: isOpen ? "17.5rem" : "5rem" }}
                     transition={{ type: "spring", damping: 25, stiffness: 300 }}
                 >
-                    <div className="px-3 mb-2">
-                        {isOpen && (
-                            <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wider px-2 mb-2">
-                                Navigation
-                            </p>
-                        )}
+                    <div className="flex-1 w-full">
+                        {sidebarItems.map((item, index) => renderSidebarItem(item, index))}
                     </div>
-                    {sidebarItems.map((item, index) => renderSidebarItem(item, index))}
                 </motion.div>
 
                 {/* Main Content Area */}
-                <div className="content flex-1 bg-gray-50/40 overflow-y-auto">
+                <div className="content flex-1 bg-[#f4f7f9] overflow-y-auto">
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={`${activeTab}-${activeSubTopic}`}
@@ -369,6 +381,9 @@ function Sidebar({ isOpen: propIsOpen }) {
                             transition={{ duration: 0.15 }}
                             className="h-full"
                         >
+                            {activeTab === "Dashboard" && (
+                                <Overview />
+                            )}
                             {activeTab === "Home" && (
                                 <Home
                                     activeSubTopic={activeSubTopic}

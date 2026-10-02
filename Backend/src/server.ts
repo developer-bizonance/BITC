@@ -32,6 +32,8 @@ import categoriesRoutes from "./routes/categories.routes.js";
 import cmsRoutes from "./routes/cms.routes.js";
 import eventRegistrationRoutes from "./routes/eventRegistration.routes.js";
 import partnershipApplicationsRoutes from "./routes/partnership-applications.routes.js";
+import uploadRoutes from "./routes/upload.routes.js";
+import path from "path";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -70,6 +72,9 @@ app.use(
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
+// Serve uploaded files statically
+app.use("/uploads", express.static(path.join(process.cwd(), "public", "uploads")));
+
 // Health Check
 app.get("/api/health", (_req: Request, res: Response) => {
   return res.json({
@@ -106,6 +111,7 @@ app.use("/api/categories", categoriesRoutes);
 app.use("/api/cms", cmsRoutes);
 app.use("/api/event-registrations", eventRegistrationRoutes);
 app.use("/api/partnership-applications", partnershipApplicationsRoutes);
+app.use("/api/upload", uploadRoutes);
 
 // Global Error Handler
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {

@@ -332,7 +332,7 @@ export default function CertificateVerificationPage() {
                       Print / Download
                     </Button>
 
-                    <Link href="/courses">
+                    <Link href="/certifications">
                       <Button className="rounded-full bg-slate-900 text-white font-medium hover:bg-slate-800 flex-1 sm:flex-none">
                         Explore Certifications
                       </Button>

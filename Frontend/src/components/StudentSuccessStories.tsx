@@ -16,8 +16,8 @@ export default function StudentSuccessStories() {
         const apiUrl =
           process.env.NEXT_PUBLIC_API_URL ||
           (typeof window !== "undefined" &&
-          (window.location.hostname === "localhost" ||
-            window.location.hostname === "127.0.0.1")
+            (window.location.hostname === "localhost" ||
+              window.location.hostname === "127.0.0.1")
             ? "http://localhost:5000/api"
             : "https://bitc-backend-theta.vercel.app/api");
 
@@ -38,11 +38,11 @@ export default function StudentSuccessStories() {
   return (
     <section className="py-14 md:py-20 bg-white relative overflow-hidden">
       <div className="container max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
+
         {/* Section Header */}
         <div className="mb-10 text-center max-w-2xl mx-auto">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-slate-900 mb-2.5 tracking-tight">
-            Student <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">success stories</span>
+            Student <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Success Stories</span>
           </h2>
           <p className="text-slate-600 text-xs md:text-sm font-medium">
             Hear from our alumni who are now working at top tech companies.

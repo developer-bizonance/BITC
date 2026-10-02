@@ -1,50 +1,50 @@
 [
   {
     "id": "job-1",
-    "title": "Faculty – Full Stack Development",
     "type": "Full-Time",
-    "location": "On-Site",
-    "experience": "3+ Years",
-    "department": "Academic & Training",
-    "description": "Lead MERN, Java, and Python Full Stack training batches and mentor aspiring developers.",
-    "specialities": "MERN, Java, Python",
+    "title": "Faculty – Full Stack Development",
     "status": "Active",
-    "createdAt": "2026-08-21T11:44:58.000Z"
+    "location": "On-Site",
+    "createdAt": "2026-08-21T11:44:58.000Z",
+    "department": "Academic & Training",
+    "experience": "3+ Years",
+    "description": "Lead MERN, Java, and Python Full Stack training batches and mentor aspiring developers.",
+    "specialities": "MERN, Java, Python"
   },
   {
     "id": "job-2",
-    "title": "Technical Trainer – Data Science",
     "type": "Full-Time",
-    "location": "On-Site",
-    "experience": "2+ Years",
-    "department": "Academic & Training",
-    "description": "Deliver hands-on training on Python, Machine Learning, PowerBI, and SQL analytics.",
-    "specialities": "Python, Machine Learning, SQL",
+    "title": "Technical Trainer – Data Science",
     "status": "Active",
-    "createdAt": "2026-08-21T11:44:58.000Z"
+    "location": "On-Site",
+    "createdAt": "2026-08-21T11:44:58.000Z",
+    "department": "Academic & Training",
+    "experience": "2+ Years",
+    "description": "Deliver hands-on training on Python, Machine Learning, PowerBI, and SQL analytics.",
+    "specialities": "Python, Machine Learning, SQL"
   },
   {
     "id": "job-6",
-    "title": "Industry Expert",
     "type": "Part-Time",
-    "location": "Hybrid",
-    "experience": "5+ Years",
-    "department": "Academic & Training",
-    "description": "Share industry insights and mentor students on real-world projects.",
-    "specialities": "Industry Insights, Mentorship, Tech Leadership",
+    "title": "Industry Expert",
     "status": "Active",
-    "createdAt": "2026-08-21T11:44:58.000Z"
+    "location": "Hybrid",
+    "createdAt": "2026-08-21T11:44:58.000Z",
+    "department": "Academic & Training",
+    "experience": "5+ Years",
+    "description": "Share industry insights and mentor students on real-world projects.",
+    "specialities": "Industry Insights, Mentorship, Tech Leadership"
   },
   {
     "id": "job-7",
-    "title": "Training and Placement Officer (TPO)",
     "type": "Full-Time",
-    "location": "On-Site",
-    "experience": "3+ Years",
-    "department": "Placement Cell",
-    "description": "Coordinate with companies for student placements and internships.",
-    "specialities": "Corporate Relations, Placement Coordination, HR Networking",
+    "title": "Training and Placement Officer (TPO)",
     "status": "Active",
-    "createdAt": "2026-08-21T11:44:58.000Z"
+    "location": "On-Site",
+    "createdAt": "2026-08-21T11:44:58.000Z",
+    "department": "Placement Cell",
+    "experience": "3+ Years",
+    "description": "Coordinate with companies for student placements and internships.",
+    "specialities": "Corporate Relations, Placement Coordination, HR Networking"
   }
 ]

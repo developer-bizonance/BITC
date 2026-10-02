@@ -126,15 +126,19 @@ export default function FacultySection() {
             `
           }} />
 
-          {/* Fading edges to make it look smooth */}
-          <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent z-20 pointer-events-none" />
-          <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white to-transparent z-20 pointer-events-none" />
+          {/* Fading edges to make it look smooth (only if marquee is active) */}
+          {facultyList.length > 4 && (
+            <>
+              <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent z-20 pointer-events-none" />
+              <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white to-transparent z-20 pointer-events-none" />
+            </>
+          )}
 
           {/* Marquee Track */}
-          <div className="flex w-max bitc-faculty-marquee-track">
+          <div className={`flex ${facultyList.length > 4 ? 'w-max bitc-faculty-marquee-track' : ''}`}>
             
             {/* Original Set */}
-            <div className="flex gap-6 px-3">
+            <div className={`flex gap-6 ${facultyList.length > 4 ? 'px-3' : 'flex-wrap justify-start'}`}>
               {facultyList.map((faculty, index) => (
                 <div 
                   key={`orig-${index}`} 
@@ -175,7 +179,7 @@ export default function FacultySection() {
                     <div className="mb-6 flex-grow">
                       <p className="text-[11px] font-bold text-slate-400  tracking-wider mb-2">Key specialization</p>
                       <div className="flex flex-wrap gap-1.5">
-                        {faculty.expertise.map((skill, i) => (
+                        {faculty.expertise.map((skill: string, i: number) => (
                           <span key={i} className="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-md text-[11px] font-semibold border border-slate-200">
                             {skill}
                           </span>
@@ -189,59 +193,61 @@ export default function FacultySection() {
             </div>
 
             {/* Duplicate Set for Seamless Loop */}
-            <div className="flex gap-6 px-3" aria-hidden="true">
-              {facultyList.map((faculty, index) => (
-                <div 
-                  key={`dup-${index}`} 
-                  className="bg-white border border-gray-200 shadow-sm rounded-2xl overflow-hidden w-[280px] shrink-0 hover:shadow-md transition-shadow flex flex-col"
-                >
-                  {/* Image Section */}
-                  <div className="w-full h-[240px] overflow-hidden bg-slate-100 relative shrink-0">
-                    <img
-                      src={faculty.image}
-                      alt={faculty.name}
-                      className="w-full h-full object-cover object-center"
-                    />
-                  </div>
-
-                  {/* Content Section */}
-                  <div className="p-5 flex flex-col flex-grow">
-                    <div className="flex items-center justify-between mb-1">
-                      <h3 className="text-lg font-bold text-slate-900 leading-tight">{faculty.name}</h3>
-                      <a 
-                        href={faculty.linkedin} 
-                        target="_blank" 
-                        rel="noreferrer"
-                        className="text-[#0077b5] hover:text-[#006097] transition-colors"
-                      >
-                        <FaLinkedin className="w-5 h-5" />
-                      </a>
+            {facultyList.length > 4 && (
+              <div className="flex gap-6 px-3" aria-hidden="true">
+                {facultyList.map((faculty, index) => (
+                  <div 
+                    key={`dup-${index}`} 
+                    className="bg-white border border-gray-200 shadow-sm rounded-2xl overflow-hidden w-[280px] shrink-0 hover:shadow-md transition-shadow flex flex-col"
+                  >
+                    {/* Image Section */}
+                    <div className="w-full h-[240px] overflow-hidden bg-slate-100 relative shrink-0">
+                      <img
+                        src={faculty.image}
+                        alt={faculty.name}
+                        className="w-full h-full object-cover object-center"
+                      />
                     </div>
-                    <p className="text-xs font-medium text-slate-500 mb-4">{faculty.role}</p>
 
-                    <div className="mb-4 flex items-center gap-2">
-                      <p className="text-[11px] font-bold text-slate-400  tracking-wider">Working at:</p>
-                      <div className="flex items-center gap-1.5">
-                        <img src={getCompanyLogo(faculty.workingAt)} alt={faculty.workingAt} className="w-4 h-4 object-contain" title={faculty.workingAt} />
-                        <span className="text-sm font-bold text-slate-800">{faculty.workingAt}</span>
+                    {/* Content Section */}
+                    <div className="p-5 flex flex-col flex-grow">
+                      <div className="flex items-center justify-between mb-1">
+                        <h3 className="text-lg font-bold text-slate-900 leading-tight">{faculty.name}</h3>
+                        <a 
+                          href={faculty.linkedin} 
+                          target="_blank" 
+                          rel="noreferrer"
+                          className="text-[#0077b5] hover:text-[#006097] transition-colors"
+                        >
+                          <FaLinkedin className="w-5 h-5" />
+                        </a>
                       </div>
-                    </div>
+                      <p className="text-xs font-medium text-slate-500 mb-4">{faculty.role}</p>
 
-                    <div className="mb-6 flex-grow">
-                      <p className="text-[11px] font-bold text-slate-400  tracking-wider mb-2">Key specialization</p>
-                      <div className="flex flex-wrap gap-1.5">
-                        {faculty.expertise.map((skill, i) => (
-                          <span key={i} className="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-md text-[11px] font-semibold border border-slate-200">
-                            {skill}
-                          </span>
-                        ))}
+                      <div className="mb-4 flex items-center gap-2">
+                        <p className="text-[11px] font-bold text-slate-400  tracking-wider">Working at:</p>
+                        <div className="flex items-center gap-1.5">
+                          <img src={getCompanyLogo(faculty.workingAt)} alt={faculty.workingAt} className="w-4 h-4 object-contain" title={faculty.workingAt} />
+                          <span className="text-sm font-bold text-slate-800">{faculty.workingAt}</span>
+                        </div>
                       </div>
-                    </div>
 
+                      <div className="mb-6 flex-grow">
+                        <p className="text-[11px] font-bold text-slate-400  tracking-wider mb-2">Key specialization</p>
+                        <div className="flex flex-wrap gap-1.5">
+                          {faculty.expertise.map((skill: string, i: number) => (
+                            <span key={i} className="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-md text-[11px] font-semibold border border-slate-200">
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
 
           </div>
         </div>

@@ -74,7 +74,8 @@ export default async function HiringPartnersPage() {
   let partners: { name: string, logo?: string }[] = topPartners;
 
   try {
-    const res = await fetch("https://bitc-backend-theta.vercel.app/api/industry-partners", { cache: "no-store" });
+    const backendUrl = process.env.NEXT_PUBLIC_API_URL || "https://bitc-backend-theta.vercel.app/api";
+    const res = await fetch(`${backendUrl}/industry-partners`, { cache: "no-store" });
     if (res.ok) {
       const data = await res.json();
       if (data.partners && data.partners.length > 0) {

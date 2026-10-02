@@ -117,7 +117,7 @@ export default function PlacementStatisticsPage() {
             Join BITC and get the industry-relevant training, expert mentorship, and placement assistance you need to launch a rewarding career.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/courses" className="h-14 px-8 rounded-full text-black font-medium flex items-center justify-center hover:/90 transition-all shadow-lg hover:shadow-xl bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)]">
+            <Link href="/certifications" className="h-14 px-8 rounded-full text-black font-medium flex items-center justify-center hover:/90 transition-all shadow-lg hover:shadow-xl bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)]">
               Explore our certifications
             </Link>
             <Link href="/placements/success-stories" className="h-14 px-8 rounded-full bg-white text-slate-800 font-medium flex items-center justify-center hover:bg-gray-50 border border-gray-200 transition-all shadow-sm">

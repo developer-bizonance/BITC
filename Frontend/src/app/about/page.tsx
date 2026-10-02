@@ -37,9 +37,9 @@ export default function AboutPage() {
         {/* Subtle background glow removed */}
         <div className="container max-w-[1000px] mx-auto px-4 text-center relative z-10 flex flex-col items-center justify-center -mt-20">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-slate-900 leading-[1.2]">
-            Empowering the Next Generation for <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Industry Professionals</span>
+            Empowering the Next Generation for <br className="hidden md:block"/> <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Industry Professionals</span>
           </h1>
-          <p className="text-sm text-gray-600 mb-8 max-w-[900px] mx-auto leading-relaxed">
+          <p className="text-base md:text-lg text-gray-600 mb-8 mt-6 max-w-[900px] mx-auto leading-relaxed">
             At <strong>BIZONANCE Industrial Training Centre (BITC)</strong>, we believe education should prepare students for the real world—not just the classroom. Our industry-integrated learning model combines expert mentorship, practical training, live projects, internships, and career guidance to help students build successful careers.
           </p>
         </div>
@@ -51,7 +51,7 @@ export default function AboutPage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Who we <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Are</span></h2>
-              <div className="space-y-4 text-gray-600 leading-relaxed text-sm">
+              <div className="space-y-4 text-gray-600 leading-relaxed text-base md:text-lg">
                 <p>
                   BITC (BIZONANCE Industrial Training Centre) is the professional training and skill development division of <strong>BIZONANCE INDIA PVT. LTD.</strong>, established with a clear vision to bridge the gap between academic education and industry requirements.
                 </p>
@@ -81,7 +81,7 @@ export default function AboutPage() {
       <section className="py-16 md:py-24 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Learning Beyond the <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Classroom</span></h2>
-          <p className="text-sm text-gray-600 mb-12 max-w-[700px] mx-auto">
+          <p className="text-base md:text-lg text-gray-600 mb-12 max-w-[700px] mx-auto">
             At BITC, learning extends far beyond textbooks. We believe students learn best by engaging directly with the industry.
           </p>
 
@@ -106,7 +106,7 @@ export default function AboutPage() {
             ))}
           </div>
 
-          <p className="mt-12 text-sm font-semibold text-slate-900">
+          <p className="mt-12 text-base md:text-lg font-semibold text-slate-900">
             Our goal is not simply to help students complete a course—but to prepare them for successful careers.
           </p>
         </div>
@@ -117,7 +117,7 @@ export default function AboutPage() {
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Why BITC is <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Different</span></h2>
-            <p className="text-slate-600 max-w-[600px] mx-auto text-sm">
+            <p className="text-slate-600 max-w-[600px] mx-auto text-base md:text-lg">
               Unlike traditional coaching Training Centers, BITC focuses on practical industry exposure. Here is our unique approach.
             </p>
           </div>
@@ -135,7 +135,7 @@ export default function AboutPage() {
                 <CardContent className="p-8">
                   <feature.icon className="w-12 h-12 text-primary mb-6 group-hover:scale-110 transition-transform duration-300" />
                   <h3 className="text-xl font-bold mb-3 text-slate-900 group-hover:text-primary transition-colors">{feature.title}</h3>
-                  <p className="text-slate-600 leading-relaxed text-sm">{feature.desc}</p>
+                  <p className="text-slate-600 leading-relaxed text-base">{feature.desc}</p>
                 </CardContent>
               </Card>
             ))}
@@ -155,7 +155,7 @@ export default function AboutPage() {
                     "Engineering Students", "Diploma Students", "University Students", "Fresh Graduates",
                     "Working Professionals", "Entrepreneurs", "Career Switchers", "Freelancers"
                   ].map((audience, i) => (
-                    <div key={i} className="bg-white shadow-sm border border-gray-100 rounded-xl p-3 text-sm font-semibold text-gray-700">
+                    <div key={i} className="bg-white shadow-sm border border-gray-100 rounded-xl p-3 text-base font-semibold text-gray-700">
                       {audience}
                     </div>
                   ))}
@@ -164,7 +164,7 @@ export default function AboutPage() {
             </div>
             <div className="order-1 lg:order-2">
               <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Who Can Join <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC?</span></h2>
-              <p className="text-sm text-gray-600 leading-relaxed mb-6">
+              <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-6">
                 Whether you are starting your career or looking to upgrade your skills, BITC provides learning opportunities tailored to your goals. Our programs are designed for individuals across various educational and professional backgrounds who are eager to bridge the gap between theory and practice.
               </p>
               <div className="inline-flex items-center gap-2 text-primary font-medium bg-primary/5 px-6 py-3 rounded-full">
@@ -252,7 +252,7 @@ export default function AboutPage() {
                     </div>
                     <div>
                       <h4 className="text-xl font-bold mb-1 text-slate-900">{val.title}</h4>
-                      <p className="text-slate-600 font-medium text-sm">{val.desc}</p>
+                      <p className="text-slate-600 font-medium text-base">{val.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -262,7 +262,7 @@ export default function AboutPage() {
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-8">Our <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Commitment</span></h2>
               <div className="bg-white border border-slate-200/80 shadow-md rounded-[2rem] p-8 md:p-10">
-                <div className="space-y-6 text-sm text-slate-700 leading-relaxed font-medium">
+                <div className="space-y-6 text-base text-slate-700 leading-relaxed font-medium">
                   <p>
                     At BITC, our commitment extends beyond delivering courses.
                   </p>
@@ -283,11 +283,11 @@ export default function AboutPage() {
       <section className="py-20 bg-white">
         <div className="container max-w-[800px] mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">Ready to Build Your <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Future?</span></h2>
-          <p className="text-sm text-gray-600 mb-10">
+          <p className="text-base md:text-lg text-gray-600 mb-10">
             Join BITC and experience an education designed around industry, innovation, and career growth.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/courses" className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-medium flex items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 text-lg">
+            <Link href="/certifications" className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-medium flex items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 text-lg">
               Explore Certifications
             </Link>
             <Link href="/contact" className="h-14 px-8 rounded-full bg-white text-slate-700 font-medium flex items-center justify-center border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all text-lg">

@@ -71,7 +71,7 @@ const EventRegistrations = () => {
       {loading ? (
         <div className="flex justify-center py-12"><RefreshCw className="w-8 h-8 animate-spin text-blue-500" /></div>
       ) : filteredRegistrations.length === 0 ? (
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-12 text-center">
+        <div className="bg-transparent p-12 text-center">
           <Users className="w-12 h-12 text-gray-300 mx-auto mb-4" />
           <h3 className="text-lg font-bold text-gray-900 mb-1">No Registrations Found</h3>
           <p className="text-gray-500">There are no event registrations matching your search.</p>

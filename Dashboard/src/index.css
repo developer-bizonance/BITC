@@ -42,8 +42,11 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-[#f4f7f9] text-foreground;
     font-family: 'Poppins', sans-serif;
     zoom: 95%;
   }
 }
+
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

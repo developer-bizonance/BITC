@@ -9,7 +9,8 @@ import {
   Globe,
   CheckCircle2,
   Quote,
-  Lightbulb
+  Lightbulb,
+  BookOpen
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -29,7 +30,10 @@ export default function OurStoryPage() {
       <section className="relative w-full min-h-[calc(100vh-80px)] bg-white py-16 lg:py-24 overflow-hidden flex flex-col items-center justify-center">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] opacity-30 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[1000px] mx-auto px-4 text-center relative z-10 flex flex-col items-center justify-center my-auto">
-          <h2 className="text-primary font-bold tracking-widest uppercase mb-4 text-sm">Our <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Story</span></h2>
+          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-medium rounded-full px-5 py-2 text-sm uppercase tracking-widest mb-8">
+            <BookOpen className="w-4 h-4" />
+            Our Story
+          </div>
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-slate-900 leading-[1.2]">
             Building the Bridge Between <br className="hidden md:block"/> <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Education and Industry</span>
           </h1>
@@ -347,7 +351,7 @@ export default function OurStoryPage() {
           </p>
           
           <div className="flex flex-wrap justify-center gap-3">
-            <Link href="/courses" className="h-11 px-6 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-medium flex items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-md shadow-primary/25 hover:shadow-lg text-base">
+            <Link href="/certifications" className="h-11 px-6 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-medium flex items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-md shadow-primary/25 hover:shadow-lg text-base">
               Explore Certifications
             </Link>
             <Link href="/contact" className="h-11 px-6 rounded-full bg-white/80 text-slate-700 font-medium flex items-center justify-center border border-blue-200/80 hover:border-blue-300 hover:bg-white transition-all text-base shadow-sm backdrop-blur-sm">

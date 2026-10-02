@@ -1,36 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 // REMOVED: import Help from "./Helpcenter.jsx"; <--- This was the error
-import logo from "../assets/logo.png";
 
 import bizologo from "../assets/bizonance_logo.png";
-import { LogOut, Menu, HelpCircle, Wifi } from "lucide-react";
+import { LogOut, Menu, HelpCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const navigate = useNavigate();
   const [showConfirm, setShowConfirm] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [isServerOn, setIsServerOn] = useState(false);
-
-  useEffect(() => {
-    const checkServer = async () => {
-      try {
-        const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
-        const res = await fetch(`${apiUrl}/health`);
-        if (res.ok) {
-          setIsServerOn(true);
-        } else {
-          setIsServerOn(false);
-        }
-      } catch (error) {
-        setIsServerOn(false);
-      }
-    };
-
-    checkServer();
-    const interval = setInterval(checkServer, 10000);
-    return () => clearInterval(interval);
-  }, []);
 
   const handleLogout = () => {
     setShowConfirm(true);
@@ -42,53 +20,43 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   };
 
   return (
-    <div className=" relative z-50 navbar flex items-center justify-between p-4 h-[80px]">
+    <div className="bg-[#f4f7f9] relative navbar flex items-center justify-between p-4 h-[80px]">
       <div className="flex items-center space-x-4">
         {/* Menu Icon to Toggle Sidebar */}
         <Menu
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           size={60}
-          className={`hidden md:block rounded-full hover:bg-gray-200 h-10 w-10 p-2 cursor-pointer ${isSidebarOpen ? "bg-gray-100" : "bg-transparent"
-            }`}
+          className={`hidden md:block rounded-full hover:bg-gray-200 h-10 w-10 p-2 cursor-pointer ${
+            isSidebarOpen ? "bg-gray-100" : "bg-transparent"
+          }`}
         />
         <div className="flex items-center">
-          <div className="flex flex-col">
-            <div className="flex items-center">
-              <span className="rounded text-xl font-bold text-gray-800">
-                BITC
-              </span>
-            </div>
-          </div>
+          <img 
+            src="/BITC.svg" 
+            alt="BITC Logo" 
+            className="h-[23px] sm:h-[26px] w-auto object-contain mr-2" 
+          />
         </div>
       </div>
 
-      <div className="flex items-center space-x-6">
-        {/* Server Status */}
-        <div title={isServerOn ? "Server is Online" : "Server is Offline"} className="flex items-center justify-center">
-          <Wifi size={24} className={`transition-colors duration-300 ${isServerOn ? "text-green-500" : "text-red-500"}`} />
-        </div>
+      <div className="relative group inline-block">
+        {/* Logo */}
+        <img
+          src={bizologo}
+          alt="Bizo Logo"
+          className="h-10 w-10 cursor-pointer rounded-full hover:ring-2 hover:ring-gray-300"
+        />
 
-        <div className="relative group inline-block">
-          {/* Logo */}
-          <img
-            src={bizologo}
-            alt="Bizo Logo"
-            className="h-10 w-10 cursor-pointer rounded-full hover:ring-2 hover:ring-gray-300 relative z-10"
-          />
-
-          {/* Dropdown */}
-          <div className="absolute right-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible z-50 transition-all duration-200">
-            <div className="w-44 bg-white rounded-lg shadow-lg border border-gray-200">
-              <ul className="py-2 text-gray-700">
-                <li
-                  onClick={handleLogout}
-                  className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer rounded-md mx-1 my-1"
-                >
-                  <LogOut size={18} /> Logout
-                </li>
-              </ul>
-            </div>
-          </div>
+        {/* Dropdown */}
+        <div className="absolute -left-36 mt-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible w-44 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+          <ul className="py-2 text-gray-700">
+            <li
+              onClick={handleLogout}
+              className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer"
+            >
+              <LogOut size={18} /> Logout
+            </li>
+          </ul>
         </div>
       </div>
 
@@ -117,7 +85,12 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
         </div>
       )}
 
-      {/* Bottom Border Accent Removed as requested */}
+      {/* Bottom Border Accent */}
+      <div className="absolute bottom-0 left-0 w-full flex h-[6px]">
+        <div className="w-1/3 bg-gradient-to-r from-yellow-300 to-orange-400"></div>
+        <div className="w-1/3 bg-blue-800"></div>
+        <div className="w-1/3 bg-red-600"></div>
+      </div>
     </div>
   );
 };

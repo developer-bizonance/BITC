@@ -156,89 +156,117 @@ export default function VisionMissionPage() {
       </section>
 
       {/* ── 5. EDUCATIONAL PHILOSOPHY ── */}
-      <section className="py-20 md:py-28 bg-white overflow-hidden">
-        <div className="container max-w-[1200px] mx-auto px-4">
-          <div className="text-center mb-16 md:mb-24">
-            <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">Our Philosophy</p>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-6">Learn. Experience. <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Grow.</span></h2>
-            <p className="text-gray-600 max-w-[700px] mx-auto text-lg leading-relaxed">
-              Education should not stop at knowledge. At BITC, every learner goes through a structured, three-step professional journey to ensure true career readiness.
+      <section className="py-24 md:py-32 relative overflow-hidden bg-white">
+        <div className="container max-w-[1200px] mx-auto px-4 relative z-10">
+          <div className="text-center mb-20 md:mb-28">
+            <div className="inline-flex items-center gap-2 bg-white border border-gray-200 text-slate-700 font-bold rounded-full px-5 py-2 text-sm uppercase tracking-widest mb-6 shadow-sm">
+              <Sparkles className="w-4 h-4 text-amber-500" />
+              Our Philosophy
+            </div>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight">
+              Learn. Experience. <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Grow.</span>
+            </h2>
+            <p className="text-gray-600 max-w-[700px] mx-auto text-lg md:text-xl leading-relaxed">
+              Education shouldn't stop at knowledge. At BITC, every learner goes through a structured, three-step professional journey to ensure true career readiness.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 relative">
+          <div className="grid lg:grid-cols-3 gap-8 lg:gap-12 relative">
             {/* Connecting Line (Desktop) */}
-            <div className="hidden md:block absolute top-12 left-[15%] right-[15%] h-0.5 bg-gradient-to-r from-blue-200 via-purple-200 to-green-200 z-0" />
+            <div className="hidden lg:block absolute top-14 left-[15%] right-[15%] h-1 bg-gray-200 z-0 rounded-full overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-400 via-purple-400 to-green-400 w-full animate-pulse" />
+            </div>
 
             {/* 1. Learn */}
-            <div className="relative z-10 bg-white rounded-3xl p-8 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-2 transition-transform duration-300">
-               <div className="w-16 h-16 bg-blue-50 border border-blue-100 rounded-2xl flex items-center justify-center mb-6 shadow-sm mx-auto">
-                 <BookOpen className="w-8 h-8 text-blue-600" />
-               </div>
-               <div className="text-center mb-8">
-                 <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-700 font-medium text-sm mb-3">1</div>
-                 <h3 className="text-2xl font-bold text-slate-900"><span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Learn</span></h3>
-                 <p className="text-gray-500 mt-2 text-sm">Build a strong foundation</p>
-               </div>
-               <ul className="space-y-3">
-                 {[
-                   { text: "Learn from Experts", icon: Users },
-                   { text: "Understand Industry", icon: Building2 },
-                   { text: "Practice Skills", icon: Code }
-                 ].map((item, i) => (
-                    <li key={i} className="flex items-center gap-3 bg-slate-50/80 hover:bg-blue-50/50 transition-colors p-3.5 rounded-xl border border-transparent hover:border-blue-100">
-                      <item.icon className="w-5 h-5 text-blue-500 flex-shrink-0" />
-                      <span className="font-semibold text-slate-700 text-sm">{item.text}</span>
-                    </li>
-                 ))}
-               </ul>
+            <div className="group relative z-10 bg-slate-50 rounded-3xl p-6 md:p-8 border border-gray-200 shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-500 hover:-translate-y-2 flex flex-col h-full overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-b from-blue-100/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              
+              <div className="relative w-16 h-16 mx-auto rounded-2xl bg-white border-2 border-blue-100 shadow-md flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 overflow-hidden">
+                <div className="absolute inset-0 bg-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <BookOpen className="w-8 h-8 text-blue-600 relative z-10" />
+              </div>
+              
+              <div className="text-center mb-8 relative z-10">
+                <div className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-blue-600 text-white font-bold text-xs mb-3 shadow-md">1</div>
+                <h3 className="text-2xl font-extrabold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">Learn</h3>
+                <p className="text-gray-500 font-medium text-sm">Build a strong foundation</p>
+              </div>
+              
+              <ul className="space-y-3 relative z-10 mt-auto">
+                {[
+                  { text: "Learn from Experts", icon: Users },
+                  { text: "Understand Industry", icon: Building2 },
+                  { text: "Practice Skills", icon: Code }
+                ].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 bg-white group-hover:bg-blue-50/50 transition-all duration-300 p-3 rounded-xl border border-gray-100 group-hover:border-blue-100 group-hover:shadow-sm">
+                    <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 transition-colors duration-300">
+                      <item.icon className="w-4 h-4 text-blue-600 group-hover:text-white transition-colors duration-300" />
+                    </div>
+                    <span className="font-semibold text-slate-700 text-sm">{item.text}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
 
             {/* 2. Experience */}
-            <div className="relative z-10 bg-white rounded-3xl p-8 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-2 transition-transform duration-300">
-               <div className="w-16 h-16 bg-purple-50 border border-purple-100 rounded-2xl flex items-center justify-center mb-6 shadow-sm mx-auto">
-                 <Rocket className="w-8 h-8 text-purple-600" />
-               </div>
-               <div className="text-center mb-8">
-                 <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-purple-100 text-purple-700 font-medium text-sm mb-3">2</div>
-                 <h3 className="text-2xl font-bold text-slate-900"><span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Experience</span></h3>
-                 <p className="text-gray-500 mt-2 text-sm">Apply your knowledge</p>
-               </div>
-               <ul className="space-y-3">
-                 {[
-                   { text: "Build live projects", icon: Lightbulb },
-                   { text: "Gain internship experience", icon: Briefcase }
-                 ].map((item, i) => (
-                    <li key={i} className="flex items-center gap-3 bg-slate-50/80 hover:bg-purple-50/50 transition-colors p-3.5 rounded-xl border border-transparent hover:border-purple-100">
-                      <item.icon className="w-5 h-5 text-purple-500 flex-shrink-0" />
-                      <span className="font-semibold text-slate-700 text-sm">{item.text}</span>
-                    </li>
-                 ))}
-               </ul>
+            <div className="group relative z-10 bg-slate-50 rounded-3xl p-6 md:p-8 border border-gray-200 shadow-xl hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-500 hover:-translate-y-2 flex flex-col h-full overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-b from-purple-100/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              
+              <div className="relative w-16 h-16 mx-auto rounded-2xl bg-white border-2 border-purple-100 shadow-md flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 overflow-hidden">
+                <div className="absolute inset-0 bg-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <Rocket className="w-8 h-8 text-purple-600 relative z-10" />
+              </div>
+              
+              <div className="text-center mb-8 relative z-10">
+                <div className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-purple-600 text-white font-bold text-xs mb-3 shadow-md">2</div>
+                <h3 className="text-2xl font-extrabold text-slate-900 mb-2 group-hover:text-purple-600 transition-colors">Experience</h3>
+                <p className="text-gray-500 font-medium text-sm">Apply your knowledge</p>
+              </div>
+              
+              <ul className="space-y-3 relative z-10 mt-auto">
+                {[
+                  { text: "Build live projects", icon: Lightbulb },
+                  { text: "Gain internship experience", icon: Briefcase }
+                ].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 bg-white group-hover:bg-purple-50/50 transition-all duration-300 p-3 rounded-xl border border-gray-100 group-hover:border-purple-100 group-hover:shadow-sm">
+                    <div className="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center flex-shrink-0 group-hover:bg-purple-600 transition-colors duration-300">
+                      <item.icon className="w-4 h-4 text-purple-600 group-hover:text-white transition-colors duration-300" />
+                    </div>
+                    <span className="font-semibold text-slate-700 text-sm">{item.text}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
 
             {/* 3. Grow */}
-            <div className="relative z-10 bg-white rounded-3xl p-8 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-2 transition-transform duration-300">
-               <div className="w-16 h-16 bg-green-50 border border-green-100 rounded-2xl flex items-center justify-center mb-6 shadow-sm mx-auto">
-                 <TrendingUp className="w-8 h-8 text-green-600" />
-               </div>
-               <div className="text-center mb-8">
-                 <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-100 text-green-700 font-medium text-sm mb-3">3</div>
-                 <h3 className="text-2xl font-bold text-slate-900"><span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Grow</span></h3>
-                 <p className="text-gray-500 mt-2 text-sm">Achieve career success</p>
-               </div>
-               <ul className="space-y-3">
-                 {[
-                   { text: "Earn Certification", icon: Award },
-                   { text: "Develop professional skills", icon: Sparkles },
-                   { text: "Launch a Successful Career", icon: Target }
-                 ].map((item, i) => (
-                    <li key={i} className="flex items-center gap-3 bg-slate-50/80 hover:bg-green-50/50 transition-colors p-3.5 rounded-xl border border-transparent hover:border-green-100">
-                      <item.icon className="w-5 h-5 text-green-500 flex-shrink-0" />
-                      <span className="font-semibold text-slate-700 text-sm">{item.text}</span>
-                    </li>
-                 ))}
-               </ul>
+            <div className="group relative z-10 bg-slate-50 rounded-3xl p-6 md:p-8 border border-gray-200 shadow-xl hover:shadow-2xl hover:shadow-green-500/20 transition-all duration-500 hover:-translate-y-2 flex flex-col h-full overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-b from-green-100/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              
+              <div className="relative w-16 h-16 mx-auto rounded-2xl bg-white border-2 border-green-100 shadow-md flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 overflow-hidden">
+                <div className="absolute inset-0 bg-green-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <TrendingUp className="w-8 h-8 text-green-600 relative z-10" />
+              </div>
+              
+              <div className="text-center mb-8 relative z-10">
+                <div className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-green-600 text-white font-bold text-xs mb-3 shadow-md">3</div>
+                <h3 className="text-2xl font-extrabold text-slate-900 mb-2 group-hover:text-green-600 transition-colors">Grow</h3>
+                <p className="text-gray-500 font-medium text-sm">Achieve career success</p>
+              </div>
+              
+              <ul className="space-y-3 relative z-10 mt-auto">
+                {[
+                  { text: "Earn Certification", icon: Award },
+                  { text: "Develop professional skills", icon: Sparkles },
+                  { text: "Launch a Successful Career", icon: Target }
+                ].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 bg-white group-hover:bg-green-50/50 transition-all duration-300 p-3 rounded-xl border border-gray-100 group-hover:border-green-100 group-hover:shadow-sm">
+                    <div className="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center flex-shrink-0 group-hover:bg-green-600 transition-colors duration-300">
+                      <item.icon className="w-4 h-4 text-green-600 group-hover:text-white transition-colors duration-300" />
+                    </div>
+                    <span className="font-semibold text-slate-700 text-sm">{item.text}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
 
           </div>

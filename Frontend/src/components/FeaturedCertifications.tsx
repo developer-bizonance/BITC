@@ -237,7 +237,7 @@ export default function FeaturedCertifications() {
 
             {hasMore && (
               <div className="flex justify-center mt-10">
-                <Link href={categoryRoutes[category] || "/courses"}>
+                <Link href={categoryRoutes[category] || "/certifications"}>
                   <Button variant="outline" className="rounded-full px-8 py-5 bg-transparent border-2 border-amber-500 text-amber-600 hover:bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:text-black hover:border-transparent font-medium transition-all duration-300 flex items-center gap-2.5 text-sm md:text-base cursor-pointer shadow-none">
                     <span>See more certifications</span>
                     <ArrowRight className="w-5 h-5" />

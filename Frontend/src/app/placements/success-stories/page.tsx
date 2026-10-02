@@ -58,7 +58,7 @@ export default async function SuccessStoriesPage() {
             Read inspiring stories from our alumni who transformed their careers through BITC's industry-driven training and dedicated placement support.
           </p>
           <div className="flex justify-center gap-4 mb-8">
-            <Link href="/courses">
+            <Link href="/certifications">
               <Button className="h-12 px-8 rounded-full text-black shadow-lg shadow-orange-500/20 text-base font-medium bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] border-0">
                 Start your journey
               </Button>
@@ -130,7 +130,7 @@ export default async function SuccessStoriesPage() {
             Join thousands of successful graduates who started their journey with BITC. Enroll today and take the first step towards your dream career.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link href="/courses">
+            <Link href="/certifications">
               <Button className="h-14 px-10 rounded-full text-black text-lg font-medium shadow-xl shadow-orange-500/20 hover:-translate-y-1 transition-all w-full sm:w-auto bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] border-0">
                 Explore Certifications
               </Button>

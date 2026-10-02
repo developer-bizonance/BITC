@@ -16,6 +16,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { SortableItem } from "./uic/SortableItem";
+import ImageUpload from "./ImageUpload.jsx";
 import {
   RefreshCw,
   CheckCircle,
@@ -1000,7 +1001,7 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
       {/* 1. SUB-TOPIC: ACADEMIC PARTNERS WINDOW                   */}
       {/* ======================================================== */}
       {activeSubTopic === "academic-partners" && (
-        <div className="bg-white rounded-2xl p-5 md:p-6 shadow-sm border border-gray-100 space-y-5 animate-in fade-in duration-200">
+        <div className="bg-transparent p-2 space-y-5 animate-in fade-in duration-200">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-gray-100">
             <div>
@@ -1105,7 +1106,7 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
       {/* 2. SUB-TOPIC: FEATURED CERTIFICATIONS WINDOW             */}
       {/* ======================================================== */}
       {activeSubTopic === "featured-certifications" && (
-        <div className="bg-white rounded-2xl p-5 md:p-6 shadow-sm border border-gray-100 space-y-5 animate-in fade-in duration-200">
+        <div className="bg-transparent p-2 space-y-5 animate-in fade-in duration-200">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-gray-100">
             <div>
@@ -1316,7 +1317,7 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
       {/* 3. SUB-TOPIC: STUDENT SUCCESS STORIES / TESTIMONIALS     */}
       {/* ======================================================== */}
       {activeSubTopic === "testimonials" && (
-        <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm space-y-6">
+        <div className="bg-transparent p-2 space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-gray-100">
             <div>
               <div className="flex items-center gap-2 mb-1">
@@ -1492,12 +1493,9 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
                 <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
                   Logo URL / Image Path
                 </label>
-                <input
-                  type="text"
-                  placeholder="e.g. /univercity.png or https://example.com/logo.png"
+                <ImageUpload 
                   value={partnerFormData.logo}
-                  onChange={(e) => setPartnerFormData({ ...partnerFormData, logo: e.target.value })}
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
+                  onChange={(url) => setPartnerFormData({ ...partnerFormData, logo: url })}
                 />
               </div>
 
@@ -1591,12 +1589,9 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
                 <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
                   Logo URL / Image Path
                 </label>
-                <input
-                  type="text"
-                  placeholder="e.g. /univercity.png or https://example.com/logo.png"
+                <ImageUpload 
                   value={editPartnerFormData.logo}
-                  onChange={(e) => setEditPartnerFormData({ ...editPartnerFormData, logo: e.target.value })}
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
+                  onChange={(url) => setEditPartnerFormData({ ...editPartnerFormData, logo: url })}
                 />
               </div>
 
@@ -1688,19 +1683,9 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">
-                      Category <span className="text-red-500">*</span>
-                    </label>
-                    <button
-                      type="button"
-                      onClick={() => setIsManageCategoriesOpen(true)}
-                      className="text-[10px] font-bold text-amber-600 hover:text-amber-700 flex items-center gap-1 transition-colors cursor-pointer"
-                    >
-                      <Plus className="w-3 h-3" />
-                      Add New
-                    </button>
-                  </div>
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                    Category <span className="text-red-500">*</span>
+                  </label>
                   <select
                     value={certFormData.category}
                     onChange={(e) => setCertFormData({ ...certFormData, category: e.target.value })}
@@ -1730,44 +1715,26 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
-                    Certification Fees
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g. ₹36,000"
-                    value={certFormData.fees}
-                    onChange={(e) => setCertFormData({ ...certFormData, fees: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 font-medium"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
-                    Highlight Badge Tag
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Integrated with AI, Top Rated"
-                    value={certFormData.badge}
-                    onChange={(e) => setCertFormData({ ...certFormData, badge: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 font-medium"
-                  />
-                </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  Certification Fees
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. ₹36,000"
+                  value={certFormData.fees}
+                  onChange={(e) => setCertFormData({ ...certFormData, fees: e.target.value })}
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 font-medium"
+                />
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
                   Course Image URL / Path (Optional)
                 </label>
-                <input
-                  type="text"
-                  placeholder="e.g. /MERN.jpg or https://example.com/course.jpg"
+                <ImageUpload 
                   value={certFormData.image}
-                  onChange={(e) => setCertFormData({ ...certFormData, image: e.target.value })}
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 font-medium"
+                  onChange={(url) => setCertFormData({ ...certFormData, image: url })}
                 />
               </div>
 
@@ -1832,19 +1799,9 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">
-                      Category <span className="text-red-500">*</span>
-                    </label>
-                    <button
-                      type="button"
-                      onClick={() => setIsManageCategoriesOpen(true)}
-                      className="text-[10px] font-bold text-amber-600 hover:text-amber-700 flex items-center gap-1 transition-colors cursor-pointer"
-                    >
-                      <Plus className="w-3 h-3" />
-                      Add New
-                    </button>
-                  </div>
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                    Category <span className="text-red-500">*</span>
+                  </label>
                   <select
                     value={editCertData.category}
                     onChange={(e) => setEditCertData({ ...editCertData, category: e.target.value })}
@@ -1874,44 +1831,26 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
-                    Certification Fees
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g. ₹36,000"
-                    value={editCertData.fees}
-                    onChange={(e) => setEditCertData({ ...editCertData, fees: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
-                    Highlight Badge Tag
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Integrated with AI, Top Rated"
-                    value={editCertData.badge}
-                    onChange={(e) => setEditCertData({ ...editCertData, badge: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
-                  />
-                </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  Certification Fees
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. ₹36,000"
+                  value={editCertData.fees}
+                  onChange={(e) => setEditCertData({ ...editCertData, fees: e.target.value })}
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
+                />
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
                   Course Image URL / Path
                 </label>
-                <input
-                  type="text"
-                  placeholder="e.g. /MERN.jpg or https://example.com/course.jpg"
+                <ImageUpload 
                   value={editCertData.image}
-                  onChange={(e) => setEditCertData({ ...editCertData, image: e.target.value })}
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
+                  onChange={(url) => setEditCertData({ ...editCertData, image: url })}
                 />
               </div>
 
@@ -1941,7 +1880,7 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
       {/* ======================================================== */}
       {isAddTestiOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100 relative">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100 relative max-h-[90vh] overflow-y-auto hide-scrollbar">
             <button
               onClick={() => setIsAddTestiOpen(false)}
               className="absolute top-5 right-5 text-gray-400 hover:text-gray-600 p-1.5 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
@@ -2006,19 +1945,6 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
-                    Course Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Full Stack Development"
-                    value={testiFormData.course}
-                    onChange={(e) => setTestiFormData({ ...testiFormData, course: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 font-medium"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
                     Package <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -2030,21 +1956,20 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 font-medium"
                   />
                 </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
-                  Rating (Stars)
-                </label>
-                <select
-                  value={testiFormData.rating}
-                  onChange={(e) => setTestiFormData({ ...testiFormData, rating: Number(e.target.value) })}
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 bg-white font-medium cursor-pointer"
-                >
-                  <option value={5}>⭐⭐⭐⭐⭐ (5 Stars)</option>
-                  <option value={4}>⭐⭐⭐⭐ (4 Stars)</option>
-                  <option value={3}>⭐⭐⭐ (3 Stars)</option>
-                </select>
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                    Rating (Stars)
+                  </label>
+                  <select
+                    value={testiFormData.rating}
+                    onChange={(e) => setTestiFormData({ ...testiFormData, rating: Number(e.target.value) })}
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 bg-white font-medium cursor-pointer"
+                  >
+                    <option value={5}>⭐⭐⭐⭐⭐ (5 Stars)</option>
+                    <option value={4}>⭐⭐⭐⭐ (4 Stars)</option>
+                    <option value={3}>⭐⭐⭐ (3 Stars)</option>
+                  </select>
+                </div>
               </div>
 
               <div>
@@ -2065,12 +1990,9 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
                 <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
                   Student Photo URL
                 </label>
-                <input
-                  type="text"
-                  placeholder="e.g. https://images.unsplash.com/..."
+                <ImageUpload 
                   value={testiFormData.image}
-                  onChange={(e) => setTestiFormData({ ...testiFormData, image: e.target.value })}
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 font-medium"
+                  onChange={(url) => setTestiFormData({ ...testiFormData, image: url })}
                 />
               </div>
 
@@ -2115,7 +2037,7 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
       {/* ======================================================== */}
       {isEditTestiOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100 relative">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100 relative max-h-[90vh] overflow-y-auto hide-scrollbar">
             <button
               onClick={() => setIsEditTestiOpen(false)}
               className="absolute top-5 right-5 text-gray-400 hover:text-gray-600 p-1.5 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
@@ -2180,19 +2102,6 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
-                    Course Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Full Stack Development"
-                    value={editTestiData.course}
-                    onChange={(e) => setEditTestiData({ ...editTestiData, course: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
                     Package <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -2204,21 +2113,20 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
                   />
                 </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
-                  Rating (Stars)
-                </label>
-                <select
-                  value={editTestiData.rating}
-                  onChange={(e) => setEditTestiData({ ...editTestiData, rating: Number(e.target.value) })}
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-white font-medium cursor-pointer"
-                >
-                  <option value={5}>⭐⭐⭐⭐⭐ (5 Stars)</option>
-                  <option value={4}>⭐⭐⭐⭐ (4 Stars)</option>
-                  <option value={3}>⭐⭐⭐ (3 Stars)</option>
-                </select>
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                    Rating (Stars)
+                  </label>
+                  <select
+                    value={editTestiData.rating}
+                    onChange={(e) => setEditTestiData({ ...editTestiData, rating: Number(e.target.value) })}
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-white font-medium cursor-pointer"
+                  >
+                    <option value={5}>⭐⭐⭐⭐⭐ (5 Stars)</option>
+                    <option value={4}>⭐⭐⭐⭐ (4 Stars)</option>
+                    <option value={3}>⭐⭐⭐ (3 Stars)</option>
+                  </select>
+                </div>
               </div>
 
               <div>
@@ -2239,12 +2147,9 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
                 <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
                   Student Photo URL
                 </label>
-                <input
-                  type="text"
-                  placeholder="e.g. https://images.unsplash.com/..."
+                <ImageUpload 
                   value={editTestiData.image}
-                  onChange={(e) => setEditTestiData({ ...editTestiData, image: e.target.value })}
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
+                  onChange={(url) => setEditTestiData({ ...editTestiData, image: url })}
                 />
               </div>
 

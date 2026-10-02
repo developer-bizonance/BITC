@@ -39,7 +39,15 @@ import {
   rectSortingStrategy,
 } from "@dnd-kit/sortable";
 import { SortableItem } from "./uic/SortableItem";
+import ImageUpload from "./ImageUpload";
 
+export const DEPARTMENTS = [
+  "Information Technology",
+  "Digital Media Technology",
+  "Management Programs",
+  "Design Programs",
+  "Academic & Training"
+];
 
 const About = ({ activeSubTopic = "mentors" }) => {
   // Mentors State
@@ -98,12 +106,13 @@ const About = ({ activeSubTopic = "mentors" }) => {
   // Mentor Form Data
   const [mentorForm, setMentorForm] = useState({
     name: "",
-    role: "Senior Software Engineer",
-    company: "Google",
-    exp: "10+ Years",
-    area: "Full Stack Development",
-    skills: "React, Node.js, System Design",
-    img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800",
+    role: "",
+    company: "",
+    exp: "",
+    area: "",
+    skills: "",
+    img: "",
+    linkedin: "",
     thought: "",
   });
 
@@ -115,6 +124,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
     area: "",
     skills: "",
     img: "",
+    linkedin: "",
     thought: "",
   });
 
@@ -124,7 +134,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
     type: "Full-Time",
     location: "On-Site",
     experience: "2+ Years",
-    department: "Academic & Training",
+    department: DEPARTMENTS[0],
     description: "",
   });
 
@@ -133,7 +143,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
     type: "Full-Time",
     location: "On-Site",
     experience: "2+ Years",
-    department: "Academic & Training",
+    department: DEPARTMENTS[0],
     description: "",
     status: "Active",
   });
@@ -350,12 +360,14 @@ const About = ({ activeSubTopic = "mentors" }) => {
         setIsAddMentorOpen(false);
         setMentorForm({
           name: "",
-          role: "Senior Software Engineer",
-          company: "Google",
-          exp: "10+ Years",
-          area: "Full Stack Development",
-          skills: "React, Node.js, System Design",
-          img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800",
+          role: "",
+          company: "",
+          exp: "",
+          area: "",
+          skills: "",
+          img: "",
+          linkedin: "",
+          thought: "",
         });
         showNotification("Mentor added successfully!");
       } else {
@@ -402,6 +414,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
       area: mentor.area || "",
       skills: Array.isArray(mentor.skills) ? mentor.skills.join(", ") : mentor.skills || "",
       img: mentor.img || "",
+      linkedin: mentor.linkedin || "",
     });
     setIsEditMentorOpen(true);
   };
@@ -468,7 +481,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
           type: "Full-Time",
           location: "On-Site",
           experience: "2+ Years",
-          department: "Academic & Training",
+          department: DEPARTMENTS[0],
           description: "",
         });
         showNotification("Job opening posted successfully!");
@@ -911,7 +924,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
       {/* 1. SUB-TOPIC: MENTORS MANAGEMENT                          */}
       {/* ======================================================== */}
       {activeSubTopic === "mentors" && (
-        <div className="bg-white rounded-2xl p-5 md:p-6 shadow-sm border border-gray-100 space-y-5 animate-in fade-in duration-200">
+        <div className="bg-transparent p-2 space-y-5 animate-in fade-in duration-200">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-gray-100">
             <div>
@@ -1002,7 +1015,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
                   <div>
                     {/* Photo & Company Badge */}
-                    <div className="relative h-44 rounded-xl overflow-hidden mb-3.5 bg-slate-100 border border-gray-100">
+                    <div className="relative h-64 rounded-xl overflow-hidden mb-3.5 bg-slate-100 border border-gray-100">
                       <img
                         src={mentor.img}
                         alt={mentor.name}
@@ -1066,7 +1079,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
       {/* 2. SUB-TOPIC: CAREERS & CURRENT OPENINGS                 */}
       {/* ======================================================== */}
       {activeSubTopic === "careers" && (
-        <div className="bg-white rounded-2xl p-5 md:p-6 shadow-sm border border-gray-100 space-y-5 animate-in fade-in duration-200">
+        <div className="bg-transparent p-2 space-y-5 animate-in fade-in duration-200">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-gray-100">
             <div>
@@ -1212,7 +1225,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
       {/* 3. SUB-TOPIC: OUR ALUMNI PROFILES                        */}
       {/* ======================================================== */}
       {activeSubTopic === "alumni" && (
-        <div className="bg-white rounded-2xl p-5 md:p-6 shadow-sm border border-gray-100 space-y-5 animate-in fade-in duration-200">
+        <div className="bg-transparent p-2 space-y-5 animate-in fade-in duration-200">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-gray-100">
             <div>
@@ -1326,7 +1339,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
                     <div className="flex items-center justify-center gap-3 mt-2 pt-2 border-t border-slate-100 w-full text-[10px]">
                       {a.batch && (
-                        <span className="text-slate-500">Batch: {a.batch}</span>
+                        <span className="text-slate-500">Batch: {(() => { const yr = a.batch.toString().split('-')[0].trim(); return yr.length === 2 ? '20' + yr : yr; })()}</span>
                       )}
                       {a.linkedin && (
                         <a 
@@ -1458,7 +1471,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
       {/* 4. SUB-TOPIC: INDUSTRY PARTNERS                          */}
       {/* ======================================================== */}
       {activeSubTopic === "industry-partners" && (
-        <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm space-y-6">
+        <div className="bg-transparent p-2 space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-gray-100">
             <div>
               <div className="flex items-center gap-2 mb-1">
@@ -1570,7 +1583,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
       {/* ======================================================== */}
       {isAddMentorOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100 relative">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100 relative max-h-[90vh] overflow-y-auto hide-scrollbar">
             <button
               onClick={() => setIsAddMentorOpen(false)}
               className="absolute top-5 right-5 text-gray-400 hover:text-gray-600 p-1.5 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
@@ -1590,7 +1603,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
             <form onSubmit={handleAddMentor} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Mentor Full Name <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -1605,7 +1618,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     Role / Designation
                   </label>
                   <input
@@ -1618,7 +1631,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     Company / Organization
                   </label>
                   <input
@@ -1633,7 +1646,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     Experience
                   </label>
                   <input
@@ -1646,7 +1659,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     Domain / Area
                   </label>
                   <input
@@ -1660,7 +1673,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Skills (Comma Separated)
                 </label>
                 <input
@@ -1673,20 +1686,30 @@ const About = ({ activeSubTopic = "mentors" }) => {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
-                  Photo URL / Image Path
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
+                  LinkedIn URL
                 </label>
                 <input
                   type="text"
-                  placeholder="https://images.unsplash.com/... or /profile.png"
-                  value={mentorForm.img}
-                  onChange={(e) => setMentorForm({ ...mentorForm, img: e.target.value })}
+                  placeholder="https://linkedin.com/in/username"
+                  value={mentorForm.linkedin}
+                  onChange={(e) => setMentorForm({ ...mentorForm, linkedin: e.target.value })}
                   className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 font-medium"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
+                  Upload Direct Image
+                </label>
+                <ImageUpload
+                  value={mentorForm.img}
+                  onChange={(url) => setMentorForm({ ...mentorForm, img: url })}
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Thoughts / Quote
                 </label>
                 <textarea
@@ -1724,7 +1747,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
       {/* ======================================================== */}
       {isEditMentorOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100 relative">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100 relative max-h-[90vh] overflow-y-auto hide-scrollbar">
             <button
               onClick={() => setIsEditMentorOpen(false)}
               className="absolute top-5 right-5 text-gray-400 hover:text-gray-600 p-1.5 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
@@ -1744,7 +1767,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
             <form onSubmit={handleUpdateMentor} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Mentor Full Name <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -1759,7 +1782,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     Role / Designation
                   </label>
                   <input
@@ -1772,7 +1795,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     Company / Organization
                   </label>
                   <input
@@ -1787,7 +1810,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     Experience
                   </label>
                   <input
@@ -1800,7 +1823,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     Domain / Area
                   </label>
                   <input
@@ -1814,7 +1837,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Skills (Comma Separated)
                 </label>
                 <input
@@ -1827,20 +1850,30 @@ const About = ({ activeSubTopic = "mentors" }) => {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
-                  Photo URL / Image Path
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
+                  LinkedIn URL
                 </label>
                 <input
                   type="text"
-                  placeholder="https://images.unsplash.com/... or /profile.png"
-                  value={editMentorForm.img}
-                  onChange={(e) => setEditMentorForm({ ...editMentorForm, img: e.target.value })}
+                  placeholder="https://linkedin.com/in/username"
+                  value={editMentorForm.linkedin}
+                  onChange={(e) => setEditMentorForm({ ...editMentorForm, linkedin: e.target.value })}
                   className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
+                  Upload Direct Image
+                </label>
+                <ImageUpload
+                  value={editMentorForm.img}
+                  onChange={(url) => setEditMentorForm({ ...editMentorForm, img: url })}
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Thoughts / Quote
                 </label>
                 <textarea
@@ -1878,7 +1911,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
       {/* ======================================================== */}
       {isAddJobOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100 relative">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100 relative max-h-[90vh] overflow-y-auto hide-scrollbar">
             <button
               onClick={() => setIsAddJobOpen(false)}
               className="absolute top-5 right-5 text-gray-400 hover:text-gray-600 p-1.5 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
@@ -1898,7 +1931,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
             <form onSubmit={handleAddJob} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Job Position Title <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -1913,7 +1946,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     Employment Type
                   </label>
                   <select
@@ -1929,7 +1962,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     Work Location
                   </label>
                   <select
@@ -1946,7 +1979,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     Required Experience
                   </label>
                   <input
@@ -1959,21 +1992,23 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     Department
                   </label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Academic & Training"
+                  <select
                     value={jobForm.department}
                     onChange={(e) => setJobForm({ ...jobForm, department: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 font-medium"
-                  />
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 font-medium bg-white"
+                  >
+                    {DEPARTMENTS.map(dept => (
+                      <option key={dept} value={dept}>{dept}</option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Brief Job Description (Optional)
                 </label>
                 <textarea
@@ -2011,7 +2046,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
       {/* ======================================================== */}
       {isEditJobOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100 relative">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100 relative max-h-[90vh] overflow-y-auto hide-scrollbar">
             <button
               onClick={() => setIsEditJobOpen(false)}
               className="absolute top-5 right-5 text-gray-400 hover:text-gray-600 p-1.5 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
@@ -2031,7 +2066,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
             <form onSubmit={handleUpdateJob} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Job Position Title <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -2046,7 +2081,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     Employment Type
                   </label>
                   <select
@@ -2062,7 +2097,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     Workplace Location
                   </label>
                   <select
@@ -2079,7 +2114,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     Required Experience
                   </label>
                   <input
@@ -2092,21 +2127,23 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     Department
                   </label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Academic & Training"
+                  <select
                     value={editJobForm.department}
                     onChange={(e) => setEditJobForm({ ...editJobForm, department: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
-                  />
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium bg-white"
+                  >
+                    {DEPARTMENTS.map(dept => (
+                      <option key={dept} value={dept}>{dept}</option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Brief Job Description (Optional)
                 </label>
                 <textarea
@@ -2144,7 +2181,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
       {/* ======================================================== */}
       {isAddAlumniOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100 relative">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100 relative max-h-[90vh] overflow-y-auto hide-scrollbar">
             <button
               onClick={() => setIsAddAlumniOpen(false)}
               className="absolute top-5 right-5 text-gray-400 hover:text-gray-600 p-1.5 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
@@ -2164,7 +2201,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
             <form onSubmit={handleAddAlumni} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Alumni Full Name <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -2179,7 +2216,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     Job Role / Title
                   </label>
                   <input
@@ -2192,7 +2229,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     Placed Company
                   </label>
                   <input
@@ -2207,7 +2244,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     Batch Year
                   </label>
                   <input
@@ -2220,7 +2257,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     Photo URL / Image Path
                   </label>
                   <input
@@ -2235,7 +2272,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     Course / Certification
                   </label>
                   <input
@@ -2248,7 +2285,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     LinkedIn URL
                   </label>
                   <input
@@ -2287,7 +2324,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
       {/* ======================================================== */}
       {isEditAlumniOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100 relative">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100 relative max-h-[90vh] overflow-y-auto hide-scrollbar">
             <button
               onClick={() => setIsEditAlumniOpen(false)}
               className="absolute top-5 right-5 text-gray-400 hover:text-gray-600 p-1.5 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
@@ -2307,7 +2344,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
             <form onSubmit={handleUpdateAlumni} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Alumni Full Name <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -2322,7 +2359,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     Job Role / Title
                   </label>
                   <input
@@ -2335,7 +2372,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     Placed Company
                   </label>
                   <input
@@ -2350,7 +2387,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     Batch Year
                   </label>
                   <input
@@ -2363,7 +2400,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     Photo URL / Image Path
                   </label>
                   <input
@@ -2378,7 +2415,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     Course / Certification
                   </label>
                   <input
@@ -2391,7 +2428,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                     LinkedIn URL
                   </label>
                   <input
@@ -2430,7 +2467,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
       {/* ======================================================== */}
       {isAddAlumniCompanyOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-gray-100 relative">
+          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-gray-100 relative max-h-[90vh] overflow-y-auto hide-scrollbar">
             <button
               onClick={() => setIsAddAlumniCompanyOpen(false)}
               className="absolute top-5 right-5 text-gray-400 hover:text-gray-600 p-1.5 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
@@ -2450,7 +2487,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
             <form onSubmit={handleAddAlumniCompany} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Company Name <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -2464,7 +2501,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Logo URL / SVG Path <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -2478,7 +2515,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Company Website URL (Optional)
                 </label>
                 <input
@@ -2516,7 +2553,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
       {/* ======================================================== */}
       {isEditAlumniCompanyOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-gray-100 relative">
+          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-gray-100 relative max-h-[90vh] overflow-y-auto hide-scrollbar">
             <button
               onClick={() => setIsEditAlumniCompanyOpen(false)}
               className="absolute top-5 right-5 text-gray-400 hover:text-gray-600 p-1.5 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
@@ -2536,7 +2573,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
             <form onSubmit={handleUpdateAlumniCompany} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Company Name <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -2550,7 +2587,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Logo URL / SVG Path <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -2564,7 +2601,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Company Website URL (Optional)
                 </label>
                 <input
@@ -2602,7 +2639,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
       {/* ======================================================== */}
       {isAddPartnerOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100 relative">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100 relative max-h-[90vh] overflow-y-auto hide-scrollbar">
             <button
               onClick={() => setIsAddPartnerOpen(false)}
               className="absolute top-5 right-5 text-gray-400 hover:text-gray-600 p-1.5 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
@@ -2622,7 +2659,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
             <form onSubmit={handleAddIndustryPartner} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Company Name <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -2636,7 +2673,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Industry / Domain Category
                 </label>
                 <input
@@ -2649,7 +2686,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Website URL (Optional)
                 </label>
                 <input
@@ -2687,7 +2724,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
       {/* ======================================================== */}
       {isEditPartnerOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100 relative">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-100 relative max-h-[90vh] overflow-y-auto hide-scrollbar">
             <button
               onClick={() => setIsEditPartnerOpen(false)}
               className="absolute top-5 right-5 text-gray-400 hover:text-gray-600 p-1.5 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
@@ -2707,7 +2744,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
             <form onSubmit={handleUpdateIndustryPartner} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Company Name <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -2721,7 +2758,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Industry / Domain Category
                 </label>
                 <input
@@ -2734,7 +2771,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Website URL (Optional)
                 </label>
                 <input

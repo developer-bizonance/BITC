@@ -665,7 +665,7 @@ export default function CareersPage() {
                     disabled={submitting}
                     className="w-full h-11 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black text-[15px] font-medium flex items-center justify-center hover:shadow-lg hover:shadow-orange-500/25 hover:-translate-y-0.5 transition-all mt-1 disabled:opacity-50"
                   >
-                    {submitting ? "Submitting..." : "Submit Details"} <ArrowRight className="ml-2 w-4 h-4" />
+                    {submitting ? "Submitting..." : "Submit"} <ArrowRight className="ml-2 w-4 h-4" />
                   </button>
                   <p className="text-center text-[11px] text-slate-400 mt-2">
                     🔒 Your contact information is kept confidential and reviewed solely by BITC HR.

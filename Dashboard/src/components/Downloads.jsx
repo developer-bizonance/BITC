@@ -157,7 +157,7 @@ const Downloads = () => {
           <RefreshCw className="w-6 h-6 text-blue-500 animate-spin" />
         </div>
       ) : downloads.length === 0 ? (
-        <div className="bg-white rounded-2xl shadow-2xs border border-slate-200 p-8 text-center">
+        <div className="bg-transparent p-8 text-center">
           <Download className="w-10 h-10 text-slate-300 mx-auto mb-2" />
           <h3 className="text-sm font-bold text-slate-800 mb-1">No downloads found</h3>
           <p className="text-xs text-slate-500">Get started by adding your first downloadable resource.</p>
