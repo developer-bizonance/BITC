@@ -14,23 +14,103 @@ import { ApplyButton } from "@/components/certifications/ApplyButton";
 import { FaWhatsapp } from "react-icons/fa";
 
 import type { Metadata } from "next";
+import { getApiBase, resolveImageUrl } from "@/lib/utils";
+
+export const dynamic = 'force-dynamic';
 
 interface PageProps {
-  params: {
+  params: Promise<{
     slug: string;
+  }>;
+}
+
+function buildDynamicCurriculum(title: string, category?: string) {
+  return [
+    {
+      title: `Module 1: Foundations & Core Architecture of ${title}`,
+      topics: [
+        `Industry Landscape & Core Fundamentals of ${title}`,
+        "Development Environment, Tools & Ecosystem Setup",
+        "Key Terminology, Syntax & Architectural Design Patterns",
+        "Standards, Conventions & Production Best Practices"
+      ]
+    },
+    {
+      title: `Module 2: Advanced Techniques & Practical Implementation`,
+      topics: [
+        "Applied Workflows & Deep-Dive Hands-On Tooling",
+        "Component Implementation, System Architecture & State Handling",
+        "Performance Optimization, Debugging & Quality Benchmarks",
+        "Real-World Scenarios, Case Studies & Problem Solving"
+      ]
+    },
+    {
+      title: "Module 3: Production Workflows & AI Integration",
+      topics: [
+        "Production-Grade Standards & Automated Build Pipelines",
+        "Integration with AI-Assisted Developer Workflows & Tools",
+        "Collaborative Version Control & Team Development Standards",
+        "Security Best Practices, Testing & Deployment Readiness"
+      ]
+    },
+    {
+      title: "Module 4: Enterprise Capstone Project & Career Placement",
+      topics: [
+        "End-to-End Enterprise Capstone Project Build & Deployment",
+        "Project Review, Code Auditing & Mentorship Feedback",
+        "Professional Portfolio Creation & GitHub Presentation",
+        "Technical Mock Interviews & Direct Placement Assistance"
+      ]
+    }
+  ];
+}
+
+function mapCertToCourse(cert: any, fallbackSlug: string): Certification {
+  const feesRaw = cert.fees || "₹36,000";
+  const numPrice = parseInt(String(feesRaw).replace(/[^0-9]/g, ""), 10) || 36000;
+  const formattedFees = feesRaw.startsWith("₹") || feesRaw.startsWith("?") ? feesRaw : `₹${feesRaw}`;
+  const slug = cert.slug || fallbackSlug;
+
+  const defaultHighlights = [
+    "Practical Industry Training & Live Labs",
+    "Hands-On Capstone Projects & Portfolio Building",
+    "1-on-1 Mentorship & Code Reviews",
+    "Dedicated 100% Placement Assistance",
+    "Recognized Industrial Certification"
+  ];
+
+  const curriculum = Array.isArray(cert.curriculum) && cert.curriculum.length > 0
+    ? cert.curriculum
+    : buildDynamicCurriculum(cert.title, cert.category);
+
+  return {
+    slug,
+    title: cert.title,
+    category: cert.category || "Information Technology",
+    duration: cert.duration || "6 Months",
+    fees: formattedFees,
+    price: numPrice,
+    description: cert.description || `Comprehensive industry-led certification program in ${cert.title} by BITC BIZONANCE with hands-on labs, real-world capstone projects, and placement assistance.`,
+    features: Array.isArray(cert.features) && cert.features.length > 0 ? cert.features : defaultHighlights,
+    image: resolveImageUrl(cert.image),
+    curriculum,
   };
 }
 
 async function fetchCourse(slug: string): Promise<Certification | null> {
   const normalizedSlug = decodeURIComponent(slug).toLowerCase().replace(/[\s_]+/g, '-');
-  
-  // 1. Try Backend API first for live dynamic curriculum & details
+  const cleanSlug = normalizedSlug.replace(/[^a-z0-9]/g, '');
+
+  // 1. Try Backend API Course endpoint first
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === "development" ? "http://localhost:5000/api" : "https://bitc-backend-theta.vercel.app/api");
+    const apiUrl = getApiBase();
     const res = await fetch(`${apiUrl}/courses/${normalizedSlug}`, { cache: "no-store" });
     if (res.ok) {
       const data = await res.json();
       if (data.course) {
+        const curriculum = Array.isArray(data.course.curriculum) && data.course.curriculum.length > 0
+          ? data.course.curriculum
+          : buildDynamicCurriculum(data.course.title, data.course.category);
         return {
           slug: data.course.slug,
           title: data.course.title,
@@ -38,23 +118,61 @@ async function fetchCourse(slug: string): Promise<Certification | null> {
           duration: data.course.duration,
           fees: data.course.fees,
           price: data.course.price || 36000,
-          description: data.course.description,
-          features: data.course.features || [],
-          image: data.course.image,
-          curriculum: (data.course.curriculum as any[]) || [],
+          description: data.course.description || `Comprehensive training in ${data.course.title} by BITC BIZONANCE.`,
+          features: (Array.isArray(data.course.features) && data.course.features.length > 0)
+            ? data.course.features
+            : [
+                "Practical Industry Training & Live Labs",
+                "Hands-On Capstone Projects & Portfolio Building",
+                "1-on-1 Mentorship & Code Reviews",
+                "Dedicated 100% Placement Assistance",
+                "Recognized Industrial Certification"
+              ],
+          image: resolveImageUrl(data.course.image),
+          curriculum,
         };
       }
     }
   } catch (apiErr) {
-    // Fallback to database or static
+    // Fallback to certifications endpoint
   }
 
-  // 2. Try Prisma Neon DB
+  // 2. Try Backend API Certifications endpoint (where newly created certifications from dashboard are stored live)
+  try {
+    const apiUrl = getApiBase();
+    const certsRes = await fetch(`${apiUrl}/certifications`, { cache: "no-store" });
+    if (certsRes.ok) {
+      const certsData = await certsRes.json();
+      const certsList: any[] = certsData.certifications || [];
+      const matchedCert = certsList.find((c: any) => {
+        if (!c) return false;
+        const cId = String(c.id || "").toLowerCase();
+        const cSlug = String(c.slug || "").toLowerCase().replace(/[\s_]+/g, "-");
+        const cTitleSlug = (c.title || "").toLowerCase().replace(/ & /g, "-").replace(/[\/\s_]+/g, "-");
+        const cClean = (c.title || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+        return (
+          cId === normalizedSlug ||
+          cSlug === normalizedSlug ||
+          cTitleSlug === normalizedSlug ||
+          (cleanSlug && cClean === cleanSlug)
+        );
+      });
+
+      if (matchedCert) {
+        return mapCertToCourse(matchedCert, normalizedSlug);
+      }
+    }
+  } catch (certApiErr) {
+    // Continue to DB check
+  }
+
+  // 3. Try Prisma Neon DB Course table
   try {
     const dbCourse = await prisma.course.findUnique({
       where: { slug: normalizedSlug },
     });
     if (dbCourse) {
+      const curriculum = (dbCourse.curriculum as any[]) || [];
       return {
         slug: dbCourse.slug,
         title: dbCourse.title,
@@ -62,17 +180,58 @@ async function fetchCourse(slug: string): Promise<Certification | null> {
         duration: dbCourse.duration,
         fees: dbCourse.fees,
         price: dbCourse.price,
-        description: dbCourse.description,
-        features: dbCourse.features,
-        curriculum: (dbCourse.curriculum as any[]) || [],
+        description: dbCourse.description || `Comprehensive training in ${dbCourse.title} by BITC BIZONANCE.`,
+        features: (Array.isArray(dbCourse.features) && dbCourse.features.length > 0)
+          ? dbCourse.features
+          : [
+              "Practical Industry Training & Live Labs",
+              "Hands-On Capstone Projects & Portfolio Building",
+              "1-on-1 Mentorship & Code Reviews",
+              "Dedicated 100% Placement Assistance",
+              "Recognized Industrial Certification"
+            ],
+        image: resolveImageUrl(dbCourse.image),
+        curriculum: curriculum.length > 0 ? curriculum : buildDynamicCurriculum(dbCourse.title, dbCourse.category),
       };
     }
   } catch (err) {
-    console.warn("Neon DB fetch failed for course detail, falling back to static:", err);
+    console.warn("Neon DB fetch failed for course detail:", err);
   }
 
-  // 3. Fallback to local static
-  return getCourseBySlug(normalizedSlug) || null;
+  // 4. Try Direct Prisma Raw Query for certifications.json in CmsData table
+  try {
+    const cmsRecords = await (prisma as any).$queryRaw<any[]>`SELECT data FROM "CmsData" WHERE key = 'certifications.json' LIMIT 1`;
+    if (cmsRecords && cmsRecords.length > 0 && cmsRecords[0].data) {
+      const rawData = cmsRecords[0].data;
+      const list: any[] = Array.isArray(rawData) ? rawData : (typeof rawData === "string" ? JSON.parse(rawData) : []);
+      const matched = list.find((c: any) => {
+        if (!c) return false;
+        const cId = String(c.id || "").toLowerCase();
+        const cSlug = String(c.slug || "").toLowerCase().replace(/[\s_]+/g, "-");
+        const cTitleSlug = (c.title || "").toLowerCase().replace(/ & /g, "-").replace(/[\/\s_]+/g, "-");
+        const cClean = (c.title || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+        return (
+          cId === normalizedSlug ||
+          cSlug === normalizedSlug ||
+          cTitleSlug === normalizedSlug ||
+          (cleanSlug && cClean === cleanSlug)
+        );
+      });
+      if (matched) {
+        return mapCertToCourse(matched, normalizedSlug);
+      }
+    }
+  } catch (cmsErr) {
+    // Continue to static
+  }
+
+  // 5. Fallback to local static
+  const staticCourse = getCourseBySlug(normalizedSlug);
+  if (staticCourse) {
+    return staticCourse;
+  }
+
+  return null;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -87,7 +246,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   return {
-    title: `${course.title} Certification`,
+    title: `${course.title} Certification | BITC`,
     description: `${course.description} Duration: ${course.duration}. Learn from industry experts at BITC BIZONANCE with placement assistance.`,
     keywords: [
       course.title,
@@ -111,7 +270,7 @@ export default async function CoursePage({ params }: PageProps) {
     notFound();
   }
 
-  const totalTopics = course.curriculum.reduce((acc, mod) => acc + (mod.topics?.length || 0), 0);
+  const totalTopics = (course.curriculum || []).reduce((acc, mod) => acc + (mod.topics?.length || 0), 0);
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
@@ -181,20 +340,14 @@ export default async function CoursePage({ params }: PageProps) {
                     Certification Highlights
                   </h3>
                   <ul className="space-y-3.5">
-                    {Array.from(new Set([
-                      ...(course.features || []),
-                      "Resume Building & Portfolio Review",
-                      "Interview Preparation & Soft Skills",
-                      "1-on-1 Mentorship & Doubt Clearing",
-                      "Group Discussion & Communication Sessions",
-                      "Mock Interviews with Industry Experts",
-                      "Access to Exclusive BITC Placement Drive"
-                    ])).filter(highlight => highlight !== "Resume Building").map((highlight, i) => (
+                    {course.features && course.features.length > 0 ? course.features.map((highlight, i) => (
                       <li key={i} className="flex items-start gap-3.5">
                         <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
                         <span className="text-slate-700 font-semibold text-[15px]">{highlight}</span>
                       </li>
-                    ))}
+                    )) : (
+                      <li className="text-slate-500 italic text-sm">No highlights available for this course.</li>
+                    )}
                   </ul>
                 </CardContent>
               </Card>
@@ -258,7 +411,7 @@ export default async function CoursePage({ params }: PageProps) {
                         <span className="text-[11px] font-extrabold uppercase tracking-widest text-amber-500 block mb-0.5">
                           MODULE {i + 1}
                         </span>
-                        <h3 className="text-lg md:text-xl font-bold text-slate-900 group-hover:text-amber-500 group-data-[state=open]:text-amber-500 transition-colors">
+                        <h3 className="text-lg md:text-xl font-medium text-gray-600 group-hover:text-amber-500 group-data-[state=open]:text-amber-500 transition-colors">
                           {module.title.replace(/^module \D+:\s*/i, '')}
                         </h3>
                       </div>
@@ -328,7 +481,7 @@ export default async function CoursePage({ params }: PageProps) {
               <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4">
                 <Laptop className="w-6 h-6" />
               </div>
-              <h4 className="font-bold text-slate-900 mb-1 text-sm">100% Practical</h4>
+              <h4 className="font-medium text-gray-600 mb-1 text-sm">100% Practical</h4>
               <p className="text-xs text-slate-500">Real-world coding exercises and live project builds.</p>
             </div>
 
@@ -336,7 +489,7 @@ export default async function CoursePage({ params }: PageProps) {
               <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center mb-4">
                 <Cpu className="w-6 h-6" />
               </div>
-              <h4 className="font-bold text-slate-900 mb-1 text-sm">Ai Workflows</h4>
+              <h4 className="font-medium text-gray-600 mb-1 text-sm">Ai Workflows</h4>
               <p className="text-xs text-slate-500">Integrated Copilot, Cursor & AI prompt engineering.</p>
             </div>
 
@@ -344,7 +497,7 @@ export default async function CoursePage({ params }: PageProps) {
               <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-4">
                 <Award className="w-6 h-6" />
               </div>
-              <h4 className="font-bold text-slate-900 mb-1 text-sm">BITC Certification</h4>
+              <h4 className="font-medium text-gray-600 mb-1 text-sm">BITC Certification</h4>
               <p className="text-xs text-slate-500">Recognized industrial certification upon completion.</p>
             </div>
 
@@ -352,7 +505,7 @@ export default async function CoursePage({ params }: PageProps) {
               <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4">
                 <Briefcase className="w-6 h-6" />
               </div>
-              <h4 className="font-bold text-slate-900 mb-1 text-sm">Placement Support</h4>
+              <h4 className="font-medium text-gray-600 mb-1 text-sm">Placement Support</h4>
               <p className="text-xs text-slate-500">Direct interview opportunities with hiring partners.</p>
             </div>
           </div>

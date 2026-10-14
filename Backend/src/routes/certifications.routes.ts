@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { readJsonDbAsync, writeJsonDbAsync } from "../dataStore.js";
+import prisma from "../lib/prisma.js";
 
 export interface CertificationItem {
   id: string;
@@ -9,6 +10,7 @@ export interface CertificationItem {
   fees: string;
   badge?: string;
   image?: string;
+  features?: string[];
   createdAt: string;
 }
 
@@ -34,7 +36,7 @@ router.get("/", async (req: Request, res: Response) => {
 // POST /api/certifications (Add new certification)
 router.post("/", async (req: Request, res: Response) => {
   try {
-    const { title, category, duration, fees, badge, image } = req.body;
+    const { title, category, duration, fees, badge, image, features } = req.body;
 
     if (!title || typeof title !== "string" || title.trim().length < 2) {
       return res.status(400).json({ error: "Certification title is required." });
@@ -48,12 +50,50 @@ router.post("/", async (req: Request, res: Response) => {
       fees: fees?.trim() || "₹36,000",
       badge: badge?.trim() || "",
       image: image?.trim() || "",
+      features: Array.isArray(features) ? features : [],
       createdAt: new Date().toISOString(),
     };
 
     const db = await readJsonDbAsync<CertificationItem>("certifications.json");
     db.unshift(newCert);
     await writeJsonDbAsync("certifications.json", db);
+
+    // Also sync to Course model in PostgreSQL so it can be queried as a course
+    try {
+      const courseSlug = title.trim().toLowerCase().replace(/ & /g, '-').replace(/[\/\s_]+/g, '-');
+      const numericPrice = parseInt(String(fees || "36000").replace(/[^0-9]/g, ""), 10) || 36000;
+      await prisma.course.upsert({
+        where: { slug: courseSlug },
+        update: {
+          title: newCert.title,
+          category: newCert.category,
+          duration: newCert.duration,
+          fees: newCert.fees,
+          price: numericPrice,
+          image: newCert.image,
+        },
+        create: {
+          slug: courseSlug,
+          title: newCert.title,
+          category: newCert.category,
+          duration: newCert.duration,
+          fees: newCert.fees,
+          price: numericPrice,
+          description: `Industry-recognized certification in ${newCert.title} by BITC BIZONANCE with live hands-on projects and placement assistance.`,
+          features: newCert.features && newCert.features.length > 0 ? newCert.features : [
+            "Practical Industry Training & Live Labs",
+            "Hands-On Capstone Projects & Portfolio Building",
+            "1-on-1 Mentorship & Code Reviews",
+            "Dedicated 100% Placement Assistance",
+            "Recognized Industrial Certification"
+          ],
+          image: newCert.image,
+          curriculum: [],
+        },
+      });
+    } catch (courseSyncErr) {
+      console.warn("Could not sync new certification to Course table:", courseSyncErr);
+    }
 
     return res.status(201).json({
       success: true,
@@ -100,7 +140,7 @@ router.put("/reorder", async (req: Request, res: Response) => {
 router.put("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { title, category, duration, fees, badge, image } = req.body;
+    const { title, category, duration, fees, badge, image, features } = req.body;
 
     const db = await readJsonDbAsync<CertificationItem>("certifications.json");
     const index = db.findIndex((c) => c.id === id);
@@ -117,10 +157,42 @@ router.put("/:id", async (req: Request, res: Response) => {
       fees: fees !== undefined ? fees.trim() : current.fees,
       badge: badge !== undefined ? badge.trim() : current.badge,
       image: image !== undefined ? image.trim() : current.image,
+      features: features !== undefined && Array.isArray(features) ? features : current.features,
     };
 
     db[index] = updated;
     await writeJsonDbAsync("certifications.json", db);
+
+    try {
+      const slug = updated.title.trim().toLowerCase().replace(/ & /g, '-').replace(/[\/\s_]+/g, "-");
+      const numericPrice = parseInt(String(updated.fees || "36000").replace(/[^0-9]/g, ""), 10) || 36000;
+      await prisma.course.upsert({
+        where: { slug: slug },
+        update: {
+          title: updated.title,
+          category: updated.category,
+          duration: updated.duration,
+          fees: updated.fees,
+          price: numericPrice,
+          image: updated.image,
+          features: updated.features && updated.features.length > 0 ? updated.features : undefined,
+        },
+        create: {
+          slug: slug,
+          title: updated.title,
+          category: updated.category,
+          duration: updated.duration,
+          fees: updated.fees,
+          price: numericPrice,
+          description: `Industry-recognized certification in ${updated.title} by BITC BIZONANCE.`,
+          features: updated.features || [],
+          image: updated.image,
+          curriculum: [],
+        }
+      });
+    } catch (err) {
+      console.warn("Could not update corresponding Course model:", err);
+    }
 
     return res.json({
       success: true,
@@ -138,6 +210,7 @@ router.delete("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const db = await readJsonDbAsync<CertificationItem>("certifications.json");
+    const certToDelete = db.find((c) => c.id === id);
     const initialLen = db.length;
     const updatedDb = db.filter((c) => c.id !== id);
 
@@ -146,6 +219,15 @@ router.delete("/:id", async (req: Request, res: Response) => {
     }
 
     await writeJsonDbAsync("certifications.json", updatedDb);
+
+    if (certToDelete) {
+      try {
+        const slug = certToDelete.title.trim().toLowerCase().replace(/ & /g, '-').replace(/[\/\s_]+/g, "-");
+        await prisma.course.delete({ where: { slug } });
+      } catch (delErr) {
+        // Course may not exist in table
+      }
+    }
 
     return res.json({
       success: true,

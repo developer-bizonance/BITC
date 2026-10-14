@@ -3,6 +3,7 @@ import prisma from "../lib/prisma.js";
 import { courses as fallbackCourses } from "../data/courses.js";
 import { verifyJWT } from "../lib/jwt.js";
 import { applicationsDb } from "../lib/userStore.js";
+import { readJsonDbAsync, writeJsonDbAsync, readJsonDb, writeJsonDb } from "../dataStore.js";
 
 const router = Router();
 
@@ -57,12 +58,83 @@ router.get("/:slug", async (req: Request, res: Response) => {
     }
 
     if (dbCourse) {
+      try {
+        const certsDb = await readJsonDbAsync("certifications.json");
+        const matchedCert = certsDb.find((c: any) => {
+          if (!c.title) return false;
+          const cNorm = c.title.toLowerCase().replace(/[^a-z0-9]/g, "");
+          const sSlugNorm = dbCourse.slug.toLowerCase().replace(/[^a-z0-9]/g, "");
+          const sTitleNorm = dbCourse.title.toLowerCase().replace(/[^a-z0-9]/g, "");
+          return cNorm === sSlugNorm || sSlugNorm.includes(cNorm) || cNorm.includes(sSlugNorm) || cNorm === sTitleNorm || sTitleNorm.includes(cNorm) || cNorm.includes(sTitleNorm);
+        });
+        if (matchedCert && matchedCert.features && matchedCert.features.length > 0) {
+          dbCourse.features = matchedCert.features;
+        }
+      } catch (e) {
+        console.warn("Could not merge features from certifications.json into dbCourse:", e);
+      }
       return res.json({ success: true, course: dbCourse });
     }
 
     const staticCourse = fallbackCourses.find((c) => c.slug === normalizedSlug);
     if (staticCourse) {
+      // Merge features from certifications.json if they exist (since Prisma is failing)
+      try {
+        const certsDb = await readJsonDbAsync("certifications.json");
+        const matchedCert = certsDb.find((c: any) => {
+          if (!c.title) return false;
+          const cNorm = c.title.toLowerCase().replace(/[^a-z0-9]/g, "");
+          const sSlugNorm = staticCourse.slug.toLowerCase().replace(/[^a-z0-9]/g, "");
+          const sTitleNorm = staticCourse.title.toLowerCase().replace(/[^a-z0-9]/g, "");
+          return cNorm === sSlugNorm || sSlugNorm.includes(cNorm) || cNorm.includes(sSlugNorm) || cNorm === sTitleNorm || sTitleNorm.includes(cNorm) || cNorm.includes(sTitleNorm);
+        });
+        if (matchedCert && matchedCert.features && matchedCert.features.length > 0) {
+          staticCourse.features = matchedCert.features;
+        }
+      } catch (e) {
+        console.warn("Could not merge features from certifications.json:", e);
+      }
       return res.json({ success: true, course: staticCourse });
+    }
+
+    // If not in Prisma AND not in fallbackCourses, check certifications.json directly
+    try {
+      const certsDb = await readJsonDbAsync("certifications.json");
+      const cleanSlug = normalizedSlug.replace(/[^a-z0-9]/g, '');
+      const dynamicCert = certsDb.find((c: any) => {
+        if (!c || !c.title) return false;
+        const cId = String(c.id || "").toLowerCase();
+        const cSlug = String(c.slug || "").toLowerCase().replace(/[\s_]+/g, "-");
+        const cTitleSlug = c.title.trim().toLowerCase().replace(/ & /g, '-').replace(/[\/\s_]+/g, "-");
+        const cClean = c.title.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+        return cId === normalizedSlug || cSlug === normalizedSlug || cTitleSlug === normalizedSlug || (cleanSlug && cClean === cleanSlug);
+      });
+      
+      if (dynamicCert) {
+        return res.json({
+          success: true,
+          course: {
+            slug: normalizedSlug,
+            title: dynamicCert.title,
+            category: dynamicCert.category || "Information Technology",
+            duration: dynamicCert.duration || "6 Months",
+            fees: dynamicCert.fees || "₹36,000",
+            price: parseInt(String(dynamicCert.fees || "36000").replace(/[^0-9]/g, "")) || 36000,
+            description: dynamicCert.description || "A comprehensive program designed to provide industry-ready skills and hands-on experience.",
+            features: dynamicCert.features && dynamicCert.features.length > 0 ? dynamicCert.features : [
+              "Practical Industry Training & Live Labs",
+              "Hands-On Capstone Projects & Portfolio Building",
+              "1-on-1 Mentorship & Code Reviews",
+              "Dedicated 100% Placement Assistance",
+              "Recognized Industrial Certification"
+            ],
+            image: dynamicCert.image || "",
+            curriculum: dynamicCert.curriculum || []
+          }
+        });
+      }
+    } catch (e) {
+      console.warn("Could not check certifications.json for dynamic course:", e);
     }
 
     return res.status(404).json({ success: false, error: "Course not found" });
@@ -79,6 +151,18 @@ router.get("/:slug/curriculum", async (req: Request, res: Response) => {
 
     const course = fallbackCourses.find((c) => c.slug === normalizedSlug);
     if (!course) {
+      try {
+        const certsDb = await readJsonDbAsync("certifications.json");
+        const dynamicCert = certsDb.find((c: any) => c.title && c.title.trim().toLowerCase().replace(/[\s_]+/g, "-") === normalizedSlug);
+        if (dynamicCert) {
+          return res.json({
+            success: true,
+            slug: normalizedSlug,
+            title: dynamicCert.title,
+            curriculum: dynamicCert.curriculum || [],
+          });
+        }
+      } catch (e) {}
       return res.status(404).json({ success: false, error: "Course not found" });
     }
 
@@ -102,6 +186,15 @@ router.put("/:slug/curriculum", async (req: Request, res: Response) => {
 
     const courseIndex = fallbackCourses.findIndex((c) => c.slug === normalizedSlug);
     if (courseIndex === -1) {
+      try {
+        const certsDb = await readJsonDbAsync("certifications.json");
+        const dynamicCertIndex = certsDb.findIndex((c: any) => c.title && c.title.trim().toLowerCase().replace(/[\s_]+/g, "-") === normalizedSlug);
+        if (dynamicCertIndex !== -1) {
+          certsDb[dynamicCertIndex].curriculum = curriculum;
+          await writeJsonDbAsync("certifications.json", certsDb);
+          return res.json({ success: true, message: "Curriculum updated successfully in JSON fallback" });
+        }
+      } catch (e) {}
       return res.status(404).json({ success: false, error: "Course not found" });
     }
 
@@ -252,7 +345,14 @@ router.post("/apply", async (req: Request, res: Response) => {
       appliedAt: new Date().toISOString(),
     };
 
-    applicationsDb.push(newApplication);
+    try {
+      const localApps = readJsonDb<any>("course-applications.json");
+      localApps.unshift(newApplication);
+      writeJsonDb("course-applications.json", localApps);
+    } catch (e) {
+      console.warn("Fallback to applicationsDb");
+      applicationsDb.push(newApplication);
+    }
 
     try {
       const dbCourse = await prisma.course.findFirst({

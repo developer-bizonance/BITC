@@ -44,6 +44,7 @@ import {
   GripVertical,
   Video,
   Play,
+  ExternalLink,
 } from "lucide-react";
 
 const SortableCategoryItem = ({ cat, onUpdate, onDelete }) => {
@@ -1215,7 +1216,16 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
                       <div className="group h-full relative bg-slate-50/70 hover:bg-white rounded-2xl p-3.5 border border-slate-200/80 hover:border-purple-300 hover:shadow-lg transition-all duration-200 flex flex-col justify-between overflow-hidden">
                         {/* Action Buttons: Edit, Curriculum & Delete */}
                         <div className="absolute top-5 right-5 flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-all z-30">
-                          <button
+                            <a
+                              href={`https://bitc.bizonance.com/certifications/${(cert.slug || cert.title).toLowerCase().replace(/ & /g, '-').replace(/[\/\s_]+/g, '-')}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              title="View Certification on Website"
+                              className="w-7 h-7 rounded-full bg-white/95 hover:bg-purple-50 text-gray-500 hover:text-purple-600 border border-gray-200 hover:border-purple-300 flex items-center justify-center transition-all cursor-pointer shadow-md pointer-events-auto"
+                            >
+                              <ExternalLink className="w-3.5 h-3.5" />
+                            </a>
+                            <button
                             onClick={() => openCurriculumManager(cert)}
                             title="Manage Course Curriculum & Syllabus"
                             className="w-7 h-7 rounded-full bg-white/95 hover:bg-amber-50 text-gray-500 hover:text-amber-600 border border-gray-200 hover:border-amber-300 flex items-center justify-center transition-all cursor-pointer shadow-md pointer-events-auto"
