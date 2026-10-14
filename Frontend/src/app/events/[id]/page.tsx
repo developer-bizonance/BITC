@@ -1,7 +1,9 @@
+import { resolveImageUrl, getApiBase } from "@/lib/utils";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, CalendarDays, MapPin, Users } from "lucide-react";
 import { notFound } from "next/navigation";
+import EventRegistrationModal from "@/components/events/EventRegistrationModal";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   return {
@@ -14,7 +16,7 @@ export default async function EventDetailsPage({ params }: { params: Promise<{ i
   const { id } = await params;
   
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://bitc-backend-theta.vercel.app/api"}/events`, { cache: 'no-store' });
+    const res = await fetch(`${getApiBase()}/events`, { cache: 'no-store' });
     if (res.ok) {
       const data = await res.json();
       if (data.events && data.events.length > 0) {
@@ -28,7 +30,7 @@ export default async function EventDetailsPage({ params }: { params: Promise<{ i
             rawDate: new Date(foundEvent.date).toISOString(),
             venue: foundEvent.venue || null,
             speaker: foundEvent.speaker || null,
-            image: foundEvent.imageUrl || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop",
+            image: resolveImageUrl(foundEvent.imageUrl) || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop",
             description: foundEvent.description || "Join us for an exciting and informative session packed with insights and networking opportunities.",
           };
         }
@@ -58,7 +60,7 @@ export default async function EventDetailsPage({ params }: { params: Promise<{ i
           <div className="inline-block bg-primary/20 backdrop-blur-md text-white px-4 py-1.5 rounded-full text-sm font-medium mb-4 border border-primary/30 uppercase tracking-widest">
             {event.category}
           </div>
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-black tracking-tight mb-8 leading-tight">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-8 leading-tight">
             {event.title}
           </h1>
           
@@ -67,7 +69,7 @@ export default async function EventDetailsPage({ params }: { params: Promise<{ i
               <CalendarDays className="w-5 h-5 text-primary" />
               <div className="text-left">
                 <p className="text-xs text-slate-400 uppercase tracking-wider mb-0.5">Date</p>
-                <p className="font-medium text-black">{event.date}</p>
+                <p className="font-medium text-white">{event.date}</p>
               </div>
             </div>
             
@@ -76,7 +78,7 @@ export default async function EventDetailsPage({ params }: { params: Promise<{ i
                 <MapPin className="w-5 h-5 text-primary" />
                 <div className="text-left">
                   <p className="text-xs text-slate-400 uppercase tracking-wider mb-0.5">Venue</p>
-                  <p className="font-medium text-black">{event.venue}</p>
+                  <p className="font-medium text-white">{event.venue}</p>
                 </div>
               </div>
             )}
@@ -86,7 +88,7 @@ export default async function EventDetailsPage({ params }: { params: Promise<{ i
                 <Users className="w-5 h-5 text-primary" />
                 <div className="text-left">
                   <p className="text-xs text-slate-400 uppercase tracking-wider mb-0.5">Industry expert</p>
-                  <p className="font-medium text-black">{event.speaker}</p>
+                  <p className="font-medium text-white">{event.speaker}</p>
                 </div>
               </div>
             )}
@@ -103,44 +105,9 @@ export default async function EventDetailsPage({ params }: { params: Promise<{ i
           
           <div className="prose prose-slate prose-lg md:prose-xl max-w-none text-slate-700">
             <h2>About the Event</h2>
-            <p>{event.description}</p>
+            <p className="whitespace-pre-wrap">{event.description}</p>
             
-            <h3>Key Takeaways</h3>
-            <ul>
-              <li><strong>Actionable Insights:</strong> Gain practical knowledge that you can apply immediately to your projects.</li>
-              <li><strong>Industry Best Practices:</strong> Learn the latest trends and standards from experienced professionals.</li>
-              <li><strong>Hands-on Experience:</strong> Participate in interactive sessions designed to build real-world skills.</li>
-              <li><strong>Networking:</strong> Connect with peers, mentors, and industry leaders in a collaborative environment.</li>
-            </ul>
-            
-            <h3>Who Should Attend</h3>
-            <p>This event is perfectly suited for:</p>
-            <ul>
-              <li>Students and recent graduates looking to upskill and gain industry exposure.</li>
-              <li>Professionals seeking to stay updated with the latest technological advancements.</li>
-              <li>Anyone passionate about {event.category} and eager to learn from experts.</li>
-            </ul>
-            
-            <h3>Agenda</h3>
-            <div className="not-prose my-8">
-              <div className="border-l-2 border-primary/20 pl-6 space-y-6">
-                <div className="relative">
-                  <div className="absolute w-3 h-3 bg-primary rounded-full -left-[1.65rem] top-1.5 border-4 border-white shadow-sm"></div>
-                  <h4 className="text-lg font-bold text-slate-900">Registration & Welcome</h4>
-                  <p className="text-slate-500 text-sm mt-1">10:00 AM - 10:30 AM</p>
-                </div>
-                <div className="relative">
-                  <div className="absolute w-3 h-3 bg-primary rounded-full -left-[1.65rem] top-1.5 border-4 border-white shadow-sm"></div>
-                  <h4 className="text-lg font-bold text-slate-900">Keynote Presentation</h4>
-                  <p className="text-slate-500 text-sm mt-1">10:30 AM - 12:00 PM</p>
-                </div>
-                <div className="relative">
-                  <div className="absolute w-3 h-3 bg-primary rounded-full -left-[1.65rem] top-1.5 border-4 border-white shadow-sm"></div>
-                  <h4 className="text-lg font-bold text-slate-900">Interactive Q&a Session</h4>
-                  <p className="text-slate-500 text-sm mt-1">12:00 PM - 1:00 PM</p>
-                </div>
-              </div>
-            </div>
+
             
             {event.speaker && (
               <>
@@ -150,7 +117,7 @@ export default async function EventDetailsPage({ params }: { params: Promise<{ i
                     <Users className="w-8 h-8 text-slate-400" />
                   </div>
                   <div>
-                    <h4 className="text-xl font-bold text-slate-900">{event.speaker}</h4>
+                    <h4 className="text-xl font-medium text-gray-600">{event.speaker}</h4>
                     <p className="text-primary font-medium text-sm mb-3">Industry Expert</p>
                     <p className="text-slate-600 text-sm leading-relaxed">
                       With years of hands-on experience and a passion for teaching, our industry expert brings deep industry knowledge and practical insights to help you navigate your career path successfully.
@@ -161,6 +128,15 @@ export default async function EventDetailsPage({ params }: { params: Promise<{ i
             )}
             
             <p className="mt-8 font-medium">Don't miss this opportunity to advance your knowledge and take the next step in your career journey.</p>
+            
+            <div className="mt-12 not-prose flex justify-center">
+              <EventRegistrationModal
+                eventId={event.id.toString()}
+                eventName={event.title}
+                triggerText="Register Now"
+                triggerClassName="inline-flex justify-center items-center h-14 px-10 bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-medium rounded-full shadow-md hover:opacity-90 hover:shadow-lg transition-all hover:-translate-y-0.5 active:translate-y-0 text-base border-0"
+              />
+            </div>
           </div>
         </div>
       </section>

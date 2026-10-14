@@ -1,3 +1,4 @@
+import { resolveImageUrl, getApiBase } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -21,7 +22,7 @@ export default async function UpcomingEventsPage() {
   let upcomingEvents: any[] = [];
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === "development" ? "http://localhost:5000/api" : "https://bitc-backend-theta.vercel.app/api")}/events`,
+      `${getApiBase()}/events`,
       { cache: "no-store" },
     );
     if (res.ok) {
@@ -42,7 +43,7 @@ export default async function UpcomingEventsPage() {
           rawDate: new Date(e.date).toISOString(),
           venue: e.venue || null,
           speaker: e.speaker || null,
-          image: e.imageUrl || null,
+          image: resolveImageUrl(e.imageUrl),
         }));
         upcomingEvents = mappedEvents
           .filter((e: any) => e.rawDate >= now.toISOString())
@@ -99,7 +100,7 @@ export default async function UpcomingEventsPage() {
                       </div>
                     ) : null}
                     <CardContent className="p-6 md:p-8 flex flex-col flex-1">
-                      <h3 className="text-xl font-bold text-slate-900 mb-5 line-clamp-2 leading-tight group-hover:text-primary transition-colors">
+                      <h3 className="text-xl font-medium text-gray-600 mb-5 line-clamp-2 leading-tight group-hover:text-primary transition-colors">
                         {event.title}
                       </h3>
                       <div className="space-y-3.5 mb-8 flex-1">
@@ -145,7 +146,7 @@ export default async function UpcomingEventsPage() {
           </section>
         ) : (
           <div className="text-center py-20 bg-white rounded-3xl border border-slate-100">
-            <h3 className="text-2xl font-bold text-slate-900 mb-2">No Upcoming Events</h3>
+            <h3 className="text-2xl font-medium text-gray-600 mb-2">No Upcoming Events</h3>
             <p className="text-slate-500">Check back later for more events.</p>
           </div>
         )}
@@ -153,3 +154,4 @@ export default async function UpcomingEventsPage() {
     </div>
   );
 }
+

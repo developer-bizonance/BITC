@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Mail, Phone, MapPin, Send, MessageSquare, CheckCircle2, AlertCircle, Loader2, Clock, Navigation, ExternalLink } from "lucide-react";
+import { getApiBase } from "@/lib/utils";
 
 const DEFAULT_ENQUIRY_TYPES = [
   "Academic Collaboration (MOU)",
@@ -37,7 +38,7 @@ export default function ContactPage() {
   useEffect(() => {
     const fetchTypes = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === "development" ? "http://localhost:5000/api" : "https://bitc-backend-theta.vercel.app/api")}/cms/enquiryTypes`);
+        const res = await fetch(`${getApiBase()}/cms/enquiryTypes`);
         if (res.ok) {
           const data = await res.json();
           if (Array.isArray(data) && data.length > 0) {
@@ -201,16 +202,16 @@ export default function ContactPage() {
             </p>
           </div>
 
-          <div className="flex flex-col gap-5 sm:gap-8 lg:flex-row lg:items-stretch">
+          <div className="flex flex-col gap-5 sm:gap-8 lg:flex-row lg:items-start">
 
             {/* Left: Contact Form */}
-            <div className="flex-1 animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
+            <div className="flex-1 w-full animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
               {submitted ? (
-                <div className="rounded-2xl border border-gray-200/80 bg-white p-8 sm:p-12 shadow-xl shadow-slate-200/60 flex flex-col items-center justify-center text-center h-full min-h-[400px]">
+                <div className="rounded-2xl border border-gray-200/80 bg-white p-8 sm:p-12 shadow-xl shadow-slate-200/60 flex flex-col items-center justify-center text-center min-h-[400px]">
                   <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
                     <CheckCircle2 className="w-8 h-8 text-green-600" />
                   </div>
-                  <h3 className="text-2xl font-bold text-slate-900 mb-3">Message Sent Successfully!</h3>
+                  <h3 className="text-2xl font-medium text-gray-600 mb-3">Message Sent Successfully!</h3>
                   <p className="text-slate-600 mb-8 max-w-md">
                     Thank you for reaching out. Our team has received your message and will get back to you within 24 hours.
                   </p>
@@ -225,7 +226,7 @@ export default function ContactPage() {
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="rounded-2xl border border-gray-200/80 bg-white p-5 shadow-xl shadow-slate-200/60 sm:rounded-3xl sm:p-8 space-y-5 h-full">
+                <form onSubmit={handleSubmit} className="rounded-2xl border border-gray-200/80 bg-white p-5 shadow-xl shadow-slate-200/60 sm:rounded-3xl sm:p-8 space-y-5">
 
                   {errorMessage && (
                     <div className="p-4 rounded-xl bg-red-50 border border-red-200 flex items-start gap-3">
@@ -285,43 +286,42 @@ export default function ContactPage() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-bold text-slate-700">City <span className="text-red-500">*</span></label>
-                      <input
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-bold text-slate-700">City <span className="text-red-500">*</span></label>
+                    <input
+                      required
+                      type="text"
+                      placeholder="e.g. Pune, Mumbai"
+                      className={`w-full rounded-xl border px-4 py-3 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100 ${fieldErrors.city ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-white'}`}
+                      value={formData.city}
+                      onChange={(e) => handleChange("city", e.target.value)}
+                      onBlur={() => handleBlur("city")}
+                    />
+                    {fieldErrors.city && <p className="text-xs text-red-500 font-medium">{fieldErrors.city}</p>}
+                  </div>
+
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-bold text-slate-700">Enquiry Type <span className="text-red-500">*</span></label>
+                    <div className="relative">
+                      <select
                         required
-                        type="text"
-                        placeholder="e.g. Pune, Mumbai"
-                        className={`w-full rounded-xl border px-4 py-3 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100 ${fieldErrors.city ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-white'}`}
-                        value={formData.city}
-                        onChange={(e) => handleChange("city", e.target.value)}
-                        onBlur={() => handleBlur("city")}
-                      />
-                      {fieldErrors.city && <p className="text-xs text-red-500 font-medium">{fieldErrors.city}</p>}
-                    </div>
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-bold text-slate-700">Enquiry Type <span className="text-red-500">*</span></label>
-                      <div className="relative">
-                        <select
-                          required
-                          className={`w-full appearance-none rounded-xl border px-4 py-3 pr-10 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100 ${formData.enquiryType === "" ? 'text-gray-400' : 'text-slate-900'} ${fieldErrors.enquiryType ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-white'}`}
-                          value={formData.enquiryType}
-                          onChange={(e) => handleChange("enquiryType", e.target.value)}
-                          onBlur={() => handleBlur("enquiryType")}
-                        >
-                          <option value="" disabled>Select enquiry type</option>
-                          {enquiryTypes.map((type) => (
-                            <option key={type} value={type} className="text-slate-900">{type}</option>
-                          ))}
-                        </select>
-                        <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
-                          <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"></path>
-                          </svg>
-                        </div>
+                        className={`w-full appearance-none rounded-xl border px-4 py-3 pr-10 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100 ${formData.enquiryType === "" ? 'text-gray-400' : 'text-slate-900'} ${fieldErrors.enquiryType ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-white'}`}
+                        value={formData.enquiryType}
+                        onChange={(e) => handleChange("enquiryType", e.target.value)}
+                        onBlur={() => handleBlur("enquiryType")}
+                      >
+                        <option value="" disabled>Select enquiry type</option>
+                        {enquiryTypes.map((type) => (
+                          <option key={type} value={type} className="text-slate-900">{type}</option>
+                        ))}
+                      </select>
+                      <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                        <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"></path>
+                        </svg>
                       </div>
-                      {fieldErrors.enquiryType && <p className="text-xs text-red-500 font-medium">{fieldErrors.enquiryType}</p>}
                     </div>
+                    {fieldErrors.enquiryType && <p className="text-xs text-red-500 font-medium">{fieldErrors.enquiryType}</p>}
                   </div>
 
                   <div className="flex flex-col gap-1.5">

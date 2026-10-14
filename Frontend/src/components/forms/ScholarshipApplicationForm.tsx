@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 import { courses } from "@/data/courses";
+import { getApiBase } from "@/lib/utils";
 
 export function ScholarshipApplicationForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -131,7 +132,7 @@ export function ScholarshipApplicationForm() {
         cvFileName
       };
 
-      const res = await fetch("/api/scholarships/apply", {
+      const res = await fetch(`${getApiBase()}/scholarships/apply`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -168,7 +169,7 @@ export function ScholarshipApplicationForm() {
         <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
           <CheckCircle2 className="w-10 h-10 text-emerald-600" />
         </div>
-        <h3 className="text-2xl font-bold text-slate-900 mb-4">Application submitted!</h3>
+        <h3 className="text-2xl font-medium text-gray-600 mb-4">Application submitted!</h3>
         <p className="text-slate-600 mb-8 max-w-sm mx-auto">
           Thank you for applying for the BITC Scholarship. Our team will review your application and contact you shortly.
         </p>
@@ -189,7 +190,7 @@ export function ScholarshipApplicationForm() {
       
       <div className="relative z-10">
         <div className="mb-5 text-center">
-          <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">Scholarship <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">application</span></h3>
+          <h3 className="text-2xl md:text-3xl font-medium text-gray-600 mb-2">Scholarship <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">application</span></h3>
           <p className="text-slate-600 text-sm md:text-base">Please fill in your details accurately to apply for the scholarship.</p>
         </div>
 

@@ -1,3 +1,4 @@
+import { resolveImageUrl, getApiUrl } from "../utils";
 import React, { useState, useEffect } from "react";
 import {
   Users,
@@ -40,6 +41,20 @@ import {
 } from "@dnd-kit/sortable";
 import { SortableItem } from "./uic/SortableItem";
 import ImageUpload from "./ImageUpload";
+const getCompanyLogo = (companyName) => {
+  if (!companyName) return "";
+  const domains = {
+    "Google": "google.com",
+    "Microsoft": "microsoft.com",
+    "Amazon": "amazon.com",
+    "IBM": "ibm.com",
+    "Adobe": "adobe.com",
+    "McKinsey": "mckinsey.com",
+    "Deloitte": "deloitte.com"
+  };
+  const domain = domains[companyName] || `${companyName.toLowerCase().replace(/\s+/g, '')}.com`;
+  return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+};
 
 export const DEPARTMENTS = [
   "Information Technology",
@@ -102,6 +117,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
 
   const [notification, setNotification] = useState(null);
+  const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: "", message: "", onConfirm: null });
 
   // Mentor Form Data
   const [mentorForm, setMentorForm] = useState({
@@ -198,7 +214,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
     website: "",
   });
 
-  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+  const apiUrl = getApiUrl();
 
   const showNotification = (msg, type = "success") => {
     setNotification({ msg, type });
@@ -381,27 +397,30 @@ const About = ({ activeSubTopic = "mentors" }) => {
   };
 
   // Handle Delete Mentor
-  const handleDeleteMentor = async (id, name) => {
-    if (!window.confirm(`Are you sure you want to remove "${name}" from Mentors?`)) {
-      return;
-    }
+  const handleDeleteMentor = (id, name) => {
+    setConfirmDialog({
+      isOpen: true,
+      title: "Remove Mentor",
+      message: `Are you sure you want to remove "${name}" from Mentors?`,
+      onConfirm: async () => {
+        try {
+          const res = await fetch(`${apiUrl}/mentors/${id}`, {
+            method: "DELETE",
+          });
 
-    try {
-      const res = await fetch(`${apiUrl}/mentors/${id}`, {
-        method: "DELETE",
-      });
+          const data = await res.json();
 
-      const data = await res.json();
-
-      if (res.ok) {
-        setMentors(data.mentors || mentors.filter((m) => m.id !== id));
-        showNotification(`"${name}" removed successfully.`);
-      } else {
-        showNotification(data.error || "Failed to delete mentor", "error");
+          if (res.ok) {
+            setMentors(data.mentors || mentors.filter((m) => m.id !== id));
+            showNotification(`"${name}" removed successfully.`);
+          } else {
+            showNotification(data.error || "Failed to delete mentor", "error");
+          }
+        } catch (err) {
+          showNotification("Network error while deleting mentor", "error");
+        }
       }
-    } catch (err) {
-      showNotification("Network error while deleting mentor", "error");
-    }
+    });
   };
 
   const openEditMentor = (mentor) => {
@@ -496,27 +515,30 @@ const About = ({ activeSubTopic = "mentors" }) => {
   };
 
   // Handle Delete Job Opening
-  const handleDeleteJob = async (id, title) => {
-    if (!window.confirm(`Are you sure you want to remove opening for "${title}"?`)) {
-      return;
-    }
+  const handleDeleteJob = (id, title) => {
+    setConfirmDialog({
+      isOpen: true,
+      title: "Remove Job Opening",
+      message: `Are you sure you want to remove opening for "${title}"?`,
+      onConfirm: async () => {
+        try {
+          const res = await fetch(`${apiUrl}/careers/${id}`, {
+            method: "DELETE",
+          });
 
-    try {
-      const res = await fetch(`${apiUrl}/careers/${id}`, {
-        method: "DELETE",
-      });
+          const data = await res.json();
 
-      const data = await res.json();
-
-      if (res.ok) {
-        setOpenings(data.openings || openings.filter((j) => j.id !== id));
-        showNotification(`Opening "${title}" removed successfully.`);
-      } else {
-        showNotification(data.error || "Failed to delete job opening", "error");
+          if (res.ok) {
+            setOpenings(data.openings || openings.filter((j) => j.id !== id));
+            showNotification(`Opening "${title}" removed successfully.`);
+          } else {
+            showNotification(data.error || "Failed to delete job opening", "error");
+          }
+        } catch (err) {
+          showNotification("Network error while deleting job opening", "error");
+        }
       }
-    } catch (err) {
-      showNotification("Network error while deleting job opening", "error");
-    }
+    });
   };
 
   const openEditJob = (job) => {
@@ -613,27 +635,30 @@ const About = ({ activeSubTopic = "mentors" }) => {
   };
 
   // Handle Delete Alumni
-  const handleDeleteAlumni = async (id, name) => {
-    if (!window.confirm(`Are you sure you want to remove alumni "${name}"?`)) {
-      return;
-    }
+  const handleDeleteAlumni = (id, name) => {
+    setConfirmDialog({
+      isOpen: true,
+      title: "Remove Alumni",
+      message: `Are you sure you want to remove alumni "${name}"?`,
+      onConfirm: async () => {
+        try {
+          const res = await fetch(`${apiUrl}/alumni/${id}`, {
+            method: "DELETE",
+          });
 
-    try {
-      const res = await fetch(`${apiUrl}/alumni/${id}`, {
-        method: "DELETE",
-      });
+          const data = await res.json();
 
-      const data = await res.json();
-
-      if (res.ok) {
-        setAlumni(data.alumni || alumni.filter((a) => a.id !== id));
-        showNotification(`Alumni "${name}" removed successfully.`);
-      } else {
-        showNotification(data.error || "Failed to delete alumni", "error");
+          if (res.ok) {
+            setAlumni(data.alumni || alumni.filter((a) => a.id !== id));
+            showNotification(`Alumni "${name}" removed successfully.`);
+          } else {
+            showNotification(data.error || "Failed to delete alumni", "error");
+          }
+        } catch (err) {
+          showNotification("Network error while deleting alumni", "error");
+        }
       }
-    } catch (err) {
-      showNotification("Network error while deleting alumni", "error");
-    }
+    });
   };
 
   const openEditAlumni = (alumniItem) => {
@@ -693,6 +718,10 @@ const About = ({ activeSubTopic = "mentors" }) => {
       showNotification("Please enter company name", "error");
       return;
     }
+    if (!alumniCompanyForm.logo?.trim()) {
+      showNotification("Please upload company logo", "error");
+      return;
+    }
 
     setSubmittingAlumniCompany(true);
     try {
@@ -739,6 +768,10 @@ const About = ({ activeSubTopic = "mentors" }) => {
       showNotification("Please enter company name", "error");
       return;
     }
+    if (!editAlumniCompanyForm.logo?.trim()) {
+      showNotification("Please upload company logo", "error");
+      return;
+    }
 
     setUpdatingAlumniCompany(true);
     try {
@@ -769,27 +802,30 @@ const About = ({ activeSubTopic = "mentors" }) => {
     }
   };
 
-  const handleDeleteAlumniCompany = async (id, name) => {
-    if (!window.confirm(`Are you sure you want to remove "${name}" from Alumni Hiring Companies?`)) {
-      return;
-    }
+  const handleDeleteAlumniCompany = (id, name) => {
+    setConfirmDialog({
+      isOpen: true,
+      title: "Remove Company",
+      message: `Are you sure you want to remove "${name}" from Alumni Hiring Companies?`,
+      onConfirm: async () => {
+        try {
+          const res = await fetch(`${apiUrl}/alumni-companies/${id}`, {
+            method: "DELETE",
+          });
 
-    try {
-      const res = await fetch(`${apiUrl}/alumni-companies/${id}`, {
-        method: "DELETE",
-      });
+          const data = await res.json();
 
-      const data = await res.json();
-
-      if (res.ok) {
-        setAlumniCompanies(data.companies || alumniCompanies.filter((c) => c.id !== id));
-        showNotification(`"${name}" removed successfully.`);
-      } else {
-        showNotification(data.error || "Failed to delete company", "error");
+          if (res.ok) {
+            setAlumniCompanies(data.companies || alumniCompanies.filter((c) => c.id !== id));
+            showNotification(`"${name}" removed successfully.`);
+          } else {
+            showNotification(data.error || "Failed to delete company", "error");
+          }
+        } catch (err) {
+          showNotification("Network error while deleting company", "error");
+        }
       }
-    } catch (err) {
-      showNotification("Network error while deleting company", "error");
-    }
+    });
   };
 
   // Handlers for Industry Partners
@@ -877,29 +913,32 @@ const About = ({ activeSubTopic = "mentors" }) => {
     }
   };
 
-  const handleDeleteIndustryPartner = async (id, name) => {
-    if (!window.confirm(`Are you sure you want to remove "${name}" from Industry Partners?`)) {
-      return;
-    }
+  const handleDeleteIndustryPartner = (id, name) => {
+    setConfirmDialog({
+      isOpen: true,
+      title: "Remove Partner",
+      message: `Are you sure you want to remove "${name}" from Industry Partners?`,
+      onConfirm: async () => {
+        try {
+          const res = await fetch(`${apiUrl}/industry-partners/${id}`, {
+            method: "DELETE",
+          });
 
-    try {
-      const res = await fetch(`${apiUrl}/industry-partners/${id}`, {
-        method: "DELETE",
-      });
+          const data = await res.json();
 
-      const data = await res.json();
-
-      if (res.ok) {
-        setIndustryPartners(
-          data.partners || industryPartners.filter((p) => p.id !== id)
-        );
-        showNotification(`"${name}" removed successfully.`);
-      } else {
-        showNotification(data.error || "Failed to delete partner", "error");
+          if (res.ok) {
+            setIndustryPartners(
+              data.partners || industryPartners.filter((p) => p.id !== id)
+            );
+            showNotification(`"${name}" removed successfully.`);
+          } else {
+            showNotification(data.error || "Failed to delete partner", "error");
+          }
+        } catch (err) {
+          showNotification("Network error while deleting partner", "error");
+        }
       }
-    } catch (err) {
-      showNotification("Network error while deleting partner", "error");
-    }
+    });
   };
 
 
@@ -950,7 +989,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
               <button
                 onClick={fetchMentors}
                 disabled={mentorsLoading}
-                className="flex items-center gap-1.5 px-3 py-2 bg-slate-50 hover:bg-slate-100 text-slate-700 rounded-xl font-semibold text-xs transition-all border border-slate-200 cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-2 hover: text-xs cursor-pointer hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${mentorsLoading ? "animate-spin" : ""}`} />
                 Refresh
@@ -958,7 +997,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
               <button
                 onClick={() => setIsAddMentorOpen(true)}
-                className="flex items-center justify-center gap-1.5 px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white rounded-xl font-bold text-xs shadow-sm shadow-emerald-500/20 transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
+                className="flex items-center justify-center gap-1.5 px-4 py-2 hover: hover: text-xs cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
               >
                 <Plus className="w-3.5 h-3.5" />
                 Add New Mentor
@@ -993,79 +1032,82 @@ const About = ({ activeSubTopic = "mentors" }) => {
                     <SortableItem
                       key={mentor.id}
                       id={mentor.id}
-                      className="group relative bg-slate-50/70 hover:bg-white rounded-2xl p-4 border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-200 flex flex-col justify-between overflow-hidden"
+                      className="group relative bg-white rounded-2xl border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-200 flex flex-col justify-between overflow-hidden"
                     >
-                  {/* Action Buttons: Edit & Delete */}
-                  <div className="absolute top-3.5 right-3.5 flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-all z-20">
-                    <button
-                      onClick={() => openEditMentor(mentor)}
-                      title="Edit Mentor"
-                      className="w-7 h-7 rounded-full bg-white/95 hover:bg-blue-50 text-gray-400 hover:text-blue-600 border border-gray-200 hover:border-blue-200 flex items-center justify-center transition-all cursor-pointer shadow-md"
-                    >
-                      <Pencil className="w-3.5 h-3.5" />
-                    </button>
-                    <button
-                      onClick={() => handleDeleteMentor(mentor.id, mentor.name)}
-                      title="Remove Mentor"
-                      className="w-7 h-7 rounded-full bg-white/95 hover:bg-red-50 text-gray-400 hover:text-red-600 border border-gray-200 hover:border-red-200 flex items-center justify-center transition-all cursor-pointer shadow-md"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
+                      {/* Photo Area (flush edge-to-edge) */}
+                      <div className="relative h-64 w-full overflow-hidden bg-slate-100">
+                        <img
+                          src={resolveImageUrl(mentor.img)}
+                          alt={mentor.name}
+                          onError={() => setImgError((prev) => ({ ...prev, [mentor.id]: true }))}
+                          className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                        />
+                        {/* Subtle hover dark tint */}
+                        <div className="absolute inset-0 bg-black/15 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
-                  <div>
-                    {/* Photo & Company Badge */}
-                    <div className="relative h-64 rounded-xl overflow-hidden mb-3.5 bg-slate-100 border border-gray-100">
-                      <img
-                        src={mentor.img}
-                        alt={mentor.name}
-                        onError={() => setImgError((prev) => ({ ...prev, [mentor.id]: true }))}
-                        className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
-                      />
-
-                      {/* Company Pill */}
-                      <div className="absolute top-2.5 left-2.5 z-10">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-white/95 backdrop-blur-md text-[10px] font-bold text-slate-800 shadow-sm uppercase tracking-wider">
-                          {mentor.company}
-                        </span>
+                        {/* Action Buttons: Edit & Delete (Vertical in top-right) */}
+                        <div className="absolute top-2.5 right-2.5 flex flex-col items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-20">
+                          <button
+                            onClick={() => openEditMentor(mentor)}
+                            title="Edit Mentor"
+                            className="w-8 h-8 rounded-full bg-white text-blue-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 border border-slate-200 shadow-md hover:shadow-lg flex items-center justify-center transition-all cursor-pointer active:scale-95"
+                          >
+                            <Pencil className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteMentor(mentor.id, mentor.name)}
+                            title="Remove Mentor"
+                            className="w-8 h-8 rounded-full bg-white text-red-600 hover:bg-red-600 hover:text-white hover:border-red-600 border border-slate-200 shadow-md hover:shadow-lg flex items-center justify-center transition-all cursor-pointer active:scale-95"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
                       </div>
-                    </div>
 
-                    {/* Info */}
-                    <div className="mb-2">
-                      <div className="flex items-center justify-between gap-1 mb-0.5">
-                        <h3 className="font-bold text-slate-900 text-sm tracking-tight leading-snug group-hover:text-emerald-700 transition-colors">
-                          {mentor.name}
-                        </h3>
-                        <span className="text-[11px] font-semibold text-slate-500 flex items-center gap-1 shrink-0">
-                          <Briefcase className="w-3 h-3" /> {mentor.exp}
-                        </span>
+                      {/* Content Area */}
+                      <div className="p-4 flex flex-col flex-1 justify-between">
+                        <div>
+                          {/* Info */}
+                          <div className="mb-2">
+                            <div className="flex items-center justify-between gap-1 mb-0.5">
+                              <h3 className="font-semibold text-slate-800 text-sm tracking-tight leading-snug group-hover:text-emerald-700 transition-colors">
+                                {mentor.name}
+                              </h3>
+                              <span className="text-[11px] font-semibold text-slate-500 flex items-center gap-1 shrink-0">
+                                <Briefcase className="w-3.5 h-3.5" /> {mentor.exp}
+                              </span>
+                            </div>
+                            <p className="text-xs text-emerald-600 font-semibold">{mentor.role}</p>
+                          </div>
+
+                          {/* Skills */}
+                          <div className="flex flex-wrap gap-1 mb-3">
+                            {mentor.skills?.slice(0, 3).map((skill, idx) => (
+                              <span
+                                key={idx}
+                                className="text-[10px] font-medium text-slate-600 bg-slate-50 px-2 py-0.5 rounded-md border border-slate-200/80"
+                              >
+                                {skill}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Footer Area */}
+                        <div className="pt-2.5 border-t border-slate-100 flex items-center justify-between mt-auto">
+                          <div className="flex items-center gap-1.5">
+                            {mentor.company && (
+                              <img src={getCompanyLogo(mentor.company)} alt={mentor.company} className="w-3.5 h-3.5 object-contain" />
+                            )}
+                            <span className="text-[11px] font-semibold text-slate-600 uppercase tracking-wider">
+                              {mentor.company}
+                            </span>
+                          </div>
+                          <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
+                            Active
+                          </span>
+                        </div>
                       </div>
-                      <p className="text-xs text-emerald-600 font-semibold">{mentor.role}</p>
-                    </div>
-
-                    {/* Skills */}
-                    <div className="flex flex-wrap gap-1 mb-3">
-                      {mentor.skills?.slice(0, 3).map((skill, idx) => (
-                        <span
-                          key={idx}
-                          className="text-[10px] font-medium text-slate-600 bg-white px-2 py-0.5 rounded-md border border-slate-200/80"
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Footer Area */}
-                  <div className="pt-2.5 border-t border-slate-100 flex items-center justify-between mt-auto">
-                    <span className="text-[11px] font-semibold text-slate-600">
-                      {mentor.area}
-                    </span>
-                    <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
-                      Active
-                    </span>
-                  </div>
                     </SortableItem>
                   ))}
                 </div>
@@ -1105,7 +1147,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
               <button
                 onClick={fetchCareers}
                 disabled={openingsLoading}
-                className="flex items-center gap-1.5 px-3 py-2 bg-slate-50 hover:bg-slate-100 text-slate-700 rounded-xl font-semibold text-xs transition-all border border-slate-200 cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-2 hover: text-xs cursor-pointer hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${openingsLoading ? "animate-spin" : ""}`} />
                 Refresh
@@ -1113,7 +1155,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
               <button
                 onClick={() => setIsAddJobOpen(true)}
-                className="flex items-center justify-center gap-1.5 px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white rounded-xl font-bold text-xs shadow-sm shadow-amber-500/20 transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
+                className="flex items-center justify-center gap-1.5 px-4 py-2 hover: hover: text-xs cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
               >
                 <Plus className="w-3.5 h-3.5" />
                 Post New Opening
@@ -1152,7 +1194,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
                     >
                   <div className="space-y-1.5 flex-1">
                     <div className="flex items-center gap-2.5 flex-wrap">
-                      <h3 className="text-base font-bold text-slate-900 leading-snug">
+                      <h3 className="text-base font-medium text-gray-600 leading-snug">
                         {job.title}
                       </h3>
                       {job.department && (
@@ -1193,17 +1235,17 @@ const About = ({ activeSubTopic = "mentors" }) => {
                     <button
                       onClick={() => openEditJob(job)}
                       title="Edit Opening"
-                      className="w-8 h-8 rounded-xl bg-white hover:bg-blue-50 text-gray-400 hover:text-blue-600 border border-gray-200 hover:border-blue-200 flex items-center justify-center transition-all cursor-pointer shadow-xs"
+                      className="w-8 h-8 rounded-full bg-white text-blue-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 border border-slate-200 shadow-sm hover:shadow-md flex items-center justify-center transition-all cursor-pointer active:scale-95"
                     >
-                      <Pencil className="w-4 h-4" />
+                      <Pencil className="w-3.5 h-3.5" />
                     </button>
 
                     <button
                       onClick={() => handleDeleteJob(job.id, job.title)}
                       title="Remove Opening"
-                      className="w-8 h-8 rounded-xl bg-white hover:bg-red-50 text-gray-400 hover:text-red-600 border border-gray-200 hover:border-red-200 flex items-center justify-center transition-all cursor-pointer shadow-xs"
+                      className="w-8 h-8 rounded-full bg-white text-red-600 hover:bg-red-600 hover:text-white hover:border-red-600 border border-slate-200 shadow-sm hover:shadow-md flex items-center justify-center transition-all cursor-pointer active:scale-95"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="w-3.5 h-3.5" />
                     </button>
                   </div>
                     </SortableItem>
@@ -1251,7 +1293,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
               <button
                 onClick={fetchAlumni}
                 disabled={alumniLoading}
-                className="flex items-center gap-1.5 px-3 py-2 bg-slate-50 hover:bg-slate-100 text-slate-700 rounded-xl font-semibold text-xs transition-all border border-slate-200 cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-2 hover: text-xs cursor-pointer hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${alumniLoading ? "animate-spin" : ""}`} />
                 Refresh
@@ -1259,7 +1301,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
               <button
                 onClick={() => setIsAddAlumniOpen(true)}
-                className="flex items-center justify-center gap-1.5 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl font-bold text-xs shadow-sm shadow-blue-500/20 transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
+                className="flex items-center justify-center gap-1.5 px-4 py-2 hover: hover: text-xs cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
               >
                 <Plus className="w-3.5 h-3.5" />
                 Add New Alumni
@@ -1294,66 +1336,80 @@ const About = ({ activeSubTopic = "mentors" }) => {
                     <SortableItem
                       key={a.id}
                       id={a.id}
-                      className="group relative flex flex-col items-center gap-2 rounded-2xl border border-gray-100 bg-slate-50/70 hover:bg-white p-4 text-center shadow-xs transition-all duration-200 hover:-translate-y-1 hover:border-blue-200 hover:shadow-md"
+                      className="group relative bg-white rounded-2xl border border-slate-200/80 hover:border-blue-300 hover:shadow-lg transition-all duration-200 flex flex-col justify-between overflow-hidden"
                     >
-                  {/* Action Buttons: Edit & Delete */}
-                  <div className="absolute top-2 right-2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all z-10">
-                    <button
-                      onClick={() => openEditAlumni(a)}
-                      title="Edit Alumni"
-                      className="w-6 h-6 rounded-full bg-white/95 hover:bg-blue-50 text-gray-400 hover:text-blue-600 border border-gray-200 hover:border-blue-200 flex items-center justify-center transition-all cursor-pointer shadow-sm"
-                    >
-                      <Pencil className="w-3 h-3" />
-                    </button>
-                    <button
-                      onClick={() => handleDeleteAlumni(a.id, a.name)}
-                      title="Remove Alumni"
-                      className="w-6 h-6 rounded-full bg-white/95 hover:bg-red-50 text-gray-400 hover:text-red-600 border border-gray-200 hover:border-red-200 flex items-center justify-center transition-all cursor-pointer shadow-sm"
-                    >
-                      <Trash2 className="w-3 h-3" />
-                    </button>
-                  </div>
+                      {/* Photo Area (flush edge-to-edge) */}
+                      <div className="relative h-44 w-full overflow-hidden bg-slate-100 flex items-center justify-center">
+                        {a.photo && !alumniImgError[a.id] ? (
+                          <img
+                            src={resolveImageUrl(a.photo)}
+                            alt={a.name}
+                            onError={(e) => {
+                              e.currentTarget.onerror = null;
+                              setAlumniImgError((prev) => ({ ...prev, [a.id]: true }));
+                            }}
+                            className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-tr from-amber-500 to-amber-400 text-slate-900 font-bold flex items-center justify-center text-3xl">
+                            {a.name ? a.name.charAt(0).toUpperCase() : "A"}
+                          </div>
+                        )}
+                        {/* Subtle hover dark tint */}
+                        <div className="absolute inset-0 bg-black/15 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
-                  {/* Photo */}
-                  <div className="relative h-18 w-18 overflow-hidden rounded-full shadow-md border-2 border-white mb-1">
-                    <img
-                      src={a.photo}
-                      alt={a.name}
-                      onError={() => setAlumniImgError((prev) => ({ ...prev, [a.id]: true }))}
-                      className="h-full w-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
+                        {/* Action Buttons: Edit & Delete (Vertical) */}
+                        <div className="absolute top-2 right-2 flex flex-col items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-20">
+                          <button
+                            onClick={() => openEditAlumni(a)}
+                            title="Edit Alumni"
+                            className="w-7 h-7 rounded-full bg-white text-blue-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 border border-slate-200 shadow-md hover:shadow-lg flex items-center justify-center transition-all cursor-pointer active:scale-95"
+                          >
+                            <Pencil className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteAlumni(a.id, a.name)}
+                            title="Remove Alumni"
+                            className="w-7 h-7 rounded-full bg-white text-red-600 hover:bg-red-600 hover:text-white hover:border-red-600 border border-slate-200 shadow-md hover:shadow-lg flex items-center justify-center transition-all cursor-pointer active:scale-95"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
 
-                  <div className="w-full">
-                    <p className="text-xs font-bold leading-snug text-slate-900 line-clamp-1">{a.name}</p>
-                    {a.certification && (
-                      <p className="text-[10px] text-orange-500 font-semibold line-clamp-1 mt-0.5">{a.certification}</p>
-                    )}
-                    <p className="text-[11px] text-slate-500 font-medium line-clamp-1 mt-0.5">{a.role}</p>
-                    
-                    <div className="mt-1.5">
-                      <span className="inline-block rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[#2f55d4]">
-                        {a.company}
-                      </span>
-                    </div>
+                      {/* Content Area */}
+                      <div className="p-3 text-center flex flex-col flex-1 justify-between w-full">
+                        <div>
+                          <p className="text-xs font-bold leading-snug text-slate-900 line-clamp-1">{a.name}</p>
+                          {a.certification && (
+                            <p className="text-[10px] text-orange-500 font-semibold line-clamp-1 mt-0.5">{a.certification}</p>
+                          )}
+                          <p className="text-[11px] text-slate-500 font-medium line-clamp-1 mt-0.5">{a.role}</p>
 
-                    <div className="flex items-center justify-center gap-3 mt-2 pt-2 border-t border-slate-100 w-full text-[10px]">
-                      {a.batch && (
-                        <span className="text-slate-500">Batch: {(() => { const yr = a.batch.toString().split('-')[0].trim(); return yr.length === 2 ? '20' + yr : yr; })()}</span>
-                      )}
-                      {a.linkedin && (
-                        <a 
-                          href={a.linkedin} 
-                          target="_blank" 
-                          rel="noreferrer" 
-                          className="text-blue-500 hover:underline font-medium"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          LinkedIn
-                        </a>
-                      )}
-                    </div>
-                  </div>
+                          <div className="mt-1.5">
+                            <span className="inline-block rounded-full border border-blue-200 bg-blue-50 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[#2f55d4]">
+                              {a.company}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-center gap-2 mt-2.5 pt-2 border-t border-slate-100 w-full text-[10px]">
+                          {a.batch && (
+                            <span className="text-slate-500">Batch: {(() => { const yr = a.batch.toString().split('-')[0].trim(); return yr.length === 2 ? '20' + yr : yr; })()}</span>
+                          )}
+                          {a.linkedin && (
+                            <a 
+                              href={a.linkedin} 
+                              target="_blank" 
+                              rel="noreferrer" 
+                              className="text-blue-500 hover:underline font-medium"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              LinkedIn
+                            </a>
+                          )}
+                        </div>
+                      </div>
                     </SortableItem>
                   ))}
                 </div>
@@ -1384,7 +1440,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 <button
                   onClick={fetchAlumniCompanies}
                   disabled={alumniCompaniesLoading}
-                  className="flex items-center gap-1.5 px-3 py-2 bg-slate-50 hover:bg-slate-100 text-slate-700 rounded-xl font-semibold text-xs transition-all border border-slate-200 cursor-pointer"
+                  className="flex items-center gap-1.5 px-3 py-2 hover: text-xs cursor-pointer hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   <RefreshCw className={`w-3.5 h-3.5 ${alumniCompaniesLoading ? "animate-spin" : ""}`} />
                   Refresh
@@ -1392,7 +1448,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
                 <button
                   onClick={() => setIsAddAlumniCompanyOpen(true)}
-                  className="flex items-center justify-center gap-1.5 px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white rounded-xl font-bold text-xs shadow-sm shadow-amber-500/20 transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
+                  className="flex items-center justify-center gap-1.5 px-4 py-2 hover: hover: text-xs cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   Add Company Logo
@@ -1429,27 +1485,27 @@ const About = ({ activeSubTopic = "mentors" }) => {
                         id={comp.id}
                         className="group relative flex flex-col items-center justify-center rounded-2xl border border-gray-200/80 bg-white hover:border-amber-300 p-4 shadow-xs transition-all duration-200 hover:-translate-y-1 hover:shadow-md min-h-[90px]"
                       >
-                    {/* Action Buttons: Edit & Delete */}
-                    <div className="absolute top-2 right-2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all z-10">
+                    {/* Action Buttons: Edit & Delete (Vertical) */}
+                    <div className="absolute top-2 right-2 flex flex-col items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-all z-10">
                       <button
                         onClick={() => openEditAlumniCompany(comp)}
                         title="Edit Company"
-                        className="w-6 h-6 rounded-full bg-white/95 hover:bg-blue-50 text-gray-400 hover:text-blue-600 border border-gray-200 hover:border-blue-200 flex items-center justify-center transition-all cursor-pointer shadow-sm"
+                        className="w-7 h-7 rounded-full bg-white text-blue-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 border border-slate-200 shadow-sm hover:shadow-md flex items-center justify-center transition-all cursor-pointer active:scale-95"
                       >
-                        <Pencil className="w-3 h-3" />
+                        <Pencil className="w-3.5 h-3.5" />
                       </button>
                       <button
                         onClick={() => handleDeleteAlumniCompany(comp.id, comp.name)}
                         title="Remove Company"
-                        className="w-6 h-6 rounded-full bg-white/95 hover:bg-red-50 text-gray-400 hover:text-red-600 border border-gray-200 hover:border-red-200 flex items-center justify-center transition-all cursor-pointer shadow-sm"
+                        className="w-7 h-7 rounded-full bg-white text-red-600 hover:bg-red-600 hover:text-white hover:border-red-600 border border-slate-200 shadow-sm hover:shadow-md flex items-center justify-center transition-all cursor-pointer active:scale-95"
                       >
-                        <Trash2 className="w-3 h-3" />
+                        <Trash2 className="w-3.5 h-3.5" />
                       </button>
                     </div>
 
                     <div className="h-8 w-full flex items-center justify-center mb-1.5 px-2">
                       <img
-                        src={comp.logo}
+                        src={resolveImageUrl(comp.logo)}
                         alt={comp.name}
                         className="max-h-7 max-w-full object-contain"
                       />
@@ -1492,7 +1548,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
               <button
                 onClick={fetchIndustryPartners}
                 disabled={industryPartnersLoading}
-                className="flex items-center gap-1.5 px-3 py-2 bg-slate-50 hover:bg-slate-100 text-slate-700 rounded-xl font-semibold text-xs transition-all border border-slate-200 cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-2 hover: text-xs cursor-pointer hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${industryPartnersLoading ? "animate-spin" : ""}`} />
                 Refresh
@@ -1500,7 +1556,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
               <button
                 onClick={() => setIsAddPartnerOpen(true)}
-                className="flex items-center justify-center gap-1.5 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl font-bold text-xs shadow-sm shadow-blue-500/20 transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
+                className="flex items-center justify-center gap-1.5 px-4 py-2 hover: hover: text-xs cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
               >
                 <Plus className="w-3.5 h-3.5" />
                 Add New Partner
@@ -1537,21 +1593,21 @@ const About = ({ activeSubTopic = "mentors" }) => {
                       id={partner.id}
                       className="group relative flex flex-col items-center justify-between rounded-2xl border border-slate-200/80 bg-slate-50/70 hover:bg-white p-5 text-center shadow-xs transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:shadow-md min-h-[130px]"
                     >
-                  {/* Action Buttons: Edit & Delete */}
-                  <div className="absolute top-2 right-2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all z-10">
+                  {/* Action Buttons: Edit & Delete (Vertical) */}
+                  <div className="absolute top-2 right-2 flex flex-col items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-all z-10">
                     <button
                       onClick={() => openEditIndustryPartner(partner)}
                       title="Edit Partner"
-                      className="w-6 h-6 rounded-full bg-white/95 hover:bg-blue-50 text-gray-400 hover:text-blue-600 border border-gray-200 hover:border-blue-200 flex items-center justify-center transition-all cursor-pointer shadow-sm"
+                      className="w-7 h-7 rounded-full bg-white text-blue-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 border border-slate-200 shadow-sm hover:shadow-md flex items-center justify-center transition-all cursor-pointer active:scale-95"
                     >
-                      <Pencil className="w-3 h-3" />
+                      <Pencil className="w-3.5 h-3.5" />
                     </button>
                     <button
                       onClick={() => handleDeleteIndustryPartner(partner.id, partner.name)}
                       title="Remove Partner"
-                      className="w-6 h-6 rounded-full bg-white/95 hover:bg-red-50 text-gray-400 hover:text-red-600 border border-gray-200 hover:border-red-200 flex items-center justify-center transition-all cursor-pointer shadow-sm"
+                      className="w-7 h-7 rounded-full bg-white text-red-600 hover:bg-red-600 hover:text-white hover:border-red-600 border border-slate-200 shadow-sm hover:shadow-md flex items-center justify-center transition-all cursor-pointer active:scale-95"
                     >
-                      <Trash2 className="w-3 h-3" />
+                      <Trash2 className="w-3.5 h-3.5" />
                     </button>
                   </div>
 
@@ -1596,7 +1652,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 <Users className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-gray-900">Add New Mentor</h3>
+                <h3 className="text-lg font-medium text-gray-600">Add New Mentor</h3>
                 <p className="text-xs text-gray-500">Register an industry expert & trainer</p>
               </div>
             </div>
@@ -1644,32 +1700,17 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
-                    Experience
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g. 10+ Years"
-                    value={mentorForm.exp}
-                    onChange={(e) => setMentorForm({ ...mentorForm, exp: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 font-medium"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
-                    Domain / Area
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Full Stack Development"
-                    value={mentorForm.area}
-                    onChange={(e) => setMentorForm({ ...mentorForm, area: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 font-medium"
-                  />
-                </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
+                  Experience
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. 10+ Years"
+                  value={mentorForm.exp}
+                  onChange={(e) => setMentorForm({ ...mentorForm, exp: e.target.value })}
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 font-medium"
+                />
               </div>
 
               <div>
@@ -1702,37 +1743,25 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Upload Direct Image
                 </label>
-                <ImageUpload
+                <ImageUpload category="mentors"
                   value={mentorForm.img}
                   onChange={(url) => setMentorForm({ ...mentorForm, img: url })}
                 />
               </div>
 
-              <div>
-                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
-                  Thoughts / Quote
-                </label>
-                <textarea
-                  rows={2}
-                  placeholder="e.g. The best code is the code you don't have to write..."
-                  value={mentorForm.thought || ""}
-                  onChange={(e) => setMentorForm({ ...mentorForm, thought: e.target.value })}
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 font-medium resize-none"
-                />
-              </div>
 
               <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
                 <button
                   type="button"
                   onClick={() => setIsAddMentorOpen(false)}
-                  className="px-4 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-100 rounded-xl transition-colors cursor-pointer"
+                  className="px-4 py-2 text-sm hover: cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submittingMentor}
-                  className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl shadow-md shadow-emerald-500/20 transition-all cursor-pointer"
+                  className="px-6 py-2.5 hover: text-sm cursor-pointer hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   {submittingMentor ? "Saving..." : "Add Mentor"}
                 </button>
@@ -1760,7 +1789,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 <Pencil className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-gray-900">Edit Mentor</h3>
+                <h3 className="text-lg font-medium text-gray-600">Edit Mentor</h3>
                 <p className="text-xs text-gray-500">Update mentor information & profile image</p>
               </div>
             </div>
@@ -1808,32 +1837,17 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
-                    Experience
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g. 10+ Years"
-                    value={editMentorForm.exp}
-                    onChange={(e) => setEditMentorForm({ ...editMentorForm, exp: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
-                    Domain / Area
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Full Stack Development"
-                    value={editMentorForm.area}
-                    onChange={(e) => setEditMentorForm({ ...editMentorForm, area: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
-                  />
-                </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
+                  Experience
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. 10+ Years"
+                  value={editMentorForm.exp}
+                  onChange={(e) => setEditMentorForm({ ...editMentorForm, exp: e.target.value })}
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
+                />
               </div>
 
               <div>
@@ -1866,37 +1880,25 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Upload Direct Image
                 </label>
-                <ImageUpload
+                <ImageUpload category="mentors"
                   value={editMentorForm.img}
                   onChange={(url) => setEditMentorForm({ ...editMentorForm, img: url })}
                 />
               </div>
 
-              <div>
-                <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
-                  Thoughts / Quote
-                </label>
-                <textarea
-                  rows={2}
-                  placeholder="e.g. The best code is the code you don't have to write..."
-                  value={editMentorForm.thought || ""}
-                  onChange={(e) => setEditMentorForm({ ...editMentorForm, thought: e.target.value })}
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium resize-none"
-                />
-              </div>
 
               <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
                 <button
                   type="button"
                   onClick={() => setIsEditMentorOpen(false)}
-                  className="px-4 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-100 rounded-xl transition-colors cursor-pointer"
+                  className="px-4 py-2 text-sm hover: cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={updatingMentor}
-                  className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-xl shadow-md shadow-blue-500/20 transition-all cursor-pointer"
+                  className="px-6 py-2.5 hover: text-sm cursor-pointer hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   {updatingMentor ? "Saving..." : "Update Mentor"}
                 </button>
@@ -1924,7 +1926,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 <Briefcase className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-gray-900">Post New Job Opening</h3>
+                <h3 className="text-lg font-medium text-gray-600">Post New Job Opening</h3>
                 <p className="text-xs text-gray-500">Create a career vacancy for the public portal</p>
               </div>
             </div>
@@ -2024,14 +2026,14 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 <button
                   type="button"
                   onClick={() => setIsAddJobOpen(false)}
-                  className="px-4 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-100 rounded-xl transition-colors cursor-pointer"
+                  className="px-4 py-2 text-sm hover: cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submittingJob}
-                  className="px-6 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-sm rounded-xl shadow-md shadow-amber-500/20 transition-all cursor-pointer"
+                  className="px-6 py-2.5 hover: hover: text-sm cursor-pointer hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   {submittingJob ? "Posting..." : "Post Opening"}
                 </button>
@@ -2059,7 +2061,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 <Pencil className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-gray-900">Edit Job Opening</h3>
+                <h3 className="text-lg font-medium text-gray-600">Edit Job Opening</h3>
                 <p className="text-xs text-gray-500">Update position details & requirements</p>
               </div>
             </div>
@@ -2159,14 +2161,14 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 <button
                   type="button"
                   onClick={() => setIsEditJobOpen(false)}
-                  className="px-4 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-100 rounded-xl transition-colors cursor-pointer"
+                  className="px-4 py-2 text-sm hover: cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={updatingJob}
-                  className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-xl shadow-md shadow-blue-500/20 transition-all cursor-pointer"
+                  className="px-6 py-2.5 hover: text-sm cursor-pointer hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   {updatingJob ? "Saving..." : "Update Opening"}
                 </button>
@@ -2194,7 +2196,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 <UserCheck className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-gray-900">Add New Alumni Profile</h3>
+                <h3 className="text-lg font-medium text-gray-600">Add New Alumni Profile</h3>
                 <p className="text-xs text-gray-500">Showcase placed BITC graduates</p>
               </div>
             </div>
@@ -2261,7 +2263,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Upload Photo
                 </label>
-                <ImageUpload
+                <ImageUpload category="alumni"
                   value={alumniForm.photo}
                   onChange={(url) => setAlumniForm({ ...alumniForm, photo: url })}
                 />
@@ -2299,14 +2301,14 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 <button
                   type="button"
                   onClick={() => setIsAddAlumniOpen(false)}
-                  className="px-4 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-100 rounded-xl transition-colors cursor-pointer"
+                  className="px-4 py-2 text-sm hover: cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submittingAlumni}
-                  className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-sm rounded-xl shadow-md shadow-blue-500/20 transition-all cursor-pointer"
+                  className="px-6 py-2.5 hover: hover: text-sm cursor-pointer hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   {submittingAlumni ? "Saving..." : "Add Alumni"}
                 </button>
@@ -2334,7 +2336,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 <Pencil className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-gray-900">Edit Alumni Profile</h3>
+                <h3 className="text-lg font-medium text-gray-600">Edit Alumni Profile</h3>
                 <p className="text-xs text-gray-500">Update graduate profile details & photo</p>
               </div>
             </div>
@@ -2401,7 +2403,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
                   Upload Photo
                 </label>
-                <ImageUpload
+                <ImageUpload category="alumni"
                   value={editAlumniForm.photo}
                   onChange={(url) => setEditAlumniForm({ ...editAlumniForm, photo: url })}
                 />
@@ -2439,14 +2441,14 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 <button
                   type="button"
                   onClick={() => setIsEditAlumniOpen(false)}
-                  className="px-4 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-100 rounded-xl transition-colors cursor-pointer"
+                  className="px-4 py-2 text-sm hover: cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={updatingAlumni}
-                  className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-xl shadow-md shadow-blue-500/20 transition-all cursor-pointer"
+                  className="px-6 py-2.5 hover: text-sm cursor-pointer hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   {updatingAlumni ? "Saving..." : "Update Alumni"}
                 </button>
@@ -2474,7 +2476,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 <Briefcase className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-gray-900">Add Alumni Company Logo</h3>
+                <h3 className="text-lg font-medium text-gray-600">Add Alumni Company Logo</h3>
                 <p className="text-xs text-gray-500">Showcase top hiring companies</p>
               </div>
             </div>
@@ -2496,15 +2498,12 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
               <div>
                 <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
-                  Logo URL / SVG Path <span className="text-red-500">*</span>
+                  Upload Company Logo <span className="text-red-500">*</span>
                 </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="https://upload.wikimedia.org/... or /logos/company.svg"
+                <ImageUpload
+                  category="alumni-companies"
                   value={alumniCompanyForm.logo}
-                  onChange={(e) => setAlumniCompanyForm({ ...alumniCompanyForm, logo: e.target.value })}
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 font-medium"
+                  onChange={(url) => setAlumniCompanyForm({ ...alumniCompanyForm, logo: url })}
                 />
               </div>
 
@@ -2525,14 +2524,14 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 <button
                   type="button"
                   onClick={() => setIsAddAlumniCompanyOpen(false)}
-                  className="px-4 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-100 rounded-xl transition-colors cursor-pointer"
+                  className="px-4 py-2 text-sm hover: cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submittingAlumniCompany}
-                  className="px-6 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-sm rounded-xl shadow-md shadow-amber-500/20 transition-all cursor-pointer"
+                  className="px-6 py-2.5 hover: hover: text-sm cursor-pointer hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   {submittingAlumniCompany ? "Saving..." : "Add Company"}
                 </button>
@@ -2560,7 +2559,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 <Pencil className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-gray-900">Edit Company Logo</h3>
+                <h3 className="text-lg font-medium text-gray-600">Edit Company Logo</h3>
                 <p className="text-xs text-gray-500">Update hiring company details & logo</p>
               </div>
             </div>
@@ -2582,15 +2581,12 @@ const About = ({ activeSubTopic = "mentors" }) => {
 
               <div>
                 <label className="block text-xs font-bold text-gray-500 tracking-wider mb-1.5">
-                  Logo URL / SVG Path <span className="text-red-500">*</span>
+                  Upload Company Logo <span className="text-red-500">*</span>
                 </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="https://upload.wikimedia.org/... or /logos/company.svg"
+                <ImageUpload
+                  category="alumni-companies"
                   value={editAlumniCompanyForm.logo}
-                  onChange={(e) => setEditAlumniCompanyForm({ ...editAlumniCompanyForm, logo: e.target.value })}
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
+                  onChange={(url) => setEditAlumniCompanyForm({ ...editAlumniCompanyForm, logo: url })}
                 />
               </div>
 
@@ -2611,14 +2607,14 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 <button
                   type="button"
                   onClick={() => setIsEditAlumniCompanyOpen(false)}
-                  className="px-4 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-100 rounded-xl transition-colors cursor-pointer"
+                  className="px-4 py-2 text-sm hover: cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={updatingAlumniCompany}
-                  className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-xl shadow-md shadow-blue-500/20 transition-all cursor-pointer"
+                  className="px-6 py-2.5 hover: text-sm cursor-pointer hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   {updatingAlumniCompany ? "Saving..." : "Update Company"}
                 </button>
@@ -2646,7 +2642,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 <Handshake className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-gray-900">Add Industry Partner</h3>
+                <h3 className="text-lg font-medium text-gray-600">Add Industry Partner</h3>
                 <p className="text-xs text-gray-500">Register a company for hiring and collaboration</p>
               </div>
             </div>
@@ -2696,14 +2692,14 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 <button
                   type="button"
                   onClick={() => setIsAddPartnerOpen(false)}
-                  className="px-4 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-100 rounded-xl transition-colors cursor-pointer"
+                  className="px-4 py-2 text-sm hover: cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submittingPartner}
-                  className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-sm rounded-xl shadow-md shadow-blue-500/20 transition-all cursor-pointer"
+                  className="px-6 py-2.5 hover: hover: text-sm cursor-pointer hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   {submittingPartner ? "Saving..." : "Add Partner"}
                 </button>
@@ -2731,7 +2727,7 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 <Pencil className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-gray-900">Edit Industry Partner</h3>
+                <h3 className="text-lg font-medium text-gray-600">Edit Industry Partner</h3>
                 <p className="text-xs text-gray-500">Update company title, category or link</p>
               </div>
             </div>
@@ -2781,14 +2777,14 @@ const About = ({ activeSubTopic = "mentors" }) => {
                 <button
                   type="button"
                   onClick={() => setIsEditPartnerOpen(false)}
-                  className="px-4 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-100 rounded-xl transition-colors cursor-pointer"
+                  className="px-4 py-2 text-sm hover: cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={updatingPartner}
-                  className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-sm rounded-xl shadow-md shadow-blue-500/20 transition-all cursor-pointer"
+                  className="px-6 py-2.5 hover: hover: text-sm cursor-pointer hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   {updatingPartner ? "Saving..." : "Update Partner"}
                 </button>
@@ -2799,6 +2795,32 @@ const About = ({ activeSubTopic = "mentors" }) => {
       )}
 
 
+      {/* Confirm Dialog */}
+      {confirmDialog.isOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-2xl p-6 max-w-sm w-full mx-auto shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+            <h3 className="text-xl font-bold text-slate-900 mb-2">{confirmDialog.title}</h3>
+            <p className="text-slate-600 mb-6 leading-relaxed">{confirmDialog.message}</p>
+            <div className="flex justify-end gap-3">
+              <button 
+                className="px-5 py-2 text-slate-600 hover:bg-slate-100 rounded-full font-medium transition-colors"
+                onClick={() => setConfirmDialog({ isOpen: false, title: "", message: "", onConfirm: null })}
+              >
+                Cancel
+              </button>
+              <button 
+                className="px-5 py-2 bg-red-500 text-white rounded-full font-medium hover:bg-red-600 shadow-md shadow-red-500/20 transition-all active:scale-95"
+                onClick={() => { 
+                  if (confirmDialog.onConfirm) confirmDialog.onConfirm(); 
+                  setConfirmDialog({ isOpen: false, title: "", message: "", onConfirm: null }); 
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );

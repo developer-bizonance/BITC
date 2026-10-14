@@ -18,8 +18,48 @@ import {
   Eye,
   Tag,
   MapPin,
+  ChevronDown
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { getApiUrl } from "../utils";
+
+const getStatusStyle = (status) => {
+  const s = (status || "").toLowerCase().trim();
+  if (s.includes("approv") || s.includes("hire") || s.includes("convert") || s.includes("resolv") || s.includes("shortlist")) {
+    return {
+      bg: "bg-[#E0F8E9] text-[#2E8B57] border-[#A7E8BD] hover:bg-[#c9f2d6]",
+      chevron: "text-[#2E8B57]",
+      dot: "bg-[#2E8B57]",
+    };
+  }
+  if (s.includes("reject") || s.includes("archiv") || s.includes("close")) {
+    return {
+      bg: "bg-[#FEECEB] text-[#D32F2F] border-[#F8B4B4] hover:bg-[#fcdad8]",
+      chevron: "text-[#D32F2F]",
+      dot: "bg-[#D32F2F]",
+    };
+  }
+  if (s.includes("contact")) {
+    return {
+      bg: "bg-[#E0F2FE] text-[#0369A1] border-[#BAE6FD] hover:bg-[#bae6fd]",
+      chevron: "text-[#0369A1]",
+      dot: "bg-[#0369A1]",
+    };
+  }
+  if (s.includes("review")) {
+    return {
+      bg: "bg-[#EAF3FE] text-[#294B7A] border-[#BFDBFE] hover:bg-[#dbeafe]",
+      chevron: "text-[#294B7A]",
+      dot: "bg-[#294B7A]",
+    };
+  }
+  // Default: Pending / Under review / New
+  return {
+    bg: "bg-[#FFF4D2] text-[#B8860B] border-[#FDE68A] hover:bg-[#fef08a]",
+    chevron: "text-[#B8860B]",
+    dot: "bg-[#B8860B]",
+  };
+};
 
 const StudentConsulting = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -30,7 +70,7 @@ const StudentConsulting = () => {
   const [loading, setLoading] = useState(true);
 
   // --- API CONFIGURATION ---
-  const API_ENDPOINT = `${import.meta.env.VITE_API_URL || "http://localhost:5000/api"}/inquiries`;
+  const API_ENDPOINT = `${getApiUrl()}/inquiries`;
 
   const fetchInquiries = useCallback(async () => {
     setLoading(true);
@@ -46,7 +86,10 @@ const StudentConsulting = () => {
           ...item,
           id: item.id || `INQ-${Math.floor(Math.random() * 1000)}`,
           fullId: item.id,
-          date: item.createdAt ? new Date(item.createdAt).toLocaleDateString("en-IN") : "Recent",
+          date: item.createdAt ? (() => {
+            const d = new Date(item.createdAt);
+            return `${d.getDate().toString().padStart(2, '0')}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getFullYear()}`;
+          })() : "Recent",
           time: item.createdAt
             ? new Date(item.createdAt).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })
             : "",
@@ -154,78 +197,78 @@ const StudentConsulting = () => {
   };
 
   return (
-    <div className="p-4 md:p-8 space-y-6 max-w-[1600px] mx-auto min-h-screen">
-      {/* ── HEADER ── */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-transparent p-2">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-md shadow-indigo-500/20">
-            <MessageSquare size={24} />
-          </div>
-          <div>
-            <h1 className="text-xl md:text-2xl font-black text-slate-900 tracking-tight">Student Consulting</h1>
-            <p className="text-slate-500 text-xs mt-0.5">Manage consultation requests from students</p>
+    <div className="p-4 md:p-8 max-w-[1600px] mx-auto min-h-screen">
+      
+      {/* ── Page Header ── */}
+      <div className="mb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-transparent p-2">
+        <div>
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-full bg-[#F3E8FF] flex items-center justify-center text-[#9333EA]">
+              <MessageSquare size={24} fill="currentColor" stroke="none" />
+            </div>
+            <div>
+              <h1 className="text-xl md:text-[22px] font-bold text-[#1E293B] tracking-tight">Student Consulting</h1>
+              <p className="text-[#64748B] text-sm mt-0.5 font-medium">
+                Manage consultation requests from students
+              </p>
+            </div>
           </div>
         </div>
 
         <div className="flex items-center gap-3 w-full md:w-auto">
           <button
             onClick={exportToCSV}
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl text-xs font-bold transition-all shadow-sm shadow-blue-500/20 cursor-pointer"
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#D6E4F8] text-[#294B7A] hover:bg-[#c6d7f0] text-sm font-semibold rounded-xl transition-colors active:scale-95 cursor-pointer"
           >
-            <Download size={14} /> Export CSV
-          </button>
-          <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 px-3.5 py-2 rounded-xl text-xs font-bold text-slate-700 shadow-2xs">
-            <span>Total:</span>
-            <span className="bg-white px-2 py-0.5 rounded-lg border border-slate-200 text-blue-600">
-              {inquiries.length}
-            </span>
-          </div>
-          <button
-            onClick={fetchInquiries}
-            className="p-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-colors shadow-2xs cursor-pointer"
-            title="Refresh Inquiries"
-          >
-            <RefreshCw size={16} className={loading ? "animate-spin text-blue-600" : ""} />
+            <Download size={16} /> Export Data
           </button>
         </div>
       </div>
 
-      {/* ── SEARCH & FILTER CONTROLS ── */}
-      <div className="flex flex-col md:flex-row gap-3 bg-transparent p-2">
-        <div className="relative flex-1">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
+      {/* ── Search & Filter Controls ── */}
+      <div className="flex flex-col sm:flex-row gap-3 mb-5">
+        <div className="relative flex-1 group">
+          <div className="absolute inset-y-0 left-3.5 flex items-center pointer-events-none">
+            <Search size={16} className="text-[#A0AEC0]" />
+          </div>
           <input
+            id="globalSearchInput"
             type="text"
-            placeholder="Search by name, email, phone, city, or message..."
+            placeholder="Search by name, email, phone, or message..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+            className="w-full bg-white border border-slate-200/60 rounded-xl py-2.5 pl-10 pr-4 outline-none focus:ring-2 focus:ring-blue-400/20 focus:border-blue-400 transition-all text-sm text-[#1E293B] placeholder:text-[#94A3B8] shadow-sm font-medium"
           />
         </div>
-
-        <div className="flex items-center gap-3">
+        <div className="relative w-full sm:w-52">
           <select
+            id="globalStatusSelect"
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 cursor-pointer"
+            className="w-full appearance-none bg-white border border-slate-200/60 rounded-xl py-2.5 pl-4 pr-10 outline-none focus:ring-2 focus:ring-blue-400/20 focus:border-blue-400 text-sm text-[#1E293B] cursor-pointer font-bold shadow-sm"
           >
-            <option value="all">All Inquiry Statuses</option>
+            <option value="all">All Statuses</option>
             <option value="pending">Pending</option>
             <option value="contacted">Contacted</option>
             <option value="converted">Converted</option>
           </select>
+          <div className="absolute inset-y-0 right-3.5 flex items-center pointer-events-none">
+            <ChevronDown size={15} className="text-[#A0AEC0]" />
+          </div>
         </div>
       </div>
 
-      {/* ── INQUIRIES TABLE ── */}
-      <div className="bg-transparent overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs text-slate-600">
-            <thead className="bg-slate-50/80 text-slate-400 font-bold uppercase tracking-wider text-[10px] border-b border-slate-100">
-              <tr>
-                <th className="px-6 py-4">Inquirer</th>
+      {/* ── Inquiries Table ── */}
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200/60 overflow-hidden">
+        <div className="overflow-x-auto [&::-webkit-scrollbar]:hidden">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-[#EDF2FA] text-[#294B7A] text-[11px] uppercase tracking-[0.1em] font-bold border-b border-slate-200/60">
                 <th className="px-6 py-4">Date</th>
-                <th className="px-6 py-4">Status</th>
+                <th className="px-6 py-4">Name</th>
+                <th className="px-6 py-4">Email</th>
+                <th className="px-6 py-4">Phone</th>
+                <th className="px-6 py-4 text-center">Status</th>
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
@@ -239,69 +282,68 @@ const StudentConsulting = () => {
                 </tr>
               ) : filteredInquiries.length === 0 ? (
                 <tr>
-                  <td colSpan="4" className="px-6 py-16 text-center text-slate-400">
-                    <MessageSquare className="w-8 h-8 mx-auto mb-2 text-slate-300" />
-                    No inquiries found matching your filters.
+                  <td colSpan="6" className="px-6 py-16 text-center text-slate-400">
+                    <Search className="w-8 h-8 mx-auto mb-2 text-slate-300" />
+                    <p className="font-semibold mb-1">No inquiries found</p>
+                    <p className="text-xs">Try adjusting your search or filters.</p>
                   </td>
                 </tr>
               ) : (
                 filteredInquiries.map((inq) => (
-                  <tr key={inq.fullId} className="hover:bg-slate-50/70 transition-colors group">
-                    {/* Inquirer details */}
-                    <td className="px-6 py-4 align-middle">
-                      <p className="font-bold text-slate-900 text-sm group-hover:text-blue-600 transition-colors">
+                  <tr key={inq.fullId} onClick={() => { setSelectedInquiry(inq); setIsModalOpen(true); }} className="hover:bg-slate-50/80 transition-colors cursor-pointer">
+                    <td className="px-6 py-5 align-middle whitespace-nowrap">
+                      <p className="font-medium text-[#64748B] text-[12px] flex items-center gap-1.5">
+                        {inq.date}
+                      </p>
+                      {inq.time && (
+                        <p className="text-[11px] text-[#94A3B8] font-medium flex items-center gap-1 mt-0.5">
+                          {inq.time}
+                        </p>
+                      )}
+                    </td>
+
+                    <td className="px-6 py-5 align-middle max-w-[150px] whitespace-nowrap">
+                      <p className="font-medium text-[#334155] text-[13px] truncate whitespace-nowrap" title={inq.name}>
                         {inq.name}
                       </p>
-                      <p className="text-slate-500 flex items-center gap-1.5 mt-0.5">
-                        <Mail size={12} className="text-slate-400 shrink-0" /> {inq.email}
-                      </p>
-                      <p className="text-slate-500 flex items-center gap-1.5 mt-0.5">
-                        <Phone size={12} className="text-slate-400 shrink-0" /> {inq.phone}
+                    </td>
+
+                    <td className="px-6 py-5 align-middle max-w-[180px] whitespace-nowrap">
+                      <p className="text-[12px] text-[#475569] font-medium flex items-center gap-1.5 truncate whitespace-nowrap" title={inq.email}>
+                        <span className="truncate whitespace-nowrap">{inq.email}</span>
                       </p>
                     </td>
 
-                    {/* Date */}
-                    <td className="px-6 py-4 align-middle whitespace-nowrap">
-                      <p className="font-semibold text-slate-700">{inq.date}</p>
-                      {inq.time && <p className="text-[10px] text-slate-400">{inq.time}</p>}
+                    <td className="px-6 py-5 align-middle whitespace-nowrap">
+                      <p className="text-[12px] text-[#475569] font-medium flex items-center gap-1.5">
+                        {inq.phone}
+                      </p>
                     </td>
 
-                    {/* Status Select */}
-                    <td className="px-6 py-4 align-middle">
-                      <select
-                        value={inq.status}
-                        onChange={(e) => handleStatusChange(inq.fullId, e.target.value)}
-                        className={`text-[11px] font-extrabold px-2.5 py-1 rounded-lg border outline-none cursor-pointer ${getStatusBadge(
-                          inq.status
-                        )}`}
+                    <td className="px-6 py-5 text-center align-middle whitespace-nowrap">
+                      <span
+                        className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-[12px] font-semibold border ${
+                          inq.status.toLowerCase() === 'pending' ? 'bg-[#FFF4D2] text-[#B8860B] border-yellow-200' :
+                          inq.status.toLowerCase() === 'contacted' ? 'bg-[#EAF3FE] text-[#294B7A] border-blue-200' :
+                          inq.status.toLowerCase() === 'converted' ? 'bg-[#E0F8E9] text-[#2E8B57] border-green-200' :
+                          'bg-slate-100 text-slate-600'
+                        }`}
                       >
-                        <option value="PENDING">PENDING</option>
-                        <option value="CONTACTED">CONTACTED</option>
-                        <option value="CONVERTED">CONVERTED</option>
-                      </select>
+                        {inq.status.toLowerCase() === 'pending' && <Clock className="w-3 h-3" />}
+                        {inq.status.toLowerCase() === 'contacted' && <Eye className="w-3 h-3" />}
+                        {inq.status.toLowerCase() === 'converted' && <CheckCircle className="w-3 h-3" />}
+                        {inq.status.charAt(0).toUpperCase() + inq.status.slice(1).toLowerCase()}
+                      </span>
                     </td>
 
-                    {/* Actions */}
-                    <td className="px-6 py-4 text-right align-middle">
-                      <div className="flex items-center justify-end gap-2">
-                        <button
-                          onClick={() => {
-                            setSelectedInquiry(inq);
-                            setIsModalOpen(true);
-                          }}
-                          className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer"
-                          title="View Full Message"
-                        >
-                          <Eye size={16} />
-                        </button>
-                        <button
-                          onClick={() => handleDelete(inq.fullId)}
-                          className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
-                          title="Delete Inquiry"
-                        >
-                          <Trash2 size={16} />
-                        </button>
-                      </div>
+                    <td className="px-6 py-5 text-right align-middle">
+                      <button
+                        onClick={(e) => { e.stopPropagation(); handleDelete(inq.fullId); }}
+                        className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer inline-flex"
+                        title="Delete Inquiry"
+                      >
+                        <Trash2 size={18} />
+                      </button>
                     </td>
                   </tr>
                 ))
@@ -314,86 +356,114 @@ const StudentConsulting = () => {
       {/* ── DETAIL MODAL ── */}
       <AnimatePresence>
         {isModalOpen && selectedInquiry && (
-          <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setIsModalOpen(false)}>
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col border border-slate-100"
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col border border-slate-100"
             >
               {/* Modal Header */}
-              <div className="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+              <div className="flex justify-between items-start px-6 py-5 border-b border-slate-100 bg-white rounded-t-2xl">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold">
-                    <User size={20} />
+                  <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-700 shadow-inner font-bold text-xl">
+                    {(selectedInquiry.name || "U").charAt(0).toUpperCase()}
                   </div>
                   <div>
-                    <h3 className="text-base font-black text-slate-900">{selectedInquiry.name}</h3>
-                    <p className="text-xs text-slate-500">Contact Form Inquiry</p>
+                    <h3 className="text-xl font-black text-slate-900 tracking-tight leading-tight mb-0.5">
+                      {selectedInquiry.name || "Unknown Applicant"}
+                    </h3>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                      STUDENT CONSULTING
+                    </p>
                   </div>
                 </div>
                 <button
                   onClick={() => setIsModalOpen(false)}
-                  className="p-2 rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors"
+                  className="p-2 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
                 >
-                  <X size={18} />
+                  <X className="w-5 h-5" />
                 </button>
               </div>
 
               {/* Modal Body */}
-              <div className="p-6 space-y-4 text-xs">
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1">
-                      <Mail size={12} className="text-blue-500" /> Email Address
-                    </p>
-                    <p className="text-slate-900 font-semibold">{selectedInquiry.email}</p>
+              <div className="p-6 overflow-y-auto bg-slate-50 flex-1 space-y-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                
+                {/* Candidate Information Grid */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="col-span-2 sm:col-span-1">
+                    <div className="flex items-center gap-1.5 text-slate-500 mb-1 capitalize text-[10px] font-semibold tracking-wider">
+                      <Mail size={12} className="text-slate-400" /> Email Address
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <p className="text-slate-800 font-medium text-sm break-all">{selectedInquiry.email}</p>
+                    </div>
                   </div>
-                  <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1">
-                      <Phone size={12} className="text-blue-500" /> Phone Number
-                    </p>
-                    <p className="text-slate-900 font-semibold">{selectedInquiry.phone}</p>
-                  </div>
-                </div>
 
-                <div className="pt-3 border-t border-slate-100 flex justify-between items-center">
                   <div>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Update Status</p>
-                    <select
-                      value={selectedInquiry.status}
-                      onChange={(e) => handleStatusChange(selectedInquiry.fullId, e.target.value)}
-                      className="bg-white border border-slate-300 text-blue-600 text-xs font-bold py-1.5 px-3 rounded-xl outline-none cursor-pointer"
-                    >
-                      <option value="PENDING">PENDING</option>
-                      <option value="CONTACTED">CONTACTED</option>
-                      <option value="CONVERTED">CONVERTED</option>
-                    </select>
+                    <div className="flex items-center gap-1.5 text-slate-500 mb-1 capitalize text-[10px] font-semibold tracking-wider">
+                      <Phone size={12} className="text-slate-400" /> Phone Number
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <p className="text-slate-800 font-medium text-sm break-words">{selectedInquiry.phone}</p>
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-[11px] text-slate-400">Date: {selectedInquiry.date}</p>
+                  
+                  <div>
+                    <div className="flex items-center gap-1.5 text-slate-500 mb-1 capitalize text-[10px] font-semibold tracking-wider">
+                      <Calendar size={12} className="text-slate-400" /> Date
+                    </div>
+                    <p className="text-slate-800 font-medium text-sm break-words">
+                      {selectedInquiry.date}
+                    </p>
                   </div>
                 </div>
               </div>
 
-              {/* Modal Footer */}
-              <div className="px-6 py-4 border-t border-slate-100 bg-slate-50 flex items-center justify-end gap-2">
-                <a
-                  href={`tel:${selectedInquiry.phone}`}
-                  className="flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-xl font-bold text-xs transition-all shadow-xs"
-                >
-                  <Phone className="w-3.5 h-3.5 text-emerald-600" /> Call
-                </a>
-                <a
-                  href={`mailto:${selectedInquiry.email}?subject=Response from BITC Amravati&body=Dear ${encodeURIComponent(
-                    selectedInquiry.name
-                  )},\n\nThank you for reaching out to BITC regarding ${encodeURIComponent(
-                    selectedInquiry.courseName
-                  )}.\n\nBest regards,\nBITC Admissions Team`}
-                  className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl font-bold text-xs shadow-sm shadow-blue-500/20 transition-all cursor-pointer"
-                >
-                  <Send className="w-3.5 h-3.5" /> Reply via Email
-                </a>
+              {/* Modal Footer / Quick Reply Actions */}
+              <div className="px-6 py-4 border-t border-slate-100 bg-slate-50/70 flex items-center justify-between">
+                <span className="text-xs text-slate-500 font-normal">
+                  Click to reply directly to {selectedInquiry.name}
+                </span>
+
+                <div className="flex items-center gap-2">
+                  {/* Update Status Button */}
+                  {(() => {
+                    const st = getStatusStyle(selectedInquiry.status);
+                    return (
+                      <div className="relative inline-flex items-center">
+                        <select
+                          value={selectedInquiry.status}
+                          onChange={(e) => handleStatusChange(selectedInquiry.fullId, e.target.value)}
+                          className={`appearance-none flex items-center pl-3.5 pr-8 py-2 text-xs font-bold rounded-3xl border shadow-xs transition-all active:scale-95 cursor-pointer outline-none ${st.bg}`}
+                        >
+                          <option value="PENDING" className="bg-white text-slate-800">Pending</option>
+                          <option value="CONTACTED" className="bg-white text-slate-800">Contacted</option>
+                          <option value="CONVERTED" className="bg-white text-slate-800">Converted</option>
+                        </select>
+                        <ChevronDown size={14} className={`absolute right-2.5 pointer-events-none transition-colors ${st.chevron}`} />
+                      </div>
+                    );
+                  })()}
+                  <a
+                    href={`tel:${selectedInquiry.phone}`}
+                    className="flex items-center gap-1.5 px-4 py-2 text-xs bg-slate-200 text-slate-700 hover:bg-slate-300 font-medium rounded-3xl shadow-xs transition-all active:scale-95"
+                  >
+                    <Phone className="w-3.5 h-3.5 text-slate-500" />
+                    Call
+                  </a>
+
+                  <a
+                    href={`https://mail.google.com/mail/?view=cm&fs=1&to=${selectedInquiry.email}&su=Response%20from%20BITC%20Amravati&body=Dear%20${encodeURIComponent(selectedInquiry.name)}%2C%0A%0AThank%20you%20for%20reaching%20out%20to%20BITC%20regarding%20${encodeURIComponent('Student Consulting')}.%0A%0ABest%20regards%2C%0ABITC%20Admissions%20Team`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 px-4 py-2 text-xs bg-slate-200 text-slate-700 hover:bg-slate-300 font-medium rounded-3xl shadow-xs transition-all active:scale-95"
+                  >
+                    <Send className="w-3.5 h-3.5 text-slate-500" />
+                    Email
+                  </a>
+                </div>
               </div>
             </motion.div>
           </div>

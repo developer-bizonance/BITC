@@ -11,11 +11,12 @@ export const metadata: Metadata = {
   },
 };
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { getApiBase } from "@/lib/utils";
 
 export default async function FAQsPage() {
   let faqs: {q: string; a: string}[] = [];
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://bitc-backend-theta.vercel.app/api"}/faq`, { cache: 'no-store' });
+    const res = await fetch(`${getApiBase()}/faq`, { cache: 'no-store' });
     if (res.ok) {
       const data = await res.json();
       if (data.items) {
@@ -28,7 +29,7 @@ export default async function FAQsPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      <section className="bg-white py-16 text-slate-900 text-center">
+      <section className="bg-white pt-16 pb-8 text-slate-900 text-center">
         <div className="container max-w-[1200px] mx-auto px-4">
           <HelpCircle className="w-12 h-12 text-primary mx-auto mb-4" />
           <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight mb-4">Frequently Asked <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Questions</span></h1>
@@ -36,7 +37,7 @@ export default async function FAQsPage() {
         </div>
       </section>
 
-      <section className="py-16">
+      <section className="pb-16 pt-0">
         <div className="container max-w-[800px] mx-auto px-4">
           <Accordion className="w-full">
             {faqs.map((faq, i) => (

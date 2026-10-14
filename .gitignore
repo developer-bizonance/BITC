@@ -6,6 +6,8 @@
 .env.staging
 **/.env
 **/.env.*
+!**/.env.example
+!.env.example
 
 # Node modules
 node_modules/
@@ -44,3 +46,7 @@ scratch/
 
 # User-uploaded files (generated at runtime)
 Backend/public/uploads/
+
+# Compiled seed script
+**/prisma/seed.js
+Backend/prisma/seed.js

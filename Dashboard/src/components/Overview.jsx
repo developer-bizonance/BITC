@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Users, Award, Briefcase, GraduationCap, Quote, Calendar, Image, FileText, Handshake, Inbox } from "lucide-react";
+import { getApiUrl } from "../utils";
 
-const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const apiUrl = getApiUrl();
 
 const Overview = () => {
     const [counts, setCounts] = useState({
@@ -35,7 +36,30 @@ const Overview = () => {
                     inquiries: inqs?.inquiries?.length || 0,
                     events: evts?.events?.length || 0,
                     testimonials: testis?.testimonials?.length || 0,
-                    blogs: blogs?.blogs?.length || 0,
+                    blogs: Array.isArray(blogs?.blogs)
+                        ? (() => {
+                            const seenIds = new Set();
+                            const seenSlugs = new Set();
+                            const seenTitles = new Set();
+                            let count = 0;
+                            const normSlug = (s) => (s ? String(s).trim().toLowerCase().replace(/[^\w\s-]/g, "").replace(/[\s_]+/g, "-").replace(/^-+|-+$/g, "") : "");
+                            const normTitle = (s) => (s ? String(s).trim().toLowerCase().replace(/[^\w\s]/g, "").replace(/\s+/g, " ") : "");
+                            for (const b of blogs.blogs) {
+                                if (!b) continue;
+                                const idKey = b.id ? String(b.id).trim().toLowerCase() : "";
+                                const slugKey = normSlug(b.slug);
+                                const titleKey = normTitle(b.title);
+                                if (idKey && seenIds.has(idKey)) continue;
+                                if (slugKey && seenSlugs.has(slugKey)) continue;
+                                if (titleKey && seenTitles.has(titleKey)) continue;
+                                if (idKey) seenIds.add(idKey);
+                                if (slugKey) seenSlugs.add(slugKey);
+                                if (titleKey) seenTitles.add(titleKey);
+                                count++;
+                            }
+                            return count;
+                        })()
+                        : 0,
                     gallery: gals?.gallery?.length || 0,
                     alumni: alums?.alumni?.length || 0,
                 });
@@ -75,7 +99,7 @@ const Overview = () => {
                         </div>
                         <div>
                             <p className="text-gray-500 text-sm font-medium mb-1">{stat.label}</p>
-                            <h3 className="text-3xl font-black text-gray-900">{stat.value}</h3>
+                            <h3 className="text-3xl font-medium text-gray-900">{stat.value}</h3>
                         </div>
                     </div>
                 ))}

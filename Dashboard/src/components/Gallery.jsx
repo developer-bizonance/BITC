@@ -1,20 +1,32 @@
+import { resolveImageUrl, getApiUrl } from "../utils";
 import React, { useState, useEffect } from "react";
-import { Plus, Trash2, Pencil, RefreshCw, X, Image as ImageIcon } from "lucide-react";
+import { Plus, Trash2, Pencil, RefreshCw, X, Image as ImageIcon, Video } from "lucide-react";
 import ImageUpload from "./ImageUpload";
+
+const getYouTubeId = (url) => {
+  if (!url) return null;
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  const match = url.match(regExp);
+  return (match && match[2].length === 11) ? match[2] : null;
+};
 
 const Gallery = () => {
   const [gallery, setGallery] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState("photo");
+  const [editType, setEditType] = useState("photo");
   const [isAddOpen, setIsAddOpen] = useState(false);
+  const [isVideoAddOpen, setIsVideoAddOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [notification, setNotification] = useState(null);
+  const [confirmDelete, setConfirmDelete] = useState(null); // { id, title }
 
   const [form, setForm] = useState({ title: "", imgUrl: "" });
   const [editForm, setEditForm] = useState({ title: "", imgUrl: "" });
 
-  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+  const apiUrl = getApiUrl();
 
   const showNotification = (msg, type = "success") => {
     setNotification({ msg, type });
@@ -57,10 +69,11 @@ const Gallery = () => {
       if (res.ok) {
         setGallery(data.items || [data.item, ...gallery]);
         setIsAddOpen(false);
+        setIsVideoAddOpen(false);
         setForm({ title: "", imgUrl: "" });
-        showNotification("Image added successfully!");
+        showNotification("Media added successfully!");
       } else {
-        showNotification(data.error || "Failed to add image", "error");
+        showNotification(data.error || "Failed to add media", "error");
       }
     } catch (err) {
       showNotification("Network error", "error");
@@ -70,15 +83,21 @@ const Gallery = () => {
   };
 
   const handleDelete = async (id, title) => {
-    if (!window.confirm(`Are you sure you want to remove "${title}"?`)) return;
+    setConfirmDelete({ id, title });
+  };
+
+  const confirmAndDelete = async () => {
+    if (!confirmDelete) return;
+    const { id, title } = confirmDelete;
+    setConfirmDelete(null);
     try {
       const res = await fetch(`${apiUrl}/gallery/${id}`, { method: "DELETE" });
       const data = await res.json();
       if (res.ok) {
         setGallery(data.items || gallery.filter((g) => g.id !== id));
-        showNotification("Image removed.");
+        showNotification("Media removed.");
       } else {
-        showNotification(data.error || "Failed to delete image", "error");
+        showNotification(data.error || "Failed to delete media", "error");
       }
     } catch (err) {
       showNotification("Network error", "error");
@@ -88,6 +107,8 @@ const Gallery = () => {
   const openEdit = (img) => {
     setEditingId(img.id);
     setEditForm({ title: img.title, imgUrl: img.imgUrl });
+    const isVideo = getYouTubeId(img.imgUrl) || (img.imgUrl && img.imgUrl.match(/\.(mp4|webm|ogg|mov)$/i));
+    setEditType(isVideo ? 'video' : 'photo');
     setIsEditOpen(true);
   };
 
@@ -108,9 +129,9 @@ const Gallery = () => {
       if (res.ok) {
         setGallery(data.items || gallery.map(g => g.id === editingId ? data.item : g));
         setIsEditOpen(false);
-        showNotification("Image updated successfully!");
+        showNotification("Media updated successfully!");
       } else {
-        showNotification(data.error || "Failed to update image", "error");
+        showNotification(data.error || "Failed to update media", "error");
       }
     } catch (err) {
       showNotification("Network error", "error");
@@ -119,8 +140,87 @@ const Gallery = () => {
     }
   };
 
+  const videosList = gallery.filter(img => getYouTubeId(img.imgUrl) || (img.imgUrl && img.imgUrl.match(/\.(mp4|webm|ogg|mov)$/i)));
+  const imagesList = gallery.filter(img => !getYouTubeId(img.imgUrl) && !(img.imgUrl && img.imgUrl.match(/\.(mp4|webm|ogg|mov)$/i)));
+
+  const renderCard = (img) => (
+    <div key={img.id} className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-2xs hover:shadow-sm transition-all group flex flex-col justify-between">
+      <div className="relative h-52 bg-slate-100 overflow-hidden flex items-center justify-center">
+        {getYouTubeId(img.imgUrl) ? (
+          <img 
+            src={`https://img.youtube.com/vi/${getYouTubeId(img.imgUrl)}/0.jpg`}
+            alt={img.title} 
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          />
+        ) : img.imgUrl && img.imgUrl.match(/\.(mp4|webm|ogg|mov)$/i) ? (
+          <video src={resolveImageUrl(img.imgUrl)} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" muted loop playsInline onMouseEnter={(e) => e.target.play()} onMouseLeave={(e) => e.target.pause()} />
+        ) : (
+          <img 
+            src={resolveImageUrl(img.imgUrl)} 
+            alt={img.title} 
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "https://via.placeholder.com/800x600?text=Invalid+Image+URL";
+            }}
+          />
+        )}
+        {/* Subtle hover dark tint */}
+        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+
+        {/* Top-right circular action buttons with circle border */}
+        <div className="absolute top-2.5 right-2.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col items-center gap-2 z-10">
+          <button
+            onClick={() => openEdit(img)}
+            className="w-8 h-8 flex items-center justify-center bg-white text-blue-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 rounded-full border border-slate-200 shadow-md hover:shadow-lg transition-all cursor-pointer active:scale-95"
+            title="Edit"
+          >
+            <Pencil className="w-3.5 h-3.5" />
+          </button>
+          <button
+            onClick={() => handleDelete(img.id, img.title)}
+            className="w-8 h-8 flex items-center justify-center bg-white text-red-600 hover:bg-red-600 hover:text-white hover:border-red-600 rounded-full border border-slate-200 shadow-md hover:shadow-lg transition-all cursor-pointer active:scale-95"
+            title="Delete"
+          >
+            <Trash2 className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </div>
+      <div className="p-3 border-t border-slate-100">
+        <h3 className="text-xs font-medium text-gray-600 truncate" title={img.title}>{img.title}</h3>
+      </div>
+    </div>
+  );
+
   return (
     <div className="p-8 pb-24 max-w-7xl mx-auto">
+      {/* Custom Delete Confirmation Modal */}
+      {confirmDelete && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6">
+            <h3 className="text-base font-bold text-slate-900 mb-2">Remove Media</h3>
+            <p className="text-sm text-slate-500 mb-6">
+              Are you sure you want to remove{" "}
+              <span className="font-semibold text-slate-700">"{confirmDelete.title}"</span>?
+            </p>
+            <div className="flex items-center justify-end gap-3">
+              <button
+                onClick={() => setConfirmDelete(null)}
+                className="px-5 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmAndDelete}
+                className="px-5 py-2 text-sm font-semibold bg-red-500 hover:bg-red-600 text-white rounded-full shadow-sm transition-all active:scale-95 cursor-pointer"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-3 border-b border-slate-200 gap-3">
         <div>
           <h2 className="text-xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
@@ -138,9 +238,15 @@ const Gallery = () => {
           </button>
           <button
             onClick={() => setIsAddOpen(true)}
-            className="flex items-center gap-1.5 px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-xs transition-all cursor-pointer"
+            className="flex items-center gap-2 px-5 py-2.5 hover: text-xs hover: cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
           >
-            <Plus className="w-4 h-4" /> Add Image
+            <ImageIcon className="w-4 h-4" /> Add Image
+          </button>
+          <button
+            onClick={() => setIsVideoAddOpen(true)}
+            className="flex items-center gap-2 px-5 py-2.5 hover: text-xs hover: cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
+          >
+            <Video className="w-4 h-4" /> Add Video
           </button>
         </div>
       </div>
@@ -151,7 +257,7 @@ const Gallery = () => {
         </div>
       )}
 
-      {/* Compact Grid */}
+      {/* Sections */}
       {loading && gallery.length === 0 ? (
         <div className="flex justify-center items-center h-48">
           <RefreshCw className="w-6 h-6 text-blue-500 animate-spin" />
@@ -159,38 +265,47 @@ const Gallery = () => {
       ) : gallery.length === 0 ? (
         <div className="bg-transparent p-8 text-center">
           <ImageIcon className="w-10 h-10 text-slate-300 mx-auto mb-2" />
-          <h3 className="text-sm font-bold text-slate-800 mb-1">No images found</h3>
-          <p className="text-xs text-slate-500">Get started by adding your first gallery image.</p>
+          <h3 className="text-sm font-medium text-gray-600 mb-1">No media found</h3>
+          <p className="text-xs text-slate-500">Get started by adding your first gallery media.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5">
-          {gallery.map((img) => (
-            <div key={img.id} className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-2xs hover:shadow-sm transition-all group flex flex-col justify-between">
-              <div className="relative h-36 bg-slate-100 overflow-hidden">
-                <img 
-                  src={img.imgUrl} 
-                  alt={img.title} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = "https://via.placeholder.com/800x600?text=Invalid+Image+URL";
-                  }}
-                />
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                  <button onClick={() => openEdit(img)} className="p-1.5 bg-white/90 text-blue-600 rounded-lg hover:bg-white transition-colors cursor-pointer" title="Edit">
-                    <Pencil className="w-3.5 h-3.5" />
-                  </button>
-                  <button onClick={() => handleDelete(img.id, img.title)} className="p-1.5 bg-white/90 text-red-600 rounded-lg hover:bg-white transition-colors cursor-pointer" title="Delete">
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div>
-              <div className="p-3 border-t border-slate-100">
-                <h3 className="text-xs font-bold text-slate-800 truncate" title={img.title}>{img.title}</h3>
-              </div>
+        <>
+          {/* Tabs */}
+          <div className="flex justify-center gap-4 mb-8 mt-6">
+            <button
+              onClick={() => setActiveTab("photo")}
+              className={`px-8 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
+                activeTab === "photo" 
+                  ? "bg-blue-400/30 text-slate-900 shadow-md transition-all" 
+                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+              }`}
+            >
+              Photos
+            </button>
+            <button
+              onClick={() => setActiveTab("video")}
+              className={`px-8 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
+                activeTab === "video" 
+                  ? "bg-blue-400/30 text-slate-900 shadow-md transition-all" 
+                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+              }`}
+            >
+              Videos
+            </button>
+          </div>
+
+          {activeTab === "photo" && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5">
+              {imagesList.length > 0 ? imagesList.map(renderCard) : <p className="text-center text-slate-500 col-span-full py-10">No photos available.</p>}
             </div>
-          ))}
-        </div>
+          )}
+
+          {activeTab === "video" && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5">
+              {videosList.length > 0 ? videosList.map(renderCard) : <p className="text-center text-slate-500 col-span-full py-10">No videos available.</p>}
+            </div>
+          )}
+        </>
       )}
 
       {/* Add Modal */}
@@ -198,7 +313,7 @@ const Gallery = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-xl overflow-hidden flex flex-col max-h-[90vh]">
             <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-              <h3 className="text-lg font-bold text-gray-900">Add New Image</h3>
+              <h3 className="text-lg font-medium text-gray-600">Add New Image</h3>
               <button onClick={() => setIsAddOpen(false)} className="text-gray-400 hover:text-gray-700 bg-white hover:bg-gray-100 p-1.5 rounded-lg transition-colors">
                 <X className="w-5 h-5" />
               </button>
@@ -211,7 +326,7 @@ const Gallery = () => {
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Upload Image</label>
-                  <ImageUpload
+                  <ImageUpload category="gallery"
                     value={form.imgUrl}
                     onChange={(url) => setForm({ ...form, imgUrl: url })}
                   />
@@ -219,9 +334,41 @@ const Gallery = () => {
               </form>
             </div>
             <div className="px-6 py-4 border-t border-gray-100 flex justify-end gap-3 bg-gray-50">
-              <button type="button" onClick={() => setIsAddOpen(false)} className="px-5 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-200 rounded-xl transition-colors">Cancel</button>
-              <button type="submit" form="add-gal-form" disabled={submitting} className="px-5 py-2.5 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-md shadow-blue-500/20 transition-all disabled:opacity-70 flex items-center gap-2">
+              <button type="button" onClick={() => setIsAddOpen(false)} className="px-5 py-2.5 text-sm hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">Cancel</button>
+              <button type="submit" form="add-gal-form" disabled={submitting} className="px-5 py-2.5 text-sm hover: disabled:opacity-70 flex items-center gap-2 hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">
                 {submitting ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />} Add Image
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Video Modal */}
+      {isVideoAddOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+              <h3 className="text-lg font-medium text-gray-600">Add New Video</h3>
+              <button onClick={() => setIsVideoAddOpen(false)} className="text-gray-400 hover:text-gray-700 bg-white hover:bg-gray-100 p-1.5 rounded-lg transition-colors">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-6 overflow-y-auto">
+              <form id="add-video-form" onSubmit={handleAdd} className="space-y-5">
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Title</label>
+                  <input type="text" required value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium text-sm" placeholder="e.g. Testimonial Video" />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Video Link (YouTube, Vimeo, etc.)</label>
+                  <input type="text" required value={form.imgUrl} onChange={(e) => setForm({ ...form, imgUrl: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium text-sm" placeholder="Paste link here..." />
+                </div>
+              </form>
+            </div>
+            <div className="px-6 py-4 border-t border-gray-100 flex justify-end gap-3 bg-gray-50">
+              <button type="button" onClick={() => setIsVideoAddOpen(false)} className="px-5 py-2.5 text-sm hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">Cancel</button>
+              <button type="submit" form="add-video-form" disabled={submitting} className="px-5 py-2.5 text-sm hover: disabled:opacity-70 flex items-center gap-2 hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">
+                {submitting ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />} Add Video
               </button>
             </div>
           </div>
@@ -233,7 +380,7 @@ const Gallery = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-xl overflow-hidden flex flex-col max-h-[90vh]">
             <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-              <h3 className="text-lg font-bold text-gray-900">Edit Image</h3>
+              <h3 className="text-lg font-medium text-gray-600">Edit Media</h3>
               <button onClick={() => setIsEditOpen(false)} className="text-gray-400 hover:text-gray-700 bg-white hover:bg-gray-100 p-1.5 rounded-lg transition-colors">
                 <X className="w-5 h-5" />
               </button>
@@ -244,18 +391,25 @@ const Gallery = () => {
                   <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Title</label>
                   <input type="text" required value={editForm.title} onChange={(e) => setEditForm({ ...editForm, title: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium text-sm" />
                 </div>
-                <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Upload Image</label>
-                  <ImageUpload
-                    value={editForm.imgUrl}
-                    onChange={(url) => setEditForm({ ...editForm, imgUrl: url })}
-                  />
-                </div>
+                {editType === 'photo' ? (
+                  <div>
+                    <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Upload Image</label>
+                    <ImageUpload category="gallery"
+                      value={editForm.imgUrl}
+                      onChange={(url) => setEditForm({ ...editForm, imgUrl: url })}
+                    />
+                  </div>
+                ) : (
+                  <div>
+                    <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Video Link (YouTube, Vimeo, etc.)</label>
+                    <input type="text" required value={editForm.imgUrl} onChange={(e) => setEditForm({ ...editForm, imgUrl: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium text-sm" placeholder="Paste link here..." />
+                  </div>
+                )}
               </form>
             </div>
             <div className="px-6 py-4 border-t border-gray-100 flex justify-end gap-3 bg-gray-50">
-              <button type="button" onClick={() => setIsEditOpen(false)} className="px-5 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-200 rounded-xl transition-colors">Cancel</button>
-              <button type="submit" form="edit-gal-form" disabled={submitting} className="px-5 py-2.5 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-md shadow-blue-500/20 transition-all disabled:opacity-70 flex items-center gap-2">
+              <button type="button" onClick={() => setIsEditOpen(false)} className="px-5 py-2.5 text-sm hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">Cancel</button>
+              <button type="submit" form="edit-gal-form" disabled={submitting} className="px-5 py-2.5 text-sm hover: disabled:opacity-70 flex items-center gap-2 hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">
                 {submitting ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Pencil className="w-4 h-4" />} Save Changes
               </button>
             </div>

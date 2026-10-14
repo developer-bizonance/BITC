@@ -3,6 +3,7 @@ import nodemailer from "nodemailer";
 import path from "path";
 import fs from "fs";
 import prisma from "@/lib/prisma";
+import { getApiBase } from "@/lib/utils";
 
 export async function POST(request: Request) {
   try {
@@ -178,19 +179,31 @@ Target Recipient: ${recipientEmail}
 
     // Save inquiry via Express Backend (single source of truth)
     try {
-      const backendUrl = process.env.BACKEND_API_URL || (process.env.NODE_ENV === "development" ? "http://localhost:5000/api/contact" : "https://bitc-backend-theta.vercel.app/api/contact");
-      await fetch(backendUrl, {
+      const backendBase = getApiBase();
+      const contactEndpoint = backendBase.endsWith("/contact")
+        ? backendBase
+        : `${backendBase.replace(/\/$/, "")}/contact`;
+
+      const syncRes = await fetch(contactEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           fullName: fullName.trim(),
+          name: fullName.trim(),
           email: email.trim(),
-          phone: phone.trim(),
+          phone: cleanPhone,
           city: city.trim(),
           enquiryType: selectedEnquiry,
           message: message.trim(),
         }),
       });
+
+      if (!syncRes.ok) {
+        const errText = await syncRes.text().catch(() => "");
+        console.warn(`[CONTACT API] Backend sync responded with status ${syncRes.status}:`, errText);
+      } else {
+        console.log(`[CONTACT API] Backend sync succeeded for ${email.trim()}`);
+      }
     } catch (backendErr) {
       console.warn("Backend sync notice:", backendErr);
     }

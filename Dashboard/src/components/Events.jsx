@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { resolveImageUrl, getApiUrl } from "../utils";
+import React, { useState, useEffect, useMemo } from "react";
 import { Plus, Trash2, Pencil, RefreshCw, X, Calendar, Image as ImageIcon, Star } from "lucide-react";
+import ImageUpload from "./ImageUpload";
 
 const EVENT_TYPES = [
   { value: "WORKSHOP", label: "Workshop" },
@@ -15,7 +17,7 @@ const EVENT_TYPES = [
   { value: "EXAM", label: "Exam / Assessment" },
   { value: "PLACEMENT_DRIVE", label: "Placement Drive" },
   { value: "ALUMNI_MEET", label: "Alumni Meet" },
-  { value: "CUSTOM", label: "✏️ Custom (type your own)" },
+  { value: "CUSTOM", label: " Custom (type your own)" },
 ];
 
 const Events = () => {
@@ -26,6 +28,7 @@ const Events = () => {
   const [editingEventId, setEditingEventId] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [notification, setNotification] = useState(null);
+  const [activeTab, setActiveTab] = useState("upcoming"); // 'upcoming' | 'conducted'
 
   const [form, setForm] = useState({
     title: "",
@@ -34,6 +37,7 @@ const Events = () => {
     imageUrl: "",
     venue: "",
     speaker: "",
+    description: "",
     isFeatured: false,
   });
 
@@ -44,10 +48,11 @@ const Events = () => {
     imageUrl: "",
     venue: "",
     speaker: "",
+    description: "",
     isFeatured: false,
   });
 
-  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+  const apiUrl = getApiUrl();
 
   const showNotification = (msg, type = "success") => {
     setNotification({ msg, type });
@@ -73,6 +78,32 @@ const Events = () => {
     fetchEvents();
   }, []);
 
+  // Filter events into Upcoming and Conducted based on today's date
+  const { upcomingEvents, conductedEvents } = useMemo(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const upcoming = [];
+    const conducted = [];
+
+    events.forEach((evt) => {
+      const eventDate = new Date(evt.date);
+      if (eventDate >= today) {
+        upcoming.push(evt);
+      } else {
+        conducted.push(evt);
+      }
+    });
+
+    // Sort upcoming ascending (nearest first) and conducted descending (most recent first)
+    upcoming.sort((a, b) => new Date(a.date) - new Date(b.date));
+    conducted.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    return { upcomingEvents: upcoming, conductedEvents: conducted };
+  }, [events]);
+
+  const displayedEvents = activeTab === "upcoming" ? upcomingEvents : conductedEvents;
+
   const handleAdd = async (e) => {
     e.preventDefault();
     if (!form.title.trim() || !form.date) {
@@ -92,7 +123,7 @@ const Events = () => {
       if (res.ok) {
         setEvents(data.events || [data.event, ...events]);
         setIsAddOpen(false);
-        setForm({ title: "", date: "", type: "WORKSHOP", imageUrl: "", venue: "", speaker: "", isFeatured: false, customType: "" });
+        setForm({ title: "", date: "", type: "WORKSHOP", imageUrl: "", venue: "", speaker: "", description: "", isFeatured: false, customType: "" });
         fetchEvents();
         showNotification("Event added successfully!");
       } else {
@@ -130,6 +161,7 @@ const Events = () => {
       imageUrl: evt.imageUrl || "",
       venue: evt.venue || "",
       speaker: evt.speaker || "",
+      description: evt.description || "",
       isFeatured: evt.isFeatured || false,
     });
     setIsEditOpen(true);
@@ -173,51 +205,105 @@ const Events = () => {
         </div>
       )}
 
-      <div className="flex justify-between items-center mb-8">
+      {/* Top Header */}
+      <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
             <Calendar className="w-8 h-8 text-blue-600" /> Manage Events
           </h1>
-          <p className="text-gray-500 mt-2">Add, edit, or remove workshops, visits, and convocations.</p>
+          <p className="text-gray-500 mt-1">Add, edit, or remove workshops, visits, and convocations.</p>
         </div>
         <button
           onClick={() => setIsAddOpen(true)}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-semibold flex items-center gap-2 shadow-sm transition-all"
+          className="hover: px-5 py-2.5 flex items-center gap-2 bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
         >
           <Plus size={20} /> Add Event
         </button>
       </div>
 
+      {/* Tab Switcher (Matches your Screenshot Design) */}
+      <div className="flex justify-center my-6">
+        <div className="inline-flex bg-slate-100 p-1.5 rounded-full border border-slate-200 shadow-inner">
+          <button
+            type="button"
+            onClick={() => setActiveTab("upcoming")}
+            className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer ${activeTab === "upcoming"
+              ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
+              : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/60"
+              }`}
+          >
+            Upcoming Events ({upcomingEvents.length})
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("conducted")}
+            className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer ${activeTab === "conducted"
+              ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
+              : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/60"
+              }`}
+          >
+            Conducted Events ({conductedEvents.length})
+          </button>
+        </div>
+      </div>
+
+      {/* Events Grid */}
       {loading ? (
         <div className="flex justify-center py-12"><RefreshCw className="w-8 h-8 animate-spin text-blue-500" /></div>
+      ) : displayedEvents.length === 0 ? (
+        <div className="text-center py-16 bg-white rounded-2xl border border-gray-100 p-8 shadow-sm">
+          <Calendar className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+          <h3 className="text-base font-semibold text-slate-700">
+            No {activeTab === "upcoming" ? "upcoming" : "conducted"} events found
+          </h3>
+          <p className="text-xs text-slate-400 mt-1">
+            {activeTab === "upcoming"
+              ? "Add a new upcoming event to showcase on the website."
+              : "Events with past dates will automatically appear here."}
+          </p>
+        </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {events.map((evt) => (
+          {displayedEvents.map((evt) => (
             <div key={evt.id} className="bg-white rounded-xl p-0 border border-gray-100 shadow-sm flex flex-col h-full overflow-hidden hover:shadow-md transition-shadow">
 
               {/* Image Section */}
-              <div className="w-full h-36 bg-gray-100 relative group overflow-hidden">
+              <div className="w-full h-52 bg-gray-100 relative group overflow-hidden">
                 {evt.imageUrl ? (
                   <img
-                    src={evt.imageUrl}
+                    src={resolveImageUrl(evt.imageUrl)}
                     alt={evt.title}
                     referrerPolicy="no-referrer"
                     onError={(e) => {
                       e.currentTarget.onerror = null;
                       e.currentTarget.src = "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800&auto=format&fit=crop";
                     }}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-gray-50 text-gray-400">
                     <ImageIcon size={24} opacity={0.5} />
                   </div>
                 )}
-                {evt.isFeatured && (
-                  <div className="absolute top-2 right-2 bg-amber-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-md flex items-center gap-0.5">
-                    <Star size={10} /> FEATURED
-                  </div>
-                )}
+
+
+                {/* Hover overlay - top-right circular icon buttons */}
+                <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col items-center gap-2">
+                  <button
+                    onClick={() => openEdit(evt)}
+                    title="Edit"
+                    className="w-9 h-9 flex items-center justify-center bg-white text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-full shadow-lg transition-colors cursor-pointer"
+                  >
+                    <Pencil size={15} />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(evt.id, evt.title)}
+                    title="Delete"
+                    className="w-9 h-9 flex items-center justify-center bg-white text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-full shadow-lg transition-colors cursor-pointer"
+                  >
+                    <Trash2 size={15} />
+                  </button>
+                </div>
               </div>
 
               {/* Content Section */}
@@ -232,23 +318,7 @@ const Events = () => {
                   </span>
                 </div>
 
-                <h3 className="text-sm font-bold text-gray-900 leading-snug line-clamp-2 mb-2">{evt.title}</h3>
-
-                {/* Footer Actions */}
-                <div className="mt-auto flex justify-end gap-1 border-t pt-2">
-                  <button
-                    onClick={() => openEdit(evt)}
-                    className="p-1.5 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors flex items-center gap-1 text-xs font-semibold"
-                  >
-                    <Pencil size={13} /> Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(evt.id, evt.title)}
-                    className="p-1.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors flex items-center gap-1 text-xs font-semibold"
-                  >
-                    <Trash2 size={13} /> Delete
-                  </button>
-                </div>
+                <h3 className="text-sm font-medium text-gray-600 leading-snug line-clamp-2">{evt.title}</h3>
               </div>
             </div>
           ))}
@@ -261,7 +331,7 @@ const Events = () => {
           <div className="bg-white rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
             <div className="flex justify-between items-center p-6 border-b border-gray-100">
               <h2 className="text-2xl font-bold text-gray-800">Add New Event</h2>
-              <button onClick={() => setIsAddOpen(false)} className="text-gray-400 hover:text-gray-600"><X size={24} /></button>
+              <button onClick={() => setIsAddOpen(false)} className="text-gray-400 hover:text-gray-600 cursor-pointer"><X size={24} /></button>
             </div>
             <div className="p-6 overflow-y-auto">
               <form id="add-event-form" onSubmit={handleAdd} className="space-y-4">
@@ -296,31 +366,36 @@ const Events = () => {
                     <input type="text" value={form.speaker} onChange={(e) => setForm({ ...form, speaker: e.target.value })} placeholder="e.g. Guest Speaker" className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl" />
                   </div>
                 </div>
-
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-1">Image URL</label>
-                  <input type="text" value={form.imageUrl} onChange={(e) => setForm({ ...form, imageUrl: e.target.value })} className="w-full px-4 py-2 border rounded-xl" placeholder="https://..." />
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">Description / Event Theory</label>
+                  <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="Enter event details, key takeaways, who should attend..." className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl min-h-[120px]" />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-sm font-medium text-gray-700">Event Image</label>
+                  <ImageUpload category="events"
+                    onChange={(url) => setForm({ ...form, imageUrl: url })}
+                    label="Image"
+                  />
                   {form.imageUrl && (
-                    <div className="mt-2 h-28 w-full bg-gray-100 rounded-xl overflow-hidden relative border border-gray-200">
-                      <img
-                        src={form.imageUrl}
-                        alt="Preview"
-                        referrerPolicy="no-referrer"
-                        className="w-full h-full object-cover"
-                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                      />
+                    <div className="mt-3 relative rounded-lg border border-gray-200 overflow-hidden bg-gray-50 h-32 flex items-center justify-center">
+                      <img src={resolveImageUrl(form.imageUrl)} alt="Preview" className="w-full h-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => setForm({ ...form, imageUrl: "" })}
+                        className="absolute top-2 right-2 p-1.5 bg-white/90 shadow-sm hover:bg-red-50 hover:text-red-600 rounded-md transition-colors cursor-pointer"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
                     </div>
                   )}
                 </div>
-                <div className="flex items-center gap-2">
-                  <input type="checkbox" id="addIsFeatured" checked={form.isFeatured} onChange={(e) => setForm({ ...form, isFeatured: e.target.checked })} className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
-                  <label htmlFor="addIsFeatured" className="text-sm font-bold text-gray-700">Highlight this event (Show in main banner)</label>
-                </div>
+
               </form>
             </div>
             <div className="p-6 border-t border-gray-100 flex justify-end gap-3 bg-gray-50 mt-auto">
-              <button onClick={() => setIsAddOpen(false)} className="px-6 py-2.5 rounded-xl text-gray-600 hover:bg-gray-200">Cancel</button>
-              <button type="submit" form="add-event-form" disabled={submitting} className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2.5 rounded-xl">
+              <button onClick={() => setIsAddOpen(false)} className="px-6 py-2.5 hover: cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">Cancel</button>
+              <button type="submit" form="add-event-form" disabled={submitting} className="hover: px-8 py-2.5 cursor-pointer hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">
                 {submitting ? 'Saving...' : 'Save Event'}
               </button>
             </div>
@@ -334,7 +409,7 @@ const Events = () => {
           <div className="bg-white rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
             <div className="flex justify-between items-center p-6 border-b border-gray-100">
               <h2 className="text-2xl font-bold text-gray-800">Edit Event</h2>
-              <button onClick={() => setIsEditOpen(false)} className="text-gray-400 hover:text-gray-600"><X size={24} /></button>
+              <button onClick={() => setIsEditOpen(false)} className="text-gray-400 hover:text-gray-600 cursor-pointer"><X size={24} /></button>
             </div>
             <div className="p-6 overflow-y-auto">
               <form id="edit-event-form" onSubmit={handleUpdate} className="space-y-4">
@@ -370,29 +445,34 @@ const Events = () => {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">Image URL</label>
-                  <input type="text" value={editForm.imageUrl} onChange={(e) => setEditForm({ ...editForm, imageUrl: e.target.value })} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl" placeholder="https://..." />
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">Description / Event Theory</label>
+                  <textarea value={editForm.description} onChange={(e) => setEditForm({ ...editForm, description: e.target.value })} placeholder="Enter event details, key takeaways, who should attend..." className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl min-h-[120px]" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-sm font-medium text-gray-700">Event Image</label>
+                  <ImageUpload category="events"
+                    onChange={(url) => setEditForm({ ...editForm, imageUrl: url })}
+                    label="Image"
+                  />
                   {editForm.imageUrl && (
-                    <div className="mt-2 h-28 w-full bg-gray-100 rounded-xl overflow-hidden relative border border-gray-200">
-                      <img
-                        src={editForm.imageUrl}
-                        alt="Preview"
-                        referrerPolicy="no-referrer"
-                        className="w-full h-full object-cover"
-                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                      />
+                    <div className="mt-3 relative rounded-lg border border-gray-200 overflow-hidden bg-gray-50 h-32 flex items-center justify-center">
+                      <img src={resolveImageUrl(editForm.imageUrl)} alt="Preview" className="w-full h-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => setEditForm({ ...editForm, imageUrl: "" })}
+                        className="absolute top-2 right-2 p-1.5 bg-white/90 shadow-sm hover:bg-red-50 hover:text-red-600 rounded-md transition-colors cursor-pointer"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
                     </div>
                   )}
                 </div>
-                <div className="flex items-center gap-2">
-                  <input type="checkbox" id="editIsFeatured" checked={editForm.isFeatured} onChange={(e) => setEditForm({ ...editForm, isFeatured: e.target.checked })} className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
-                  <label htmlFor="editIsFeatured" className="text-sm font-bold text-gray-700">Highlight this event (Show in main banner)</label>
-                </div>
+
               </form>
             </div>
             <div className="p-6 border-t border-gray-100 flex justify-end gap-3 bg-gray-50 mt-auto">
-              <button onClick={() => setIsEditOpen(false)} className="px-6 py-2.5 rounded-xl text-gray-600 hover:bg-gray-200">Cancel</button>
-              <button type="submit" form="edit-event-form" disabled={submitting} className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2.5 rounded-xl">
+              <button onClick={() => setIsEditOpen(false)} className="px-6 py-2.5 hover: cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">Cancel</button>
+              <button type="submit" form="edit-event-form" disabled={submitting} className="hover: px-8 py-2.5 cursor-pointer hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">
                 {submitting ? 'Updating...' : 'Update Event'}
               </button>
             </div>

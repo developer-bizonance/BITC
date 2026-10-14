@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -9,8 +9,16 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://bitc.bizonance.com";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://bitc-eight.vercel.app"),
+  metadataBase: new URL(siteUrl),
   title: {
     default: "BIZONANCE Industrial Training Centre | Amravati",
     template: "%s | BIZONANCE Industrial Training Centre | Amravati",
@@ -43,7 +51,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://bitc-eight.vercel.app",
+    url: siteUrl,
     title: "BIZONANCE Industrial Training Centre | Amravati",
     description:
       "Empowering future professionals with industry-ready skills. Hands-on training in Software, AI, Data Science & Management with top company placements.",

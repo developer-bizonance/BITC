@@ -10,6 +10,7 @@ import {
   Save
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { getApiUrl } from "../utils";
 import {
   DndContext,
   closestCenter,
@@ -46,10 +47,12 @@ export default function VideoTestimonials() {
     youtubeUrl: "",
   });
 
+  const apiUrl = getApiUrl();
+
   const fetchVideoTestimonials = async () => {
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:5000/api/video-testimonials");
+      const res = await fetch(`${apiUrl}/video-testimonials`);
       const data = await res.json();
       if (data.success) {
         setVideoTestimonials(data.testimonials);
@@ -68,7 +71,7 @@ export default function VideoTestimonials() {
   const handleAddSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5000/api/video-testimonials", {
+      const res = await fetch(`${apiUrl}/video-testimonials`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -90,7 +93,7 @@ export default function VideoTestimonials() {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`http://localhost:5000/api/video-testimonials/${currentTesti.id}`, {
+      const res = await fetch(`${apiUrl}/video-testimonials/${currentTesti.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -112,7 +115,7 @@ export default function VideoTestimonials() {
   const handleDelete = async (id, title) => {
     if (!window.confirm(`Are you sure you want to delete "${title}"?`)) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/video-testimonials/${id}`, {
+      const res = await fetch(`${apiUrl}/video-testimonials/${id}`, {
         method: "DELETE",
       });
       const data = await res.json();
@@ -157,7 +160,7 @@ export default function VideoTestimonials() {
         const newIndex = items.findIndex((item) => item.id === over.id);
         const newOrder = arrayMove(items, oldIndex, newIndex);
 
-        fetch("http://localhost:5000/api/video-testimonials/reorder", {
+        fetch(`${apiUrl}/video-testimonials/reorder`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -188,7 +191,7 @@ export default function VideoTestimonials() {
           <button
             onClick={fetchVideoTestimonials}
             disabled={loading}
-            className="flex items-center gap-1.5 px-3 py-2 bg-white hover:bg-slate-50 text-slate-700 rounded-xl font-semibold text-xs border border-slate-200 shadow-sm"
+            className="flex items-center gap-1.5 px-3 py-2 hover: text-xs hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
             Refresh
@@ -198,7 +201,7 @@ export default function VideoTestimonials() {
               setFormData({ title: "", name: "", youtubeUrl: "" });
               setIsAddOpen(true);
             }}
-            className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl font-bold text-xs shadow-sm"
+            className="flex items-center gap-1.5 px-4 py-2 hover: hover: text-xs bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
           >
             <Plus className="w-4 h-4" />
             Add Video
@@ -266,7 +269,7 @@ export default function VideoTestimonials() {
                       </div>
 
                       <div className="p-4">
-                        <h4 className="text-base font-bold text-slate-900 leading-tight mb-1">{t.title}</h4>
+                        <h4 className="text-base font-medium text-gray-600 leading-tight mb-1">{t.title}</h4>
                         <p className="text-sm font-medium text-gray-500">{t.name}</p>
                       </div>
                     </SortableItem>
@@ -299,7 +302,7 @@ export default function VideoTestimonials() {
               className="relative w-full max-w-lg bg-white rounded-2xl shadow-xl overflow-hidden"
             >
               <div className="flex items-center justify-between p-5 border-b border-gray-100">
-                <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                <h3 className="text-lg font-medium text-gray-600 flex items-center gap-2">
                   {isAddOpen ? <Plus className="w-5 h-5 text-blue-600" /> : <Pencil className="w-5 h-5 text-blue-600" />}
                   {isAddOpen ? "Add Video Testimonial" : "Edit Video Testimonial"}
                 </h3>
@@ -317,7 +320,7 @@ export default function VideoTestimonials() {
               <form onSubmit={isAddOpen ? handleAddSubmit : handleEditSubmit} className="p-5">
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+                    <label className="block text-sm font-medium text-gray-500 mb-1.5">
                       Video Title
                     </label>
                     <input
@@ -331,7 +334,7 @@ export default function VideoTestimonials() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+                    <label className="block text-sm font-medium text-gray-500 mb-1.5">
                       Alumni Name
                     </label>
                     <input
@@ -345,7 +348,7 @@ export default function VideoTestimonials() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+                    <label className="block text-sm font-medium text-gray-500 mb-1.5">
                       YouTube URL
                     </label>
                     <input
@@ -376,13 +379,13 @@ export default function VideoTestimonials() {
                       setIsAddOpen(false);
                       setIsEditOpen(false);
                     }}
-                    className="px-5 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition-colors"
+                    className="px-5 py-2.5 text-sm hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-xl shadow-sm hover:shadow transition-all flex items-center gap-2"
+                    className="px-5 py-2.5 hover: text-sm hover: flex items-center gap-2 hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                   >
                     <Save className="w-4 h-4" />
                     {isAddOpen ? "Add Video" : "Save Changes"}

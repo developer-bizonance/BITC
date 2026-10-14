@@ -25,8 +25,49 @@ import {
   Filter,
   Check,
   Send,
+  ChevronRight,
+  Trash2,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { getApiUrl } from "../utils";
+
+const getStatusStyle = (status) => {
+  const s = (status || "").toLowerCase().trim();
+  if (s.includes("approv") || s.includes("hire") || s.includes("convert") || s.includes("resolv") || s.includes("shortlist")) {
+    return {
+      bg: "bg-[#E0F8E9] text-[#2E8B57] border-[#A7E8BD] hover:bg-[#c9f2d6]",
+      chevron: "text-[#2E8B57]",
+      dot: "bg-[#2E8B57]",
+    };
+  }
+  if (s.includes("reject") || s.includes("archiv") || s.includes("close")) {
+    return {
+      bg: "bg-[#FEECEB] text-[#D32F2F] border-[#F8B4B4] hover:bg-[#fcdad8]",
+      chevron: "text-[#D32F2F]",
+      dot: "bg-[#D32F2F]",
+    };
+  }
+  if (s.includes("contact")) {
+    return {
+      bg: "bg-[#E0F2FE] text-[#0369A1] border-[#BAE6FD] hover:bg-[#bae6fd]",
+      chevron: "text-[#0369A1]",
+      dot: "bg-[#0369A1]",
+    };
+  }
+  if (s.includes("review")) {
+    return {
+      bg: "bg-[#EAF3FE] text-[#294B7A] border-[#BFDBFE] hover:bg-[#dbeafe]",
+      chevron: "text-[#294B7A]",
+      dot: "bg-[#294B7A]",
+    };
+  }
+  // Default: Pending / Under review / New
+  return {
+    bg: "bg-[#FFF4D2] text-[#B8860B] border-[#FDE68A] hover:bg-[#fef08a]",
+    chevron: "text-[#B8860B]",
+    dot: "bg-[#B8860B]",
+  };
+};
 
 const CourseApplications = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -38,7 +79,7 @@ const CourseApplications = () => {
   const [copiedField, setCopiedField] = useState(null);
 
   // --- API CONFIGURATION ---
-  const API_ENDPOINT = `${import.meta.env.VITE_API_URL || "http://localhost:5000/api"}/admin/applications`;
+  const API_ENDPOINT = `${getApiUrl()}/admin/applications`;
 
   const fetchApplicants = async () => {
     setLoading(true);
@@ -53,7 +94,11 @@ const CourseApplications = () => {
         ...app,
         id: app.id || `APP-${Math.floor(Math.random() * 1000)}`,
         fullId: app.id,
-        date: app.appliedAt ? new Date(app.appliedAt).toLocaleDateString("en-IN") : "Recent",
+        date: app.appliedAt ? (() => {
+          const d = new Date(app.appliedAt);
+          return `${d.getDate().toString().padStart(2, '0')}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getFullYear()}`;
+        })() : "Recent",
+        time: app.appliedAt ? new Date(app.appliedAt).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" }) : "",
         status: app.status ? app.status.replace("_", " ").toLowerCase().replace(/\b\w/g, l => l.toUpperCase()) : "Under Review",
         // Normalize nested vs flat data
         name: app.name || app.userName || app.user?.name || "Unknown",
@@ -89,6 +134,23 @@ const CourseApplications = () => {
       });
     } catch (error) {
       console.error("Status update failed:", error);
+    }
+  };
+
+  const handleDelete = async (e, id) => {
+    e.stopPropagation();
+    if (window.confirm("Are you sure you want to delete this application?")) {
+      try {
+        await fetch(`${API_ENDPOINT}/${id}`, {
+          method: "DELETE",
+        });
+        setApplicants((prev) => prev.filter((app) => app.fullId !== id));
+        if (selectedApplicant && selectedApplicant.fullId === id) {
+          setIsModalOpen(false);
+        }
+      } catch (err) {
+        console.error("Failed to delete application", err);
+      }
     }
   };
 
@@ -195,164 +257,171 @@ const CourseApplications = () => {
   });
 
   return (
-    <div className="p-6 md:p-8 bg-[#f8fafc] min-h-screen font-sans text-slate-900 antialiased">
+    <div className="p-4 md:p-8 max-w-[1600px] mx-auto min-h-screen">
       
       {/* ── Page Header ── */}
-      <div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="mb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-transparent p-2">
         <div>
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center border border-orange-200">
-              <GraduationCap className="w-6 h-6 text-orange-600" />
+            <div className="w-12 h-12 rounded-full bg-[#FFF2E5] flex items-center justify-center text-[#F97316]">
+              <GraduationCap size={24} fill="currentColor" stroke="none" />
             </div>
             <div>
-              <h1 className="text-2xl font-black text-slate-900 tracking-tight">Course Applications</h1>
-              <p className="text-xs font-semibold text-slate-500">
+              <h1 className="text-xl md:text-[22px] font-bold text-[#1E293B] tracking-tight">Course Applications</h1>
+              <p className="text-[#64748B] text-sm mt-0.5 font-medium">
                 Review submitted student applications for enrollment
               </p>
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 w-full md:w-auto">
           <button
             onClick={handleExportCSV}
-            className="flex items-center gap-1.5 px-3.5 py-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white rounded-xl font-bold text-xs shadow-sm shadow-orange-500/20 transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#D6E4F8] text-[#294B7A] hover:bg-[#c6d7f0] text-sm font-semibold rounded-xl transition-colors active:scale-95 cursor-pointer"
           >
-            <Download className="w-3.5 h-3.5" />
-            Export CSV
-          </button>
-          <div className="bg-white px-4 py-2 rounded-2xl border border-slate-200 shadow-xs text-xs font-bold text-slate-600 flex items-center gap-1.5">
-            <span>Total Received:</span>
-            <span className="text-orange-600 font-black text-sm bg-orange-50 px-2 py-0.5 rounded-lg border border-orange-200">
-              {applicants.length}
-            </span>
-          </div>
-          <button
-            onClick={fetchApplicants}
-            title="Refresh Applications"
-            className="p-2.5 bg-white hover:bg-slate-50 rounded-2xl border border-slate-200 transition-all shadow-xs hover:shadow text-slate-600 cursor-pointer"
-          >
-            <RefreshCw size={18} className={loading ? "animate-spin text-orange-500" : ""} />
+            <Download size={16} /> Export Data
           </button>
         </div>
       </div>
 
       {/* ── Search & Filter Controls ── */}
-      <div className="flex flex-col sm:flex-row gap-3 mb-6">
+      <div className="flex flex-col sm:flex-row gap-3 mb-5">
         <div className="relative flex-1 group">
           <div className="absolute inset-y-0 left-3.5 flex items-center pointer-events-none">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Search size={16} className="text-[#A0AEC0]" />
           </div>
           <input
+            id="globalSearchInput"
             type="text"
-            placeholder="Search by student name, email, course, or ID..."
+            placeholder="Search by candidate name, email, course, or ID..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-white border border-slate-200 rounded-2xl py-2.5 pl-10 pr-4 outline-none focus:ring-2 focus:ring-orange-400/50 focus:border-orange-400 transition-all text-sm text-slate-800 placeholder:text-slate-400 shadow-xs font-medium"
+            className="w-full bg-white border border-slate-200/60 rounded-xl py-2.5 pl-10 pr-4 outline-none focus:ring-2 focus:ring-blue-400/20 focus:border-blue-400 transition-all text-sm text-[#1E293B] placeholder:text-[#94A3B8] shadow-sm font-medium"
           />
         </div>
-
         <div className="relative w-full sm:w-52">
           <select
+            id="globalStatusSelect"
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full appearance-none bg-white border border-slate-200 rounded-2xl py-2.5 pl-4 pr-10 outline-none focus:ring-2 focus:ring-orange-400/50 focus:border-orange-400 text-sm text-slate-700 cursor-pointer font-bold shadow-xs"
+            className="w-full appearance-none bg-white border border-slate-200/60 rounded-xl py-2.5 pl-4 pr-10 outline-none focus:ring-2 focus:ring-blue-400/20 focus:border-blue-400 text-sm text-[#1E293B] cursor-pointer font-bold shadow-sm"
           >
-            <option value="all">All Application Statuses</option>
-            <option value="under review">Under Review</option>
+            <option value="all">All Statuses</option>
+            <option value="pending">Pending</option>
+            <option value="reviewed">Reviewed</option>
             <option value="approved">Approved</option>
             <option value="rejected">Rejected</option>
           </select>
           <div className="absolute inset-y-0 right-3.5 flex items-center pointer-events-none">
-            <ChevronDown size={15} className="text-slate-400" />
+            <ChevronDown size={15} className="text-[#A0AEC0]" />
           </div>
         </div>
       </div>
 
       {/* ── Applications Table ── */}
-      <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+      <div className="bg-white rounded-[24px] shadow-sm border border-slate-100 overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead className="bg-slate-50/80 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+          <table className="w-full text-left text-xs text-slate-600 border-collapse">
+            <thead className="bg-[#EDF2FA] text-[#6C7E9C] font-semibold text-xs tracking-wider capitalize">
               <tr>
-                <th className="px-6 py-4">Student</th>
-                <th className="px-6 py-4">Course Details</th>
-                <th className="px-6 py-4 text-center">Applied Date</th>
-                <th className="px-6 py-4 text-center">Status</th>
-                <th className="px-6 py-4 text-right">Action</th>
+                <th className="px-6 py-5 whitespace-nowrap">Date</th>
+                <th className="px-6 py-5 whitespace-nowrap">Name</th>
+                <th className="px-6 py-5 whitespace-nowrap">Phone</th>
+                <th className="px-6 py-5 whitespace-nowrap">Course</th>
+                <th className="px-6 py-5 whitespace-nowrap">Location</th>
+                <th className="px-6 py-5 text-center whitespace-nowrap">Status</th>
+                <th className="px-6 py-5 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-[13px]">
+            <tbody className="divide-y divide-slate-100/60">
               {loading ? (
                 <tr>
-                  <td colSpan="7" className="px-6 py-16 text-center text-slate-500 font-normal">
+                  <td colSpan="7" className="px-6 py-16 text-center text-slate-400">
                     <RefreshCw className="w-6 h-6 animate-spin mx-auto mb-2 text-orange-500" />
                     Fetching applications from database...
                   </td>
                 </tr>
               ) : filtered.length === 0 ? (
                 <tr>
-                  <td colSpan="7" className="px-6 py-16 text-center text-slate-500 font-normal">
+                  <td colSpan="7" className="px-6 py-16 text-center text-slate-400">
                     <FileText className="w-8 h-8 mx-auto mb-2 text-slate-300" />
                     No applications matching your criteria.
                   </td>
                 </tr>
               ) : (
                 filtered.map((app) => (
-                  <tr key={app.fullId} className="hover:bg-slate-50/70 transition-colors group">
-                    {/* Student Info */}
-                    <td className="px-6 py-4 align-middle">
-                      <p className="font-semibold text-slate-800 text-sm group-hover:text-orange-600 transition-colors">
-                        {app.name}
+                  <tr key={app.fullId} onClick={() => { setSelectedApplicant(app); setIsModalOpen(true); }} className="hover:bg-slate-50/80 transition-colors cursor-pointer">
+                    <td className="px-6 py-5 align-middle whitespace-nowrap">
+                      <p className="font-medium text-[#64748B] text-[12px] flex items-center gap-1.5">
+                        {app.date}
                       </p>
-                      <p className="text-xs text-slate-500 font-normal flex items-center gap-1.5 mt-0.5">
-                        <Mail size={12} className="text-slate-400 shrink-0" /> {app.email}
-                      </p>
-                      <p className="text-xs text-slate-500 font-normal flex items-center gap-1.5 mt-0.5">
-                        <Phone size={12} className="text-slate-400 shrink-0" /> {app.phone}
+                      {app.time && (
+                        <p className="text-[11px] text-[#94A3B8] font-medium flex items-center gap-1 mt-0.5">
+                          {app.time}
+                        </p>
+                      )}
+                    </td>
+
+                    <td className="px-6 py-5 align-middle max-w-[200px] whitespace-nowrap">
+                      <p className="font-medium text-[#334155] text-[13px] truncate whitespace-nowrap" title={app.name || "Unknown Candidate"}>{app.name || "Unknown Candidate"}</p>
+                      <p className="text-[11px] text-[#94A3B8] font-medium flex items-center gap-1 mt-0.5 truncate whitespace-nowrap" title={app.email}>
+                        <span className="truncate whitespace-nowrap">{app.email}</span>
                       </p>
                     </td>
 
-                    {/* Course Details */}
-                    <td className="px-6 py-4 align-middle min-w-[220px]">
-                      <p className="text-[11px] font-semibold text-orange-600 uppercase tracking-wider">
-                        ENROLLMENT
+                    <td className="px-6 py-5 align-middle whitespace-nowrap">
+                      <p className="text-[12px] text-[#475569] font-medium flex items-center gap-1.5">
+                        {app.phone}
                       </p>
-                      <p className="text-xs font-medium text-slate-700 leading-snug mt-0.5">
+                    </td>
+
+                    <td className="px-6 py-5 align-middle max-w-[200px] whitespace-nowrap">
+                      <p className="font-medium text-[#334155] text-[13px] truncate whitespace-nowrap" title={app.courseTitle}>
                         {app.courseTitle}
                       </p>
                     </td>
 
-                    {/* Applied Date */}
-                    <td className="px-6 py-4 text-center align-middle">
-                      <p className="text-xs font-medium text-slate-700">
-                        {app.date}
+                    <td className="px-6 py-5 align-middle max-w-[150px] whitespace-nowrap">
+                      <p className="text-[13px] text-[#475569] font-medium flex items-center gap-1.5 truncate whitespace-nowrap" title={app.city || "Not Specified"}>
+                        <Building className="w-3.5 h-3.5 shrink-0 text-[#94A3B8]" /> <span className="truncate">{app.city || "Not Specified"}</span>
                       </p>
                     </td>
 
-                    {/* Status Dropdown */}
-                    <td className="px-6 py-4 text-center align-middle">
-                      <select
-                        value={app.status.toLowerCase()}
-                        onChange={(e) => handleStatusChange(app.fullId, e.target.value)}
-                        className="bg-transparent text-xs font-medium text-slate-700 hover:text-slate-900 border-b border-slate-300 hover:border-orange-500 py-0.5 px-1 outline-none cursor-pointer transition-colors"
+                    <td className="px-6 py-5 text-center align-middle whitespace-nowrap">
+                      <span
+                        className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-[12px] font-semibold border ${
+                          app.status.toLowerCase() === "reviewed"
+                            ? "bg-[#EAF3FE] text-[#294B7A] border-blue-200"
+                            : app.status.toLowerCase() === "approved"
+                            ? "bg-[#E0F8E9] text-[#2E8B57] border-green-200"
+                            : app.status.toLowerCase() === "rejected"
+                            ? "bg-red-50 text-red-600 border-red-200"
+                            : "bg-[#FFF4D2] text-[#B8860B] border-yellow-200"
+                        }`}
                       >
-                        <option value="under review">Under Review</option>
-                        <option value="approved">Approved</option>
-                        <option value="rejected">Rejected</option>
-                      </select>
+                        <span
+                          className={`w-1.5 h-1.5 rounded-full ${
+                            app.status.toLowerCase() === "reviewed"
+                              ? "bg-[#294B7A]"
+                              : app.status.toLowerCase() === "approved"
+                              ? "bg-[#2E8B57]"
+                              : app.status.toLowerCase() === "rejected"
+                              ? "bg-red-600"
+                              : "bg-[#B8860B]"
+                          }`}
+                        />
+                        {app.status.charAt(0).toUpperCase() + app.status.slice(1)}
+                      </span>
                     </td>
 
-                    {/* Action */}
-                    <td className="px-6 py-4 text-right align-middle">
+                    <td className="px-6 py-5 text-right align-middle">
                       <button
-                        onClick={() => {
-                          setSelectedApplicant(app);
-                          setIsModalOpen(true);
-                        }}
-                        className="text-orange-600 hover:text-orange-700 font-semibold text-xs hover:underline cursor-pointer"
+                        onClick={(e) => handleDelete(e, app.fullId)}
+                        className="w-7 h-7 rounded-full bg-white text-red-600 hover:bg-red-600 hover:text-white hover:border-red-600 border border-slate-200 shadow-sm hover:shadow-md flex items-center justify-center transition-all cursor-pointer active:scale-95 inline-flex"
+                        title="Delete Application"
                       >
-                        View Profile
+                        <Trash2 className="w-3.5 h-3.5" />
                       </button>
                     </td>
                   </tr>
@@ -373,144 +442,105 @@ const CourseApplications = () => {
               initial={{ scale: 0.96, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.96, opacity: 0 }}
-              className="bg-white rounded-3xl shadow-2xl w-full max-w-xl max-h-[92vh] overflow-hidden flex flex-col border border-slate-100"
+              className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col border border-slate-100"
             >
               {/* Modal Header */}
-              <div className="p-6 flex justify-between items-start bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white">
-                <div className="flex gap-4 items-center">
-                  <div className="w-12 h-12 bg-orange-500/20 text-orange-400 rounded-2xl flex items-center justify-center font-black text-xl border border-orange-500/30 shadow-inner">
-                    {selectedApplicant.name?.charAt(0).toUpperCase()}
+              <div className="flex justify-between items-start px-6 py-5 border-b border-slate-100 bg-white rounded-t-2xl">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-700 shadow-inner font-bold text-xl">
+                    {(selectedApplicant.name || "U").charAt(0).toUpperCase()}
                   </div>
                   <div>
-                    <h2 className="text-xl font-extrabold text-white">{selectedApplicant.name}</h2>
-                    <p className="text-xs text-orange-400 font-bold tracking-wider uppercase mt-0.5">
-                      STUDENT
+                    <h3 className="text-xl font-black text-slate-900 tracking-tight leading-tight mb-0.5">
+                      {selectedApplicant.name || "Unknown Applicant"}
+                    </h3>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                      COURSE APPLICATION
                     </p>
                   </div>
                 </div>
                 <button
                   onClick={() => setIsModalOpen(false)}
-                  className="p-2 hover:bg-white/10 rounded-full transition-colors text-white cursor-pointer"
+                  className="p-2 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
                 >
-                  <X size={20} />
+                  <X className="w-5 h-5" />
                 </button>
               </div>
 
               {/* Modal Body */}
-              <div className="p-6 md:p-8 overflow-y-auto space-y-6 bg-slate-50/40 text-sm flex-1">
+              <div className="p-6 overflow-y-auto bg-slate-50 flex-1 space-y-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                 
-                {/* Course Box */}
-                <div className="p-4 bg-orange-500/10 border-2 border-orange-500/30 rounded-2xl">
-                  <p className="text-[10px] font-bold text-orange-800 uppercase tracking-widest mb-1 flex items-center gap-1.5">
-                    <GraduationCap size={15} className="text-orange-600" /> Course Interest
-                  </p>
-                  <p className="text-base font-black text-slate-900">{selectedApplicant.courseTitle}</p>
-                </div>
-
                 {/* Candidate Information Grid */}
                 <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <div className="flex items-center gap-1.5 text-slate-500 mb-1 uppercase text-[10px] font-semibold tracking-wider">
+                  <div className="col-span-2 sm:col-span-1">
+                    <div className="flex items-center gap-1.5 text-slate-500 mb-1 capitalize text-[10px] font-semibold tracking-wider">
+                      <GraduationCap size={12} className="text-slate-400" /> Course Interest
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <p className="text-slate-800 font-medium text-sm break-words leading-snug">{selectedApplicant.courseTitle}</p>
+                    </div>
+                  </div>
+
+                  <div className="col-span-2 sm:col-span-1">
+                    <div className="flex items-center gap-1.5 text-slate-500 mb-1 capitalize text-[10px] font-semibold tracking-wider">
                       <Mail size={12} className="text-slate-400" /> Email Address
                     </div>
                     <div className="flex items-center gap-2">
-                      <p className="text-slate-800 font-medium text-xs truncate">{selectedApplicant.email}</p>
-                      <button
-                        onClick={() => copyToClipboard(selectedApplicant.email, "email")}
-                        className="p-1 text-slate-400 hover:text-orange-600 cursor-pointer"
-                        title="Copy email"
-                      >
-                        <Copy size={12} />
-                      </button>
+                      <p className="text-slate-800 font-medium text-sm break-all">{selectedApplicant.email}</p>
                     </div>
-                    {copiedField === "email" && <span className="text-[10px] text-green-600 font-medium">Copied!</span>}
                   </div>
 
                   <div>
-                    <div className="flex items-center gap-1.5 text-slate-500 mb-1 uppercase text-[10px] font-semibold tracking-wider">
+                    <div className="flex items-center gap-1.5 text-slate-500 mb-1 capitalize text-[10px] font-semibold tracking-wider">
                       <Phone size={12} className="text-slate-400" /> Phone Number
                     </div>
                     <div className="flex items-center gap-2">
-                      <p className="text-slate-800 font-medium text-xs">{selectedApplicant.phone}</p>
-                      <button
-                        onClick={() => copyToClipboard(selectedApplicant.phone, "phone")}
-                        className="p-1 text-slate-400 hover:text-orange-600 cursor-pointer"
-                        title="Copy phone"
-                      >
-                        <Copy size={12} />
-                      </button>
+                      <p className="text-slate-800 font-medium text-sm break-words">{selectedApplicant.phone}</p>
                     </div>
-                    {copiedField === "phone" && <span className="text-[10px] text-green-600 font-medium">Copied!</span>}
                   </div>
-
+                  
                   <div>
-                    <div className="flex items-center gap-1.5 text-slate-500 mb-1 uppercase text-[10px] font-semibold tracking-wider">
+                    <div className="flex items-center gap-1.5 text-slate-500 mb-1 capitalize text-[10px] font-semibold tracking-wider">
                       <Building size={12} className="text-slate-400" /> City
                     </div>
-                    <p className="text-slate-800 font-medium">{selectedApplicant.city || "Not Specified"}</p>
+                    <p className="text-slate-800 font-medium text-sm break-words">{selectedApplicant.city || "Not Specified"}</p>
                   </div>
 
                   <div>
-                    <div className="flex items-center gap-1.5 text-slate-500 mb-1 uppercase text-[10px] font-semibold tracking-wider">
+                    <div className="flex items-center gap-1.5 text-slate-500 mb-1 capitalize text-[10px] font-semibold tracking-wider">
                       <GraduationCap size={12} className="text-slate-400" /> Higher Qualification
                     </div>
-                    <p className="text-slate-800 font-medium">{selectedApplicant.qualification || "Not Specified"}</p>
+                    <p className="text-slate-800 font-medium text-sm break-words">{selectedApplicant.qualification || "Not Specified"}</p>
                   </div>
 
                   <div>
-                    <div className="flex items-center gap-1.5 text-slate-500 mb-1 uppercase text-[10px] font-semibold tracking-wider">
+                    <div className="flex items-center gap-1.5 text-slate-500 mb-1 capitalize text-[10px] font-semibold tracking-wider">
                       <Briefcase size={12} className="text-slate-400" /> Specialization
                     </div>
-                    <p className="text-slate-800 font-medium">{selectedApplicant.specialization || "Not Specified"}</p>
+                    <p className="text-slate-800 font-medium text-sm break-words">{selectedApplicant.specialization || "Not Specified"}</p>
                   </div>
 
                   <div>
-                    <div className="flex items-center gap-1.5 text-slate-500 mb-1 uppercase text-[10px] font-semibold tracking-wider">
-                      <FileText size={12} className="text-slate-400" /> Message
+                    <div className="flex items-center gap-1.5 text-slate-500 mb-1 capitalize text-[10px] font-semibold tracking-wider">
+                      <Calendar size={12} className="text-slate-400" /> Date
                     </div>
-                    <p className="text-slate-800 font-medium truncate" title={selectedApplicant.message}>{selectedApplicant.message || "No message"}</p>
+                    <p className="text-slate-800 font-medium text-sm break-words">
+                      {selectedApplicant.date}
+                    </p>
                   </div>
                 </div>
 
-                {/* Metadata */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="p-3 bg-white border border-slate-200 rounded-xl">
-                    <p className="text-slate-500 text-[10px] font-bold uppercase tracking-wider mb-1 flex items-center gap-1">
-                      <Calendar size={12} className="text-orange-500" /> Application Date
-                    </p>
-                    <p className="text-slate-800 font-semibold">{selectedApplicant.date}</p>
-                  </div>
-
-                  <div className="p-3 bg-white border border-slate-200 rounded-xl">
-                    <p className="text-slate-500 text-[10px] font-bold uppercase tracking-wider mb-1 flex items-center gap-1">
-                      <CheckCircle size={12} className="text-emerald-500" /> Application Status
-                    </p>
-                    <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-                      <p className="text-slate-800 font-semibold capitalize">{selectedApplicant.status}</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Status Updater */}
-                <div className="pt-4 border-t border-slate-200 flex justify-between items-center">
+                {/* Cover Note */}
+                {selectedApplicant.message && (
                   <div>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Update Status</p>
-                    <select
-                      value={selectedApplicant.status.toLowerCase()}
-                      onChange={(e) => handleStatusChange(selectedApplicant.fullId, e.target.value)}
-                      className="bg-white border border-slate-300 text-orange-600 text-xs font-bold py-2 px-3 rounded-xl outline-none focus:ring-2 focus:ring-orange-400 cursor-pointer shadow-xs"
-                    >
-                      <option value="under review">Under Review</option>
-                      <option value="approved">Approved</option>
-                      <option value="rejected">Rejected</option>
-                    </select>
+                    <div className="flex items-center gap-1.5 text-slate-400 mb-1 capitalize text-[10px] font-bold tracking-widest">
+                      Applicant Message
+                    </div>
+                    <p className="text-xs text-slate-600 bg-white p-3.5 rounded-xl border border-slate-200 leading-relaxed font-medium whitespace-pre-wrap break-words">
+                      &quot;{selectedApplicant.message}&quot;
+                    </p>
                   </div>
-                  <div className="text-right">
-                    <p className="text-[11px] text-slate-400 font-medium">Applied Date: {selectedApplicant.date}</p>
-                    <p className="text-[10px] text-slate-300">ID: {selectedApplicant.id}</p>
-                  </div>
-                </div>
+                )}
               </div>
 
               {/* Modal Footer / Quick Reply Actions */}
@@ -520,24 +550,44 @@ const CourseApplications = () => {
                 </span>
 
                 <div className="flex items-center gap-2">
+                  {/* Update Status Button */}
+                  {(() => {
+                    const st = getStatusStyle(selectedApplicant.status);
+                    return (
+                      <div className="relative inline-flex items-center">
+                        <select
+                          value={selectedApplicant.status.toLowerCase()}
+                          onChange={(e) => handleStatusChange(selectedApplicant.fullId, e.target.value)}
+                          className={`appearance-none flex items-center pl-3.5 pr-8 py-2 text-xs font-bold rounded-3xl border shadow-xs transition-all active:scale-95 cursor-pointer outline-none ${st.bg}`}
+                        >
+                          <option value="under review" className="bg-white text-slate-800">Under Review</option>
+                          <option value="approved" className="bg-white text-slate-800">Approved</option>
+                          <option value="rejected" className="bg-white text-slate-800">Rejected</option>
+                        </select>
+                        <ChevronDown size={14} className={`absolute right-2.5 pointer-events-none transition-colors ${st.chevron}`} />
+                      </div>
+                    );
+                  })()}
                   <a
                     href={`tel:${selectedApplicant.phone}`}
-                    className="flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-xl font-bold text-xs transition-all shadow-xs"
+                    className="flex items-center gap-1.5 px-4 py-2 text-xs bg-slate-200 text-slate-700 hover:bg-slate-300 font-medium rounded-3xl shadow-xs transition-all active:scale-95"
                   >
-                    <Phone className="w-3.5 h-3.5 text-emerald-600" />
-                    Call Candidate
+                    <Phone className="w-3.5 h-3.5 text-slate-500" />
+                    Call
                   </a>
 
                   <a
-                    href={`mailto:${selectedApplicant.email}?subject=BITC Course Enrollment: ${encodeURIComponent(
+                    href={`https://mail.google.com/mail/?view=cm&fs=1&to=${selectedApplicant.email}&su=BITC%20Course%20Enrollment:%20${encodeURIComponent(
                       selectedApplicant.courseTitle || "Course"
-                    )}&body=Dear ${encodeURIComponent(selectedApplicant.name)},\n\nThank you for applying for the ${encodeURIComponent(
+                    )}&body=Dear%20${encodeURIComponent(selectedApplicant.name)}%2C%0A%0AThank%20you%20for%20applying%20for%20the%20${encodeURIComponent(
                       selectedApplicant.courseTitle || "course"
-                    )} at BIZONANCE Industrial Training Centre (BITC).\n\nOur academic counselor will contact you shortly to complete the orientation and batch scheduling.\n\nBest regards,\nBITC Team`}
-                    className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white rounded-xl font-bold text-xs shadow-sm shadow-orange-500/20 transition-all hover:scale-[1.02] active:scale-95"
+                    )}%20at%20BIZONANCE%20Industrial%20Training%20Centre%20(BITC).%0A%0AOur%20academic%20counselor%20will%20contact%20you%20shortly%20to%20complete%20the%20orientation%20and%20batch%20scheduling.%0A%0ABest%20regards%2C%0ABITC%20Team`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 px-4 py-2 text-xs bg-slate-200 text-slate-700 hover:bg-slate-300 font-medium rounded-3xl shadow-xs transition-all active:scale-95"
                   >
-                    <Send className="w-3.5 h-3.5" />
-                    Reply via Email
+                    <Send className="w-3.5 h-3.5 text-slate-500" />
+                    Email
                   </a>
                 </div>
               </div>

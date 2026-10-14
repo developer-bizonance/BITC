@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Plus, Trash2, Pencil, RefreshCw, X, HelpCircle } from "lucide-react";
+import { getApiUrl } from "../utils";
 
 const FAQ = () => {
   const [faqs, setFaqs] = useState([]);
@@ -9,11 +10,12 @@ const FAQ = () => {
   const [editingId, setEditingId] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [notification, setNotification] = useState(null);
+  const [confirmDelete, setConfirmDelete] = useState(null); // { id, title }
 
   const [form, setForm] = useState({ question: "", answer: "" });
   const [editForm, setEditForm] = useState({ question: "", answer: "" });
 
-  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+  const apiUrl = getApiUrl();
 
   const showNotification = (msg, type = "success") => {
     setNotification({ msg, type });
@@ -69,7 +71,13 @@ const FAQ = () => {
   };
 
   const handleDelete = async (id, question) => {
-    if (!window.confirm(`Are you sure you want to remove this FAQ?`)) return;
+    setConfirmDelete({ id, title: question });
+  };
+
+  const confirmAndDelete = async () => {
+    if (!confirmDelete) return;
+    const { id, title } = confirmDelete;
+    setConfirmDelete(null);
     try {
       const res = await fetch(`${apiUrl}/faq/${id}`, { method: "DELETE" });
       const data = await res.json();
@@ -120,6 +128,33 @@ const FAQ = () => {
 
   return (
     <div className="p-5 md:p-6 max-w-7xl mx-auto space-y-4">
+      {/* Custom Delete Confirmation Modal */}
+      {confirmDelete && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6">
+            <h3 className="text-base font-bold text-slate-900 mb-2">Remove FAQ</h3>
+            <p className="text-sm text-slate-500 mb-6">
+              Are you sure you want to remove{" "}
+              <span className="font-semibold text-slate-700">"{confirmDelete.title}"</span>?
+            </p>
+            <div className="flex items-center justify-end gap-3">
+              <button
+                onClick={() => setConfirmDelete(null)}
+                className="px-5 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmAndDelete}
+                className="px-5 py-2 text-sm font-semibold bg-red-500 hover:bg-red-600 text-white rounded-full shadow-sm transition-all active:scale-95 cursor-pointer"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-3 border-b border-slate-200 gap-3">
         <div>
@@ -138,7 +173,7 @@ const FAQ = () => {
           </button>
           <button
             onClick={() => setIsAddOpen(true)}
-            className="flex items-center gap-1.5 px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-xs transition-all cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-2 hover: text-xs cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
           >
             <Plus className="w-4 h-4" /> Add FAQ
           </button>
@@ -159,7 +194,7 @@ const FAQ = () => {
       ) : faqs.length === 0 ? (
         <div className="bg-transparent p-8 text-center">
           <HelpCircle className="w-10 h-10 text-slate-300 mx-auto mb-2" />
-          <h3 className="text-sm font-bold text-slate-800 mb-1">No FAQs found</h3>
+          <h3 className="text-sm font-medium text-gray-600 mb-1">No FAQs found</h3>
           <p className="text-xs text-slate-500">Get started by adding your first FAQ.</p>
         </div>
       ) : (
@@ -167,20 +202,20 @@ const FAQ = () => {
           {faqs.map((faq) => (
             <div key={faq.id} className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-2xs hover:shadow-sm transition-all group flex flex-col justify-between">
               <div className="p-4 flex-1">
-                <h3 className="text-xs font-bold text-slate-800 leading-snug line-clamp-2">{faq.question}</h3>
+                <h3 className="text-xs font-medium text-gray-600 leading-snug line-clamp-2">{faq.question}</h3>
                 <p className="text-xs text-slate-500 leading-relaxed mt-2 line-clamp-4 font-normal">{faq.answer}</p>
               </div>
-              <div className="px-4 py-2 bg-slate-50/80 border-t border-slate-100 flex items-center justify-end gap-1.5">
+              <div className="px-4 py-2.5 bg-slate-50/80 border-t border-slate-100 flex items-center justify-end gap-2">
                 <button
                   onClick={() => openEdit(faq)}
-                  className="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer"
+                  className="w-8 h-8 flex items-center justify-center bg-white text-blue-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 rounded-full border border-slate-200 shadow-xs transition-all cursor-pointer active:scale-95"
                   title="Edit FAQ"
                 >
                   <Pencil className="w-3.5 h-3.5" />
                 </button>
                 <button
                   onClick={() => handleDelete(faq.id, faq.question)}
-                  className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                  className="w-8 h-8 flex items-center justify-center bg-white text-red-600 hover:bg-red-600 hover:text-white hover:border-red-600 rounded-full border border-slate-200 shadow-xs transition-all cursor-pointer active:scale-95"
                   title="Delete FAQ"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
@@ -196,7 +231,7 @@ const FAQ = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-xl overflow-hidden flex flex-col max-h-[90vh]">
             <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-              <h3 className="text-lg font-bold text-gray-900">Add New FAQ</h3>
+              <h3 className="text-lg font-medium text-gray-600">Add New FAQ</h3>
               <button onClick={() => setIsAddOpen(false)} className="text-gray-400 hover:text-gray-700 bg-white hover:bg-gray-100 p-1.5 rounded-lg transition-colors">
                 <X className="w-5 h-5" />
               </button>
@@ -214,8 +249,8 @@ const FAQ = () => {
               </form>
             </div>
             <div className="px-6 py-4 border-t border-gray-100 flex justify-end gap-3 bg-gray-50">
-              <button type="button" onClick={() => setIsAddOpen(false)} className="px-5 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-200 rounded-xl transition-colors">Cancel</button>
-              <button type="submit" form="add-faq-form" disabled={submitting} className="px-5 py-2.5 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-md shadow-blue-500/20 transition-all disabled:opacity-70 flex items-center gap-2">
+              <button type="button" onClick={() => setIsAddOpen(false)} className="px-5 py-2.5 text-sm hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">Cancel</button>
+              <button type="submit" form="add-faq-form" disabled={submitting} className="px-5 py-2.5 text-sm hover: disabled:opacity-70 flex items-center gap-2 hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">
                 {submitting ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />} Add FAQ
               </button>
             </div>
@@ -228,7 +263,7 @@ const FAQ = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-xl overflow-hidden flex flex-col max-h-[90vh]">
             <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-              <h3 className="text-lg font-bold text-gray-900">Edit FAQ</h3>
+              <h3 className="text-lg font-medium text-gray-600">Edit FAQ</h3>
               <button onClick={() => setIsEditOpen(false)} className="text-gray-400 hover:text-gray-700 bg-white hover:bg-gray-100 p-1.5 rounded-lg transition-colors">
                 <X className="w-5 h-5" />
               </button>
@@ -246,8 +281,8 @@ const FAQ = () => {
               </form>
             </div>
             <div className="px-6 py-4 border-t border-gray-100 flex justify-end gap-3 bg-gray-50">
-              <button type="button" onClick={() => setIsEditOpen(false)} className="px-5 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-200 rounded-xl transition-colors">Cancel</button>
-              <button type="submit" form="edit-faq-form" disabled={submitting} className="px-5 py-2.5 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-md shadow-blue-500/20 transition-all disabled:opacity-70 flex items-center gap-2">
+              <button type="button" onClick={() => setIsEditOpen(false)} className="px-5 py-2.5 text-sm hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">Cancel</button>
+              <button type="submit" form="edit-faq-form" disabled={submitting} className="px-5 py-2.5 text-sm hover: disabled:opacity-70 flex items-center gap-2 hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">
                 {submitting ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Pencil className="w-4 h-4" />} Save Changes
               </button>
             </div>

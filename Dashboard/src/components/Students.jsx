@@ -20,6 +20,7 @@ import {
   Eye,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { getApiUrl } from "../utils";
 
 const Students = () => {
   const [students, setStudents] = useState([]);
@@ -47,7 +48,7 @@ const Students = () => {
     phone: "",
   });
 
-  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+  const apiUrl = getApiUrl();
 
   const showNotification = (msg, type = "success") => {
     setNotification({ msg, type });
@@ -251,7 +252,7 @@ const Students = () => {
           <button
             onClick={fetchStudents}
             disabled={loading}
-            className="flex items-center gap-1.5 px-3 py-2 bg-white hover:bg-slate-50 text-slate-700 rounded-xl font-semibold text-xs transition-all border border-slate-200 cursor-pointer shadow-xs"
+            className="flex items-center gap-1.5 px-3 py-2 hover: text-xs cursor-pointer hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin text-blue-600" : ""}`} />
             Refresh
@@ -259,7 +260,7 @@ const Students = () => {
 
           <button
             onClick={handleExportCSV}
-            className="flex items-center gap-1.5 px-3.5 py-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-xl font-semibold text-xs shadow-xs transition-all cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-2 hover: text-xs cursor-pointer hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
           >
             <Download className="w-3.5 h-3.5" />
             Export CSV
@@ -267,7 +268,7 @@ const Students = () => {
 
           <button
             onClick={() => setIsAddOpen(true)}
-            className="flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-xs shadow-md shadow-blue-500/20 transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
+            className="flex items-center gap-1.5 px-4 py-2 hover: text-xs cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
           >
             <Plus className="w-3.5 h-3.5" />
             Add Student
@@ -445,7 +446,7 @@ const Students = () => {
             className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden"
           >
             <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-              <h3 className="text-sm font-bold text-slate-900">Create Student Account</h3>
+              <h3 className="text-sm font-medium text-gray-600">Create Student Account</h3>
               <button
                 onClick={() => setIsAddOpen(false)}
                 className="text-slate-400 hover:text-slate-700 p-1 rounded-lg cursor-pointer"
@@ -456,7 +457,7 @@ const Students = () => {
 
             <form onSubmit={handleAdd} className="p-6 space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                <label className="block text-xs font-medium text-gray-500 mb-1">
                   Full Name *
                 </label>
                 <input
@@ -470,7 +471,7 @@ const Students = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                <label className="block text-xs font-medium text-gray-500 mb-1">
                   Email Address *
                 </label>
                 <input
@@ -484,7 +485,7 @@ const Students = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                <label className="block text-xs font-medium text-gray-500 mb-1">
                   Phone Number
                 </label>
                 <input
@@ -498,7 +499,7 @@ const Students = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                <label className="block text-xs font-medium text-gray-500 mb-1">
                   Initial Password (Optional)
                 </label>
                 <input
@@ -514,14 +515,14 @@ const Students = () => {
                 <button
                   type="button"
                   onClick={() => setIsAddOpen(false)}
-                  className="px-4 py-2 border border-slate-200 text-slate-600 rounded-xl text-xs font-semibold hover:bg-slate-50 cursor-pointer"
+                  className="px-4 py-2 text-xs hover: cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-sm transition-all cursor-pointer"
+                  className="px-4 py-2 hover: text-xs cursor-pointer hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   {submitting ? "Creating..." : "Create Account"}
                 </button>
@@ -540,7 +541,7 @@ const Students = () => {
             className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden"
           >
             <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-              <h3 className="text-sm font-bold text-slate-900">Edit Student Account</h3>
+              <h3 className="text-sm font-medium text-gray-600">Edit Student Account</h3>
               <button
                 onClick={() => setIsEditOpen(false)}
                 className="text-slate-400 hover:text-slate-700 p-1 rounded-lg cursor-pointer"
@@ -551,7 +552,7 @@ const Students = () => {
 
             <form onSubmit={handleEdit} className="p-6 space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                <label className="block text-xs font-medium text-gray-500 mb-1">
                   Full Name *
                 </label>
                 <input
@@ -564,7 +565,7 @@ const Students = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                <label className="block text-xs font-medium text-gray-500 mb-1">
                   Email Address *
                 </label>
                 <input
@@ -577,7 +578,7 @@ const Students = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                <label className="block text-xs font-medium text-gray-500 mb-1">
                   Phone Number
                 </label>
                 <input
@@ -593,14 +594,14 @@ const Students = () => {
                 <button
                   type="button"
                   onClick={() => setIsEditOpen(false)}
-                  className="px-4 py-2 border border-slate-200 text-slate-600 rounded-xl text-xs font-semibold hover:bg-slate-50 cursor-pointer"
+                  className="px-4 py-2 text-xs hover: cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-sm transition-all cursor-pointer"
+                  className="px-4 py-2 hover: text-xs cursor-pointer hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   {submitting ? "Saving..." : "Save Changes"}
                 </button>
@@ -620,7 +621,7 @@ const Students = () => {
           >
             <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
               <div>
-                <h3 className="text-sm font-bold text-slate-900">Student Profile</h3>
+                <h3 className="text-sm font-medium text-gray-600">Student Profile</h3>
                 <p className="text-[11px] text-slate-400">ID: {selectedStudent.id}</p>
               </div>
               <button
@@ -669,7 +670,7 @@ const Students = () => {
               <div className="flex items-center gap-2">
                 <a
                   href={`tel:${selectedStudent.phone}`}
-                  className="flex items-center gap-1.5 px-3.5 py-2 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-xl font-bold text-xs transition-all shadow-xs"
+                  className="flex items-center gap-1.5 px-3.5 py-2 hover: text-xs bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   <Phone className="w-3.5 h-3.5 text-emerald-600" />
                   Call Student
@@ -679,7 +680,7 @@ const Students = () => {
                   href={`mailto:${selectedStudent.email}?subject=BITC Student Portal Notification&body=Dear ${encodeURIComponent(
                     selectedStudent.name
                   )},\n\nThank you for registering at BIZONANCE Industrial Training Centre (BITC).\n\nBest regards,\nBITC Academic Team`}
-                  className="flex items-center gap-1.5 px-3.5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl font-bold text-xs shadow-sm shadow-blue-500/20 transition-all"
+                  className="flex items-center gap-1.5 px-3.5 py-2 hover: hover: text-xs bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
                 >
                   <Send className="w-3.5 h-3.5" />
                   Email Student

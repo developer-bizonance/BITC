@@ -4,6 +4,7 @@ import { ChevronRight } from 'lucide-react';
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { getApiBase } from "@/lib/utils";
 
 interface EventRegistrationModalProps {
   children?: React.ReactNode;
@@ -20,6 +21,7 @@ export default function EventRegistrationModal({ children, eventId, eventName, i
     name: "",
     email: "",
     phone: "",
+    city: "",
     college: "",
     course: "",
     graduationYear: "",
@@ -89,7 +91,7 @@ export default function EventRegistrationModal({ children, eventId, eventName, i
     }
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === "development" ? "http://localhost:5000/api" : "https://bitc-backend-theta.vercel.app/api")}/event-registrations`, {
+      const res = await fetch(`${getApiBase()}/event-registrations`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -116,7 +118,7 @@ export default function EventRegistrationModal({ children, eventId, eventName, i
     if (!isOpen) {
       setTimeout(() => {
         setStatus("idle");
-        setFormData({ name: "", email: "", phone: "", college: "", course: "", graduationYear: "", eventId: eventId || "" });
+        setFormData({ name: "", email: "", phone: "", city: "", college: "", course: "", graduationYear: "", eventId: eventId || "" });
         setErrorMessage("");
       }, 200);
     }
@@ -133,7 +135,7 @@ export default function EventRegistrationModal({ children, eventId, eventName, i
           )
         }
       />
-      <DialogContent className="sm:max-w-md bg-white rounded-3xl p-6 max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-md bg-white rounded-3xl p-6 max-h-[95vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-center text-slate-900 mb-2">
             {isGeneralUpdate ? "Get event updates" : "Event Registration"}
@@ -147,7 +149,7 @@ export default function EventRegistrationModal({ children, eventId, eventName, i
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
               </svg>
             </div>
-            <h3 className="text-xl font-bold text-slate-900">{isGeneralUpdate ? "Subscribed Successfully!" : "Registration Successful!"}</h3>
+            <h3 className="text-xl font-medium text-gray-600">{isGeneralUpdate ? "Subscribed Successfully!" : "Registration Successful!"}</h3>
             <p className="text-slate-600">
               {isGeneralUpdate ? "You will now receive updates about our upcoming events." : "Thank you for registering. We will be in touch with you shortly."}
             </p>
@@ -156,7 +158,22 @@ export default function EventRegistrationModal({ children, eventId, eventName, i
             </Button>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-4 mt-2">
+          <form onSubmit={handleSubmit} className="space-y-3 mt-2">
+            {!isGeneralUpdate && (
+              <div>
+                <label htmlFor="eventName" className="block text-sm font-semibold text-slate-700 mb-1">
+                  Event Name
+                </label>
+                <input
+                  type="text"
+                  id="eventName"
+                  name="eventName"
+                  readOnly
+                  value={eventName || "General Update"}
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors text-slate-500 bg-slate-50 cursor-not-allowed"
+                />
+              </div>
+            )}
             <div>
               <label htmlFor="name" className="block text-sm font-semibold text-slate-700 mb-1">
                 Name <span className="text-red-500">*</span>
@@ -169,7 +186,7 @@ export default function EventRegistrationModal({ children, eventId, eventName, i
                 value={formData.name}
                 onChange={handleChange}
                 onBlur={() => handleBlur("name")}
-                className={`w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors text-slate-900 ${fieldErrors.name ? 'border-red-300 bg-red-50' : 'border-slate-200'}`}
+                className={`w-full px-4 py-2.5 rounded-xl border focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors text-slate-900 ${fieldErrors.name ? 'border-red-300 bg-red-50' : 'border-slate-200'}`}
                 placeholder="Enter your full name"
               />
               {fieldErrors.name && <p className="text-xs text-red-500 mt-1 font-medium">{fieldErrors.name}</p>}
@@ -186,7 +203,7 @@ export default function EventRegistrationModal({ children, eventId, eventName, i
                 value={formData.email}
                 onChange={handleChange}
                 onBlur={() => handleBlur("email")}
-                className={`w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors text-slate-900 ${fieldErrors.email ? 'border-red-300 bg-red-50' : 'border-slate-200'}`}
+                className={`w-full px-4 py-2.5 rounded-xl border focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors text-slate-900 ${fieldErrors.email ? 'border-red-300 bg-red-50' : 'border-slate-200'}`}
                 placeholder="Enter your email id"
               />
               {fieldErrors.email && <p className="text-xs text-red-500 mt-1 font-medium">{fieldErrors.email}</p>}
@@ -203,10 +220,25 @@ export default function EventRegistrationModal({ children, eventId, eventName, i
                 value={formData.phone}
                 onChange={handleChange}
                 onBlur={() => handleBlur("phone")}
-                className={`w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors text-slate-900 ${fieldErrors.phone ? 'border-red-300 bg-red-50' : 'border-slate-200'}`}
+                className={`w-full px-4 py-2.5 rounded-xl border focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors text-slate-900 ${fieldErrors.phone ? 'border-red-300 bg-red-50' : 'border-slate-200'}`}
                 placeholder="Enter your mobile number"
               />
               {fieldErrors.phone && <p className="text-xs text-red-500 mt-1 font-medium">{fieldErrors.phone}</p>}
+            </div>
+            
+            <div>
+              <label htmlFor="city" className="block text-sm font-semibold text-slate-700 mb-1">
+                City
+              </label>
+              <input
+                type="text"
+                id="city"
+                name="city"
+                value={formData.city}
+                onChange={handleChange}
+                className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors text-slate-900"
+                placeholder="Enter your city"
+              />
             </div>
             
             {!isGeneralUpdate && (
@@ -221,21 +253,8 @@ export default function EventRegistrationModal({ children, eventId, eventName, i
                     name="college"
                     value={formData.college}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors text-slate-900"
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors text-slate-900"
                     placeholder="Enter Your College/University"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="eventName" className="block text-sm font-semibold text-slate-700 mb-1">
-                    Event Name
-                  </label>
-                  <input
-                    type="text"
-                    id="eventName"
-                    name="eventName"
-                    readOnly
-                    value={eventName || "General Update"}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors text-slate-500 bg-slate-50 cursor-not-allowed"
                   />
                 </div>
               </>

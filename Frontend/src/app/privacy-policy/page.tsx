@@ -24,7 +24,7 @@ export default function PrivacyPolicyPage() {
         
         <div className="space-y-6 text-slate-700 leading-relaxed text-sm sm:text-base">
           <p>
-            At <strong>BIZONANCE Industrial Training Centre (BITC)</strong>, accessible from bitc-eight.vercel.app, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by BITC and how we use it.
+            At <strong>BIZONANCE Industrial Training Centre (BITC)</strong>, accessible from bitc.bizonance.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by BITC and how we use it.
           </p>
           
           <h2 className="text-xl font-bold text-slate-900 pt-4">Information we <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Collect</span></h2>

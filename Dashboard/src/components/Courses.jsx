@@ -1,5 +1,6 @@
-﻿import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Plus, Trash2, Pencil, RefreshCw, X, BookOpen, Clock, Tag } from "lucide-react";
+import { getApiUrl } from "../utils";
 
 const Courses = () => {
   const [courses, setCourses] = useState([]);
@@ -14,7 +15,7 @@ const Courses = () => {
     title: "",
     category: "Information Technology",
     duration: "6 Months",
-    fees: "₹36,000",
+    fees: "?36,000",
     price: 36000,
     description: "",
     image: "",
@@ -30,7 +31,7 @@ const Courses = () => {
     image: "",
   });
 
-  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+  const apiUrl = getApiUrl();
 
   const showNotification = (msg, type = "success") => {
     setNotification({ msg, type });
@@ -77,7 +78,7 @@ const Courses = () => {
           title: "",
           category: "Information Technology",
           duration: "6 Months",
-          fees: "₹36,000",
+          fees: "?36,000",
           price: 36000,
           description: "",
           image: "",
@@ -168,7 +169,7 @@ const Courses = () => {
         </div>
         <button
           onClick={() => setIsAddOpen(true)}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-semibold flex items-center gap-2 shadow-sm transition-all"
+          className="hover: px-5 py-2.5 flex items-center gap-2 bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
         >
           <Plus size={20} /> Add Course
         </button>
@@ -180,7 +181,7 @@ const Courses = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {courses.map((course) => (
             <div key={course.slug} className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex flex-col h-full">
-              <h3 className="text-xl font-bold text-gray-900">{course.title}</h3>
+              <h3 className="text-xl font-medium text-gray-600">{course.title}</h3>
               <p className="text-sm font-semibold text-blue-600 mt-1">{course.category}</p>
               <div className="flex items-center gap-4 mt-4 text-sm text-gray-600">
                 <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {course.duration}</span>
@@ -254,8 +255,8 @@ const Courses = () => {
               </form>
             </div>
             <div className="p-6 border-t border-gray-100 flex justify-end gap-3 bg-gray-50 mt-auto">
-              <button onClick={() => setIsAddOpen(false)} className="px-6 py-2.5 rounded-xl text-gray-600 hover:bg-gray-200">Cancel</button>
-              <button type="submit" form="add-course-form" disabled={submitting} className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2.5 rounded-xl">
+              <button onClick={() => setIsAddOpen(false)} className="px-6 py-2.5 hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">Cancel</button>
+              <button type="submit" form="add-course-form" disabled={submitting} className="hover: px-8 py-2.5 hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">
                 {submitting ? 'Saving...' : 'Save Course'}
               </button>
             </div>
@@ -310,8 +311,8 @@ const Courses = () => {
               </form>
             </div>
             <div className="p-6 border-t border-gray-100 flex justify-end gap-3 bg-gray-50 mt-auto">
-              <button onClick={() => setIsEditOpen(false)} className="px-6 py-2.5 rounded-xl text-gray-600 hover:bg-gray-200">Cancel</button>
-              <button type="submit" form="edit-course-form" disabled={submitting} className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2.5 rounded-xl">
+              <button onClick={() => setIsEditOpen(false)} className="px-6 py-2.5 hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">Cancel</button>
+              <button type="submit" form="edit-course-form" disabled={submitting} className="hover: px-8 py-2.5 hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">
                 {submitting ? 'Updating...' : 'Update Course'}
               </button>
             </div>

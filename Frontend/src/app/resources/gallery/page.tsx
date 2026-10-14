@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ImageIcon } from "lucide-react";
 import GalleryClient from "./GalleryClient";
+import { getApiBase } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Campus Gallery",
@@ -16,27 +17,27 @@ export default async function GalleryPage() {
   let videos: any[] = [];
   
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://bitc-backend-theta.vercel.app/api";
+    const apiUrl = getApiBase();
     
-    // Fetch gallery images
+    // Fetch gallery items
     const res = await fetch(`${apiUrl}/gallery`, { cache: 'no-store' });
     if (res.ok) {
       const data = await res.json();
       if (data.items) {
-        images = data.items.map((item: any) => item.imgUrl);
+        data.items.forEach((item: any) => {
+          if (item.imgUrl) {
+            if (item.imgUrl.match(/\.(mp4|webm|ogg|mov)$/i) || item.imgUrl.includes("youtube.com") || item.imgUrl.includes("youtu.be")) {
+              videos.push(item.imgUrl);
+            } else {
+              images.push(item.imgUrl);
+            }
+          }
+        });
       }
     }
 
-    // Fetch testimonials for videos
-    const testRes = await fetch(`${apiUrl}/testimonials`, { cache: 'no-store' });
-    if (testRes.ok) {
-      const testData = await testRes.json();
-      if (testData.testimonials) {
-        videos = testData.testimonials.filter((t: any) => t.youtubeUrl).map((t: any) => t.youtubeUrl);
-      }
-    }
   } catch (error) {
-    console.warn("Failed to fetch gallery or testimonials from backend API.");
+    console.warn("Failed to fetch gallery from backend API.");
   }
 
   return (

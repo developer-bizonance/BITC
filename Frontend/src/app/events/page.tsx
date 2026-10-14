@@ -1,3 +1,4 @@
+import { resolveImageUrl, getApiBase } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -55,7 +56,7 @@ export default async function EventsPage() {
 
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === "development" ? "http://localhost:5000/api" : "https://bitc-backend-theta.vercel.app/api")}/events`,
+      `${getApiBase()}/events`,
       { cache: "no-store" },
     );
     if (res.ok) {
@@ -70,7 +71,7 @@ export default async function EventsPage() {
           rawDate: new Date(e.date).toISOString(),
           venue: e.venue || null,
           speaker: e.speaker || null,
-          image: e.imageUrl || null,
+          image: resolveImageUrl(e.imageUrl),
           isFeatured: e.isFeatured || false
         }));
 
@@ -92,11 +93,8 @@ export default async function EventsPage() {
         }, {});
         sortedYears = Object.keys(conductedEventsByYear).sort((a, b) => Number(b) - Number(a));
 
-        const foundFeatured = mappedEvents.find((e: any) => e.isFeatured);
-        if (foundFeatured) {
-          featuredEvent = foundFeatured;
-        } else if (upcomingEvents.length > 0) {
-          // If no explicitly featured event, automatically highlight the nearest upcoming event
+        if (upcomingEvents.length > 0) {
+          // Automatically highlight the nearest upcoming event
           featuredEvent = upcomingEvents[0];
         } else if (conductedEvents.length > 0) {
           // Fallback to most recent conducted event if no upcoming events exist
@@ -203,7 +201,7 @@ export default async function EventsPage() {
                         </div>
                       ) : null}
                       <CardContent className="p-6 md:p-8 flex flex-col flex-1">
-                        <h3 className="text-xl font-bold text-slate-900 mb-5 line-clamp-2 leading-tight group-hover:text-primary transition-colors">{event.title}</h3>
+                        <h3 className="text-xl font-medium text-gray-600 mb-5 line-clamp-2 leading-tight group-hover:text-primary transition-colors">{event.title}</h3>
                         
                         <div className="space-y-3.5 mb-8 flex-1">
                           <div className="flex items-start gap-3 text-sm text-gray-600">
@@ -289,3 +287,4 @@ export default async function EventsPage() {
     </div>
   );
 }
+

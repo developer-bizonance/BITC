@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { getApiBase } from "@/lib/utils";
 
 interface ConsultationFormProps {
   theme?: "light" | "dark";
@@ -81,7 +82,7 @@ export default function ConsultationForm({ theme = "light" }: ConsultationFormPr
     }
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/inquiries`, {
+      const response = await fetch(`${getApiBase()}/inquiries`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -128,7 +129,7 @@ export default function ConsultationForm({ theme = "light" }: ConsultationFormPr
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h3 className={`text-xl font-bold mb-2 ${isDark ? "text-black" : "text-slate-900"}`}>Request received!</h3>
+        <h3 className={`text-xl font-medium mb-2 ${isDark ? "text-black" : "text-gray-600"}`}>Request received!</h3>
         <p className={`text-sm ${isDark ? "text-slate-300" : "text-slate-600"}`}>
           Thank you for reaching out. Our career counselors will contact you shortly.
         </p>

@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { courses } from '@/data/courses';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://bitc-eight.vercel.app';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bitc.bizonance.com';
 
   const staticRoutes = [
     '',
