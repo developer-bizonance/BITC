@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { readJsonDb, writeJsonDb } from "../dataStore.js";
+import { readJsonDbAsync, writeJsonDbAsync } from "../dataStore.js";
 
 export interface VideoTestimonialItem {
   id: string;
@@ -9,20 +9,24 @@ export interface VideoTestimonialItem {
   createdAt: string;
 }
 
-// Initial In-Memory Store
-
 const router = Router();
 
 // GET /api/video-testimonials
-router.get("/", (_req: Request, res: Response) => {
-  return res.json({
-    success: true,
-    testimonials: readJsonDb("video-testimonials.json"),
-  });
+router.get("/", async (_req: Request, res: Response) => {
+  try {
+    const testimonials = await readJsonDbAsync<VideoTestimonialItem>("video-testimonials.json");
+    return res.json({
+      success: true,
+      testimonials,
+    });
+  } catch (error: any) {
+    console.error("[video-testimonials] Failed to get testimonials:", error);
+    return res.status(500).json({ error: "Failed to fetch video testimonials" });
+  }
 });
 
 // POST /api/video-testimonials
-router.post("/", (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response) => {
   try {
     const { title, name, youtubeUrl } = req.body;
 
@@ -32,19 +36,21 @@ router.post("/", (req: Request, res: Response) => {
 
     const newItem: VideoTestimonialItem = {
       id: `vt-${Date.now()}`,
-      title: title.trim(),
-      name: name.trim(),
-      youtubeUrl: youtubeUrl.trim(),
+      title: String(title).trim(),
+      name: String(name).trim(),
+      youtubeUrl: String(youtubeUrl).trim(),
       createdAt: new Date().toISOString(),
     };
 
-    const db = readJsonDb("video-testimonials.json"); db.push(newItem); writeJsonDb("video-testimonials.json", db);
+    const db = await readJsonDbAsync<VideoTestimonialItem>("video-testimonials.json");
+    db.push(newItem);
+    await writeJsonDbAsync("video-testimonials.json", db);
 
     return res.status(201).json({
       success: true,
       message: "Video testimonial added successfully",
       testimonial: newItem,
-      testimonials: readJsonDb("video-testimonials.json"),
+      testimonials: db,
     });
   } catch (error: any) {
     return res.status(500).json({ error: error?.message || "Failed to add video testimonial" });
@@ -52,31 +58,33 @@ router.post("/", (req: Request, res: Response) => {
 });
 
 // PUT /api/video-testimonials/:id
-router.put("/:id", (req: Request, res: Response) => {
+router.put("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { title, name, youtubeUrl } = req.body;
 
-    const index = readJsonDb("video-testimonials.json").findIndex((t) => t.id === id);
+    const db = await readJsonDbAsync<VideoTestimonialItem>("video-testimonials.json");
+    const index = db.findIndex((t) => t.id === id);
     if (index === -1) {
       return res.status(404).json({ error: "Video testimonial not found" });
     }
 
-    const current = readJsonDb("video-testimonials.json")[index];
+    const current = db[index];
     const updated: VideoTestimonialItem = {
       ...current,
-      title: title !== undefined ? title.trim() : current.title,
-      name: name !== undefined ? name.trim() : current.name,
-      youtubeUrl: youtubeUrl !== undefined ? youtubeUrl.trim() : current.youtubeUrl,
+      title: title !== undefined ? String(title).trim() : current.title,
+      name: name !== undefined ? String(name).trim() : current.name,
+      youtubeUrl: youtubeUrl !== undefined ? String(youtubeUrl).trim() : current.youtubeUrl,
     };
 
-    const db = readJsonDb("video-testimonials.json"); db[index] = updated; writeJsonDb("video-testimonials.json", db);
+    db[index] = updated;
+    await writeJsonDbAsync("video-testimonials.json", db);
 
     return res.json({
       success: true,
       message: "Video testimonial updated successfully",
       testimonial: updated,
-      testimonials: readJsonDb("video-testimonials.json"),
+      testimonials: db,
     });
   } catch (error: any) {
     return res.status(500).json({ error: error?.message || "Failed to update video testimonial" });
@@ -84,20 +92,22 @@ router.put("/:id", (req: Request, res: Response) => {
 });
 
 // DELETE /api/video-testimonials/:id
-router.delete("/:id", (req: Request, res: Response) => {
+router.delete("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const initialLen = readJsonDb("video-testimonials.json").length;
-    const db = readJsonDb("video-testimonials.json").filter((t) => t.id !== id); writeJsonDb("video-testimonials.json", db);
+    const db = await readJsonDbAsync<VideoTestimonialItem>("video-testimonials.json");
+    const filtered = db.filter((t) => t.id !== id);
 
-    if (readJsonDb("video-testimonials.json").length === initialLen) {
+    if (filtered.length === db.length) {
       return res.status(404).json({ error: "Video testimonial not found" });
     }
+
+    await writeJsonDbAsync("video-testimonials.json", filtered);
 
     return res.json({
       success: true,
       message: "Video testimonial removed successfully",
-      testimonials: readJsonDb("video-testimonials.json"),
+      testimonials: filtered,
     });
   } catch (error: any) {
     return res.status(500).json({ error: error?.message || "Failed to delete video testimonial" });
@@ -105,7 +115,7 @@ router.delete("/:id", (req: Request, res: Response) => {
 });
 
 // PUT /api/video-testimonials/reorder
-router.put("/reorder", (req: Request, res: Response) => {
+router.put("/reorder", async (req: Request, res: Response) => {
   try {
     const { orderedIds } = req.body;
 
@@ -113,30 +123,31 @@ router.put("/reorder", (req: Request, res: Response) => {
       return res.status(400).json({ error: "orderedIds must be an array" });
     }
 
+    const db = await readJsonDbAsync<VideoTestimonialItem>("video-testimonials.json");
     const newOrder: VideoTestimonialItem[] = [];
     const idSet = new Set(orderedIds);
 
     // 1. Add items in the new order
     orderedIds.forEach((id: string) => {
-      const item = readJsonDb("video-testimonials.json").find((c) => c.id === id);
+      const item = db.find((c) => c.id === id);
       if (item) {
         newOrder.push(item);
       }
     });
 
     // 2. Append any items that were missed
-    readJsonDb("video-testimonials.json").forEach((item) => {
+    db.forEach((item) => {
       if (!idSet.has(item.id)) {
         newOrder.push(item);
       }
     });
 
-    writeJsonDb("video-testimonials.json", newOrder);
+    await writeJsonDbAsync("video-testimonials.json", newOrder);
 
     return res.json({
       success: true,
       message: "Video testimonials reordered successfully",
-      testimonials: readJsonDb("video-testimonials.json"),
+      testimonials: newOrder,
     });
   } catch (error: any) {
     return res.status(500).json({ error: error?.message || "Failed to reorder video testimonials" });

@@ -125,13 +125,13 @@ export async function writeJsonDbAsync<T = any>(fileName: string, data: T[]): Pr
  * Synchronous read wrapper
  */
 export function readJsonDb<T = any>(fileName: string): T[] {
+  if (memoryCache.has(fileName)) {
+    return memoryCache.get(fileName)!;
+  }
   const fileData = readFromFile<T>(fileName);
   if (fileData && fileData.length > 0) {
     memoryCache.set(fileName, fileData);
     return fileData;
-  }
-  if (memoryCache.has(fileName)) {
-    return memoryCache.get(fileName)!;
   }
   return [];
 }
