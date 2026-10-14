@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Plus, Trash2, Pencil, RefreshCw, X, HelpCircle, ArrowUpDown } from "lucide-react";
+import { Plus, Trash2, Pencil, RefreshCw, X, HelpCircle } from "lucide-react";
 import {
   DndContext,
   closestCenter,
@@ -226,12 +226,7 @@ const FAQ = () => {
           <h2 className="text-xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
             <HelpCircle className="w-5 h-5 text-blue-600" /> FAQ Management
           </h2>
-          <p className="text-xs text-slate-500 mt-0.5 flex items-center gap-1.5">
-            <span>Manage frequently asked questions and answers.</span>
-            <span className="hidden sm:inline-flex items-center gap-1 text-blue-600 font-medium">
-              <ArrowUpDown className="w-3 h-3" /> Drag cards to reorder
-            </span>
-          </p>
+          <p className="text-xs text-slate-500 mt-0.5">Manage frequently asked questions and answers</p>
         </div>
         <div className="flex items-center gap-2">
           <button
@@ -278,18 +273,13 @@ const FAQ = () => {
             strategy={rectSortingStrategy}
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-              {faqs.map((faq, index) => (
+              {faqs.map((faq) => (
                 <SortableItem
                   key={faq.id}
                   id={faq.id}
                   className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-2xs hover:shadow-sm transition-all group flex flex-col justify-between"
                 >
-                  <div className="p-4 pt-3.5 flex-1">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full ml-6 group-hover:ml-7 transition-all">
-                        #{index + 1}
-                      </span>
-                    </div>
+                  <div className="p-4 flex-1">
                     <h3 className="text-xs font-semibold text-gray-800 leading-snug line-clamp-2">
                       {faq.question}
                     </h3>
@@ -297,26 +287,21 @@ const FAQ = () => {
                       {faq.answer}
                     </p>
                   </div>
-                  <div className="px-4 py-2.5 bg-slate-50/80 border-t border-slate-100 flex items-center justify-between">
-                    <span className="text-[10px] text-slate-400 font-medium flex items-center gap-1">
-                      <ArrowUpDown className="w-2.5 h-2.5" /> Drag grip
-                    </span>
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => openEdit(faq)}
-                        className="w-8 h-8 flex items-center justify-center bg-white text-blue-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 rounded-full border border-slate-200 shadow-xs transition-all cursor-pointer active:scale-95"
-                        title="Edit FAQ"
-                      >
-                        <Pencil className="w-3.5 h-3.5" />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(faq.id, faq.question)}
-                        className="w-8 h-8 flex items-center justify-center bg-white text-red-600 hover:bg-red-600 hover:text-white hover:border-red-600 rounded-full border border-slate-200 shadow-xs transition-all cursor-pointer active:scale-95"
-                        title="Delete FAQ"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
+                  <div className="px-4 py-2.5 bg-slate-50/80 border-t border-slate-100 flex items-center justify-end gap-2">
+                    <button
+                      onClick={() => openEdit(faq)}
+                      className="w-8 h-8 flex items-center justify-center bg-white text-blue-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 rounded-full border border-slate-200 shadow-xs transition-all cursor-pointer active:scale-95"
+                      title="Edit FAQ"
+                    >
+                      <Pencil className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(faq.id, faq.question)}
+                      className="w-8 h-8 flex items-center justify-center bg-white text-red-600 hover:bg-red-600 hover:text-white hover:border-red-600 rounded-full border border-slate-200 shadow-xs transition-all cursor-pointer active:scale-95"
+                      title="Delete FAQ"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
                   </div>
                 </SortableItem>
               ))}
