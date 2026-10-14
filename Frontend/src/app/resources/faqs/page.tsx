@@ -13,6 +13,9 @@ export const metadata: Metadata = {
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { getApiBase } from "@/lib/utils";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function FAQsPage() {
   let faqs: {q: string; a: string}[] = [];
   try {
