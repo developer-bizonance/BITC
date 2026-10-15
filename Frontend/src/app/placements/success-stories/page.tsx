@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import TestimonialVideoCard from "@/components/TestimonialVideoCard";
-import { defaultStories, TestimonialItem } from "@/data/defaultStories";
+import { TestimonialItem } from "@/types/testimonial";
+import { getApiBase, resolveImageUrl } from "@/lib/utils";
 
 export const dynamic = 'force-dynamic';
 
@@ -16,29 +17,23 @@ export const metadata: Metadata = {
 };
 
 export default async function SuccessStoriesPage() {
-  let successStories = [];
+  let successStories: TestimonialItem[] = [];
   
   try {
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 
-      (process.env.NODE_ENV === 'development' 
-        ? "http://localhost:5000" 
-        : "https://bitc-backend-theta.vercel.app");
-        
-    const res = await fetch(`${backendUrl}/api/testimonials`, { cache: 'no-store' });
+    const apiUrl = getApiBase();
+    const res = await fetch(`${apiUrl}/testimonials`, { cache: 'no-store' });
     
     if (res.ok) {
       const data = await res.json();
-      if (data.testimonials && data.testimonials.length > 0) {
-        successStories = data.testimonials;
+      if (data.testimonials && Array.isArray(data.testimonials)) {
+        successStories = data.testimonials.map((t: any) => ({
+          ...t,
+          image: resolveImageUrl(t.image),
+        }));
       }
     }
   } catch (error) {
     console.error("Failed to fetch stories from API:", error);
-  }
-
-  // Use fallback if the API returns no data
-  if (!successStories || successStories.length === 0) {
-    successStories = defaultStories;
   }
 
   return (
@@ -46,15 +41,15 @@ export default async function SuccessStoriesPage() {
       
       {/* 1. Hero Banner */}
       <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center pt-8 md:pt-12 pb-6 bg-white overflow-hidden">
-        <div className="container max-w-[1200px] mx-auto px-4 relative z-10 text-center flex flex-col items-center h-full">
+        <div className="container max-w-[1200px] mx-auto px-4 relative z-10 text-center flex flex-col items-center justify-center h-full">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-4">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             ALUMNI SUCCESS
           </div>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-4 leading-[1.1]">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
             Meet Our <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Achievers.</span>
           </h1>
-          <p className="text-sm md:text-base text-slate-600 max-w-[700px] mx-auto leading-relaxed mb-6 font-medium">
+          <p className="text-lg md:text-xl text-slate-600 max-w-[700px] mx-auto leading-relaxed mb-6 font-medium">
             Read inspiring stories from our alumni who transformed their careers through BITC's industry-driven training and dedicated placement support.
           </p>
           <div className="flex justify-center gap-4 mb-8">
@@ -63,14 +58,6 @@ export default async function SuccessStoriesPage() {
                 Start your journey
               </Button>
             </Link>
-          </div>
-          
-          <div className="w-full max-w-[1100px] mx-auto rounded-2xl overflow-hidden shadow-2xl shadow-blue-900/5 border border-slate-100 relative max-h-[45vh] lg:max-h-[50vh] flex items-center justify-center">
-            <img 
-              src="/success-stories-hero.png" 
-              alt="BITC Alumni Success and Placement" 
-              className="w-full h-full object-cover" 
-            />
           </div>
         </div>
       </section>
@@ -107,16 +94,22 @@ export default async function SuccessStoriesPage() {
             <p className="text-gray-500 text-lg">Hear directly from our students about how BITC helped them achieve their career goals.</p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 justify-items-center">
-            {successStories.map((story: TestimonialItem, i: number) => (
-              <TestimonialVideoCard 
-                key={story.id || i} 
-                story={story} 
-                index={i} 
-                className="w-full max-w-[650px]" 
-              />
-            ))}
-          </div>
+          {successStories.length > 0 ? (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 justify-items-center">
+              {successStories.map((story: TestimonialItem, i: number) => (
+                <TestimonialVideoCard 
+                  key={story.id || i} 
+                  story={story} 
+                  index={i} 
+                  className="w-full max-w-[650px]" 
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-16 text-slate-500">
+              <p className="text-base font-medium">Stories will appear here once added from the dashboard.</p>
+            </div>
+          )}
 
         </div>
       </section>

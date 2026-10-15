@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { readJsonDb, writeJsonDb } from "../dataStore.js";
+import { deleteUploadedFile } from "./upload.routes.js";
 
 export interface AlumniCompanyItem {
   id: string;
@@ -33,7 +34,7 @@ router.post("/", (req: Request, res: Response) => {
     const newCompany: AlumniCompanyItem = {
       id: `acomp-${Date.now()}`,
       name: name.trim(),
-      logo: logo?.trim() || "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
+      logo: logo?.trim() || "",
       website: website?.trim() || "",
       createdAt: new Date().toISOString(),
     };
@@ -88,6 +89,10 @@ router.delete("/:id", (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const initialLen = readJsonDb("alumni-companies.json").length;
+    const itemToDelete = readJsonDb<AlumniCompanyItem>("alumni-companies.json").find((c) => c.id === id);
+    if (itemToDelete?.logo) {
+      deleteUploadedFile(itemToDelete.logo);
+    }
     const db = readJsonDb("alumni-companies.json").filter((c) => c.id !== id); writeJsonDb("alumni-companies.json", db);
 
     if (readJsonDb("alumni-companies.json").length === initialLen) {

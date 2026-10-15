@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-// REMOVED: import Help from "./Helpcenter.jsx"; <--- This was the error
 
 import bizologo from "../assets/bizonance_logo.png";
 import { LogOut, Menu, HelpCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import NotificationCenter from "./NotificationCenter.jsx";
 
 const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const navigate = useNavigate();
@@ -11,11 +11,6 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = () => {
-    setShowConfirm(true);
-  };
-
-  const confirmLogout = () => {
-    setShowConfirm(false);
     navigate("/");
   };
 
@@ -39,51 +34,33 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
         </div>
       </div>
 
-      <div className="relative group inline-block">
-        {/* Logo */}
-        <img
-          src={bizologo}
-          alt="Bizo Logo"
-          className="h-10 w-10 cursor-pointer rounded-full hover:ring-2 hover:ring-gray-300"
-        />
+      {/* Right Header Section: Notifications & User Profile */}
+      <div className="flex items-center gap-3">
+        <NotificationCenter />
 
-        {/* Dropdown */}
-        <div className="absolute -left-36 mt-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible w-44 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
-          <ul className="py-2 text-gray-700">
-            <li
-              onClick={handleLogout}
-              className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer"
-            >
-              <LogOut size={18} /> Logout
-            </li>
-          </ul>
+        <div className="relative group inline-block">
+          {/* Logo / Avatar */}
+          <img
+            src={bizologo}
+            alt="Bizo Logo"
+            className="h-10 w-10 cursor-pointer rounded-full border border-slate-200 hover:ring-2 hover:ring-blue-300 transition-all shadow-2xs"
+          />
+
+          {/* Profile Dropdown */}
+          <div className="absolute right-0 mt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible w-44 bg-white rounded-xl shadow-xl border border-gray-200 z-50 transition-all">
+            <ul className="py-2 text-gray-700">
+              <li
+                onClick={handleLogout}
+                className="flex items-center gap-2 px-4 py-2 cursor-pointer text-slate-900 hover:bg-red-50 hover:text-red-600 font-medium transition-all active:scale-95"
+              >
+                <LogOut size={16} /> Logout
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
 
-      {/* Logout Confirmation Modal */}
-      {showConfirm && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-            <p className="text-lg font-semibold">
-              Are you sure you want to log out?
-            </p>
-            <div className="flex justify-center mt-4 space-x-4">
-              <button
-                onClick={confirmLogout}
-                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-              >
-                Logout
-              </button>
-              <button
-                onClick={() => setShowConfirm(false)}
-                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+
 
       {/* Bottom Border Accent */}
       <div className="absolute bottom-0 left-0 w-full flex h-[6px]">

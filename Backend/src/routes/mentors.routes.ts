@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { readJsonDb, writeJsonDb } from "../dataStore.js";
+import { deleteUploadedFile } from "./upload.routes.js";
 
 export interface Mentor {
   id: string;
@@ -134,6 +135,10 @@ router.put("/:id", (req: Request, res: Response) => {
       thought: thought !== undefined ? thought.trim() : current.thought,
     };
 
+    if (img !== undefined && current.img && current.img !== updated.img) {
+      deleteUploadedFile(current.img);
+    }
+
     const db = readJsonDb("mentors.json"); db[index] = updated; writeJsonDb("mentors.json", db);
 
     return res.json({
@@ -151,8 +156,19 @@ router.put("/:id", (req: Request, res: Response) => {
 router.delete("/:id", (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const initialLen = readJsonDb("mentors.json").length;
-    const db = readJsonDb("mentors.json").filter((m) => m.id !== id); writeJsonDb("mentors.json", db);
+    const initialDb = readJsonDb("mentors.json");
+    const initialLen = initialDb.length;
+    
+    const mentorToDelete = initialDb.find((m: Mentor) => m.id === id);
+    if (!mentorToDelete) {
+      return res.status(404).json({ error: "Mentor not found" });
+    }
+
+    if (mentorToDelete.img) {
+      deleteUploadedFile(mentorToDelete.img);
+    }
+
+    const db = initialDb.filter((m: Mentor) => m.id !== id); writeJsonDb("mentors.json", db);
 
     if (readJsonDb("mentors.json").length === initialLen) {
       return res.status(404).json({ error: "Mentor not found" });

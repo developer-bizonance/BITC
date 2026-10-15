@@ -1,16 +1,5 @@
 [
   {
-    "id": "alumni-1790936740825",
-    "name": "ssdf",
-    "role": "Software Engineer",
-    "company": "Google",
-    "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&h=150&q=80",
-    "batch": "2024",
-    "linkedin": "http://localhost:5173/#/dashboard",
-    "certification": "fdsf",
-    "createdAt": "2026-10-02T10:25:40.825Z"
-  },
-  {
     "id": "alumni-1",
     "name": "Rahul Sharma",
     "role": "Software Engineer",

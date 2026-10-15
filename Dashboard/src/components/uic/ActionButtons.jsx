@@ -57,7 +57,7 @@ const ActionButtons = ({
       </button>
       <button
         onClick={onCancel}
-        className="flex-1 bg-gray-200 text-gray-700 px-4 py-2 rounded"
+        className="flex-1 px-4 py-2 hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
       >
         {cancelText}
       </button>

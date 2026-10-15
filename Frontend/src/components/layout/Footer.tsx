@@ -53,7 +53,7 @@ export function Footer() {
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* ── Single Main Card: Brand + Links + CTAs + Legal Badge ── */}
-        <div className="rounded-2xl sm:rounded-3xl border border-orange-200/90 bg-white p-5 sm:p-8 lg:p-8 shadow-sm">
+        <div className="rounded-2xl sm:rounded-3xl border border-orange-200/90 bg-white px-5 py-6 sm:px-8 sm:py-8 lg:px-10 lg:py-8 shadow-sm">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-6 items-stretch">
 
             {/* 1. Brand & Description & Socials (Col 1-4) */}
@@ -68,13 +68,13 @@ export function Footer() {
                     className="h-[26px] sm:h-[29px] w-auto object-contain ml-1"
                   />
                 </div>
-                <p className="text-[14px] sm:text-[15px] leading-relaxed text-slate-600 font-normal pr-0 sm:pr-2">
+                <p className="text-[12.5px] sm:text-[14px] leading-relaxed text-slate-600 font-normal pr-0 sm:pr-2">
                   Empowering future professionals with industry-ready skills. We bridge academic learning and industry requirements with cutting-edge tech education.
                 </p>
               </div>
 
               {/* Social Icons */}
-              <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 pt-3 -ml-1">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 pt-3 -ml-1">
                 {socials.map((item, i) => {
                   const Icon = item.icon;
                   const isGoogle = item.label === 'Google';
@@ -92,10 +92,10 @@ export function Footer() {
                       {isGoogle ? (
                         <>
                           <span className="sm:hidden transition-all duration-300">
-                            <GoogleIcon size={15} />
+                            <GoogleIcon size={18} />
                           </span>
                           <span className="hidden sm:block transition-all duration-300">
-                            <GoogleIcon size={18} />
+                            <GoogleIcon size={22} />
                           </span>
                         </>
                       ) : (
@@ -122,8 +122,8 @@ export function Footer() {
             <div className="lg:col-span-5 grid grid-cols-2 sm:flex sm:justify-between sm:gap-4 lg:gap-2 xl:gap-6 pt-1">
               {/* Imp Links Column */}
               <div>
-                <h4 className="font-bold text-slate-900 mb-3 sm:mb-4 text-[15px] sm:text-[16px]  tracking-wide">Links</h4>
-                <ul className="space-y-2.5 text-[14px] sm:text-[15px] font-normal">
+                <h4 className="font-medium text-gray-600 mb-3 sm:mb-4 text-[13px] sm:text-[14px]  tracking-wide">Links</h4>
+                <ul className="space-y-2.5 text-[12px] sm:text-[13px] font-normal">
                   {impLinks.map((item) => (
                     <li key={item.name}>
                       <Link href={item.href} className="hover:text-primary transition-colors text-slate-600 hover:translate-x-0.5 inline-flex items-center whitespace-nowrap">
@@ -136,8 +136,8 @@ export function Footer() {
 
               {/* Certifications Column */}
               <div>
-                <h4 className="font-bold text-slate-900 mb-3 sm:mb-4 text-[15px] sm:text-[16px]  tracking-wide">Certifications</h4>
-                <ul className="space-y-2.5 text-[14px] sm:text-[15px] font-normal">
+                <h4 className="font-medium text-gray-600 mb-3 sm:mb-4 text-[13px] sm:text-[14px]  tracking-wide">Certifications</h4>
+                <ul className="space-y-2.5 text-[12px] sm:text-[13px] font-normal">
                   {programLinks.map((item) => (
                     <li key={item.name}>
                       <Link href={item.href} className="hover:text-primary transition-colors text-slate-600 hover:translate-x-0.5 inline-flex items-center whitespace-nowrap">
@@ -150,8 +150,8 @@ export function Footer() {
 
               {/* Company Column */}
               <div>
-                <h4 className="font-bold text-slate-900 mb-3 sm:mb-4 text-[15px] sm:text-[16px]  tracking-wide">Company</h4>
-                <ul className="space-y-2.5 text-[14px] sm:text-[15px] font-normal">
+                <h4 className="font-medium text-gray-600 mb-3 sm:mb-4 text-[13px] sm:text-[14px]  tracking-wide">Company</h4>
+                <ul className="space-y-2.5 text-[12px] sm:text-[13px] font-normal">
                   {companyLinks.map((item) => (
                     <li key={item.name}>
                       <Link href={item.href} className="hover:text-primary transition-colors text-slate-600 hover:translate-x-0.5 inline-flex items-center whitespace-nowrap">

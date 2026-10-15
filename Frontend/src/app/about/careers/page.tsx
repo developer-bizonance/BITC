@@ -45,12 +45,6 @@ interface JobOpeningItem {
 }
 
 
-const defaultOpenings: JobOpeningItem[] = [
-  { title: "Faculty – Full Stack Development", type: "Full-Time", location: "On-Site", experience: "3+ Years", department: "Academic & Training", specialities: "MERN, Java, Python" },
-  { title: "Technical Trainer – Data Science", type: "Full-Time", location: "On-Site", experience: "2+ Years", department: "Academic & Training", specialities: "Python, Machine Learning, SQL" },
-  { title: "Industry Expert", type: "Part-Time", location: "Hybrid", experience: "5+ Years", department: "Academic & Training", specialities: "Industry Insights, Mentorship, Tech Leadership" },
-  { title: "T and P Office", type: "Full-Time", location: "On-Site", experience: "3+ Years", department: "Placement Cell", specialities: "Corporate Relations, Placement Coordination, HR Networking" },
-];
 
 
 // All courses & certifications available across BITC website categorized
@@ -62,7 +56,7 @@ const courseCertificationOptions = [
 ];
 
 export default function CareersPage() {
-  const [openingsList, setOpeningsList] = useState<JobOpeningItem[]>(defaultOpenings);
+  const [openingsList, setOpeningsList] = useState<JobOpeningItem[]>([]);
 
   const [, setLoading] = useState(false);
 
@@ -78,13 +72,13 @@ export default function CareersPage() {
     fullName: "",
     email: "",
     phone: "",
-    position: "Faculty – Full Stack Development",
-    subjectCourse: "MERN Stack Development (MongoDB, Express, React, Node)",
-    experience: "3-5 Years",
-    qualification: "B.Tech / BE",
+    position: "",
+    subjectCourse: "",
+    experience: "",
+    qualification: "",
     otherQualification: "",
     dateToJoin: "",
-    joinQuickOption: "Immediate",
+    joinQuickOption: "",
     currentOrg: "",
     resumeUrl: "",
     linkedinUrl: "",
@@ -119,7 +113,7 @@ export default function CareersPage() {
   }, []);
 
   const openApplyModal = (roleTitle?: string) => {
-    const role = roleTitle || "Faculty / Technical Trainer";
+    const role = roleTitle || "";
     setSelectedRole(role);
     setForm((prev) => ({
       ...prev,
@@ -330,13 +324,13 @@ export default function CareersPage() {
           fullName: "",
           email: "",
           phone: "",
-          position: "Faculty – Full Stack Development",
-          subjectCourse: "Information Technology",
-          experience: "3-5 Years",
-          qualification: "B.Tech / BE",
+          position: "",
+          subjectCourse: "",
+          experience: "",
+          qualification: "",
           otherQualification: "",
           dateToJoin: "",
-          joinQuickOption: "Immediate",
+          joinQuickOption: "",
           currentOrg: "",
           resumeUrl: "",
           linkedinUrl: "",
@@ -403,7 +397,7 @@ export default function CareersPage() {
               <div key={job.id || i} className="bg-gray-50 border border-gray-100 rounded-2xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 hover:shadow-md hover:border-primary/30 transition-all">
                 <div className="flex-1">
                   <div className="flex items-center gap-2.5 flex-wrap mb-2">
-                    <h3 className="text-lg font-bold text-slate-900">{job.title}</h3>
+                    <h3 className="text-lg font-medium text-gray-600">{job.title}</h3>
                     {job.department && (
                       <span className="text-[11px] font-medium text-purple-700 bg-purple-50 border border-purple-100 px-2.5 py-0.5 rounded-full">
                         {job.department}
@@ -456,7 +450,7 @@ export default function CareersPage() {
                 <X className="w-5 h-5" />
               </button>
               <div className="mb-2 text-center pt-2">
-                <h3 className="text-2xl font-bold text-slate-900 mb-1">
+                <h3 className="text-2xl font-medium text-gray-600 mb-1">
                   Apply <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">For Faculty</span>
                 </h3>
                 <p className="text-slate-600 text-xs md:text-sm">
@@ -472,7 +466,7 @@ export default function CareersPage() {
                   <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
                     <Check className="w-10 h-10 text-emerald-600" />
                   </div>
-                  <h3 className="text-2xl font-bold text-slate-900 mb-4">Request Received!</h3>
+                  <h3 className="text-2xl font-medium text-gray-600 mb-4">Request Received!</h3>
                   <p className="text-slate-600 mb-8 max-w-sm mx-auto text-sm">
                     Thank you for applying to teach at BITC. Our HR team will reach out to you shortly.
                   </p>
@@ -546,6 +540,7 @@ export default function CareersPage() {
                           onChange={(e) => handleChange("experience", e.target.value)}
                           className="w-full px-3 py-2 pr-10 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all appearance-none cursor-pointer text-sm"
                         >
+                          <option value="" disabled>Select Experience</option>
                           <option value="Fresher / <1 Year">Fresher / &lt; 1 Year</option>
                           <option value="1-3 Years">1 - 3 Years</option>
                           <option value="3-5 Years">3 - 5 Years</option>
@@ -567,6 +562,7 @@ export default function CareersPage() {
                           onBlur={() => handleBlur("subjectCourse")}
                           className={`w-full px-3 py-2 pr-10 rounded-xl border ${errors.subjectCourse && touched.subjectCourse ? 'border-red-400 bg-red-50' : 'border-slate-200 bg-slate-50'} focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all appearance-none cursor-pointer text-sm`}
                         >
+                          <option value="" disabled>Select Domain</option>
                           {courseCertificationOptions.map((group) => (
                             <option key={group.category} value={group.category}>{group.category}</option>
                           ))}
@@ -590,6 +586,7 @@ export default function CareersPage() {
                           }}
                           className="w-full px-3 py-2 pr-10 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all appearance-none cursor-pointer text-sm"
                         >
+                          <option value="" disabled>Select Qualification</option>
                           <option value="B.Tech / BE">B.Tech / B.E.</option>
                           <option value="M.Tech / ME">M.Tech / M.E.</option>
                           <option value="MCA / M.Sc IT">MCA / M.Sc. IT / CS</option>
@@ -620,7 +617,7 @@ export default function CareersPage() {
                   <div className="space-y-1 text-left">
                     <label className="text-xs font-semibold text-slate-700">LinkedIn profile url</label>
                     <input
-                      type="url"
+                      type="text"
                       value={form.linkedinUrl}
                       onChange={(e) => handleChange("linkedinUrl", e.target.value)}
                       className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all text-sm"

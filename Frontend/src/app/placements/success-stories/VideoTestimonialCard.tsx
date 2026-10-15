@@ -46,7 +46,7 @@ export default function VideoTestimonialCard({ video }: { video: any }) {
           </div>
         )}
       </div>
-      <h3 className="text-xl font-bold text-slate-900 group-hover:text-primary transition-colors">{video.title}</h3>
+      <h3 className="text-xl font-medium text-gray-600 group-hover:text-primary transition-colors">{video.title}</h3>
       <p className="text-gray-500 font-medium">{video.name} • BITC Alumni</p>
     </div>
   );

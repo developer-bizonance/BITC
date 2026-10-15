@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { FaLinkedin } from "react-icons/fa";
 import { Card, CardContent } from "@/components/ui/card";
+import { resolveImageUrl } from "@/lib/utils";
 
 const getCompanyLogo = (companyName: string) => {
   const domains: Record<string, string> = {
@@ -19,43 +20,8 @@ const getCompanyLogo = (companyName: string) => {
   return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
 };
 
-const facultyData = [
-  {
-    name: "Dr. Ananya Sharma",
-    role: "Senior AI Researcher",
-    workingAt: "Google",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=300&h=300",
-    expertise: ["Machine Learning", "NLP", "Python", "Deep Learning"],
-    linkedin: "https://linkedin.com",
-  },
-  {
-    name: "Rahul Verma",
-    role: "Lead full stack developer",
-    workingAt: "Microsoft",
-    image: "https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&q=80&w=300&h=300",
-    expertise: ["React", "Node.js", "System Design", "TypeScript"],
-    linkedin: "https://linkedin.com",
-  },
-  {
-    name: "Priya Desai",
-    role: "UX strategy lead",
-    workingAt: "Amazon",
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=300&h=300",
-    expertise: ["User Research", "Figma", "UI/UX", "Prototyping"],
-    linkedin: "https://linkedin.com",
-  },
-  {
-    name: "Vikram Singh",
-    role: "Information security analyst",
-    workingAt: "IBM",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300&h=300",
-    expertise: ["Network Security", "Ethical Hacking", "Cryptography"],
-    linkedin: "https://linkedin.com",
-  },
-];
-
 export default function FacultySection() {
-  const [facultyList, setFacultyList] = useState(facultyData);
+  const [facultyList, setFacultyList] = useState<any[]>([]);
 
   useEffect(() => {
     async function loadMentors() {
@@ -68,15 +34,15 @@ export default function FacultySection() {
               name: m.name,
               role: m.role,
               workingAt: m.company || m.workingAt || "Independent",
-              image: m.img || m.image,
+              image: resolveImageUrl(m.img || m.image),
               expertise: m.skills || m.expertise || [],
-              linkedin: m.linkedin || "https://linkedin.com",
+              linkedin: m.linkedin,
             }));
             setFacultyList(formatted);
           }
         }
       } catch (err) {
-        console.warn("Failed to load dynamic mentors, using fallback:", err);
+        console.warn("Failed to load dynamic mentors:", err);
       }
     }
     loadMentors();
@@ -135,36 +101,38 @@ export default function FacultySection() {
           )}
 
           {/* Marquee Track */}
-          <div className={`flex ${facultyList.length > 4 ? 'w-max bitc-faculty-marquee-track' : ''}`}>
+          <div className={`${facultyList.length > 4 ? 'flex w-max bitc-faculty-marquee-track' : 'w-full'}`}>
             
             {/* Original Set */}
-            <div className={`flex gap-6 ${facultyList.length > 4 ? 'px-3' : 'flex-wrap justify-start'}`}>
+            <div className={facultyList.length > 4 ? 'flex gap-6 px-3' : 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center w-full'}>
               {facultyList.map((faculty, index) => (
                 <div 
                   key={`orig-${index}`} 
-                  className="bg-white border border-gray-200 shadow-sm rounded-2xl overflow-hidden w-[280px] shrink-0 hover:shadow-md transition-shadow flex flex-col"
+                  className={`bg-white border border-gray-200 shadow-sm rounded-2xl overflow-hidden shrink-0 hover:shadow-md transition-shadow flex flex-col ${facultyList.length > 4 ? 'w-[280px]' : 'w-full max-w-[280px]'}`}
                 >
                   {/* Image Section */}
                   <div className="w-full h-[240px] overflow-hidden bg-slate-100 relative shrink-0">
                     <img
                       src={faculty.image}
                       alt={faculty.name}
-                      className="w-full h-full object-cover object-center"
+                      className="w-full h-full object-cover object-top"
                     />
                   </div>
 
                   {/* Content Section */}
                   <div className="p-5 flex flex-col flex-grow">
                     <div className="flex items-center justify-between mb-1">
-                      <h3 className="text-lg font-bold text-slate-900 leading-tight">{faculty.name}</h3>
-                      <a 
-                        href={faculty.linkedin} 
-                        target="_blank" 
-                        rel="noreferrer"
-                        className="text-[#0077b5] hover:text-[#006097] transition-colors"
-                      >
-                        <FaLinkedin className="w-5 h-5" />
-                      </a>
+                      <h3 className="text-lg font-medium text-gray-600 leading-tight">{faculty.name}</h3>
+                      {faculty.linkedin && (
+                        <a 
+                          href={faculty.linkedin} 
+                          target="_blank" 
+                          rel="noreferrer"
+                          className="text-[#0077b5] hover:text-[#006097] transition-colors"
+                        >
+                          <FaLinkedin className="w-5 h-5" />
+                        </a>
+                      )}
                     </div>
                     <p className="text-xs font-medium text-slate-500 mb-4">{faculty.role}</p>
 
@@ -205,22 +173,24 @@ export default function FacultySection() {
                       <img
                         src={faculty.image}
                         alt={faculty.name}
-                        className="w-full h-full object-cover object-center"
+                        className="w-full h-full object-cover object-top"
                       />
                     </div>
 
                     {/* Content Section */}
                     <div className="p-5 flex flex-col flex-grow">
                       <div className="flex items-center justify-between mb-1">
-                        <h3 className="text-lg font-bold text-slate-900 leading-tight">{faculty.name}</h3>
-                        <a 
-                          href={faculty.linkedin} 
-                          target="_blank" 
-                          rel="noreferrer"
-                          className="text-[#0077b5] hover:text-[#006097] transition-colors"
-                        >
-                          <FaLinkedin className="w-5 h-5" />
-                        </a>
+                        <h3 className="text-lg font-medium text-gray-600 leading-tight">{faculty.name}</h3>
+                        {faculty.linkedin && (
+                          <a 
+                            href={faculty.linkedin} 
+                            target="_blank" 
+                            rel="noreferrer"
+                            className="text-[#0077b5] hover:text-[#006097] transition-colors"
+                          >
+                            <FaLinkedin className="w-5 h-5" />
+                          </a>
+                        )}
                       </div>
                       <p className="text-xs font-medium text-slate-500 mb-4">{faculty.role}</p>
 

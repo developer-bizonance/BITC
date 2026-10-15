@@ -164,10 +164,7 @@ export function AuthModal() {
               </p>
 
               <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200/80 text-left text-xs space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-slate-500 font-bold">Application Ref ID:</span>
-                  <span className="font-mono font-black text-slate-900">{appliedRecord.id}</span>
-                </div>
+
                 <div className="flex justify-between">
                   <span className="text-slate-500 font-bold">Email:</span>
                   <span className="font-bold text-slate-800">{appliedRecord.userEmail}</span>

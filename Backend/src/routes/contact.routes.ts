@@ -173,8 +173,8 @@ router.post("/", async (req: Request, res: Response) => {
   }
 });
 
-// PATCH /api/contact/:id/status - Update inquiry status (PENDING, CONTACTED, RESOLVED, ARCHIVED)
-router.patch("/:id/status", async (req: Request, res: Response) => {
+// PATCH /api/contact/:id or /api/contact/:id/status - Update inquiry status (PENDING, CONTACTED, RESOLVED, ARCHIVED)
+router.patch(["/:id", "/:id/status"], async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { status } = req.body;

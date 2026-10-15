@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams, useRouter } from "next/navigation";
 import { ArrowRight, BookOpen, Users, Zap, ShieldCheck, CheckCircle2, Briefcase, TrendingUp, Award, Building2, GraduationCap, FileText, Laptop, Mic, PlayCircle, Star, Code, Ticket, Network, Lightbulb, Trophy, X, ChevronDown, Handshake, Target, Mic2, Rocket } from "lucide-react";
 import { PartnerWithUsForm } from "@/components/forms/PartnerWithUsForm";
 import IndustryPartnersGrid from "@/components/IndustryPartnersGrid";
@@ -9,6 +10,15 @@ import IndustryPartnersGrid from "@/components/IndustryPartnersGrid";
 export default function PartnershipClient() {
   const [activeTab, setActiveTab] = useState<"educational" | "corporate">("educational");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  useEffect(() => {
+    const tabParam = searchParams.get("tab");
+    if (tabParam === "corporate" || tabParam === "educational") {
+      setActiveTab(tabParam);
+    }
+  }, [searchParams]);
 
   const whatWeDoItems = [
     { name: "Workshops", icon: Laptop, color: "text-blue-500", bg: "bg-blue-50" },
@@ -39,38 +49,16 @@ export default function PartnershipClient() {
             <span>Collaborate with us</span>
           </div>
           <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight mb-6 text-slate-900 leading-tight">
-            Our <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">partnerships</span>
+            {activeTab === "educational" ? "Educational" : "Corporate"} <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Partnership</span>
           </h1>
           <p className="text-lg md:text-xl text-slate-600 max-w-[800px] mx-auto leading-relaxed font-medium mb-12">
-            Discover how we collaborate with top institutions to elevate academic standards, and partner with leading enterprises to build robust corporate workforces.
+            {activeTab === "educational" 
+              ? "Discover how we collaborate with top institutions to elevate academic standards."
+              : "Discover how we partner with leading enterprises to build robust corporate workforces."}
           </p>
-
-          {/* Tabs (Capsules) */}
-          <div className="flex flex-col sm:flex-row justify-center gap-4 relative z-10">
-            <button
-              onClick={() => setActiveTab("educational")}
-              className={`px-8 py-4 rounded-full font-medium text-sm md:text-base transition-all duration-300 flex items-center justify-center gap-3 ${
-                activeTab === "educational" 
-                  ? "bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black shadow-xl shadow-orange-500/20 scale-105" 
-                  : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-sm"
-              }`}
-            >
-              <GraduationCap className="w-5 h-5" />
-              Educational Partnership
-            </button>
-            <button
-              onClick={() => setActiveTab("corporate")}
-              className={`px-8 py-4 rounded-full font-medium text-sm md:text-base transition-all duration-300 flex items-center justify-center gap-3 ${
-                activeTab === "corporate" 
-                  ? "bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black shadow-xl shadow-orange-500/20 scale-105" 
-                  : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-sm"
-              }`}
-            >
-              <Briefcase className="w-5 h-5" />
-              Corporate Partnership
-            </button>
-          </div>
         </div>
+
+
 
         {/* Scroll Indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce flex flex-col items-center text-slate-400">
@@ -105,7 +93,7 @@ export default function PartnershipClient() {
                   <div className="w-14 h-14 rounded-xl bg-orange-50 flex items-center justify-center mb-6">
                     <item.icon className="w-7 h-7 text-orange-500" />
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
+                  <h3 className="text-xl font-medium text-gray-600 mb-3">{item.title}</h3>
                   <p className="text-slate-600 leading-relaxed">{item.desc}</p>
                 </div>
               ))}
@@ -135,7 +123,7 @@ export default function PartnershipClient() {
             {/* Benefits List */}
             <div className="flex flex-col lg:flex-row gap-12 items-center bg-slate-50 rounded-[2rem] p-8 md:p-12 border border-slate-100">
               <div className="flex-1">
-                <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6">Why partner with us?</h3>
+                <h3 className="text-2xl md:text-3xl font-medium text-gray-600 mb-6">Why partner with us?</h3>
                 <ul className="space-y-4">
                   {[
                     "Industry-Aligned Curriculum supplementing your standard syllabus.",
@@ -182,7 +170,7 @@ export default function PartnershipClient() {
                   <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center mb-6">
                     <item.icon className="w-8 h-8 text-blue-600" />
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
+                  <h3 className="text-xl font-medium text-gray-600 mb-3">{item.title}</h3>
                   <p className="text-slate-600 leading-relaxed">{item.desc}</p>
                 </div>
               ))}
@@ -191,7 +179,7 @@ export default function PartnershipClient() {
             {/* Benefits List */}
             <div className="flex flex-col lg:flex-row-reverse gap-12 items-center bg-slate-50 rounded-[2rem] p-8 md:p-12 border border-slate-100">
               <div className="flex-1">
-                <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6">Enterprise advantages</h3>
+                <h3 className="text-2xl md:text-3xl font-medium text-gray-600 mb-6">Enterprise advantages</h3>
                 <ul className="space-y-4">
                   {[
                     "Highly customized syllabi tailored to your specific project needs.",
@@ -234,7 +222,7 @@ export default function PartnershipClient() {
                 ].map((item, i) => (
                   <div key={i} className="bg-white border border-slate-200/80 shadow-sm hover:shadow-md transition-all rounded-xl p-7">
                     <item.icon className="w-10 h-10 text-primary mb-5" />
-                    <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
+                    <h3 className="text-lg font-medium text-gray-600 mb-2">{item.title}</h3>
                     <p className="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
                   </div>
                 ))}
@@ -248,7 +236,7 @@ export default function PartnershipClient() {
 
         {/* Unified CTA */}
         <div className="mt-20 text-center max-w-2xl mx-auto">
-          <h3 className="text-2xl font-bold text-slate-900 mb-6">Ready to collaborate?</h3>
+          <h3 className="text-2xl font-medium text-gray-600 mb-6">Ready to collaborate?</h3>
           <p className="text-slate-600 mb-8">
             Whether you are an academic institution or a corporate enterprise, let's discuss how we can build a brighter future together.
           </p>

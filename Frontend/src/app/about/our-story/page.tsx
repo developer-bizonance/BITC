@@ -103,7 +103,7 @@ export default function OurStoryPage() {
 
           <div className="max-w-[900px] mx-auto bg-white border border-slate-200/80 rounded-[2rem] p-8 md:p-12 shadow-xl">
             <div className="text-center mb-10">
-              <h3 className="text-2xl md:text-3xl font-bold mb-4 text-slate-900">Transforming Learning Into <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Experience</span></h3>
+              <h3 className="text-2xl md:text-3xl font-medium mb-4 text-gray-600">Transforming Learning Into <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Experience</span></h3>
               <p className="text-slate-600 text-lg">
                 BITC was created to answer these questions by bringing students closer to the industry through hands-on learning and expert mentorship. We believe students shouldn't wait until their first job to experience the professional world.
               </p>
@@ -233,7 +233,7 @@ export default function OurStoryPage() {
                 <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
                   <Target className="w-7 h-7 text-primary" />
                 </div>
-                <h3 className="text-2xl font-bold text-slate-900 mb-4">The Problem we <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Solve</span></h3>
+                <h3 className="text-2xl font-medium text-gray-600 mb-4">The Problem we <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Solve</span></h3>
                 <p className="text-gray-600 mb-6 font-medium text-base">Education Alone Isn't Enough. Today's employers expect professionals who can:</p>
                 <ul className="space-y-4">
                   {[
@@ -256,7 +256,7 @@ export default function OurStoryPage() {
             <Card className="bg-amber-50 border border-amber-200/80 shadow-md">
               <CardContent className="p-10 h-full flex flex-col justify-center text-center relative overflow-hidden">
                 <Quote className="w-12 h-12 text-orange-500/40 mx-auto mb-6 relative z-10" />
-                <h3 className="text-2xl font-bold mb-6 text-slate-900 relative z-10">Our <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Belief</span></h3>
+                <h3 className="text-2xl font-medium mb-6 text-gray-600 relative z-10">Our <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Belief</span></h3>
                 <p className="text-lg text-slate-700 leading-relaxed italic relative z-10 font-medium">
                   "Every student deserves the opportunity to learn from experienced professionals, gain practical exposure, and build a successful career—regardless of their background."
                 </p>
@@ -268,7 +268,7 @@ export default function OurStoryPage() {
                 <div className="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-6">
                   <Globe className="w-7 h-7 text-blue-500" />
                 </div>
-                <h3 className="text-2xl font-bold text-slate-900 mb-4">Inspired By <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Industry</span></h3>
+                <h3 className="text-2xl font-medium text-gray-600 mb-4">Inspired By <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Industry</span></h3>
                 <p className="text-gray-600 mb-6 font-medium text-base">We continuously study the market to ensure our training remains relevant and future-focused:</p>
                 <ul className="space-y-4">
                   {[
@@ -313,7 +313,7 @@ export default function OurStoryPage() {
                 Our vision extends beyond training. We aim to become one of India's most trusted Training Centers for practical learning, industry mentorship, career development, and professional excellence.
               </p>
               
-              <h4 className="text-lg font-bold text-slate-900 mb-6">Future initiatives <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">include:</span></h4>
+              <h4 className="text-lg font-medium text-gray-600 mb-6">Future initiatives <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">include:</span></h4>
               <div className="grid sm:grid-cols-2 gap-4">
                 {[
                   "AI-Powered Learning", "International Certifications",
@@ -345,7 +345,7 @@ export default function OurStoryPage() {
           
           <div className="w-16 h-1 bg-slate-300/80 mx-auto mb-6 rounded-full" />
           
-          <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-2">Be Part of Our <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Journey</span></h3>
+          <h3 className="text-xl md:text-2xl font-medium text-gray-600 mb-2">Be Part of Our <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Journey</span></h3>
           <p className="text-base text-slate-600 mb-6 max-w-[550px] mx-auto font-medium">
             Whether you're beginning your career, upgrading your skills, or preparing for the future, BITC is here to help you take the next step.
           </p>

@@ -9,6 +9,7 @@ import {
   Palette, Eye, Layers, IndianRupee, Award, Star, Users, Laptop, Briefcase
 } from "lucide-react";
 import { courses as staticCourses } from "@/data/courses";
+import { getApiBase, resolveImageUrl } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Digital Media Technology certifications",
@@ -24,7 +25,7 @@ export const dynamic = 'force-dynamic';
 export default async function DigitalMediaCoursesPage() {
   let dynamicCourses = [];
   try {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === "development" ? "http://localhost:5000/api" : "https://bitc-backend-theta.vercel.app/api");
+    const API_URL = getApiBase();
     const res = await fetch(`${API_URL}/certifications?category=Digital%20Media%20Technology`, { cache: "no-store" });
     if (res.ok) {
       const data = await res.json();
@@ -46,7 +47,7 @@ export default async function DigitalMediaCoursesPage() {
       duration: c.duration || "6 Months",
       fees: c.fees || "₹36,000",
       icon: Video,
-      image: (c.image && (c.image.startsWith('http') || c.image.startsWith('/'))) ? c.image : "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop",
+      image: resolveImageUrl(c.image) || "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop",
     };
   });
 
@@ -98,12 +99,10 @@ export default async function DigitalMediaCoursesPage() {
               >
                 {/* Top Image Banner */}
                 <div className="h-48 relative w-full overflow-hidden bg-slate-900">
-                  <Image
-                    src={course.image}
+                  <img
+                    src={resolveImageUrl(course.image)}
                     alt={course.title}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover group-hover:scale-108 transition-transform duration-700"
+                    className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/20 to-transparent" />
                 </div>
@@ -194,7 +193,7 @@ export default async function DigitalMediaCoursesPage() {
                 <div className="w-13 h-13 rounded-2xl bg-rose-50 flex items-center justify-center mx-auto mb-4 text-primary">
                   <item.icon className="w-6 h-6" />
                 </div>
-                <h3 className="text-base font-bold text-slate-900 mb-2">{item.title}</h3>
+                <h3 className="text-base font-medium text-gray-600 mb-2">{item.title}</h3>
                 <p className="text-xs text-gray-500 leading-relaxed">{item.desc}</p>
               </div>
             ))}
@@ -236,7 +235,7 @@ export default async function DigitalMediaCoursesPage() {
                 <div className="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   {item.icon}
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
+                <h3 className="text-xl font-medium text-gray-600 mb-3">{item.title}</h3>
                 <p className="text-slate-600 leading-relaxed text-sm">{item.desc}</p>
               </div>
             ))}

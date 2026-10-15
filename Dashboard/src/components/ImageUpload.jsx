@@ -1,24 +1,29 @@
 import React, { useState } from 'react';
 import { Upload, X, Loader2 } from 'lucide-react';
+import { getApiUrl, getServerBase, resolveImageUrl } from "../utils";
 
-const ImageUpload = ({ value, onChange, className = "" }) => {
+const ImageUpload = ({ value, onChange, className = "", category = "misc" }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState('');
 
-  // Use the same API URL logic as the rest of the app
-  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+  // API base and server root
+  const apiUrl = getApiUrl();
+  const serverBase = getServerBase();
+
+  // Build display URL for preview
+  const previewUrl = resolveImageUrl(value);
 
   const handleFileChange = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!file.type.startsWith('image/')) {
-      setError('Please select an image file');
+    if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) {
+      setError('Please select an image or video file');
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) { // 5MB limit
-      setError('Image must be less than 5MB');
+    if (file.size > 10 * 1024 * 1024) {
+      setError('File must be less than 10MB');
       return;
     }
 
@@ -29,7 +34,11 @@ const ImageUpload = ({ value, onChange, className = "" }) => {
     formData.append('image', file);
 
     try {
-      const response = await fetch(`${apiUrl}/upload`, {
+      // Pass the current (old) image URL so the server can delete it
+      const oldUrl = value || "";
+      const uploadUrl = `${apiUrl}/upload?category=${encodeURIComponent(category)}${oldUrl ? `&oldUrl=${encodeURIComponent(oldUrl)}` : ""}`;
+
+      const response = await fetch(uploadUrl, {
         method: 'POST',
         body: formData,
       });
@@ -37,11 +46,9 @@ const ImageUpload = ({ value, onChange, className = "" }) => {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        // Construct the full URL if necessary, or just store the relative path
-        // Using full URL for immediate preview might be better, but storing relative path is better for DB
-        // Let's store what the backend returns
-        const finalUrl = `http://localhost:5000${data.url}`; // Assuming backend is on port 5000
-        onChange(finalUrl);
+        // Store the relative path (e.g. "/uploads/abc.png") in the DB
+        // The preview will resolve it using serverBase above
+        onChange(data.url);
       } else {
         setError(data.error || 'Failed to upload image');
       }
@@ -50,12 +57,31 @@ const ImageUpload = ({ value, onChange, className = "" }) => {
       setError('Network error during upload');
     } finally {
       setIsUploading(false);
-      // Reset input
       e.target.value = '';
     }
   };
 
-  const handleClear = () => {
+  const handleClear = async () => {
+    // Delete the image from server if it's a local upload
+    if (value && !value.startsWith("http")) {
+      try {
+        await fetch(`${apiUrl}/upload`, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url: value }),
+        });
+      } catch (_) {}
+    } else if (value && value.includes("/uploads/")) {
+      // It's a full URL to our own server — still delete it
+      try {
+        const relativePath = "/uploads/" + value.split("/uploads/")[1];
+        await fetch(`${apiUrl}/upload`, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url: relativePath }),
+        });
+      } catch (_) {}
+    }
     onChange('');
   };
 
@@ -63,10 +89,14 @@ const ImageUpload = ({ value, onChange, className = "" }) => {
     <div className={`w-full ${className}`}>
       {value ? (
         <div className="relative w-full rounded-xl border border-gray-200 overflow-hidden bg-gray-50 flex items-center justify-center p-2 group h-[240px]">
-          <img src={value} alt="Preview" className="max-h-full max-w-full object-contain" />
+          {previewUrl.match(/\.(mp4|webm|ogg|mov)$/i) ? (
+            <video src={previewUrl} controls className="max-h-full max-w-full object-contain" />
+          ) : (
+            <img src={previewUrl} alt="Preview" className="max-h-full max-w-full object-contain" />
+          )}
           <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
-            <button 
-              type="button" 
+            <button
+              type="button"
               onClick={handleClear}
               className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 shadow-lg transform hover:scale-105 transition-all"
             >
@@ -88,12 +118,12 @@ const ImageUpload = ({ value, onChange, className = "" }) => {
               <p className="text-sm font-semibold text-gray-700">
                 {isUploading ? 'Uploading...' : 'Click to upload image'}
               </p>
-              <p className="text-xs text-gray-500 mt-1">SVG, PNG, JPG or GIF (max. 5MB)</p>
+              <p className="text-xs text-gray-500 mt-1">Image (max. 10MB)</p>
             </div>
-            <input 
-              type="file" 
-              className="hidden" 
-              accept="image/*" 
+            <input
+              type="file"
+              className="hidden"
+              accept="image/*,video/*"
               onChange={handleFileChange}
               disabled={isUploading}
             />
@@ -106,3 +136,4 @@ const ImageUpload = ({ value, onChange, className = "" }) => {
 };
 
 export default ImageUpload;
+

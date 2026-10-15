@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Handshake } from "lucide-react";
+import { Suspense } from "react";
 import PartnershipClient from "./PartnershipClient";
 
 export const metadata: Metadata = {
@@ -14,7 +15,9 @@ export const metadata: Metadata = {
 export default function PartnershipPage() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      <PartnershipClient />
+      <Suspense fallback={null}>
+        <PartnershipClient />
+      </Suspense>
     </div>
   );
 }

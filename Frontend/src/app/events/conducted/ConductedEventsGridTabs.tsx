@@ -57,7 +57,7 @@ export default function ConductedEventsGridTabs({
                   </div>
                 ) : null}
                 <CardContent className="p-6 md:p-8 flex flex-col flex-1">
-                  <h3 className="text-xl font-bold text-slate-900 mb-5 line-clamp-2 leading-tight group-hover:text-primary transition-colors">{event.title}</h3>
+                  <h3 className="text-xl font-medium text-gray-600 mb-5 line-clamp-2 leading-tight group-hover:text-primary transition-colors">{event.title}</h3>
                   
                   <div className="space-y-3.5 mb-8 flex-1">
                     <div className="flex items-start gap-3 text-sm text-gray-600">

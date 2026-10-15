@@ -115,4 +115,23 @@ router.patch("/", (req: Request, res: Response) => {
   }
 });
 
+// DELETE /api/join-team/:id
+router.delete("/:id", (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    let applicationsDb = getApplications();
+    const initialLength = applicationsDb.length;
+    applicationsDb = applicationsDb.filter((a) => a._id !== id && a.id !== id);
+    
+    if (applicationsDb.length === initialLength) {
+      return res.status(404).json({ error: "Application not found" });
+    }
+    
+    saveApplications(applicationsDb);
+    return res.json({ success: true, message: "Application deleted successfully" });
+  } catch (err: any) {
+    return res.status(500).json({ error: err?.message || "Failed to delete application" });
+  }
+});
+
 export default router;

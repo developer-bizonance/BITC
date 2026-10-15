@@ -39,7 +39,7 @@ router.post("/", (req: Request, res: Response) => {
       name: name.trim(),
       role: role?.trim() || "Software Engineer",
       company: company?.trim() || "Tech Leader",
-      photo: photo?.trim() || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&h=150&q=80",
+      photo: photo?.trim() || "",
       batch: batch?.trim() || "24-25",
       linkedin: linkedin?.trim() || "",
       certification: certification?.trim() || "",

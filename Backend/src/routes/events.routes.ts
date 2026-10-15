@@ -1,7 +1,8 @@
 import { Router, Request, Response } from "express";
 import { readJsonDb, writeJsonDb } from "../dataStore.js";
-
 import prisma from "../lib/prisma.js";
+import { deleteUploadedFile } from "./upload.routes.js";
+
 
 const router = Router();
 
@@ -21,7 +22,7 @@ router.get("/", async (req: Request, res: Response) => {
 // POST /api/events
 router.post("/", async (req: Request, res: Response) => {
   try {
-    const { title, date, type, imageUrl, isFeatured, venue, speaker } = req.body;
+    const { title, date, type, imageUrl, isFeatured, venue, speaker, description } = req.body;
 
     if (!title || typeof title !== "string" || !title.trim()) {
       return res.status(400).json({ success: false, error: "Event title is required" });
@@ -46,6 +47,7 @@ router.post("/", async (req: Request, res: Response) => {
           imageUrl: imageUrl || null,
           venue: venue || null,
           speaker: speaker || null,
+          description: description || null,
           isFeatured: isFeatured || false,
         },
       });
@@ -61,6 +63,7 @@ router.post("/", async (req: Request, res: Response) => {
         imageUrl: imageUrl || null,
         venue: venue || null,
         speaker: speaker || null,
+        description: description || null,
         isFeatured: isFeatured || false,
         createdAt: new Date(),
       };
@@ -76,9 +79,12 @@ router.post("/", async (req: Request, res: Response) => {
 router.put("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { title, date, type, imageUrl, isFeatured, venue, speaker } = req.body;
+    const { title, date, type, imageUrl, isFeatured, venue, speaker, description } = req.body;
 
     try {
+      // Fetch the current event so we can delete its old image if replaced
+      const existing = await prisma.event.findUnique({ where: { id }, select: { imageUrl: true } });
+
       // If setting this event as featured, un-feature all others first
       if (isFeatured === true) {
         await prisma.event.updateMany({
@@ -95,18 +101,26 @@ router.put("/:id", async (req: Request, res: Response) => {
           ...(imageUrl !== undefined && { imageUrl: imageUrl || null }),
           ...(venue !== undefined && { venue: venue || null }),
           ...(speaker !== undefined && { speaker: speaker || null }),
+          ...(description !== undefined && { description: description || null }),
           ...(isFeatured !== undefined && { isFeatured }),
         },
       });
+
+      // Delete old image from disk if it was replaced
+      if (imageUrl !== undefined && existing?.imageUrl && existing.imageUrl !== imageUrl) {
+        deleteUploadedFile(existing.imageUrl);
+      }
+
       const allEvents = await prisma.event.findMany({ orderBy: { date: "desc" } });
       return res.json({ success: true, event: dbUpdated, events: allEvents });
     } catch (e) {
       // fallback: in-memory
-      const eventIndex = readJsonDb("events.json").findIndex((e) => e.id === id);
+      const db = readJsonDb("events.json");
+      const eventIndex = db.findIndex((e: any) => e.id === id);
       if (eventIndex === -1) {
         return res.status(404).json({ success: false, error: "Event not found" });
       }
-      const current = readJsonDb("events.json")[eventIndex];
+      const current = db[eventIndex];
       const updated = {
         ...current,
         ...(title !== undefined && { title: title.trim() }),
@@ -115,10 +129,12 @@ router.put("/:id", async (req: Request, res: Response) => {
         ...(imageUrl !== undefined && { imageUrl: imageUrl || null }),
         ...(venue !== undefined && { venue: venue || null }),
         ...(speaker !== undefined && { speaker: speaker || null }),
+        ...(description !== undefined && { description: description || null }),
         ...(isFeatured !== undefined && { isFeatured }),
       };
-      readJsonDb("events.json")[eventIndex] = updated;
-      return res.json({ success: true, event: updated, events: readJsonDb("events.json") });
+      db[eventIndex] = updated;
+      writeJsonDb("events.json", db);
+      return res.json({ success: true, event: updated, events: db });
     }
   } catch (error: any) {
     return res.status(500).json({ success: false, error: error?.message || "Failed to update event" });
@@ -131,7 +147,11 @@ router.delete("/:id", async (req: Request, res: Response) => {
     const { id } = req.params;
 
     try {
+      // Fetch the event image before deleting so we can clean up the file
+      const existing = await prisma.event.findUnique({ where: { id }, select: { imageUrl: true } });
       await prisma.event.delete({ where: { id } });
+      // Delete the associated image file from disk
+      if (existing?.imageUrl) deleteUploadedFile(existing.imageUrl);
       const allEvents = await prisma.event.findMany({ orderBy: { date: "desc" } });
       return res.json({ success: true, message: "Event deleted successfully", events: allEvents });
     } catch (e) {

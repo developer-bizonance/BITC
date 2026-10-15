@@ -76,25 +76,17 @@ export default function PlacementCellPage() {
       
       {/* 1. Hero Banner */}
       <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center py-8 md:py-12 bg-white overflow-hidden">
-        <div className="container max-w-[1200px] mx-auto px-4 relative z-10 text-center flex flex-col items-center h-full">
+        <div className="container max-w-[1200px] mx-auto px-4 relative z-10 text-center flex flex-col items-center justify-center h-full">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-4">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            BITC PLACEMENT CELL
+            PLACEMENT CELL
           </div>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-4 leading-[1.1]">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
             Empowering Your <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Career Journey.</span>
           </h1>
-          <p className="text-base md:text-lg text-slate-600 max-w-[800px] mx-auto leading-relaxed mb-8 font-medium">
+          <p className="text-lg md:text-xl text-slate-600 max-w-[800px] mx-auto leading-relaxed font-medium">
             Our dedicated Placement Cell bridges the gap between academics and industry, equipping you with the skills, confidence, and opportunities to secure your dream job.
           </p>
-
-          <div className="w-full max-w-5xl mx-auto rounded-3xl overflow-hidden shadow-2xl border border-slate-200/60 mt-2 flex-1 max-h-[45vh] relative">
-            <img 
-              src="/campus-to-career.png" 
-              alt="From Campus to Career" 
-              className="w-full h-full object-cover object-top"
-            />
-          </div>
         </div>
       </section>
 
@@ -139,7 +131,7 @@ export default function PlacementCellPage() {
                   <div className={`w-14 h-14 rounded-2xl ${activity.bg} ${activity.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
                     <activity.icon className="w-7 h-7" />
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">{activity.title}</h3>
+                  <h3 className="text-xl font-medium text-gray-600 mb-3">{activity.title}</h3>
                   <p className="text-gray-600 leading-relaxed text-sm">
                     {activity.description}
                   </p>
@@ -188,7 +180,7 @@ export default function PlacementCellPage() {
                       )}
                     </div>
                     <div className="pb-4">
-                      <h4 className="text-lg font-bold text-slate-900 mb-1">{p.title}</h4>
+                      <h4 className="text-lg font-medium text-gray-600 mb-1">{p.title}</h4>
                       <p className="text-gray-500 text-sm">{p.desc}</p>
                     </div>
                   </div>

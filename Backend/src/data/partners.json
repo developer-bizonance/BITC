@@ -1,13 +1,5 @@
 [
   {
-    "id": "partner-1",
-    "city": "Amravati",
-    "logo": "/univercity.png",
-    "name": "Sant Gadge Baba Amravati University",
-    "createdAt": "2026-08-21T06:19:25.529Z",
-    "website": ""
-  },
-  {
     "id": "partner-2",
     "city": "Amravati",
     "logo": "/Govt.Engg.png",
@@ -47,6 +39,14 @@
     "city": "Amravati",
     "logo": "/HUPM.png",
     "name": "Shri H.V.P. Mandal's College of Engineering & Technology",
+    "createdAt": "2026-08-21T06:19:25.529Z"
+  },
+  {
+    "id": "partner-1",
+    "city": "Amravati",
+    "logo": "/univercity.png",
+    "name": "Sant Gadge Baba Amravati University",
+    "website": "",
     "createdAt": "2026-08-21T06:19:25.529Z"
   }
 ]

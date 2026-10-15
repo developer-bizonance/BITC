@@ -1,49 +1,12 @@
 [
   {
-    "id": "mentor-1790934854722",
-    "name": "Sumit Dhole",
-    "role": "Software Engineer",
-    "company": "BIZONANCE",
-    "exp": "1+ Years",
-    "area": "Full Stack Development",
-    "skills": [
-      "React",
-      "Node.js",
-      "System Design",
-      "VPS"
-    ],
-    "img": "http://localhost:5000/uploads/1790934841529-743792814.png",
-    "bio": "",
-    "linkedin": "https://www.linkedin.com/in/sumitdhole84/",
-    "thought": "You only live once, but if you do it right, once is enough.",
-    "createdAt": "2026-10-02T09:54:14.722Z"
-  },
-  {
-    "id": "mentor-1790934722308",
-    "name": "Nirbhay Ganorkar",
-    "role": "Software Engineer",
-    "company": "BIZONANCE",
-    "exp": "1+ Years",
-    "area": "Full Stack Development",
-    "skills": [
-      "React",
-      "Node.js",
-      "CRM",
-      "JavaScript"
-    ],
-    "img": "http://localhost:5000/uploads/1790934710519-911118941.png",
-    "bio": "",
-    "linkedin": "https://www.linkedin.com/in/nirbhay2324/",
-    "thought": "The quality of your life is directly related to how much uncertainty you can comfortably handle.",
-    "createdAt": "2026-10-02T09:52:02.308Z"
-  },
-  {
     "id": "mentor-1790933676387",
+    "bio": "",
+    "exp": "1+ Years",
+    "img": "/uploads/1791201528763-482515939.png",
+    "area": "Full Stack Development",
     "name": "Vedant Khedkar",
     "role": "Software Engineer",
-    "company": "BIZONANCE",
-    "exp": "1+ Years",
-    "area": "Full Stack Development",
     "skills": [
       "React",
       "Node.js",
@@ -51,10 +14,51 @@
       "AWS",
       "VPS"
     ],
-    "img": "http://localhost:5000/uploads/1790934417296-53729624.png",
-    "bio": "",
-    "linkedin": "https://www.linkedin.com/in/vedantkhedkar/",
+    "company": "BIZONANCE",
     "thought": "Life is a journey of growth, reflection, and purpose, captured beautifully in the words of thinkers, writers, and visionaries",
+    "linkedin": "https://www.linkedin.com/in/vedantkhedkar/",
     "createdAt": "2026-10-02T09:34:36.387Z"
+  },
+  {
+    "id": "mentor-1790934854722",
+    "bio": "",
+    "exp": "1+ Years",
+    "img": "/uploads/mentors/1791291436784-480594250.png",
+    "area": "Full Stack Development",
+    "name": "Sumit Dhole",
+    "role": "Software Engineer",
+    "skills": [
+      "React",
+      "Next.js",
+      "Node.js",
+      "Express.js",
+      "System Design",
+      "VPS",
+      "AWS",
+      "MongoDB"
+    ],
+    "company": "BIZONANCE",
+    "thought": "Code is for humans to read, and only incidentally for machines to execute. Write for the developer who has to maintain your code six months from now—which might just be you.",
+    "linkedin": "https://www.linkedin.com/in/sumitdhole84/",
+    "createdAt": "2026-10-02T09:54:14.722Z"
+  },
+  {
+    "id": "mentor-1790934722308",
+    "bio": "",
+    "exp": "1+ Years",
+    "img": "/uploads/1791201521470-405669350.png",
+    "area": "Full Stack Development",
+    "name": "Nirbhay Ganorkar",
+    "role": "Software Engineer",
+    "skills": [
+      "React",
+      "Node.js",
+      "CRM",
+      "JavaScript"
+    ],
+    "company": "BIZONANCE",
+    "thought": "The quality of your life is directly related to how much uncertainty you can comfortably handle.",
+    "linkedin": "https://www.linkedin.com/in/nirbhay2324/",
+    "createdAt": "2026-10-02T09:52:02.308Z"
   }
 ]

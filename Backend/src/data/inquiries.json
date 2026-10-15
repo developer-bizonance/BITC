@@ -1,0 +1,47 @@
+[
+  {
+    "id": "INQ-1792053122178",
+    "name": "Vedant Khandekar",
+    "email": "vedant@gmail.com",
+    "phone": "7767055408",
+    "city": null,
+    "enquiryType": "Student Consulting",
+    "message": "Certification Selection",
+    "status": "PENDING",
+    "courseId": null,
+    "createdAt": "2026-10-15T08:32:02.178Z"
+  },
+  {
+    "id": "INQ-1791885486041",
+    "name": "Sneha Joshi",
+    "email": "sneha@gmail.com",
+    "phone": "9833445566",
+    "enquiryType": "Student Consulting",
+    "message": "Need 1-on-1 counseling for Data Science certifications",
+    "status": "PENDING",
+    "courseId": null,
+    "createdAt": "2026-10-13T09:58:06.041Z"
+  },
+  {
+    "id": "INQ-1791884594403",
+    "name": "Nirbhay Katde",
+    "email": "nirbhay@gmail.com",
+    "phone": "7751251521",
+    "enquiryType": "Student Consulting",
+    "message": "Certification Selection",
+    "status": "PENDING",
+    "courseId": null,
+    "createdAt": "2026-10-13T09:43:14.403Z"
+  },
+  {
+    "id": "INQ-1791548019293",
+    "name": "Yuvraj Bhatkar",
+    "email": "yuvibhatkar702@gmail.com",
+    "phone": "7767055408",
+    "enquiryType": "Student Consulting",
+    "message": "Certification Selection",
+    "status": "PENDING",
+    "courseId": null,
+    "createdAt": "2026-10-09T12:13:39.293Z"
+  }
+]

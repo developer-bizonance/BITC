@@ -187,7 +187,7 @@ export default function Home() {
                     <feature.icon className="h-4 w-4 text-primary group-hover:text-black transition-colors" />
                   </div>
                   <div>
-                    <h3 className="text-[15px] font-bold mb-1.5 leading-tight text-slate-900 group-hover:text-primary transition-colors">{feature.title}</h3>
+                    <h3 className="text-[15px] font-medium mb-1.5 leading-tight text-gray-600 group-hover:text-primary transition-colors">{feature.title}</h3>
                     <p className="text-[13px] text-gray-500 leading-relaxed">{feature.desc}</p>
                   </div>
                 </CardContent>

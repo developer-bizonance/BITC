@@ -25,6 +25,7 @@ import {
     Download,
     HelpCircle,
     LayoutDashboard,
+    Building2,
 } from "lucide-react"
 
 // Import dashboard components
@@ -47,6 +48,7 @@ import StudentConsulting from "./StudentConsulting.jsx"
 import EventRegistrations from "./EventRegistrations.jsx"
 import ScholarshipApplications from "./ScholarshipApplications.jsx"
 import PartnershipApplications from "./PartnershipApplications.jsx"
+import IndustryPartners from "./IndustryPartners.jsx"
 
 // Sidebar configuration with Home, About, and Contact Inquiries tabs
 const sidebarItems = [
@@ -138,6 +140,11 @@ const sidebarItems = [
                 id: "corporate-partnership",
                 title: "Corporate",
                 Icon: Briefcase,
+            },
+            {
+                id: "industry-partners",
+                title: "Industry Partners",
+                Icon: Building2,
             }
         ]
     },
@@ -230,6 +237,24 @@ function Sidebar({ isOpen: propIsOpen }) {
     useEffect(() => {
         if (!isMobile) setIsOpen(propIsOpen)
     }, [propIsOpen, isMobile])
+
+    // Listen to global navigation events (e.g. from NotificationCenter)
+    useEffect(() => {
+        const handleNavigate = (e) => {
+            const { tab, subTopic } = e.detail || {};
+            if (tab) {
+                setActiveTab(tab);
+                try { localStorage.setItem("bitc_activeTab", tab); } catch {}
+                setExpandedMenu((prev) => ({ ...prev, [tab]: true }));
+            }
+            if (subTopic) {
+                setActiveSubTopic(subTopic);
+                try { localStorage.setItem("bitc_activeSubTopic", subTopic); } catch {}
+            }
+        };
+        window.addEventListener("bitc:navigate", handleNavigate);
+        return () => window.removeEventListener("bitc:navigate", handleNavigate);
+    }, []);
 
     const toggleExpand = (title) => {
         setExpandedMenu((prev) => ({
@@ -334,13 +359,13 @@ function Sidebar({ isOpen: propIsOpen }) {
                                             }}
                                             className={`flex items-center space-x-2.5 py-2.5 px-3 rounded-xl text-xs font-semibold transition-all text-left cursor-pointer ${
                                                 isSubActive
-                                                    ? "bg-blue-600 text-white font-bold shadow-md shadow-blue-500/20"
+                                                    ? "bg-blue-400/30 text-slate-900 font-bold"
                                                     : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
                                             }`}
                                         >
                                             <sub.Icon
                                                 className={`w-3.5 h-3.5 ${
-                                                    isSubActive ? "text-white" : "text-gray-500"
+                                                    isSubActive ? "text-slate-900" : "text-gray-500"
                                                 }`}
                                             />
                                             <span>{sub.title}</span>
@@ -413,10 +438,13 @@ function Sidebar({ isOpen: propIsOpen }) {
                             {activeTab === "Resources" && activeSubTopic === "faq" && (
                                 <FAQ />
                             )}
-                            {activeTab === "Partnerships" && (
+                            {activeTab === "Partnerships" && (!activeSubTopic || activeSubTopic === "educational-partnership" || activeSubTopic === "corporate-partnership") && (
                                 <PartnershipApplications 
                                     activeSubTopic={activeSubTopic}
                                 />
+                            )}
+                            {activeTab === "Partnerships" && activeSubTopic === "industry-partners" && (
+                                <IndustryPartners />
                             )}
 
                             {activeTab === "Contact Inquiries" && (activeSubTopic === "inquiries-list" || !activeSubTopic) && (

@@ -4,10 +4,10 @@ import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { resolveImageUrl } from "@/lib/utils";
 import { ApplyFormContent } from "@/app/apply/page";
 import {
   Users,
-  ExternalLink,
   ArrowRight,
   Code,
   Brain,
@@ -18,6 +18,7 @@ import {
   BarChart3,
   Database,
 } from "lucide-react";
+import { FaLinkedin } from "react-icons/fa";
 
 interface MentorItem {
   id?: string;
@@ -29,19 +30,11 @@ interface MentorItem {
   area: string;
   img: string;
   thought?: string;
+  linkedin?: string;
 }
 
-const defaultMentors: MentorItem[] = [
-  { name: "Rahul Sharma", role: "Senior software engineer", company: "Google", exp: "12+ Years", skills: ["React", "Node.js", "System Design"], area: "Full stack development", img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=800", thought: "\"The best code is the code you don't have to write.\"" },
-  { name: "Priya Patel", role: "Data science lead", company: "Microsoft", exp: "10+ Years", skills: ["Python", "TensorFlow", "SQL"], area: "Data Science & AI", img: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=800", thought: "\"Data without context is just noise. Focus on the insights.\"" },
-  { name: "Amit Verma", role: "Cloud Architect", company: "Amazon web services", exp: "14+ Years", skills: ["AWS", "Azure", "Kubernetes"], area: "Cloud Computing", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800", thought: "\"Architect for failure, and you'll never be surprised when it happens.\"" },
-  { name: "Sneha Gupta", role: "Information security consultant", company: "Deloitte", exp: "9+ Years", skills: ["Penetration Testing", "SIEM", "Compliance"], area: "Information Security", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=800", thought: "\"Security is a process, not a product. Always stay vigilant.\"" },
-  { name: "Vikram Reddy", role: "UX design director", company: "Adobe", exp: "11+ Years", skills: ["Figma", "User Research", "Prototyping"], area: "UI/UX Design", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=800", thought: "\"Design is how it works, not just how it looks and feels.\"" },
-  { name: "Neha Joshi", role: "Business strategy head", company: "McKinsey", exp: "13+ Years", skills: ["Strategy", "Analytics", "Leadership"], area: "Business & Management", img: "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?auto=format&fit=crop&q=80&w=800", thought: "\"Execution eats strategy for breakfast. Build things that matter.\"" },
-];
-
 export default function OurMentorsPage() {
-  const [mentorsList, setMentorsList] = useState<MentorItem[]>(defaultMentors);
+  const [mentorsList, setMentorsList] = useState<MentorItem[]>([]);
 
   useEffect(() => {
     async function loadMentors() {
@@ -49,12 +42,12 @@ export default function OurMentorsPage() {
         const res = await fetch("/api/mentors");
         if (res.ok) {
           const data = await res.json();
-          if (data.mentors && data.mentors.length > 0) {
+          if (data.mentors) {
             setMentorsList(data.mentors);
           }
         }
       } catch (err) {
-        console.warn("Failed to load dynamic mentors, using fallback:", err);
+        console.warn("Failed to load dynamic mentors:", err);
       }
     }
     loadMentors();
@@ -121,7 +114,7 @@ export default function OurMentorsPage() {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {mentorsList.map((mentor, i) => (
               <div 
                 key={mentor.id || i} 
@@ -131,22 +124,28 @@ export default function OurMentorsPage() {
                 <div className="relative w-full h-[260px] overflow-hidden bg-slate-100 shrink-0">
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/10 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <img 
-                    src={mentor.img} 
+                    src={resolveImageUrl(mentor.img)} 
                     alt={mentor.name} 
                     className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 ease-out" 
                   />
-                  {/* Company Badge */}
-                  <div className="absolute bottom-3 left-3 z-20">
-                    <span className="inline-flex items-center px-2 py-1 rounded bg-white/95 backdrop-blur-md text-[9px] font-bold tracking-wider text-slate-800 shadow-sm uppercase">
-                      {mentor.company}
-                    </span>
-                  </div>
                 </div>
 
                 {/* Content Section */}
                 <div className="p-5 flex flex-col flex-1 bg-white justify-between">
                   <div>
-                    <h3 className="text-[18px] font-bold text-slate-900 tracking-tight group-hover:text-primary transition-colors duration-300 mb-0.5">{mentor.name}</h3>
+                    <div className="flex items-center justify-between mb-0.5">
+                      <h3 className="text-[18px] font-medium text-gray-600 tracking-tight group-hover:text-primary transition-colors duration-300">{mentor.name}</h3>
+                      {mentor.linkedin && (
+                        <a 
+                          href={mentor.linkedin} 
+                          target="_blank" 
+                          rel="noreferrer"
+                          className="text-[#0077b5] hover:text-[#006097] transition-colors"
+                        >
+                          <FaLinkedin className="w-5 h-5" />
+                        </a>
+                      )}
+                    </div>
                     <p className="text-[12px] text-primary font-bold mb-3">{mentor.role}</p>
 
                     <div className="flex flex-wrap items-center gap-1.5 mb-4">
@@ -157,20 +156,12 @@ export default function OurMentorsPage() {
                       ))}
                     </div>
 
-                    {mentor.thought && (
-                      <div className="relative mt-2 mb-4">
-                        <p className="text-[12px] leading-relaxed italic text-slate-600">{mentor.thought}</p>
-                      </div>
-                    )}
                   </div>
 
                   <div className="flex items-center justify-between pt-4 border-t border-slate-100 mt-auto">
                     <div className="flex items-center gap-1.5 text-slate-700">
                       <Briefcase className="w-3.5 h-3.5 text-primary" />
                       <span className="text-[11px] font-bold">{mentor.exp}</span>
-                    </div>
-                    <div className="w-8 h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:border-primary group-hover:text-black transition-all duration-300 hover:scale-105 cursor-pointer bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] shadow-sm">
-                      <ExternalLink className="w-4 h-4" />
                     </div>
                   </div>
                 </div>
@@ -188,7 +179,7 @@ export default function OurMentorsPage() {
             <p className="text-gray-600 max-w-[600px] mx-auto text-lg">Our mentors cover the most in-demand technology and business domains.</p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {[
               { title: "Full stack development", icon: Code, color: "bg-blue-500/5 text-blue-600" },
               { title: "UI/UX Design", icon: Palette, color: "bg-pink-500/5 text-pink-600" },

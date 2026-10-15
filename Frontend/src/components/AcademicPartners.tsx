@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Building2 } from "lucide-react";
+import { resolveImageUrl, getApiBase } from "@/lib/utils";
 
 interface Partner {
   id?: string;
@@ -11,50 +12,53 @@ interface Partner {
   cover?: boolean;
 }
 
-const defaultPartners: Partner[] = [
+const DEFAULT_ACADEMIC_PARTNERS: Partner[] = [
   {
-    name: "Sant gadge baba amravati university",
-    logo: "/univercity.png",
-  },
-  {
-    name: "Government College of Engineering, Amravati",
+    id: "partner-2",
     logo: "/Govt.Engg.png",
+    name: "Government College of Engineering, Amravati",
   },
   {
-    name: "P. R. Pote Patil College of Engineering and Management",
+    id: "partner-3",
     logo: "/PR Pote.png",
+    name: "P. R. Pote Patil College of Engineering and Management",
   },
   {
-    name: "Sipna College of Engineering & Technology",
+    id: "partner-4",
     logo: "/Sipna.png",
+    name: "Sipna College of Engineering & Technology",
   },
   {
+    id: "partner-5",
+    logo: "/Ram Mege.png",
     name: "Prof. Ram Meghe College of Engineering & Management",
-    logo: "/Ram Mege.png",
   },
   {
+    id: "partner-6",
+    logo: "/Ram Mege.png",
     name: "Prof. Ram Meghe Institute of Technology and Research, Badnera - Amravati",
-    logo: "/Ram Mege.png",
   },
   {
-    name: "Shri H.V.P. Mandal's College of Engineering & Technology",
+    id: "partner-7",
     logo: "/HUPM.png",
+    name: "Shri H.V.P. Mandal's College of Engineering & Technology",
+  },
+  {
+    id: "partner-1",
+    logo: "/univercity.png",
+    name: "Sant Gadge Baba Amravati University",
   },
 ];
 
 export default function AcademicPartners() {
-  const [partnersList, setPartnersList] = useState<Partner[]>(defaultPartners);
+  const [partnersList, setPartnersList] = useState<Partner[]>(DEFAULT_ACADEMIC_PARTNERS);
   const [imgError, setImgError] = useState<{ [key: string | number]: boolean }>({});
 
   // Fetch dynamic partners from Backend API
   useEffect(() => {
     async function loadPartners() {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL ||
-          (typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
-            ? "http://localhost:5000/api"
-            : "https://bitc-backend-theta.vercel.app/api");
-
+        const apiUrl = getApiBase();
         const res = await fetch(`${apiUrl}/partners`);
         if (res.ok) {
           const data = await res.json();
@@ -71,15 +75,17 @@ export default function AcademicPartners() {
 
   const renderCard = (institute: Partner, i: number, isDuplicate = false) => {
     const key = isDuplicate ? `dup-${institute.id || i}` : (institute.id || i);
+    const resolvedLogo = resolveImageUrl(institute.logo);
+
     return (
       <Card
         key={key}
         className="flex-shrink-0 w-[150px] sm:w-[180px] md:w-[200px] border border-slate-100 ring-0 shadow-sm hover:shadow-xl transition-all duration-300 group/card bg-slate-50 flex flex-col items-center text-center hover:-translate-y-1.5 rounded-2xl overflow-hidden"
       >
         <div className="w-full aspect-[16/10] flex items-center justify-center bg-slate-50 overflow-hidden p-2">
-          {institute.logo && !imgError[key] ? (
+          {resolvedLogo && !imgError[key] ? (
             <img
-              src={institute.logo}
+              src={resolvedLogo}
               alt={institute.name}
               onError={() => setImgError((prev) => ({ ...prev, [key]: true }))}
               className={

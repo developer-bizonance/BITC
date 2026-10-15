@@ -47,9 +47,9 @@ router.post("/", async (req: Request, res: Response) => {
       course: course?.trim() || "Certification",
       packageAmt: packageAmt?.trim() || "N/A",
       quote: quote.trim(),
-      image: image?.trim() || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&h=150&q=80",
+      image: image?.trim() || "",
       rating: typeof rating === "number" ? rating : 5,
-      youtubeUrl: youtubeUrl?.trim() || "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      youtubeUrl: youtubeUrl?.trim() || "",
       createdAt: new Date().toISOString(),
     };
 

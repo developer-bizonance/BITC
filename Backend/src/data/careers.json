@@ -1,5 +1,17 @@
 [
   {
+    "id": "job-7",
+    "type": "Full-Time",
+    "title": "Training and Placement Officer (TPO)",
+    "status": "Active",
+    "location": "On-Site",
+    "createdAt": "2026-08-21T11:44:58.000Z",
+    "department": "Placement Cell",
+    "experience": "3+ Years",
+    "description": "Coordinate with companies for student placements and internships.",
+    "specialities": "Corporate Relations, Placement Coordination, HR Networking"
+  },
+  {
     "id": "job-1",
     "type": "Full-Time",
     "title": "Faculty – Full Stack Development",
@@ -34,17 +46,5 @@
     "experience": "5+ Years",
     "description": "Share industry insights and mentor students on real-world projects.",
     "specialities": "Industry Insights, Mentorship, Tech Leadership"
-  },
-  {
-    "id": "job-7",
-    "type": "Full-Time",
-    "title": "Training and Placement Officer (TPO)",
-    "status": "Active",
-    "location": "On-Site",
-    "createdAt": "2026-08-21T11:44:58.000Z",
-    "department": "Placement Cell",
-    "experience": "3+ Years",
-    "description": "Coordinate with companies for student placements and internships.",
-    "specialities": "Corporate Relations, Placement Coordination, HR Networking"
   }
 ]

@@ -100,7 +100,7 @@ export default function AboutPage() {
                   <div className="w-10 h-10 shrink-0 rounded-full text-black flex items-center justify-center font-black text-lg shadow-sm bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">
                     <CheckCircle2 className="w-5 h-5 text-black" />
                   </div>
-                  <h3 className="text-base md:text-[16px] font-bold text-slate-800 leading-tight">{item}</h3>
+                  <h3 className="text-base md:text-[16px] font-medium text-gray-600 leading-tight">{item}</h3>
                 </div>
               </div>
             ))}
@@ -134,7 +134,7 @@ export default function AboutPage() {
               <Card key={i} className="bg-white border border-slate-200/80 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group">
                 <CardContent className="p-8">
                   <feature.icon className="w-12 h-12 text-primary mb-6 group-hover:scale-110 transition-transform duration-300" />
-                  <h3 className="text-xl font-bold mb-3 text-slate-900 group-hover:text-primary transition-colors">{feature.title}</h3>
+                  <h3 className="text-xl font-medium mb-3 text-gray-600 group-hover:text-primary transition-colors">{feature.title}</h3>
                   <p className="text-slate-600 leading-relaxed text-base">{feature.desc}</p>
                 </CardContent>
               </Card>
@@ -199,7 +199,7 @@ export default function AboutPage() {
                   <div className="w-10 h-10 shrink-0 rounded-full text-black flex items-center justify-center font-black text-lg shadow-sm bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">
                     {i + 1}
                   </div>
-                  <h3 className="text-base md:text-[17px] font-bold text-slate-800">{step}</h3>
+                  <h3 className="text-base md:text-[17px] font-medium text-gray-600">{step}</h3>
                 </div>
               </div>
             ))}
@@ -251,7 +251,7 @@ export default function AboutPage() {
                       <val.icon className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                      <h4 className="text-xl font-bold mb-1 text-slate-900">{val.title}</h4>
+                      <h4 className="text-xl font-medium mb-1 text-gray-600">{val.title}</h4>
                       <p className="text-slate-600 font-medium text-base">{val.desc}</p>
                     </div>
                   </div>

@@ -47,7 +47,7 @@ export default function DirectorsMessagePage() {
                 Message from the Director
               </div>
               <h1 className="text-4xl md:text-5xl font-black text-slate-900 leading-[1.15] mb-6">
-                a Vision for <br />
+                A Vision for <br />
                 <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#0052D4_0%,#4364F7_50%,#6FB1FC_100%)]">Transformative Education</span>
               </h1>
               <p className="text-xl text-slate-600 leading-relaxed mb-8 font-medium max-w-[90%]">
@@ -55,7 +55,7 @@ export default function DirectorsMessagePage() {
               </p>
 
               <div className="mt-auto pt-8 border-t border-slate-100">
-                <h4 className="text-xl font-bold text-slate-900 mb-2.5">Pratik D. Gawande</h4>
+                <h4 className="text-xl font-medium text-gray-600 mb-2.5">Pratik D. Gawande</h4>
                 <div className="space-y-1.5 text-sm font-semibold text-slate-600">
                   <p className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-primary flex-shrink-0" />
@@ -125,7 +125,7 @@ export default function DirectorsMessagePage() {
               <Card key={i} className="bg-white border border-slate-200/80 shadow-sm hover:shadow-md transition-all">
                 <CardContent className="p-7">
                   <item.icon className="w-10 h-10 text-primary mb-5" />
-                  <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
+                  <h3 className="text-lg font-medium text-gray-600 mb-2">{item.title}</h3>
                   <p className="text-slate-600 leading-relaxed text-sm">{item.desc}</p>
                 </CardContent>
               </Card>
@@ -147,7 +147,7 @@ export default function DirectorsMessagePage() {
               <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
                 <Target className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">Short-term <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Milestones</span></h3>
+              <h3 className="text-xl font-medium text-gray-600 mb-2">Short-term <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Milestones</span></h3>
               <p className="text-gray-600 leading-relaxed text-sm">
                 Become one of India's most recognized industry-integrated Training Centers with 50,000+ students trained, 500+ industry partnerships, and presence across multiple cities.
               </p>
@@ -157,7 +157,7 @@ export default function DirectorsMessagePage() {
               <div className="w-16 h-16 rounded-full bg-blue-500/10 flex items-center justify-center mx-auto mb-6">
                 <TrendingUp className="w-8 h-8 text-blue-600" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">Long-term <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Aspiration</span></h3>
+              <h3 className="text-xl font-medium text-gray-600 mb-2">Long-term <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Aspiration</span></h3>
               <p className="text-gray-600 leading-relaxed text-sm">
                 Build a global learning ecosystem with international certifications, AI-powered learning platforms, startup incubation, and research partnerships with leading universities.
               </p>
@@ -167,7 +167,7 @@ export default function DirectorsMessagePage() {
               <div className="w-16 h-16 rounded-full bg-purple-500/10 flex items-center justify-center mx-auto mb-6">
                 <Globe className="w-8 h-8 text-purple-600" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">Future <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Expansion</span></h3>
+              <h3 className="text-xl font-medium text-gray-600 mb-2">Future <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Expansion</span></h3>
               <p className="text-gray-600 leading-relaxed text-sm">
                 Launch innovation labs, digital campuses, entrepreneurship programs, and international partnerships to empower learners beyond borders.
               </p>

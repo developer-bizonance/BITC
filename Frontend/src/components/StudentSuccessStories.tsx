@@ -5,35 +5,42 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Star, Play, Sparkles, TrendingUp, Award, Quote } from "lucide-react";
 
 import TestimonialVideoCard from "./TestimonialVideoCard";
-import { defaultStories, TestimonialItem } from "@/data/defaultStories";
+import { TestimonialItem } from "@/types/testimonial";
+import { getApiBase, resolveImageUrl } from "@/lib/utils";
 
 export default function StudentSuccessStories() {
-  const [stories, setStories] = useState<TestimonialItem[]>(defaultStories);
+  const [stories, setStories] = useState<TestimonialItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadTestimonials() {
       try {
-        const apiUrl =
-          process.env.NEXT_PUBLIC_API_URL ||
-          (typeof window !== "undefined" &&
-            (window.location.hostname === "localhost" ||
-              window.location.hostname === "127.0.0.1")
-            ? "http://localhost:5000/api"
-            : "https://bitc-backend-theta.vercel.app/api");
+        const apiUrl = getApiBase();
 
         const res = await fetch(`${apiUrl}/testimonials`, { cache: 'no-store' });
         if (res.ok) {
           const data = await res.json();
-          if (data.testimonials && data.testimonials.length > 0) {
-            setStories(data.testimonials);
+          if (data.testimonials && Array.isArray(data.testimonials)) {
+            setStories(
+              data.testimonials.map((t: any) => ({
+                ...t,
+                image: resolveImageUrl(t.image),
+              }))
+            );
           }
         }
       } catch (err) {
         console.warn("Failed to fetch testimonials:", err);
+      } finally {
+        setLoading(false);
       }
     }
     loadTestimonials();
   }, []);
+
+  if (!loading && stories.length === 0) {
+    return null;
+  }
 
   return (
     <section className="py-14 md:py-20 bg-white relative overflow-hidden">

@@ -107,7 +107,7 @@ export default function AwardsRecognitionPage() {
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-blue-50 rounded-[2rem] p-8 md:p-10 border border-blue-100">
               <Award className="w-12 h-12 text-blue-600 mb-6" />
-              <h3 className="text-2xl font-bold text-slate-900 mb-4"><span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span></h3>
+              <h3 className="text-2xl font-medium text-gray-600 mb-4"><span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span></h3>
               <p className="text-gray-600 mb-6">Our programs are designed to help students earn industry-recognized certifications.</p>
               <ul className="space-y-3">
                 {["Microsoft Certified", "AWS cloud practitioner", "Google data analytics", "CompTIA Security+", "Meta Front-End Developer"].map((cert, i) => (
@@ -121,7 +121,7 @@ export default function AwardsRecognitionPage() {
 
             <div className="bg-amber-50 rounded-[2rem] p-8 md:p-10 border border-amber-100">
               <Newspaper className="w-12 h-12 text-amber-600 mb-6" />
-              <h3 className="text-2xl font-bold text-slate-900 mb-4">Media <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Coverage</span></h3>
+              <h3 className="text-2xl font-medium text-gray-600 mb-4">Media <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Coverage</span></h3>
               <p className="text-gray-600 mb-6">BITC has been featured in leading education and technology media outlets.</p>
               <ul className="space-y-3">
                 {["Education Times", "TechCrunch India", "Business Standard", "The hindu education", "YourStory"].map((media, i) => (

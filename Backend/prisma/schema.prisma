@@ -93,6 +93,7 @@ model Event {
   imageUrl     String?
   venue        String?
   speaker      String?
+  description  String?
   isFeatured   Boolean             @default(false)
   createdAt    DateTime            @default(now())
   registrations EventRegistration[]

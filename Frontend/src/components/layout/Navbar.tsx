@@ -80,6 +80,13 @@ export function Navbar() {
         { href: "/resources/faqs", icon: HelpCircle, title: "FAQs", desc: "Questions & answers" },
       ],
     },
+    partnership: {
+      label: "Partnership",
+      items: [
+        { href: "/partnership?tab=educational", icon: GraduationCap, title: "Educational Partnership", desc: "Collaborate with institutions" },
+        { href: "/partnership?tab=corporate", icon: Briefcase, title: "Corporate Partnership", desc: "Build corporate workforces" },
+      ],
+    },
   };
 
   return (
@@ -116,7 +123,7 @@ export function Navbar() {
                           <item.icon className="w-4 h-4" />
                         </div>
                         <div>
-                          <div className="text-[14px] font-bold text-black group-hover/link:text-primary transition-colors leading-tight">
+                          <div className="text-[14px] font-medium text-gray-700 group-hover/link:text-primary transition-colors leading-tight">
                             {item.title}
                           </div>
                           <div className="text-[12px] text-gray-500 font-normal mt-0.5 leading-tight">{item.desc}</div>
@@ -128,10 +135,7 @@ export function Navbar() {
               )
             })}
 
-            <Link href="/partnership" className={`group h-full flex items-center hover:text-primary transition-colors relative ${pathname.startsWith('/partnership') ? 'text-primary' : ''}`}>
-              Partnership
-              <div className={`absolute bottom-[14px] left-0 right-0 h-[2px] bg-[#f5a300] transition-transform duration-300 origin-center ${pathname.startsWith('/partnership') ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`} />
-            </Link>
+
             <Link href="/events" className={`group h-full flex items-center hover:text-primary transition-colors relative ${pathname.startsWith('/events') ? 'text-primary' : ''}`}>
               Events
               <div className={`absolute bottom-[14px] left-0 right-0 h-[2px] bg-[#f5a300] transition-transform duration-300 origin-center ${pathname.startsWith('/events') ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`} />
@@ -200,13 +204,7 @@ export function Navbar() {
               })}
 
               <div className="pt-2 space-y-3 border-t border-slate-100">
-                <Link
-                  href="/partnership"
-                  onClick={() => setMobileOpen(false)}
-                  className="block py-2 text-slate-700 font-normal text-base hover:text-primary transition-colors"
-                >
-                  Partnership
-                </Link>
+
                 <Link
                   href="/events"
                   onClick={() => setMobileOpen(false)}

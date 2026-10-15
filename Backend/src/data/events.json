@@ -1,5 +1,17 @@
 [
   {
+    "id": "evt-1791550192900",
+    "title": "Event by BITC",
+    "date": "2026-10-14T00:00:00.000Z",
+    "type": "CONVOCATION",
+    "imageUrl": "/uploads/events/1791550191044-518220561.png",
+    "venue": "BITC Comapus",
+    "speaker": "Vedant ",
+    "description": "this is the SD",
+    "isFeatured": false,
+    "createdAt": "2026-10-09T12:49:52.900Z"
+  },
+  {
     "id": "test-upcoming-1",
     "title": "Cybersecurity Masterclass",
     "date": "2026-11-05T10:00:00.000Z",
@@ -9,17 +21,6 @@
     "speaker": "Mr. Rohan Sharma",
     "isFeatured": true,
     "createdAt": "2026-09-30T10:50:48.229Z"
-  },
-  {
-    "id": "test-upcoming-2",
-    "title": "Web3 & Blockchain Seminar",
-    "date": "2026-12-12T14:00:00.000Z",
-    "type": "SEMINAR",
-    "imageUrl": "https://images.unsplash.com/photo-1639762681485-074b7f4ec651?q=80&w=800&auto=format&fit=crop",
-    "venue": "BITC Main Auditorium",
-    "speaker": "Dr. Neha Gupta",
-    "isFeatured": false,
-    "createdAt": "2026-09-30T10:50:48.230Z"
   },
   {
     "id": "test-upcoming-3",
@@ -55,17 +56,6 @@
     "createdAt": "2026-08-20T10:34:30.096Z"
   },
   {
-    "id": "5e09528a-d6f4-4616-87ac-820e830ca55c",
-    "title": "AI & Machine Learning Workshop",
-    "date": "2026-09-20T10:00:00.000Z",
-    "type": "WORKSHOP",
-    "imageUrl": "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop",
-    "venue": "BITC Innovation Lab, Block A",
-    "speaker": "Prof. Sunita Rao",
-    "isFeatured": false,
-    "createdAt": "2026-08-20T10:34:30.347Z"
-  },
-  {
     "id": "c7a471b7-4617-419e-a37d-b675aa1215de",
     "title": "Industrial Visit - Infosys Pune",
     "date": "2026-09-10T00:00:00.000Z",
@@ -86,17 +76,6 @@
     "speaker": "Prof. Sunita Rao",
     "isFeatured": false,
     "createdAt": "2026-08-20T10:32:53.367Z"
-  },
-  {
-    "id": "9f29e12a-2c2e-4d89-91ea-55ba8f91f6a3",
-    "title": "National Level Hackathon 2025",
-    "date": "2025-11-15T09:00:00.000Z",
-    "type": "WORKSHOP",
-    "imageUrl": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800&auto=format&fit=crop",
-    "venue": "BITC Central Campus, Amravati",
-    "speaker": "Dr. Arvind Mehta",
-    "isFeatured": false,
-    "createdAt": "2026-08-20T10:32:53.060Z"
   },
   {
     "id": "6df65d80-449c-4af9-8a16-f52d1fcd7358",

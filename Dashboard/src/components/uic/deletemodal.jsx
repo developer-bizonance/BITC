@@ -18,13 +18,13 @@ const deletemodal = ({
         <div className="flex gap-4 justify-center">
           <button
             onClick={onConfirm}
-            className="bg-red-600 flex-1 text-white px-4 py-2 rounded"
+            className="flex-1 px-4 py-2 hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
           >
             {confirmText}
           </button>
           <button
             onClick={onCancel}
-            className="bg-gray-200 flex-1 px-4 py-2 rounded"
+            className="flex-1 px-4 py-2 hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
           >
             {cancelText}
           </button>

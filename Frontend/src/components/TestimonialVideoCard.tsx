@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import React, { useState, useEffect } from "react";
+import { Card } from "@/components/ui/card";
 import { Star, Play, TrendingUp, Quote } from "lucide-react";
-
-import { TestimonialItem } from "@/data/defaultStories";
+import { resolveImageUrl } from "@/lib/utils";
+import { TestimonialItem } from "@/types/testimonial";
 
 const getYouTubeID = (url: string) => {
   if (!url) return null;
@@ -17,28 +17,37 @@ export default function TestimonialVideoCard({ story, index, className }: { stor
   const [isPlaying, setIsPlaying] = useState(false);
   const [imgError, setImgError] = useState(false);
 
-  const ytId = getYouTubeID(story.youtubeUrl || "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
-  const videoThumbnail = ytId
-    ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`
-    : story.image;
+  useEffect(() => {
+    setImgError(false);
+  }, [story.image]);
+
+  const resolvedImg = resolveImageUrl(story.image);
+  const hasValidImg = Boolean(!imgError && resolvedImg);
+  const ytId = getYouTubeID(story.youtubeUrl || "");
 
   return (
     <Card className={`!p-0 !gap-0 border-0 border-none shadow-lg shadow-slate-200/50 bg-slate-100 rounded-2xl overflow-hidden flex flex-col md:flex-row items-stretch h-full flex-shrink-0 ${className || "w-[320px] md:w-[500px] lg:w-[580px] mx-2"}`}>
-      
+
       {/* ========================================================================= */}
-      {/* LEFT COLUMN (As drawn): Photo (Circle) -> Name -> Desi -> Intro Box -> Rating */}
+      {/* LEFT COLUMN: Photo / Avatar -> Name -> Desi -> Intro Box -> Rating         */}
       {/* ========================================================================= */}
       <div className="w-full md:w-[44%] lg:w-[45%] p-4 sm:p-5 flex flex-col justify-between bg-slate-100 text-left">
-        
+
         {/* Top: Profile Info Horizontal */}
         <div className="flex flex-row items-center gap-4 w-full">
           <div className="relative shrink-0">
-            <img
-              src={imgError ? "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&h=300&q=80" : story.image}
-              alt={story.name}
-              onError={() => setImgError(true)}
-              className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover border-2 border-white shadow-md ring-2 ring-amber-500/15"
-            />
+            {hasValidImg ? (
+              <img
+                src={resolvedImg}
+                alt={story.name}
+                onError={() => setImgError(true)}
+                className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover border-2 border-white shadow-md ring-2 ring-amber-500/15"
+              />
+            ) : (
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-tr from-amber-500 to-amber-400 text-slate-900 font-bold flex items-center justify-center text-lg shadow-md ring-2 ring-amber-500/15">
+                {story.name ? story.name.charAt(0).toUpperCase() : "S"}
+              </div>
+            )}
             <div
               className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-emerald-500 border border-white flex items-center justify-center text-black text-[9px] font-medium shadow-xs"
               title="Verified Placement"
@@ -49,11 +58,11 @@ export default function TestimonialVideoCard({ story, index, className }: { stor
 
           <div className="flex flex-col">
             {/* Name */}
-            <h4 className="text-sm sm:text-base font-bold text-slate-900 leading-tight">
+            <h4 className="text-sm sm:text-base font-medium text-gray-600 leading-tight">
               {story.name}
             </h4>
 
-            {/* Designation (Desi.) */}
+            {/* Designation */}
             <p className="text-[11px] font-bold text-slate-500 mt-0.5">
               {story.role} {story.company && <span className="text-amber-600 font-extrabold">• {story.company}</span>}
             </p>
@@ -105,15 +114,55 @@ export default function TestimonialVideoCard({ story, index, className }: { stor
       </div>
 
       {/* ========================================================================= */}
-      {/* RIGHT COLUMN: FULL-COVER VIDEO AREA                                       */}
+      {/* RIGHT COLUMN: Video Player or Placement Card (No dummy video)             */}
       {/* ========================================================================= */}
       <div className="w-full md:w-[56%] lg:w-[55%] min-h-[190px] sm:min-h-[220px] md:min-h-full relative bg-slate-950 flex items-center justify-center overflow-hidden">
-        <div
-          className="absolute inset-0 w-full h-full bg-cover bg-center cursor-default"
-          style={{ backgroundImage: `url('${videoThumbnail}')` }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-black/20" />
-        </div>
+        {ytId ? (
+          isPlaying ? (
+            <iframe
+              width="100%"
+              height="100%"
+              src={`https://www.youtube.com/embed/${ytId}?autoplay=1`}
+              title={story.name}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="absolute inset-0 w-full h-full"
+            />
+          ) : (
+            <div
+              className="absolute inset-0 w-full h-full bg-cover bg-center cursor-pointer group/video"
+              style={{ backgroundImage: `url('https://img.youtube.com/vi/${ytId}/hqdefault.jpg')` }}
+              onClick={() => setIsPlaying(true)}
+            >
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-black/30 group-hover/video:bg-black/30 transition-colors" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover/video:scale-110 transition-transform">
+                  <Play className="w-5 h-5 fill-current ml-0.5" />
+                </div>
+              </div>
+            </div>
+          )
+        ) : (
+          <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-slate-900 via-slate-950 to-amber-950/40 flex flex-col items-center justify-center p-6 text-center">
+            {hasValidImg ? (
+              <img
+                src={resolvedImg}
+                alt={story.name}
+                className="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover border-2 border-amber-400/40 shadow-xl mb-3"
+              />
+            ) : (
+              <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-amber-400 to-amber-500 text-slate-950 font-black text-2xl flex items-center justify-center shadow-xl mb-3">
+                {story.name ? story.name.charAt(0).toUpperCase() : "B"}
+              </div>
+            )}
+            <p className="text-white font-bold text-sm leading-tight">{story.name}</p>
+            <p className="text-amber-400 text-xs font-semibold mt-0.5">{story.role}</p>
+            {story.company && (
+              <p className="text-slate-400 text-[11px] mt-0.5 font-medium">{story.company}</p>
+            )}
+          </div>
+        )}
       </div>
 
     </Card>

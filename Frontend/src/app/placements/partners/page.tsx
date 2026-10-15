@@ -15,6 +15,7 @@ import {
   CheckCircle2, Users, Briefcase, Award 
 } from "lucide-react";
 import Link from "next/link";
+import { resolveImageUrl, getApiBase } from "@/lib/utils";
 
 // Using local and remote logos for the layout
 const topPartners = [
@@ -74,7 +75,7 @@ export default async function HiringPartnersPage() {
   let partners: { name: string, logo?: string }[] = topPartners;
 
   try {
-    const backendUrl = process.env.NEXT_PUBLIC_API_URL || "https://bitc-backend-theta.vercel.app/api";
+    const backendUrl = getApiBase();
     const res = await fetch(`${backendUrl}/industry-partners`, { cache: "no-store" });
     if (res.ok) {
       const data = await res.json();
@@ -83,7 +84,7 @@ export default async function HiringPartnersPage() {
           const localMatch = topPartners.find(p => p.name.trim().toLowerCase() === apiPartner.name.trim().toLowerCase());
           return {
             ...apiPartner,
-            logo: apiPartner.logo || (localMatch ? localMatch.logo : undefined)
+            logo: apiPartner.logo ? resolveImageUrl(apiPartner.logo) : (localMatch ? localMatch.logo : undefined)
           };
         });
       }
@@ -97,25 +98,17 @@ export default async function HiringPartnersPage() {
       
       {/* 1. Hero Banner */}
       <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center py-8 md:py-12 bg-white overflow-hidden">
-        <div className="container max-w-[1200px] mx-auto px-4 relative z-10 text-center flex flex-col items-center h-full">
+        <div className="container max-w-[1200px] mx-auto px-4 relative z-10 text-center flex flex-col items-center justify-center h-full">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-4">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            10+ INDUSTRY PARTNERS
+            INDUSTRY PARTNERS
           </div>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-4 leading-[1.1]">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
             Top Companies <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Hire From BITC.</span>
           </h1>
-          <p className="text-base md:text-lg text-slate-600 max-w-[800px] mx-auto leading-relaxed mb-8 font-medium">
+          <p className="text-lg md:text-xl text-slate-600 max-w-[800px] mx-auto leading-relaxed font-medium">
             We are proud to partner with leading MNCs, innovative startups, and top corporate firms to provide outstanding career opportunities for our students.
           </p>
-
-          <div className="w-full max-w-6xl mx-auto rounded-3xl overflow-hidden shadow-2xl border border-slate-200/60 mt-2 flex-1 max-h-[45vh] relative">
-            <img 
-              src="/recruiting-partners.png" 
-              alt="Our recruiting partners" 
-              className="w-full h-full object-cover object-top"
-            />
-          </div>
         </div>
       </section>
 
@@ -169,7 +162,7 @@ export default async function HiringPartnersPage() {
                   <div className="w-16 h-16 rounded-full bg-white text-slate-900 group-hover:text-orange-500 group-hover:shadow-md flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-all duration-300">
                     <ind.icon className="w-8 h-8" />
                   </div>
-                  <h3 className="text-xl font-bold mb-2 group-hover:text-orange-500 text-slate-900 transition-colors duration-300">{ind.name}</h3>
+                  <h3 className="text-xl font-medium mb-2 group-hover:text-orange-500 text-gray-600 transition-colors duration-300">{ind.name}</h3>
                   <p className="text-sm text-gray-500 group-hover:text-orange-500/80 uppercase tracking-wider font-semibold transition-colors duration-300">
                     {ind.count} Partners
                   </p>
@@ -223,7 +216,7 @@ export default async function HiringPartnersPage() {
               {whyHire.map((item, i) => (
                 <div key={i} className="bg-white border border-slate-200/80 shadow-md rounded-2xl p-6 hover:shadow-lg transition-shadow">
                   <item.icon className="w-8 h-8 text-primary mb-4" />
-                  <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
+                  <h3 className="text-lg font-medium text-gray-600 mb-2">{item.title}</h3>
                   <p className="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
                 </div>
               ))}
