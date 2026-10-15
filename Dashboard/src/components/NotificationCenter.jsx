@@ -71,25 +71,33 @@ export default function NotificationCenter() {
 
     try {
       // 1. Course Applications (/api/admin/applications)
+      let apps = [];
       const appsRes = await fetch(`${apiUrl}/admin/applications`).catch(() => null);
       if (appsRes && appsRes.ok) {
         const appsData = await appsRes.json();
-        const apps = appsData.applications || [];
-        apps.forEach((app) => {
-          items.push({
-            id: `course-app-${app.id || app.fullId || Math.random()}`,
-            type: "course",
-            title: "Course Application",
-            name: app.name || app.userName || "New Candidate",
-            subtitle: app.courseTitle ? `Applied for ${app.courseTitle}` : "New Course Application submitted",
-            time: app.appliedAt || app.date || "Recently",
-            tab: "Course Applications",
-            subTopic: null,
-            badgeColor: "bg-blue-50 text-blue-700",
-            icon: GraduationCap,
-          });
-        });
+        apps = appsData.applications || [];
       }
+      if (apps.length === 0) {
+        const fbRes = await fetch("https://bitc.bizonance.com/api/admin/applications").catch(() => null);
+        if (fbRes && fbRes.ok) {
+          const fbData = await fbRes.json();
+          apps = fbData.applications || [];
+        }
+      }
+      apps.forEach((app) => {
+        items.push({
+          id: `course-app-${app.id || app.fullId || Math.random()}`,
+          type: "course",
+          title: "Course Application",
+          name: app.name || app.userName || "New Candidate",
+          subtitle: app.courseTitle ? `Applied for ${app.courseTitle}` : "New Course Application submitted",
+          time: app.appliedAt || app.date || "Recently",
+          tab: "Course Applications",
+          subTopic: null,
+          badgeColor: "bg-blue-50 text-blue-700",
+          icon: GraduationCap,
+        });
+      });
 
       // 2. Contact Inquiries (/api/contact)
       const inqRes = await fetch(`${apiUrl}/contact`).catch(() => null);

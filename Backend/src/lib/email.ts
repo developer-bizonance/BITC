@@ -114,3 +114,127 @@ Target Recipient: ${recipientEmail}
     html: htmlBody,
   });
 }
+
+export interface SendCourseApplicationEmailParams {
+  appId: string;
+  name: string;
+  email: string;
+  phone: string;
+  city?: string;
+  qualification?: string;
+  specialization?: string;
+  courseTitle: string;
+  message?: string;
+}
+
+export async function sendCourseApplicationEmail(params: SendCourseApplicationEmailParams) {
+  const { appId, name, email, phone, city, qualification, specialization, courseTitle, message } = params;
+
+  const recipientEmail = process.env.CONTACT_RECIPIENT_EMAIL || "info@bizonance.in";
+  const timestamp = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+
+  const smtpHost = process.env.SMTP_HOST || "smtp.gmail.com";
+  const smtpPort = parseInt(process.env.SMTP_PORT || "587", 10);
+  const smtpUser = process.env.SMTP_USER;
+  const smtpPass = process.env.SMTP_PASS;
+  const smtpFrom = process.env.SMTP_FROM || `"BITC Admissions" <info@bizonance.in>`;
+
+  let transporter: nodemailer.Transporter;
+
+  if (smtpUser && smtpPass) {
+    transporter = nodemailer.createTransport({
+      host: smtpHost,
+      port: smtpPort,
+      secure: process.env.SMTP_SECURE === "true",
+      auth: {
+        user: smtpUser,
+        pass: smtpPass,
+      },
+    });
+  } else {
+    transporter = nodemailer.createTransport({
+      jsonTransport: true,
+    });
+  }
+
+  const mailSubject = `[BITC Course Application] ${courseTitle} - ${name.trim()} (${appId})`;
+  const plainTextBody = `
+BIZONANCE INDUSTRIAL TRAINING CENTRE
+=========================================
+NEW COURSE ENROLLMENT APPLICATION
+Application ID : ${appId}
+Submitted At   : ${timestamp}
+Full Name      : ${name.trim()}
+Email          : ${email.trim()}
+Phone          : ${phone.trim()}
+City           : ${city || "Not Specified"}
+Qualification  : ${qualification || "Not Specified"}
+Specialization : ${specialization || "Not Specified"}
+Course Applied : ${courseTitle}
+
+MESSAGE / STATEMENT OF PURPOSE:
+-----------------------------------------
+${(message || "No additional message provided.").trim()}
+=========================================
+Target Recipient: ${recipientEmail}
+  `.trim();
+
+  const htmlBody = `
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+      body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fafc; margin: 0; padding: 16px; color: #1e293b; }
+      .container { max-width: 580px; margin: 0 auto; background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; }
+      .header { background: #0f172a; padding: 20px; text-align: center; color: #ffffff; }
+      .header-title { font-size: 16px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin: 0; }
+      .header-sub { margin: 6px 0 0 0; font-size: 13px; color: #94a3b8; }
+      .body { padding: 24px; }
+      .badge { display: inline-block; background: #ecfdf5; color: #047857; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 9999px; margin-bottom: 16px; border: 1px solid #a7f3d0; }
+      .info-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+      .info-table td { padding: 8px 10px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+      .info-table tr:last-child td { border-bottom: none; }
+      .label { font-weight: 600; color: #64748b; width: 35%; }
+      .value { color: #0f172a; font-weight: 500; }
+      .message-box { background: #f8fafc; border-left: 4px solid #10b981; padding: 14px; border-radius: 6px; font-size: 14px; line-height: 1.5; color: #334155; white-space: pre-wrap; margin-top: 4px; border: 1px solid #e2e8f0; }
+      .footer { background: #f8fafc; padding: 12px; text-align: center; font-size: 11px; color: #64748b; border-top: 1px solid #e2e8f0; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="header-title">BIZONANCE INDUSTRIAL TRAINING CENTER</div>
+        <p class="header-sub">Course Admission Application (${appId})</p>
+      </div>
+      <div class="body">
+        <div class="badge">Applied for: ${courseTitle}</div>
+        <table class="info-table">
+          <tr><td class="label">Full Name:</td><td class="value">${name.trim()}</td></tr>
+          <tr><td class="label">Email Address:</td><td class="value"><a href="mailto:${email.trim()}">${email.trim()}</a></td></tr>
+          <tr><td class="label">Phone Number:</td><td class="value"><a href="tel:${phone.trim()}">${phone.trim()}</a></td></tr>
+          <tr><td class="label">City:</td><td class="value">${city || "Not Specified"}</td></tr>
+          <tr><td class="label">Qualification:</td><td class="value">${qualification || "Not Specified"}</td></tr>
+          <tr><td class="label">Specialization:</td><td class="value">${specialization || "Not Specified"}</td></tr>
+          <tr><td class="label">Course Name:</td><td class="value"><strong>${courseTitle}</strong></td></tr>
+        </table>
+        <div class="message-box">${(message || "No additional message provided.").trim()}</div>
+      </div>
+      <div class="footer">
+        Generated automatically by the BITC Website Admission Portal for <strong>${recipientEmail}</strong>.
+      </div>
+    </div>
+  </body>
+  </html>
+  `;
+
+  return transporter.sendMail({
+    from: smtpFrom,
+    to: recipientEmail,
+    replyTo: email.trim(),
+    subject: mailSubject,
+    text: plainTextBody,
+    html: htmlBody,
+  });
+}
+

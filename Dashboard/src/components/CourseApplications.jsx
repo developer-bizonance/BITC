@@ -80,20 +80,40 @@ const CourseApplications = () => {
 
   // --- API CONFIGURATION ---
   const API_ENDPOINT = `${getApiUrl()}/admin/applications`;
+  const FALLBACK_ENDPOINT = "https://bitc.bizonance.com/api/admin/applications";
 
   const fetchApplicants = async () => {
     setLoading(true);
     try {
-      const response = await fetch(API_ENDPOINT);
-      if (!response.ok) throw new Error("Connection failed");
-      const data = await response.json();
+      let rawApps = [];
+      try {
+        const response = await fetch(API_ENDPOINT);
+        if (response.ok) {
+          const data = await response.json();
+          rawApps = data.applications || [];
+        }
+      } catch (err) {
+        console.warn("Primary admin applications endpoint failed, attempting fallback:", err);
+      }
+
+      // If primary returned empty or failed, fetch from Next.js Neon API endpoint
+      if (rawApps.length === 0) {
+        try {
+          const fallbackRes = await fetch(FALLBACK_ENDPOINT);
+          if (fallbackRes.ok) {
+            const fbData = await fallbackRes.json();
+            rawApps = fbData.applications || [];
+          }
+        } catch (fbErr) {
+          console.warn("Fallback applications endpoint failed:", fbErr);
+        }
+      }
 
       // Map API data to UI friendly format
-      const apps = data.applications || [];
-      const formatted = apps.map((app) => ({
+      const formatted = rawApps.map((app) => ({
         ...app,
         id: app.id || `APP-${Math.floor(Math.random() * 1000)}`,
-        fullId: app.id,
+        fullId: app.fullId || app.id,
         date: app.appliedAt ? (() => {
           const d = new Date(app.appliedAt);
           return `${d.getDate().toString().padStart(2, '0')}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getFullYear()}`;
@@ -104,7 +124,8 @@ const CourseApplications = () => {
         name: app.name || app.userName || app.user?.name || "Unknown",
         email: app.email || app.userEmail || app.user?.email || "",
         phone: app.phone || app.userPhone || app.user?.phone || "",
-        courseTitle: app.course?.title || app.courseTitle || "",
+        courseTitle: app.courseTitle || app.course?.title || "",
+        city: app.city || app.location || "Not Specified",
       }));
 
       setApplicants(formatted);
@@ -122,16 +143,18 @@ const CourseApplications = () => {
 
   const handleStatusChange = async (id, newStatus) => {
     try {
-      setApplicants((prev) => prev.map((a) => (a.fullId === id ? { ...a, status: newStatus } : a)));
-      if (selectedApplicant && selectedApplicant.fullId === id) {
+      setApplicants((prev) => prev.map((a) => (a.fullId === id || a.id === id ? { ...a, status: newStatus } : a)));
+      if (selectedApplicant && (selectedApplicant.fullId === id || selectedApplicant.id === id)) {
         setSelectedApplicant((prev) => ({ ...prev, status: newStatus }));
       }
 
-      await fetch(API_ENDPOINT, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, status: newStatus.toLowerCase() }),
-      });
+      const payload = JSON.stringify({ id, status: newStatus.toLowerCase() });
+      const headers = { "Content-Type": "application/json" };
+
+      await Promise.allSettled([
+        fetch(API_ENDPOINT, { method: "PATCH", headers, body: payload }),
+        fetch(FALLBACK_ENDPOINT, { method: "PATCH", headers, body: payload }),
+      ]);
     } catch (error) {
       console.error("Status update failed:", error);
     }
@@ -141,13 +164,16 @@ const CourseApplications = () => {
     e.stopPropagation();
     if (window.confirm("Are you sure you want to delete this application?")) {
       try {
-        await fetch(`${API_ENDPOINT}/${id}`, {
-          method: "DELETE",
-        });
-        setApplicants((prev) => prev.filter((app) => app.fullId !== id));
-        if (selectedApplicant && selectedApplicant.fullId === id) {
+        setApplicants((prev) => prev.filter((app) => app.fullId !== id && app.id !== id));
+        if (selectedApplicant && (selectedApplicant.fullId === id || selectedApplicant.id === id)) {
           setIsModalOpen(false);
         }
+
+        await Promise.allSettled([
+          fetch(`${API_ENDPOINT}/${id}`, { method: "DELETE" }),
+          fetch(`${FALLBACK_ENDPOINT}/${id}`, { method: "DELETE" }),
+          fetch(`${FALLBACK_ENDPOINT}?id=${encodeURIComponent(id)}`, { method: "DELETE" }),
+        ]);
       } catch (err) {
         console.error("Failed to delete application", err);
       }

@@ -65,17 +65,21 @@ model Inquiry {
 }
 
 model Application {
-  id          String            @id @default(uuid())
-  userId      String
-  user        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  courseId    String
-  course      Course            @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  status      ApplicationStatus @default(UNDER_REVIEW)
-  name        String?
-  email       String?
-  phone       String?
-  appliedAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
+  id             String            @id @default(uuid())
+  userId         String
+  user           User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId       String
+  course         Course            @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  status         ApplicationStatus @default(UNDER_REVIEW)
+  name           String?
+  email          String?
+  phone          String?
+  city           String?
+  qualification  String?
+  specialization String?
+  message        String?
+  appliedAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
 }
 
 model Event {

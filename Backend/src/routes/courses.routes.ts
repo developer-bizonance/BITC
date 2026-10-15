@@ -4,6 +4,7 @@ import { courses as fallbackCourses } from "../data/courses.js";
 import { verifyJWT } from "../lib/jwt.js";
 import { applicationsDb } from "../lib/userStore.js";
 import { readJsonDbAsync, writeJsonDbAsync, readJsonDb, writeJsonDb } from "../dataStore.js";
+import { sendCourseApplicationEmail } from "../lib/email.js";
 
 const router = Router();
 
@@ -323,19 +324,21 @@ router.delete("/:slug/curriculum/:moduleIndex", async (req: Request, res: Respon
 router.post("/apply", async (req: Request, res: Response) => {
   try {
     const { courseId, courseTitle, name, email, phone, city, qualification, specialization, message } = req.body;
-    console.log("RECEIVED BODY:", JSON.stringify(req.body));
 
     if (!courseId || !courseTitle || !name || !email || !phone) {
       return res.status(400).json({ error: "All application fields are required" });
     }
 
+    const appId = `APP-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+
+    let user: any = null;
     let userId = "";
 
     try {
       // Find or create user to satisfy Database Application constraints
-      let user = await prisma.user.findUnique({ where: { email } });
+      user = await prisma.user.findUnique({ where: { email } });
       if (!user) {
-        const bcrypt = require("bcryptjs");
+        const bcrypt = (await import("bcryptjs")).default;
         const randomPassword = Math.random().toString(36).slice(-8) + "A1!";
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(randomPassword, salt);
@@ -355,55 +358,96 @@ router.post("/apply", async (req: Request, res: Response) => {
       userId = `GUEST-${Date.now()}`;
     }
 
-    const newApplication = {
-      id: `APP-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`,
+    const newApplication: any = {
+      id: appId,
+      fullId: appId,
       userId: userId,
       userName: name,
       userEmail: email,
       userPhone: phone,
-      city,
-      qualification,
-      specialization,
-      message,
+      name,
+      email,
+      phone,
+      city: city || "",
+      qualification: qualification || "",
+      specialization: specialization || "",
+      message: message || "",
       courseId,
       courseTitle,
       status: "UNDER_REVIEW" as const,
       appliedAt: new Date().toISOString(),
     };
 
+    // 1. Persist to Neon PostgreSQL CmsData table
     try {
-      const localApps = readJsonDb<any>("course-applications.json");
-      localApps.unshift(newApplication);
-      writeJsonDb("course-applications.json", localApps);
+      const cmsApps = await readJsonDbAsync<any>("course-applications.json");
+      cmsApps.unshift(newApplication);
+      await writeJsonDbAsync("course-applications.json", cmsApps);
     } catch (e) {
-      console.warn("Fallback to applicationsDb");
-      applicationsDb.push(newApplication);
+      console.warn("Async write to course-applications.json failed, falling back to sync:", e);
+      try {
+        const localApps = readJsonDb<any>("course-applications.json");
+        localApps.unshift(newApplication);
+        writeJsonDb("course-applications.json", localApps);
+      } catch {}
     }
+    applicationsDb.push(newApplication);
 
+    // 2. Persist to Prisma Application table
     try {
-      const dbCourse = await prisma.course.findFirst({
+      let dbCourse = await prisma.course.findFirst({
         where: { OR: [{ slug: courseId }, { title: courseTitle }] },
       });
 
-      if (dbCourse && !userId.startsWith("GUEST-")) {
-        await prisma.application.create({
+      if (!dbCourse) {
+        // Auto-create course in database if dynamically generated
+        dbCourse = await prisma.course.create({
           data: {
-            userId: userId,
+            slug: courseId,
+            title: courseTitle,
+            category: "Certification",
+            duration: "3 Months",
+            fees: "₹36,000",
+            price: 36000,
+            description: `${courseTitle} Professional Certification Program`,
+            features: ["Industry Certificate", "Hands-on Projects", "Placement Support"],
+          },
+        });
+      }
+
+      if (dbCourse && user && !userId.startsWith("GUEST-")) {
+        const dbApp = await prisma.application.create({
+          data: {
+            userId: user.id,
             courseId: dbCourse.id,
             name: name,
             email: email,
             phone: phone,
-            city,
-            qualification,
-            specialization,
-            message,
+            city: city || "",
+            qualification: qualification || "",
+            specialization: specialization || "",
+            message: message || "",
             status: "UNDER_REVIEW",
           },
         });
+        newApplication.fullId = dbApp.id;
       }
     } catch (dbError) {
       console.warn("Database application creation notice:", dbError);
     }
+
+    // 3. Send email alert in background
+    sendCourseApplicationEmail({
+      appId,
+      name,
+      email,
+      phone,
+      city,
+      qualification,
+      specialization,
+      courseTitle,
+      message,
+    }).catch(mailErr => console.warn("Failed to send course application email:", mailErr));
 
     return res.json({
       message: "Application submitted successfully",
