@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { readJsonDb, writeJsonDb } from "../dataStore.js";
+import { readJsonDbAsync, writeJsonDbAsync } from "../dataStore.js";
 
 export interface ScholarshipApplication {
   _id: string;
@@ -13,23 +13,16 @@ export interface ScholarshipApplication {
   message: string;
   cvBase64?: string;
   cvFileName?: string;
+  cvUrl?: string;
   status: "Pending" | "Reviewed" | "Approved" | "Rejected";
   createdAt: string;
-}
-
-export function getScholarships(): ScholarshipApplication[] {
-  return readJsonDb<ScholarshipApplication>("scholarships.json");
-}
-
-export function saveScholarships(data: ScholarshipApplication[]) {
-  writeJsonDb("scholarships.json", data);
 }
 
 const router = Router();
 
 // GET /api/scholarships
-router.get("/", (_req: Request, res: Response) => {
-  const scholarshipsDb = getScholarships();
+router.get("/", async (_req: Request, res: Response) => {
+  const scholarshipsDb = await readJsonDbAsync<ScholarshipApplication>("scholarships.json");
   return res.json({
     success: true,
     applications: scholarshipsDb,
@@ -37,7 +30,7 @@ router.get("/", (_req: Request, res: Response) => {
 });
 
 // POST /api/scholarships/apply (Submit Scholarship Application)
-router.post("/apply", (req: Request, res: Response) => {
+router.post("/apply", async (req: Request, res: Response) => {
   try {
     const {
       fullName,
@@ -73,9 +66,9 @@ router.post("/apply", (req: Request, res: Response) => {
       createdAt: new Date().toISOString(),
     };
 
-    const scholarshipsDb = getScholarships();
+    const scholarshipsDb = await readJsonDbAsync<ScholarshipApplication>("scholarships.json");
     scholarshipsDb.unshift(newApplication);
-    saveScholarships(scholarshipsDb);
+    await writeJsonDbAsync("scholarships.json", scholarshipsDb);
 
     return res.status(201).json({
       success: true,
@@ -88,12 +81,12 @@ router.post("/apply", (req: Request, res: Response) => {
 });
 
 // PATCH /api/scholarships/:id (Update application status)
-router.patch("/:id", (req: Request, res: Response) => {
+router.patch("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
 
-    const scholarshipsDb = getScholarships();
+    const scholarshipsDb = await readJsonDbAsync<ScholarshipApplication>("scholarships.json");
     const app = scholarshipsDb.find((a) => a._id === id || a.id === id);
     if (!app) {
       return res.status(404).json({ error: "Scholarship Application not found." });
@@ -102,7 +95,7 @@ router.patch("/:id", (req: Request, res: Response) => {
     if (status) {
       app.status = status;
     }
-    saveScholarships(scholarshipsDb);
+    await writeJsonDbAsync("scholarships.json", scholarshipsDb);
 
     return res.json({
       success: true,
@@ -112,6 +105,28 @@ router.patch("/:id", (req: Request, res: Response) => {
     });
   } catch (error: any) {
     return res.status(500).json({ error: error?.message || "Failed to update application" });
+  }
+});
+
+// DELETE /api/scholarships/:id (Delete application)
+router.delete("/:id", async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const scholarshipsDb = await readJsonDbAsync<ScholarshipApplication>("scholarships.json");
+    const newDb = scholarshipsDb.filter((a) => a._id !== id && a.id !== id);
+
+    if (newDb.length === scholarshipsDb.length) {
+      return res.status(404).json({ error: "Scholarship Application not found." });
+    }
+
+    await writeJsonDbAsync("scholarships.json", newDb);
+
+    return res.json({
+      success: true,
+      message: "Application deleted successfully",
+    });
+  } catch (error: any) {
+    return res.status(500).json({ error: error?.message || "Failed to delete application" });
   }
 });
 

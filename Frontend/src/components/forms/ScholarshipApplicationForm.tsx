@@ -132,7 +132,8 @@ export function ScholarshipApplicationForm() {
         cvFileName
       };
 
-      const res = await fetch(`${getApiBase()}/scholarships/apply`, {
+      // 1. Try local/same-origin Next.js route first (/api/scholarships/apply)
+      let res = await fetch("/api/scholarships/apply", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -140,8 +141,33 @@ export function ScholarshipApplicationForm() {
         body: JSON.stringify(payload)
       });
 
-      const data = await res.json();
-      if (!res.ok) {
+      // 2. If same-origin returned 404, fallback to external backend URL
+      if (res.status === 404) {
+        const fallbackUrl = `${getApiBase()}/scholarships/apply`;
+        if (!fallbackUrl.startsWith("/api/")) {
+          res = await fetch(fallbackUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+          });
+        }
+      }
+
+      // 3. Safely parse JSON or handle HTML errors gracefully
+      let data: any = {};
+      const contentType = res.headers.get("content-type") || "";
+      if (contentType.includes("application/json")) {
+        data = await res.json();
+      } else {
+        const text = await res.text();
+        if (!res.ok) {
+          throw new Error(`Server returned error (${res.status}). Please try again later.`);
+        }
+      }
+
+      if (!res.ok || data.error) {
         throw new Error(data.error || "Failed to submit application");
       }
 

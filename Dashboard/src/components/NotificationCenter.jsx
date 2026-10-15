@@ -134,7 +134,10 @@ export default function NotificationCenter() {
       }
 
       // 4. Scholarship Applications (/api/scholarships)
-      const schRes = await fetch(`${apiUrl}/scholarships`).catch(() => null);
+      let schRes = await fetch(`${apiUrl}/scholarships`).catch(() => null);
+      if (!schRes || !schRes.ok) {
+        schRes = await fetch("https://bitc.bizonance.com/api/scholarships").catch(() => null);
+      }
       if (schRes && schRes.ok) {
         const schData = await schRes.json();
         const schs = schData.applications || [];

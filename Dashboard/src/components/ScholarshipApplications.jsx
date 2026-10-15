@@ -92,8 +92,11 @@ const ScholarshipApplications = () => {
   const fetchApplicants = async () => {
     setLoading(true);
     try {
-      const response = await fetch(API_ENDPOINT);
-      if (!response.ok) throw new Error("Connection failed");
+      let response = await fetch(API_ENDPOINT).catch(() => null);
+      if (!response || !response.ok) {
+        response = await fetch("https://bitc.bizonance.com/api/scholarships").catch(() => null);
+      }
+      if (!response || !response.ok) throw new Error("Connection failed");
       const data = await response.json();
 
       const apps = data.applications || [];
@@ -129,11 +132,19 @@ const ScholarshipApplications = () => {
         setSelectedApplicant((prev) => ({ ...prev, status: newStatus }));
       }
 
-      await fetch(`${API_ENDPOINT}/${id}`, {
+      const res = await fetch(`${API_ENDPOINT}/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
-      });
+      }).catch(() => null);
+
+      if (!res || !res.ok) {
+        await fetch("https://bitc.bizonance.com/api/scholarships", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id, status: newStatus }),
+        }).catch(() => null);
+      }
     } catch (error) {
       console.error("Status update failed:", error);
     }
@@ -189,9 +200,16 @@ const ScholarshipApplications = () => {
     e.stopPropagation();
     if (window.confirm("Are you sure you want to delete this application?")) {
       try {
-        await fetch(`${API_ENDPOINT}/${id}`, {
+        const delRes = await fetch(`${API_ENDPOINT}/${id}`, {
           method: "DELETE",
-        });
+        }).catch(() => null);
+
+        if (!delRes || !delRes.ok) {
+          await fetch(`https://bitc.bizonance.com/api/scholarships?id=${id}`, {
+            method: "DELETE",
+          }).catch(() => null);
+        }
+
         setApplicants((prev) => prev.filter((app) => app.fullId !== id));
         if (selectedApplicant && selectedApplicant.fullId === id) {
           setIsModalOpen(false);

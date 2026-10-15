@@ -33,17 +33,21 @@ import cmsRoutes from "./routes/cms.routes.js";
 import eventRegistrationRoutes from "./routes/eventRegistration.routes.js";
 import partnershipApplicationsRoutes from "./routes/partnership-applications.routes.js";
 import uploadRoutes from "./routes/upload.routes.js";
+import scholarshipsRoutes from "./routes/scholarships.routes.js";
 import path from "path";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// CORS Configuration to support Frontend (3000) and Dashboard (5173)
+// CORS Configuration to support Localhost, Vercel, and Production domains
 const defaultAllowedOrigins = [
   "http://localhost:3000",
   "http://localhost:5173",
   "http://127.0.0.1:3000",
   "http://127.0.0.1:5173",
+  "https://bitc.bizonance.com",
+  "https://bitcbizonancecom.vercel.app",
+  "https://bitcadmin.bizonance.com",
 ];
 
 const envAllowed = process.env.ALLOWED_ORIGINS
@@ -112,6 +116,7 @@ app.use("/api/cms", cmsRoutes);
 app.use("/api/event-registrations", eventRegistrationRoutes);
 app.use("/api/partnership-applications", partnershipApplicationsRoutes);
 app.use("/api/upload", uploadRoutes);
+app.use("/api/scholarships", scholarshipsRoutes);
 
 // Global Error Handler
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
@@ -125,5 +130,5 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
 // Start Server
 app.listen(PORT, () => {
   console.log(`🚀 BITC Backend API running on http://localhost:${PORT}`);
-  console.log(`📡 Ready to accept requests from Frontend (:3000) & Dashboard (:5173)`);
+  console.log(`📡 Ready to accept requests from Frontend & Dashboard domains`);
 });
