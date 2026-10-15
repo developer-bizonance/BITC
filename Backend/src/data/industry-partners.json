@@ -1,86 +1,86 @@
 [
   {
     "id": "ip-1",
+    "logo": "/uploads/1791978169937-264146230.jfif",
     "name": "TCS",
     "category": "IT & Services",
-    "logo": "/uploads/1791978169937-264146230.jfif",
     "createdAt": "2026-08-21T06:19:25.521Z"
   },
   {
     "id": "ip-2",
+    "logo": "/uploads/1791978229275-99804750.png",
     "name": "Infosys",
     "category": "IT & Services",
-    "logo": "/uploads/1791978229275-99804750.png",
     "createdAt": "2026-08-21T06:19:25.521Z"
   },
   {
     "id": "ip-3",
+    "logo": "/uploads/1792047747775-963106680.svg",
     "name": "Wipro",
     "category": "IT & Services",
-    "logo": "/logos/wipro.svg",
     "createdAt": "2026-08-21T06:19:25.521Z"
   },
   {
     "id": "ip-4",
+    "logo": "/uploads/1792047747937-143831122.svg",
     "name": "HCL",
     "category": "Tech & Consulting",
-    "logo": "/logos/hcl.svg",
     "createdAt": "2026-08-21T06:19:25.521Z"
   },
   {
     "id": "ip-5",
+    "logo": "/uploads/1792047748036-200103961.svg",
     "name": "Tech Mahindra",
     "category": "IT & Telecom",
-    "logo": "/logos/tech-mahindra.svg",
     "createdAt": "2026-08-21T06:19:25.521Z"
   },
   {
     "id": "ip-6",
+    "logo": "/uploads/1792047748131-510276716.svg",
     "name": "Cognizant",
     "category": "Global Services",
-    "logo": "/logos/cognizant.svg",
     "createdAt": "2026-08-21T06:19:25.521Z"
   },
   {
     "id": "ip-7",
+    "logo": "/uploads/1792047748225-625862408.svg",
     "name": "Accenture",
     "category": "Global Consulting",
-    "logo": "/logos/accenture.svg",
     "createdAt": "2026-08-21T06:19:25.521Z"
   },
   {
     "id": "ip-8",
+    "logo": "/uploads/1792047748321-953513588.svg",
     "name": "IBM",
     "category": "Cloud & AI",
-    "logo": "/logos/ibm.svg",
     "createdAt": "2026-08-21T06:19:25.521Z"
   },
   {
     "id": "ip-9",
+    "logo": "/uploads/1792047748411-873405970.svg",
     "name": "Microsoft",
     "category": "Product & Cloud",
-    "logo": "/logos/microsoft.svg",
     "createdAt": "2026-08-21T06:19:25.521Z"
   },
   {
     "id": "ip-10",
+    "logo": "/uploads/1792047748500-587021666.svg",
     "name": "Google",
     "category": "Tech & AI",
-    "logo": "/logos/google.svg",
     "createdAt": "2026-08-21T06:19:25.521Z"
   },
   {
     "id": "ip-11",
+    "logo": "/uploads/1792047748593-850371790.svg",
     "name": "Amazon",
     "category": "E-Commerce & Cloud",
-    "logo": "/logos/amazon.svg",
     "createdAt": "2026-08-21T06:19:25.521Z"
   },
   {
     "id": "ip-12",
+    "logo": "/uploads/1792047748687-419507690.svg",
     "name": "Deloitte",
     "category": "Consulting & Audit",
-    "logo": "/logos/deloitte.svg",
     "createdAt": "2026-08-21T06:19:25.521Z"
   }
 ]
