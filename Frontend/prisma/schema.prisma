@@ -83,12 +83,26 @@ model Application {
 }
 
 model Event {
-  id        String   @id @default(uuid())
-  title     String
-  date      DateTime
-  type      String   // WORKSHOP, VISIT, CONVOCATION
-  imageUrl  String?
-  createdAt DateTime @default(now())
+  id            String              @id @default(uuid())
+  title         String
+  date          DateTime
+  type          String              // WORKSHOP, VISIT, CONVOCATION
+  imageUrl      String?
+  createdAt     DateTime            @default(now())
+  registrations EventRegistration[]
+}
+
+model EventRegistration {
+  id             String   @id @default(uuid())
+  name           String
+  email          String
+  phone          String
+  college        String?
+  course         String?
+  graduationYear String?
+  eventId        String?
+  event          Event?   @relation(fields: [eventId], references: [id])
+  createdAt      DateTime @default(now())
 }
 
 model Blog {

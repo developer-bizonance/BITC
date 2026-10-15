@@ -209,25 +209,34 @@ export default function NotificationCenter() {
       }
 
       // 7. Event Registrations (/api/event-registrations)
+      let evs = [];
       const eventRes = await fetch(`${apiUrl}/event-registrations`).catch(() => null);
       if (eventRes && eventRes.ok) {
         const eventData = await eventRes.json();
-        const evs = eventData.registrations || [];
-        evs.forEach((ev) => {
-          items.push({
-            id: `event-reg-${ev.id || Math.random()}`,
-            type: "event",
-            title: "Event Registration",
-            name: ev.name || "Attendee",
-            subtitle: ev.college ? `Registered from ${ev.college}` : "New event participant",
-            time: ev.createdAt || "Recently",
-            tab: "Events",
-            subTopic: "view-registrations",
-            badgeColor: "bg-indigo-50 text-indigo-700",
-            icon: Calendar,
-          });
-        });
+        evs = eventData.registrations || [];
       }
+      if (evs.length === 0) {
+        const fbRes = await fetch("https://bitc.bizonance.com/api/event-registrations").catch(() => null);
+        if (fbRes && fbRes.ok) {
+          const fbData = await fbRes.json();
+          evs = fbData.registrations || [];
+        }
+      }
+      evs.forEach((ev) => {
+        const edu = ev.college || ev.education;
+        items.push({
+          id: `event-reg-${ev.id || Math.random()}`,
+          type: "event",
+          title: "Event Registration",
+          name: ev.name || "Attendee",
+          subtitle: edu ? `Registered from ${edu}` : "New event participant",
+          time: ev.createdAt || "Recently",
+          tab: "Events",
+          subTopic: "view-registrations",
+          badgeColor: "bg-indigo-50 text-indigo-700",
+          icon: Calendar,
+        });
+      });
 
       // Sort by newest first
       items.sort((a, b) => {

@@ -23,6 +23,7 @@ export default function EventRegistrationModal({ children, eventId, eventName, i
     phone: "",
     city: "",
     college: "",
+    education: "",
     course: "",
     graduationYear: "",
     eventId: eventId || "",
@@ -62,7 +63,11 @@ export default function EventRegistrationModal({ children, eventId, eventName, i
     if (name === "phone") {
       processedValue = processedValue.replace(/[^0-9]/g, "").slice(0, 10);
     }
-    setFormData((prev) => ({ ...prev, [name]: processedValue }));
+    setFormData((prev) => ({
+      ...prev,
+      [name]: processedValue,
+      ...(name === "college" ? { education: processedValue } : {}),
+    }));
     
     if (fieldErrors[name]) {
       const error = validateField(name, processedValue);
@@ -118,7 +123,7 @@ export default function EventRegistrationModal({ children, eventId, eventName, i
     if (!isOpen) {
       setTimeout(() => {
         setStatus("idle");
-        setFormData({ name: "", email: "", phone: "", city: "", college: "", course: "", graduationYear: "", eventId: eventId || "" });
+        setFormData({ name: "", email: "", phone: "", city: "", college: "", education: "", course: "", graduationYear: "", eventId: eventId || "" });
         setErrorMessage("");
       }, 200);
     }
@@ -241,24 +246,20 @@ export default function EventRegistrationModal({ children, eventId, eventName, i
               />
             </div>
             
-            {!isGeneralUpdate && (
-              <>
-                <div>
-                  <label htmlFor="college" className="block text-sm font-semibold text-slate-700 mb-1">
-                    College/University
-                  </label>
-                  <input
-                    type="text"
-                    id="college"
-                    name="college"
-                    value={formData.college}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors text-slate-900"
-                    placeholder="Enter Your College/University"
-                  />
-                </div>
-              </>
-            )}
+            <div>
+              <label htmlFor="college" className="block text-sm font-semibold text-slate-700 mb-1">
+                College/University
+              </label>
+              <input
+                type="text"
+                id="college"
+                name="college"
+                value={formData.college}
+                onChange={handleChange}
+                className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors text-slate-900"
+                placeholder="Enter Your College/University"
+              />
+            </div>
 
             {status === "error" && (
               <div className="p-3 rounded-lg bg-red-50 text-red-600 text-sm font-medium">
@@ -271,7 +272,7 @@ export default function EventRegistrationModal({ children, eventId, eventName, i
               disabled={status === "loading"}
               className="w-full h-12 mt-4 text-base rounded-full shadow-md shadow-orange-500/20 bg-primary hover:bg-orange-600"
             >
-              {status === "loading" ? "Submitting..." : (isGeneralUpdate ? "Subscribe" : "Submit")}
+              {status === "loading" ? "Submitting..." : "Submit"}
             </Button>
           </form>
         )}

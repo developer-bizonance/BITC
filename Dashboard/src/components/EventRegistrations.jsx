@@ -8,15 +8,35 @@ const EventRegistrations = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const apiUrl = getApiUrl();
+  const fallbackUrl = "https://bitc.bizonance.com/api/event-registrations";
 
   const fetchRegistrations = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${apiUrl}/event-registrations`);
-      if (res.ok) {
-        const data = await res.json();
-        if (data.registrations) setRegistrations(data.registrations);
+      let regs = [];
+      try {
+        const res = await fetch(`${apiUrl}/event-registrations`);
+        if (res.ok) {
+          const data = await res.json();
+          regs = data.registrations || [];
+        }
+      } catch (err) {
+        console.warn("Primary event-registrations fetch failed:", err);
       }
+
+      if (regs.length === 0) {
+        try {
+          const fbRes = await fetch(fallbackUrl);
+          if (fbRes.ok) {
+            const fbData = await fbRes.json();
+            regs = fbData.registrations || [];
+          }
+        } catch (fbErr) {
+          console.warn("Fallback event-registrations fetch failed:", fbErr);
+        }
+      }
+
+      setRegistrations(regs);
     } catch (err) {
       console.warn("Failed to fetch event registrations:", err);
     } finally {
@@ -34,6 +54,9 @@ const EventRegistrations = () => {
       reg.name?.toLowerCase().includes(q) ||
       reg.email?.toLowerCase().includes(q) ||
       reg.phone?.toLowerCase().includes(q) ||
+      reg.college?.toLowerCase().includes(q) ||
+      reg.education?.toLowerCase().includes(q) ||
+      reg.city?.toLowerCase().includes(q) ||
       reg.event?.title?.toLowerCase().includes(q)
     );
   });
@@ -142,9 +165,9 @@ const EventRegistrations = () => {
 
                       {/* Education */}
                       <td className="px-6 py-5 align-middle max-w-[250px]">
-                        {(reg.college || reg.course || reg.graduationYear) ? (
+                        {(reg.college || reg.education || reg.course || reg.graduationYear) ? (
                           <div className="flex flex-col text-[12px] text-[#475569] space-y-0.5">
-                            {reg.college && <span className="font-medium truncate whitespace-normal">{reg.college}</span>}
+                            {(reg.college || reg.education) && <span className="font-medium truncate whitespace-normal">{reg.college || reg.education}</span>}
                             {reg.course && <span className="truncate whitespace-normal">Course: {reg.course}</span>}
                             {reg.graduationYear && <span>Year: {reg.graduationYear}</span>}
                           </div>
