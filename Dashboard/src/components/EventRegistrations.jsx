@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Users, Mail, Phone, Calendar, Search, RefreshCw, GraduationCap } from "lucide-react";
-import { getApiUrl } from "../utils";
+import { getApiUrl, useRecordHighlight } from "../utils";
 
 const EventRegistrations = () => {
   const [registrations, setRegistrations] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const { highlightTarget, isHighlighted } = useRecordHighlight("Events");
+
+  useEffect(() => {
+    if (highlightTarget) {
+      setSearchQuery("");
+    }
+  }, [highlightTarget]);
 
   const apiUrl = getApiUrl();
   const fallbackUrl = "https://bitc.bizonance.com/api/event-registrations";
@@ -123,7 +131,15 @@ const EventRegistrations = () => {
                   const formattedTime = createdDate.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
 
                   return (
-                    <tr key={reg.id} className="hover:bg-slate-50/80 transition-colors cursor-pointer">
+                    <tr
+                      key={reg.id}
+                      className={`transition-all duration-700 cursor-pointer ${
+                        isHighlighted(reg)
+                          ? "bg-amber-100/90 ring-2 ring-amber-400 shadow-md border-l-4 border-l-amber-500 scale-[1.005] z-10 animate-pulse"
+                          : "hover:bg-slate-50/80"
+                      }`}
+                      data-highlighted={isHighlighted(reg) ? "true" : undefined}
+                    >
                       {/* Date */}
                       <td className="px-6 py-5 align-middle whitespace-nowrap">
                         <p className="font-medium text-[#64748B] text-[12px]">{formattedDate}</p>

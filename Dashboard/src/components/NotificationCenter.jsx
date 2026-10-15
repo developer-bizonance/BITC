@@ -15,10 +15,9 @@ import {
 } from "lucide-react";
 import { getApiUrl } from "../utils";
 
-// Filter Category Options
+// Filter Category Options (Removed unread tab as requested)
 const CATEGORIES = [
   { key: "all", label: "All", icon: Layers },
-  { key: "unread", label: "Unread", icon: Bell },
   { key: "contact", label: "Contact Inquiries", icon: Mail, tab: "Contact Inquiries" },
   { key: "consulting", label: "Student Consulting", icon: MessageSquare, tab: "Student Consulting" },
   { key: "course", label: "Course Applications", icon: GraduationCap, tab: "Course Applications" },
@@ -87,6 +86,8 @@ export default function NotificationCenter() {
       apps.forEach((app) => {
         items.push({
           id: `course-app-${app.id || app.fullId || Math.random()}`,
+          rawId: app.fullId || app.id,
+          email: app.email,
           type: "course",
           title: "Course Application",
           name: app.name || app.userName || "New Candidate",
@@ -106,7 +107,9 @@ export default function NotificationCenter() {
         const inqs = inqData.inquiries || [];
         inqs.forEach((inq) => {
           items.push({
-            id: `contact-inq-${inq.id || Math.random()}`,
+            id: `contact-inq-${inq.id || inq.fullId || Math.random()}`,
+            rawId: inq.fullId || inq.id,
+            email: inq.email,
             type: "contact",
             title: "Contact Inquiry",
             name: inq.name || "Visitor",
@@ -127,7 +130,9 @@ export default function NotificationCenter() {
         const parts = partData.applications || [];
         parts.forEach((p) => {
           items.push({
-            id: `partner-app-${p.id || Math.random()}`,
+            id: `partner-app-${p.id || p.fullId || Math.random()}`,
+            rawId: p.fullId || p.id,
+            email: p.email,
             type: "partnership",
             title: "Partnership Application",
             name: p.organizationName || p.contactPerson || "Organization",
@@ -151,7 +156,9 @@ export default function NotificationCenter() {
         const schs = schData.applications || [];
         schs.forEach((s) => {
           items.push({
-            id: `sch-app-${s.id || s._id || Math.random()}`,
+            id: `sch-app-${s.id || s._id || s.fullId || Math.random()}`,
+            rawId: s.fullId || s.id || s._id,
+            email: s.email,
             type: "scholarship",
             title: "Scholarship Application",
             name: s.fullName || s.name || "Student Applicant",
@@ -173,7 +180,9 @@ export default function NotificationCenter() {
         dInqs.forEach((di) => {
           const isConsulting = di.enquiryType === "Student Consulting";
           items.push({
-            id: `direct-inq-${di.id || Math.random()}`,
+            id: `direct-inq-${di.id || di.fullId || Math.random()}`,
+            rawId: di.fullId || di.id,
+            email: di.email,
             type: isConsulting ? "consulting" : "contact",
             title: isConsulting ? "Consultation Request" : "Direct Inquiry",
             name: di.name || "Student / Visitor",
@@ -195,6 +204,8 @@ export default function NotificationCenter() {
         facultyList.forEach((fac) => {
           items.push({
             id: `faculty-app-${fac._id || fac.id || Math.random()}`,
+            rawId: fac._id || fac.id,
+            email: fac.email,
             type: "faculty",
             title: "Faculty Application",
             name: fac.name || "Faculty Applicant",
@@ -226,6 +237,8 @@ export default function NotificationCenter() {
         const edu = ev.college || ev.education;
         items.push({
           id: `event-reg-${ev.id || Math.random()}`,
+          rawId: ev.id,
+          email: ev.email,
           type: "event",
           title: "Event Registration",
           name: ev.name || "Attendee",
@@ -326,10 +339,41 @@ export default function NotificationCenter() {
     markAsRead(item.id);
     setIsOpen(false);
 
+    // Persist highlight target in sessionStorage for page component identification
+    try {
+      sessionStorage.setItem(
+        "bitc_highlight_target",
+        JSON.stringify({
+          rawId: item.rawId,
+          email: item.email,
+          name: item.name,
+          tab: item.tab,
+          subTopic: item.subTopic,
+          timestamp: Date.now(),
+        })
+      );
+    } catch {}
+
     // Dispatch global navigation event to Sidebar
     window.dispatchEvent(
       new CustomEvent("bitc:navigate", {
         detail: {
+          tab: item.tab,
+          subTopic: item.subTopic,
+          rawId: item.rawId,
+          email: item.email,
+          name: item.name,
+        },
+      })
+    );
+
+    // Dispatch explicit highlight event to currently active or mounting component
+    window.dispatchEvent(
+      new CustomEvent("bitc:highlight", {
+        detail: {
+          rawId: item.rawId,
+          email: item.email,
+          name: item.name,
           tab: item.tab,
           subTopic: item.subTopic,
         },

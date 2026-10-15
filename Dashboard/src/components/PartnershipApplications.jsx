@@ -28,7 +28,7 @@ import {
   Tag,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { getApiUrl } from "../utils";
+import { getApiUrl, useRecordHighlight } from "../utils";
 
 const getStatusStyle = (status) => {
   const s = (status || "").toLowerCase().trim();
@@ -85,6 +85,15 @@ const PartnershipApplications = ({ activeSubTopic }) => {
   const [copiedField, setCopiedField] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(null); // { id, name }
   const [deleting, setDeleting] = useState(false);
+
+  const { highlightTarget, isHighlighted } = useRecordHighlight("Partnerships");
+
+  useEffect(() => {
+    if (highlightTarget) {
+      setStatusFilter("all");
+      setSearchTerm("");
+    }
+  }, [highlightTarget]);
 
   // Type filter based on activeSubTopic
   const expectedType = activeSubTopic === "educational-partnership" ? "educational" : "corporate";
@@ -403,7 +412,12 @@ const PartnershipApplications = ({ activeSubTopic }) => {
                       setSelectedApplicant(app);
                       setIsModalOpen(true);
                     }}
-                    className="hover:bg-slate-50/80 transition-colors cursor-pointer"
+                    className={`transition-all duration-700 cursor-pointer ${
+                      isHighlighted(app)
+                        ? "bg-amber-100/90 ring-2 ring-amber-400 shadow-md border-l-4 border-l-amber-500 scale-[1.005] z-10 animate-pulse"
+                        : "hover:bg-slate-50/80"
+                    }`}
+                    data-highlighted={isHighlighted(app) ? "true" : undefined}
                   >
                     {/* Date */}
                     <td className="px-6 py-5 align-middle whitespace-nowrap">

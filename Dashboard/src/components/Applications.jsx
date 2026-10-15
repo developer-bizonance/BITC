@@ -28,7 +28,7 @@ import {
   Trash2,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { getApiUrl } from "../utils";
+import { getApiUrl, useRecordHighlight } from "../utils";
 
 const getStatusStyle = (status) => {
   const s = (status || "").toLowerCase().trim();
@@ -83,6 +83,15 @@ const Applications = () => {
   const [applicants, setApplicants] = useState([]);
   const [loading, setLoading] = useState(true);
   const [copiedField, setCopiedField] = useState(null);
+
+  const { highlightTarget, isHighlighted } = useRecordHighlight("Faculty Applications");
+
+  useEffect(() => {
+    if (highlightTarget) {
+      setStatusFilter("all");
+      setSearchTerm("");
+    }
+  }, [highlightTarget]);
 
   // --- API CONFIGURATION ---
   const API_ENDPOINT = `${getApiUrl()}/join-team`;
@@ -357,7 +366,16 @@ const Applications = () => {
                 </tr>
               ) : (
                 filtered.map((app) => (
-                  <tr key={app.fullId} onClick={() => { setSelectedApplicant(app); setIsModalOpen(true); }} className="hover:bg-slate-50/80 transition-colors cursor-pointer">
+                  <tr
+                    key={app.fullId}
+                    onClick={() => { setSelectedApplicant(app); setIsModalOpen(true); }}
+                    className={`transition-all duration-700 cursor-pointer ${
+                      isHighlighted(app)
+                        ? "bg-amber-100/90 ring-2 ring-amber-400 shadow-md border-l-4 border-l-amber-500 scale-[1.005] z-10 animate-pulse"
+                        : "hover:bg-slate-50/80"
+                    }`}
+                    data-highlighted={isHighlighted(app) ? "true" : undefined}
+                  >
                     
                     <td className="px-6 py-5 align-middle whitespace-nowrap">
                       <p className="font-medium text-[#64748B] text-[12px] flex items-center gap-1.5">
