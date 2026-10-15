@@ -53,10 +53,17 @@ export async function GET() {
       });
     }
 
-    // 2. Add CMS Applications (e.g. Yuvraj's application APP-2026-9771 etc.)
+    // 2. Add or enrich with CMS Applications (e.g. Yuvraj's application APP-2026-9771 etc.)
     for (const app of cmsApps) {
       const key = app.fullId || app.id || `${app.email}-${app.courseId}`;
-      if (!map.has(key)) {
+      if (map.has(key)) {
+        const existing = map.get(key);
+        if (!existing.city && app.city) existing.city = app.city;
+        if (!existing.qualification && app.qualification) existing.qualification = app.qualification;
+        if (!existing.specialization && app.specialization) existing.specialization = app.specialization;
+        if (!existing.message && app.message) existing.message = app.message;
+        if (app.id && app.id.startsWith("APP-")) existing.id = app.id;
+      } else {
         map.set(key, {
           id: app.id || `APP-${Math.floor(1000 + Math.random() * 9000)}`,
           fullId: app.fullId || app.id,
