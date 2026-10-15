@@ -24,76 +24,22 @@ interface PageProps {
   }>;
 }
 
-function buildDynamicCurriculum(title: string, category?: string) {
-  return [
-    {
-      title: `Module 1: Foundations & Core Architecture of ${title}`,
-      topics: [
-        `Industry Landscape & Core Fundamentals of ${title}`,
-        "Development Environment, Tools & Ecosystem Setup",
-        "Key Terminology, Syntax & Architectural Design Patterns",
-        "Standards, Conventions & Production Best Practices"
-      ]
-    },
-    {
-      title: `Module 2: Advanced Techniques & Practical Implementation`,
-      topics: [
-        "Applied Workflows & Deep-Dive Hands-On Tooling",
-        "Component Implementation, System Architecture & State Handling",
-        "Performance Optimization, Debugging & Quality Benchmarks",
-        "Real-World Scenarios, Case Studies & Problem Solving"
-      ]
-    },
-    {
-      title: "Module 3: Production Workflows & AI Integration",
-      topics: [
-        "Production-Grade Standards & Automated Build Pipelines",
-        "Integration with AI-Assisted Developer Workflows & Tools",
-        "Collaborative Version Control & Team Development Standards",
-        "Security Best Practices, Testing & Deployment Readiness"
-      ]
-    },
-    {
-      title: "Module 4: Enterprise Capstone Project & Career Placement",
-      topics: [
-        "End-to-End Enterprise Capstone Project Build & Deployment",
-        "Project Review, Code Auditing & Mentorship Feedback",
-        "Professional Portfolio Creation & GitHub Presentation",
-        "Technical Mock Interviews & Direct Placement Assistance"
-      ]
-    }
-  ];
-}
-
 function mapCertToCourse(cert: any, fallbackSlug: string): Certification {
-  const feesRaw = cert.fees || "₹36,000";
-  const numPrice = parseInt(String(feesRaw).replace(/[^0-9]/g, ""), 10) || 36000;
-  const formattedFees = feesRaw.startsWith("₹") || feesRaw.startsWith("?") ? feesRaw : `₹${feesRaw}`;
+  const feesRaw = cert.fees || "";
+  const numPrice = parseInt(String(feesRaw).replace(/[^0-9]/g, ""), 10) || 0;
   const slug = cert.slug || fallbackSlug;
-
-  const defaultHighlights = [
-    "Practical Industry Training & Live Labs",
-    "Hands-On Capstone Projects & Portfolio Building",
-    "1-on-1 Mentorship & Code Reviews",
-    "Dedicated 100% Placement Assistance",
-    "Recognized Industrial Certification"
-  ];
-
-  const curriculum = Array.isArray(cert.curriculum) && cert.curriculum.length > 0
-    ? cert.curriculum
-    : buildDynamicCurriculum(cert.title, cert.category);
 
   return {
     slug,
-    title: cert.title,
+    title: cert.title || "",
     category: cert.category || "Information Technology",
-    duration: cert.duration || "6 Months",
-    fees: formattedFees,
+    duration: cert.duration || "",
+    fees: feesRaw,
     price: numPrice,
-    description: cert.description || `Comprehensive industry-led certification program in ${cert.title} by BITC BIZONANCE with hands-on labs, real-world capstone projects, and placement assistance.`,
-    features: Array.isArray(cert.features) && cert.features.length > 0 ? cert.features : defaultHighlights,
+    description: cert.description || "",
+    features: Array.isArray(cert.features) ? cert.features : [],
     image: resolveImageUrl(cert.image),
-    curriculum,
+    curriculum: Array.isArray(cert.curriculum) ? cert.curriculum : [],
   };
 }
 
@@ -101,35 +47,24 @@ async function fetchCourse(slug: string): Promise<Certification | null> {
   const normalizedSlug = decodeURIComponent(slug).toLowerCase().replace(/[\s_]+/g, '-');
   const cleanSlug = normalizedSlug.replace(/[^a-z0-9]/g, '');
 
-  // 1. Try Backend API Course endpoint first
+  // 1. Try Backend API Course endpoint first (queries Neon DB / real course data)
   try {
     const apiUrl = getApiBase();
     const res = await fetch(`${apiUrl}/courses/${normalizedSlug}`, { cache: "no-store" });
     if (res.ok) {
       const data = await res.json();
       if (data.course) {
-        const curriculum = Array.isArray(data.course.curriculum) && data.course.curriculum.length > 0
-          ? data.course.curriculum
-          : buildDynamicCurriculum(data.course.title, data.course.category);
         return {
           slug: data.course.slug,
           title: data.course.title,
-          category: data.course.category,
-          duration: data.course.duration,
-          fees: data.course.fees,
-          price: data.course.price || 36000,
-          description: data.course.description || `Comprehensive training in ${data.course.title} by BITC BIZONANCE.`,
-          features: (Array.isArray(data.course.features) && data.course.features.length > 0)
-            ? data.course.features
-            : [
-                "Practical Industry Training & Live Labs",
-                "Hands-On Capstone Projects & Portfolio Building",
-                "1-on-1 Mentorship & Code Reviews",
-                "Dedicated 100% Placement Assistance",
-                "Recognized Industrial Certification"
-              ],
+          category: data.course.category || "Information Technology",
+          duration: data.course.duration || "",
+          fees: data.course.fees || "",
+          price: data.course.price || 0,
+          description: data.course.description || "",
+          features: Array.isArray(data.course.features) ? data.course.features : [],
           image: resolveImageUrl(data.course.image),
-          curriculum,
+          curriculum: Array.isArray(data.course.curriculum) ? data.course.curriculum : [],
         };
       }
     }
@@ -168,8 +103,14 @@ async function fetchCourse(slug: string): Promise<Certification | null> {
 
   // 3. Try Prisma Neon DB Course table
   try {
-    const dbCourse = await prisma.course.findUnique({
-      where: { slug: normalizedSlug },
+    const dbCourse = await prisma.course.findFirst({
+      where: {
+        OR: [
+          { slug: normalizedSlug },
+          { slug: normalizedSlug.replace(/[^a-z0-9]/g, "") },
+          { title: { equals: normalizedSlug.replace(/-/g, " "), mode: "insensitive" } },
+        ],
+      },
     });
     if (dbCourse) {
       const curriculum = (dbCourse.curriculum as any[]) || [];
@@ -177,21 +118,13 @@ async function fetchCourse(slug: string): Promise<Certification | null> {
         slug: dbCourse.slug,
         title: dbCourse.title,
         category: dbCourse.category as any,
-        duration: dbCourse.duration,
-        fees: dbCourse.fees,
-        price: dbCourse.price,
-        description: dbCourse.description || `Comprehensive training in ${dbCourse.title} by BITC BIZONANCE.`,
-        features: (Array.isArray(dbCourse.features) && dbCourse.features.length > 0)
-          ? dbCourse.features
-          : [
-              "Practical Industry Training & Live Labs",
-              "Hands-On Capstone Projects & Portfolio Building",
-              "1-on-1 Mentorship & Code Reviews",
-              "Dedicated 100% Placement Assistance",
-              "Recognized Industrial Certification"
-            ],
+        duration: dbCourse.duration || "",
+        fees: dbCourse.fees || "",
+        price: dbCourse.price || 0,
+        description: dbCourse.description || "",
+        features: Array.isArray(dbCourse.features) ? dbCourse.features : [],
         image: resolveImageUrl(dbCourse.image),
-        curriculum: curriculum.length > 0 ? curriculum : buildDynamicCurriculum(dbCourse.title, dbCourse.category),
+        curriculum: Array.isArray(curriculum) ? curriculum : [],
       };
     }
   } catch (err) {
@@ -325,30 +258,34 @@ export default async function CoursePage({ params }: PageProps) {
 
 
                   {/* Certification Fees Banner */}
-                  <div className="mb-8 p-5 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 text-white shadow-xl flex items-center justify-between border border-slate-700/50">
-                    <div>
-                      <p className="text-[11px] font-bold text-amber-400 uppercase tracking-widest mb-1">Certification Fees</p>
-                      <p className="text-3xl md:text-4xl font-black tracking-tight text-white">{course.fees}</p>
+                  {course.fees && (
+                    <div className="mb-8 p-5 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 text-white shadow-xl flex items-center justify-between border border-slate-700/50">
+                      <div>
+                        <p className="text-[11px] font-bold text-amber-400 uppercase tracking-widest mb-1">Certification Fees</p>
+                        <p className="text-3xl md:text-4xl font-black tracking-tight text-white">{course.fees}</p>
+                      </div>
+                      <div className="px-3.5 py-1.5 bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-extrabold rounded-full backdrop-blur-md">
+                        100% Inclusive
+                      </div>
                     </div>
-                    <div className="px-3.5 py-1.5 bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-extrabold rounded-full backdrop-blur-md">
-                      100% Inclusive
-                    </div>
-                  </div>
+                  )}
 
-                  <h3 className="text-xl md:text-2xl font-extrabold text-slate-900 mb-6 flex items-center gap-3">
-                    <Sparkles className="w-6 h-6 text-orange-500" />
-                    Certification Highlights
-                  </h3>
-                  <ul className="space-y-3.5">
-                    {course.features && course.features.length > 0 ? course.features.map((highlight, i) => (
-                      <li key={i} className="flex items-start gap-3.5">
-                        <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
-                        <span className="text-slate-700 font-semibold text-[15px]">{highlight}</span>
-                      </li>
-                    )) : (
-                      <li className="text-slate-500 italic text-sm">No highlights available for this course.</li>
-                    )}
-                  </ul>
+                  {course.features && course.features.length > 0 && (
+                    <div>
+                      <h3 className="text-xl md:text-2xl font-extrabold text-slate-900 mb-6 flex items-center gap-3">
+                        <Sparkles className="w-6 h-6 text-orange-500" />
+                        Certification Highlights
+                      </h3>
+                      <ul className="space-y-3.5">
+                        {course.features.map((highlight, i) => (
+                          <li key={i} className="flex items-start gap-3.5">
+                            <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                            <span className="text-slate-700 font-semibold text-[15px]">{highlight}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </div>
@@ -372,81 +309,99 @@ export default async function CoursePage({ params }: PageProps) {
             </p>
 
             {/* Quick Metrics Bar */}
-            <div className="mt-8 inline-flex flex-wrap items-center justify-center gap-3 p-2 bg-white rounded-2xl border border-slate-200/80 shadow-xs">
-              <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl text-xs font-medium text-slate-800">
-                <Layers className="w-4 h-4 text-blue-600" />
-                <span>{course.curriculum.length} Intensive Modules</span>
+            {course.curriculum && course.curriculum.length > 0 && (
+              <div className="mt-8 inline-flex flex-wrap items-center justify-center gap-3 p-2 bg-white rounded-2xl border border-slate-200/80 shadow-xs">
+                <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl text-xs font-medium text-slate-800">
+                  <Layers className="w-4 h-4 text-blue-600" />
+                  <span>{course.curriculum.length} Intensive Modules</span>
+                </div>
+                <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl text-xs font-medium text-slate-800">
+                  <BookOpen className="w-4 h-4 text-orange-600" />
+                  <span>{totalTopics}+ Deep-Dive Topics</span>
+                </div>
+                <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl text-xs font-medium text-slate-800">
+                  <Cpu className="w-4 h-4 text-purple-600" />
+                  <span>AI Tools & Workflows</span>
+                </div>
+                <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl text-xs font-medium text-slate-800">
+                  <Rocket className="w-4 h-4 text-emerald-600" />
+                  <span>Live capstone project</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl text-xs font-medium text-slate-800">
-                <BookOpen className="w-4 h-4 text-orange-600" />
-                <span>{totalTopics}+ Deep-Dive Topics</span>
-              </div>
-              <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl text-xs font-medium text-slate-800">
-                <Cpu className="w-4 h-4 text-purple-600" />
-                <span>AI Tools & Workflows</span>
-              </div>
-              <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl text-xs font-medium text-slate-800">
-                <Rocket className="w-4 h-4 text-emerald-600" />
-                <span>Live capstone project</span>
-              </div>
-            </div>
+            )}
           </div>
 
-          {/* Accordion List */}
-          <Accordion className="w-full space-y-5">
-            {course.curriculum.map((module, i) => (
-              <AccordionItem 
-                key={i} 
-                value={`module-${i}`} 
-                className="border border-slate-200/90 rounded-2xl px-6 md:px-8 py-1.5 bg-white shadow-sm hover:shadow-md data-[state=open]:shadow-xl data-[state=open]:border-slate-300 transition-all duration-300 overflow-hidden group"
-              >
-                <AccordionTrigger className="text-left hover:no-underline py-5 cursor-pointer items-center">
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 w-full pr-4">
-                    <div className="flex items-center gap-4">
-                      {/* Module Number Badge */}
-                      <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 text-amber-500 flex items-center justify-center shrink-0 shadow-md font-black text-base border border-slate-700/50 group-data-[state=open]:from-amber-500 group-data-[state=open]:to-orange-500 group-data-[state=open]:text-slate-950 transition-all duration-300">
-                        0{i + 1}
-                      </div>
-                      <div>
-                        <span className="text-[11px] font-extrabold uppercase tracking-widest text-amber-500 block mb-0.5">
-                          MODULE {i + 1}
-                        </span>
-                        <h3 className="text-lg md:text-xl font-medium text-gray-600 group-hover:text-amber-500 group-data-[state=open]:text-amber-500 transition-colors">
-                          {module.title.replace(/^module \D+:\s*/i, '')}
-                        </h3>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-3 self-start md:self-center">
-                      <span className="text-xs font-medium px-3 py-1 bg-slate-100 text-slate-600 rounded-full border border-slate-200 shrink-0">
-                        {module.topics.length} Key Topics
-                      </span>
-                    </div>
-                  </div>
-                </AccordionTrigger>
-
-                <AccordionContent className="pt-2 pb-7 border-t border-slate-100 mt-2">
-                  <div className="space-y-4 pt-4">
-                    <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-2">
-                      <Check className="w-3.5 h-3.5 text-emerald-500" />
-                      Core Learning Outcomes & Technical Skills:
-                    </p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      {module.topics.map((topic, j) => (
-                        <div 
-                          key={j} 
-                          className="flex items-center gap-3 p-3.5 rounded-xl bg-slate-50/80 border border-slate-100 hover:bg-amber-500/5 hover:border-amber-500/20 transition-all"
-                        >
-                          <div className="w-2 h-2 rounded-full bg-amber-500 shrink-0" />
-                          <span className="text-sm font-semibold text-slate-800 leading-snug">{topic}</span>
+          {/* Accordion List or Clean State */}
+          {course.curriculum && course.curriculum.length > 0 ? (
+            <Accordion className="w-full space-y-5">
+              {course.curriculum.map((module, i) => (
+                <AccordionItem 
+                  key={i} 
+                  value={`module-${i}`} 
+                  className="border border-slate-200/90 rounded-2xl px-6 md:px-8 py-1.5 bg-white shadow-sm hover:shadow-md data-[state=open]:shadow-xl data-[state=open]:border-slate-300 transition-all duration-300 overflow-hidden group"
+                >
+                  <AccordionTrigger className="text-left hover:no-underline py-5 cursor-pointer items-center">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 w-full pr-4">
+                      <div className="flex items-center gap-4">
+                        {/* Module Number Badge */}
+                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 text-amber-500 flex items-center justify-center shrink-0 shadow-md font-black text-base border border-slate-700/50 group-data-[state=open]:from-amber-500 group-data-[state=open]:to-orange-500 group-data-[state=open]:text-slate-950 transition-all duration-300">
+                          0{i + 1}
                         </div>
-                      ))}
+                        <div>
+                          <span className="text-[11px] font-extrabold uppercase tracking-widest text-amber-500 block mb-0.5">
+                            MODULE {i + 1}
+                          </span>
+                          <h3 className="text-lg md:text-xl font-medium text-gray-600 group-hover:text-amber-500 group-data-[state=open]:text-amber-500 transition-colors">
+                            {module.title.replace(/^module \D+:\s*/i, '')}
+                          </h3>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-3 self-start md:self-center">
+                        <span className="text-xs font-medium px-3 py-1 bg-slate-100 text-slate-600 rounded-full border border-slate-200 shrink-0">
+                          {module.topics.length} Key Topics
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+                  </AccordionTrigger>
+
+                  <AccordionContent className="pt-2 pb-7 border-t border-slate-100 mt-2">
+                    <div className="space-y-4 pt-4">
+                      <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-2">
+                        <Check className="w-3.5 h-3.5 text-emerald-500" />
+                        Core Learning Outcomes & Technical Skills:
+                      </p>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {module.topics.map((topic, j) => (
+                          <div 
+                            key={j} 
+                            className="flex items-center gap-3 p-3.5 rounded-xl bg-slate-50/80 border border-slate-100 hover:bg-amber-500/5 hover:border-amber-500/20 transition-all"
+                          >
+                            <div className="w-2 h-2 rounded-full bg-amber-500 shrink-0" />
+                            <span className="text-sm font-semibold text-slate-800 leading-snug">{topic}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          ) : (
+            <div className="text-center py-12 px-6 rounded-3xl bg-slate-50 border border-slate-200/80 max-w-xl mx-auto shadow-xs">
+              <BookOpen className="w-12 h-12 text-slate-400 mx-auto mb-4 opacity-60" />
+              <h3 className="text-lg font-bold text-slate-800 mb-2">Curriculum Under Preparation</h3>
+              <p className="text-sm text-slate-600 mb-6 font-medium">The comprehensive module syllabus for this certification program will be published shortly. Connect with us for syllabus details.</p>
+              <a 
+                href="https://wa.me/918956727311?text=Hello%2C%20I%20want%20to%20know%20more%20about%20the%20curriculum%20syllabus" 
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-medium text-xs shadow-md transition-all active:scale-95 cursor-pointer"
+              >
+                Inquire on WhatsApp <FaWhatsapp className="w-4 h-4 text-emerald-400" />
+              </a>
+            </div>
+          )}
           
           {/* Real-World Capstone Banner */}
           <div className="mt-14 p-8 md:p-10 bg-slate-50 rounded-3xl border border-slate-200/80 text-slate-900 shadow-xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">

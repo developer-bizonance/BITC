@@ -182,6 +182,8 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
   });
   const [submittingPartner, setSubmittingPartner] = useState(false);
   const [imgError, setImgError] = useState({});
+  const [confirmPartnerDelete, setConfirmPartnerDelete] = useState(null); // { id, name }
+  const [deletingPartner, setDeletingPartner] = useState(false);
 
   // Edit Academic Partner State
   const [isEditPartnerOpen, setIsEditPartnerOpen] = useState(false);
@@ -213,6 +215,8 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
     fees: "",
     badge: "",
     image: "",
+    description: "",
+    featuresText: "",
   });
   const [submittingCert, setSubmittingCert] = useState(false);
 
@@ -226,6 +230,8 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
     fees: "₹36,000",
     badge: "",
     image: "",
+    description: "",
+    featuresText: "",
   });
   const [updatingCert, setUpdatingCert] = useState(false);
 
@@ -473,11 +479,14 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
     }
   };
 
-  const handleDeletePartner = async (id, name) => {
-    if (!window.confirm(`Are you sure you want to remove "${name}" from Academic Partners?`)) {
-      return;
-    }
+  const handleDeletePartner = (id, name) => {
+    setConfirmPartnerDelete({ id, name });
+  };
 
+  const confirmAndDeletePartner = async () => {
+    if (!confirmPartnerDelete) return;
+    const { id, name } = confirmPartnerDelete;
+    setDeletingPartner(true);
     try {
       const res = await fetch(`${apiUrl}/partners/${id}`, {
         method: "DELETE",
@@ -493,6 +502,9 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
       }
     } catch (err) {
       showNotification("Network error while deleting partner", "error");
+    } finally {
+      setDeletingPartner(false);
+      setConfirmPartnerDelete(null);
     }
   };
 
@@ -631,10 +643,24 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
 
     setSubmittingCert(true);
     try {
+      const featuresArray = certFormData.featuresText
+        ? certFormData.featuresText.split(/[\n,]+/).map((s) => s.trim()).filter(Boolean)
+        : [];
+      const payload = {
+        title: certFormData.title,
+        category: certFormData.category,
+        duration: certFormData.duration,
+        fees: certFormData.fees,
+        badge: certFormData.badge,
+        image: certFormData.image,
+        description: certFormData.description,
+        features: featuresArray,
+      };
+
       const res = await fetch(`${apiUrl}/certifications`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(certFormData),
+        body: JSON.stringify(payload),
       });
 
       const data = await res.json();
@@ -649,6 +675,8 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
           fees: "",
           badge: "",
           image: "",
+          description: "",
+          featuresText: "",
         });
         showNotification("Featured certification added successfully!");
       } else {
@@ -690,9 +718,11 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
       title: cert.title || "",
       category: cert.category || "Information Technology",
       duration: cert.duration || "6 Months",
-      fees: cert.fees || "₹36,000",
+      fees: cert.fees || "",
       badge: cert.badge || "",
       image: cert.image || "",
+      description: cert.description || "",
+      featuresText: Array.isArray(cert.features) ? cert.features.join("\n") : "",
     });
     setIsEditCertOpen(true);
   };
@@ -706,10 +736,24 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
 
     setUpdatingCert(true);
     try {
+      const featuresArray = editCertData.featuresText
+        ? editCertData.featuresText.split(/[\n,]+/).map((s) => s.trim()).filter(Boolean)
+        : [];
+      const payload = {
+        title: editCertData.title,
+        category: editCertData.category,
+        duration: editCertData.duration,
+        fees: editCertData.fees,
+        badge: editCertData.badge,
+        image: editCertData.image,
+        description: editCertData.description,
+        features: featuresArray,
+      };
+
       const res = await fetch(`${apiUrl}/certifications/${editingCertId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(editCertData),
+        body: JSON.stringify(payload),
       });
 
       const data = await res.json();
@@ -995,6 +1039,37 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
         >
           <CheckCircle className="w-4 h-4" />
           <span>{notification.msg}</span>
+        </div>
+      )}
+
+      {/* Academic Partner Custom Delete Confirmation Modal */}
+      {confirmPartnerDelete && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 animate-in fade-in zoom-in-95 duration-200">
+            <h3 className="text-base font-bold text-slate-900 mb-2">Remove Academic Partner</h3>
+            <p className="text-sm text-slate-500 mb-6 leading-relaxed">
+              Are you sure you want to remove{" "}
+              <span className="font-semibold text-slate-700">"{confirmPartnerDelete.name}"</span> from Academic Partners?
+            </p>
+            <div className="flex items-center justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setConfirmPartnerDelete(null)}
+                disabled={deletingPartner}
+                className="px-5 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 transition-colors cursor-pointer disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={confirmAndDeletePartner}
+                disabled={deletingPartner}
+                className="px-5 py-2 text-sm font-semibold bg-red-500 hover:bg-red-600 text-white rounded-full shadow-sm transition-all active:scale-95 cursor-pointer disabled:opacity-50"
+              >
+                {deletingPartner ? "Deleting..." : "Delete"}
+              </button>
+            </div>
+          </div>
         </div>
       )}
 
@@ -1740,6 +1815,33 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
 
               <div>
                 <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  Course Description (Overview)
+                </label>
+                <textarea
+                  rows={3}
+                  placeholder="e.g. Deep dive into the industry-favorite MERN stack (MongoDB, Express, React, Node) to become a highly sought-after Full Stack JavaScript Developer."
+                  value={certFormData.description}
+                  onChange={(e) => setCertFormData({ ...certFormData, description: e.target.value })}
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 font-medium resize-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  Certification Highlights (1 per line)
+                </label>
+                <textarea
+                  rows={4}
+                  placeholder="Specialized js focus&#10;Real-time Web Sockets&#10;AI-Assisted Debugging"
+                  value={certFormData.featuresText}
+                  onChange={(e) => setCertFormData({ ...certFormData, featuresText: e.target.value })}
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 font-medium resize-none"
+                />
+                <span className="block text-[10px] text-gray-400 mt-1">Enter key highlights or features for this certification, one per line.</span>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
                   Course Image URL / Path (Optional)
                 </label>
                 <ImageUpload 
@@ -1852,6 +1954,33 @@ const Home = ({ activeSubTopic = "academic-partners", setActiveSubTopic }) => {
                   onChange={(e) => setEditCertData({ ...editCertData, fees: e.target.value })}
                   className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
                 />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  Course Description (Overview)
+                </label>
+                <textarea
+                  rows={3}
+                  placeholder="e.g. Deep dive into the industry-favorite MERN stack (MongoDB, Express, React, Node) to become a highly sought-after Full Stack JavaScript Developer."
+                  value={editCertData.description}
+                  onChange={(e) => setEditCertData({ ...editCertData, description: e.target.value })}
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium resize-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                  Certification Highlights (1 per line)
+                </label>
+                <textarea
+                  rows={4}
+                  placeholder="Specialized js focus&#10;Real-time Web Sockets&#10;AI-Assisted Debugging"
+                  value={editCertData.featuresText}
+                  onChange={(e) => setEditCertData({ ...editCertData, featuresText: e.target.value })}
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium resize-none"
+                />
+                <span className="block text-[10px] text-gray-400 mt-1">Enter key highlights or features for this certification, one per line.</span>
               </div>
 
               <div>

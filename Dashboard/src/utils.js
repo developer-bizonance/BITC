@@ -34,6 +34,11 @@ export const resolveImageUrl = (imageUrl, fallback = "") => {
     return `${getServerBase()}${cleanPath}`;
   }
 
+  // If it's a local static logo or icon in public/
+  if (cleanPath.startsWith("/logos/")) {
+    return cleanPath;
+  }
+
   // If it's a relative path to static assets (e.g. /MERN.jpg)
   if (cleanPath.match(/\.(jpg|jpeg|png|svg|webp|gif)$/i)) {
     const siteUrl =

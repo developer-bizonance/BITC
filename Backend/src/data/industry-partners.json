@@ -3,72 +3,84 @@
     "id": "ip-1",
     "name": "TCS",
     "category": "IT & Services",
+    "logo": "/uploads/1791978169937-264146230.jfif",
     "createdAt": "2026-08-21T06:19:25.521Z"
   },
   {
     "id": "ip-2",
     "name": "Infosys",
     "category": "IT & Services",
+    "logo": "/uploads/1791978229275-99804750.png",
     "createdAt": "2026-08-21T06:19:25.521Z"
   },
   {
     "id": "ip-3",
     "name": "Wipro",
     "category": "IT & Services",
+    "logo": "/logos/wipro.svg",
     "createdAt": "2026-08-21T06:19:25.521Z"
   },
   {
     "id": "ip-4",
     "name": "HCL",
     "category": "Tech & Consulting",
+    "logo": "/logos/hcl.svg",
     "createdAt": "2026-08-21T06:19:25.521Z"
   },
   {
     "id": "ip-5",
     "name": "Tech Mahindra",
     "category": "IT & Telecom",
+    "logo": "/logos/tech-mahindra.svg",
     "createdAt": "2026-08-21T06:19:25.521Z"
   },
   {
     "id": "ip-6",
     "name": "Cognizant",
     "category": "Global Services",
+    "logo": "/logos/cognizant.svg",
     "createdAt": "2026-08-21T06:19:25.521Z"
   },
   {
     "id": "ip-7",
     "name": "Accenture",
     "category": "Global Consulting",
+    "logo": "/logos/accenture.svg",
     "createdAt": "2026-08-21T06:19:25.521Z"
   },
   {
     "id": "ip-8",
     "name": "IBM",
     "category": "Cloud & AI",
+    "logo": "/logos/ibm.svg",
     "createdAt": "2026-08-21T06:19:25.521Z"
   },
   {
     "id": "ip-9",
     "name": "Microsoft",
     "category": "Product & Cloud",
+    "logo": "/logos/microsoft.svg",
     "createdAt": "2026-08-21T06:19:25.521Z"
   },
   {
     "id": "ip-10",
     "name": "Google",
     "category": "Tech & AI",
+    "logo": "/logos/google.svg",
     "createdAt": "2026-08-21T06:19:25.521Z"
   },
   {
     "id": "ip-11",
     "name": "Amazon",
     "category": "E-Commerce & Cloud",
+    "logo": "/logos/amazon.svg",
     "createdAt": "2026-08-21T06:19:25.521Z"
   },
   {
     "id": "ip-12",
     "name": "Deloitte",
     "category": "Consulting & Audit",
+    "logo": "/logos/deloitte.svg",
     "createdAt": "2026-08-21T06:19:25.521Z"
   }
 ]

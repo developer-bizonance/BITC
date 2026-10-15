@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { readJsonDb, writeJsonDb } from "../dataStore.js";
+import { readJsonDbAsync, writeJsonDbAsync } from "../dataStore.js";
 
 export interface PartnershipApplication {
   id: string;
@@ -12,28 +12,24 @@ export interface PartnershipApplication {
   phone: string;
   partnershipType: string;
   message: string;
-  status: "Pending" | "Reviewed" | "Contacted" | "Rejected";
+  status: "Pending" | "Reviewed" | "Contacted" | "Approved" | "Rejected";
   createdAt: string;
-}
-
-function getApplications(): PartnershipApplication[] {
-  return readJsonDb<PartnershipApplication>("partnership-applications.json");
-}
-
-function saveApplications(data: PartnershipApplication[]) {
-  writeJsonDb("partnership-applications.json", data);
 }
 
 const router = Router();
 
 // GET /api/partnership-applications
-router.get("/", (_req: Request, res: Response) => {
-  const apps = getApplications();
-  return res.json({ success: true, applications: apps });
+router.get("/", async (_req: Request, res: Response) => {
+  try {
+    const apps = await readJsonDbAsync<PartnershipApplication>("partnership-applications.json");
+    return res.json({ success: true, applications: apps });
+  } catch (err: any) {
+    return res.status(500).json({ error: err?.message || "Failed to fetch applications" });
+  }
 });
 
 // POST /api/partnership-applications (Apply from frontend)
-router.post("/", (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response) => {
   try {
     const {
       type,
@@ -66,14 +62,15 @@ router.post("/", (req: Request, res: Response) => {
       createdAt: new Date().toISOString(),
     };
 
-    const appsDb = getApplications();
+    const appsDb = await readJsonDbAsync<PartnershipApplication>("partnership-applications.json");
     appsDb.unshift(newApp);
-    saveApplications(appsDb);
+    await writeJsonDbAsync("partnership-applications.json", appsDb);
 
     return res.status(201).json({
       success: true,
       message: "Partnership application submitted successfully!",
       application: newApp,
+      applications: appsDb,
     });
   } catch (err: any) {
     return res.status(500).json({ error: err?.message || "Failed to submit application" });
@@ -81,11 +78,11 @@ router.post("/", (req: Request, res: Response) => {
 });
 
 // PATCH /api/partnership-applications/:id
-router.patch("/:id", (req: Request, res: Response) => {
+router.patch("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
-    const appsDb = getApplications();
+    const appsDb = await readJsonDbAsync<PartnershipApplication>("partnership-applications.json");
     const app = appsDb.find((a) => a.id === id);
     if (!app) {
       return res.status(404).json({ error: "Application not found" });
@@ -94,12 +91,36 @@ router.patch("/:id", (req: Request, res: Response) => {
     if (status) {
       app.status = status;
     }
-    
-    saveApplications(appsDb);
 
-    return res.json({ success: true, application: app });
+    await writeJsonDbAsync("partnership-applications.json", appsDb);
+
+    return res.json({ success: true, application: app, applications: appsDb });
   } catch (err: any) {
     return res.status(500).json({ error: err?.message || "Failed to update application" });
+  }
+});
+
+// DELETE /api/partnership-applications/:id
+router.delete("/:id", async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const appsDb = await readJsonDbAsync<PartnershipApplication>("partnership-applications.json");
+    const initialLen = appsDb.length;
+    const updatedDb = appsDb.filter((a) => a.id !== id);
+
+    if (updatedDb.length === initialLen) {
+      return res.status(404).json({ error: "Application not found" });
+    }
+
+    await writeJsonDbAsync("partnership-applications.json", updatedDb);
+
+    return res.json({
+      success: true,
+      message: "Partnership application deleted successfully",
+      applications: updatedDb,
+    });
+  } catch (err: any) {
+    return res.status(500).json({ error: err?.message || "Failed to delete application" });
   }
 });
 

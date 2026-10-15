@@ -10,7 +10,9 @@ export interface CertificationItem {
   fees: string;
   badge?: string;
   image?: string;
+  description?: string;
   features?: string[];
+  curriculum?: any[];
   createdAt: string;
 }
 
@@ -36,7 +38,7 @@ router.get("/", async (req: Request, res: Response) => {
 // POST /api/certifications (Add new certification)
 router.post("/", async (req: Request, res: Response) => {
   try {
-    const { title, category, duration, fees, badge, image, features } = req.body;
+    const { title, category, duration, fees, badge, image, features, description, curriculum } = req.body;
 
     if (!title || typeof title !== "string" || title.trim().length < 2) {
       return res.status(400).json({ error: "Certification title is required." });
@@ -47,10 +49,12 @@ router.post("/", async (req: Request, res: Response) => {
       title: title.trim(),
       category: category?.trim() || "Information Technology",
       duration: duration?.trim() || "6 Months",
-      fees: fees?.trim() || "₹36,000",
+      fees: fees?.trim() || "",
       badge: badge?.trim() || "",
       image: image?.trim() || "",
+      description: description?.trim() || "",
       features: Array.isArray(features) ? features : [],
+      curriculum: Array.isArray(curriculum) ? curriculum : [],
       createdAt: new Date().toISOString(),
     };
 
@@ -61,7 +65,7 @@ router.post("/", async (req: Request, res: Response) => {
     // Also sync to Course model in PostgreSQL so it can be queried as a course
     try {
       const courseSlug = title.trim().toLowerCase().replace(/ & /g, '-').replace(/[\/\s_]+/g, '-');
-      const numericPrice = parseInt(String(fees || "36000").replace(/[^0-9]/g, ""), 10) || 36000;
+      const numericPrice = parseInt(String(fees || "0").replace(/[^0-9]/g, ""), 10) || 0;
       await prisma.course.upsert({
         where: { slug: courseSlug },
         update: {
@@ -71,6 +75,8 @@ router.post("/", async (req: Request, res: Response) => {
           fees: newCert.fees,
           price: numericPrice,
           image: newCert.image,
+          description: newCert.description,
+          features: newCert.features,
         },
         create: {
           slug: courseSlug,
@@ -79,16 +85,10 @@ router.post("/", async (req: Request, res: Response) => {
           duration: newCert.duration,
           fees: newCert.fees,
           price: numericPrice,
-          description: `Industry-recognized certification in ${newCert.title} by BITC BIZONANCE with live hands-on projects and placement assistance.`,
-          features: newCert.features && newCert.features.length > 0 ? newCert.features : [
-            "Practical Industry Training & Live Labs",
-            "Hands-On Capstone Projects & Portfolio Building",
-            "1-on-1 Mentorship & Code Reviews",
-            "Dedicated 100% Placement Assistance",
-            "Recognized Industrial Certification"
-          ],
+          description: newCert.description || "",
+          features: newCert.features || [],
           image: newCert.image,
-          curriculum: [],
+          curriculum: newCert.curriculum || [],
         },
       });
     } catch (courseSyncErr) {
@@ -140,7 +140,7 @@ router.put("/reorder", async (req: Request, res: Response) => {
 router.put("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { title, category, duration, fees, badge, image, features } = req.body;
+    const { title, category, duration, fees, badge, image, features, description, curriculum } = req.body;
 
     const db = await readJsonDbAsync<CertificationItem>("certifications.json");
     const index = db.findIndex((c) => c.id === id);
@@ -157,7 +157,9 @@ router.put("/:id", async (req: Request, res: Response) => {
       fees: fees !== undefined ? fees.trim() : current.fees,
       badge: badge !== undefined ? badge.trim() : current.badge,
       image: image !== undefined ? image.trim() : current.image,
-      features: features !== undefined && Array.isArray(features) ? features : current.features,
+      description: description !== undefined ? description.trim() : (current.description || ""),
+      features: features !== undefined && Array.isArray(features) ? features : (current.features || []),
+      curriculum: curriculum !== undefined && Array.isArray(curriculum) ? curriculum : (current.curriculum || []),
     };
 
     db[index] = updated;
@@ -165,7 +167,7 @@ router.put("/:id", async (req: Request, res: Response) => {
 
     try {
       const slug = updated.title.trim().toLowerCase().replace(/ & /g, '-').replace(/[\/\s_]+/g, "-");
-      const numericPrice = parseInt(String(updated.fees || "36000").replace(/[^0-9]/g, ""), 10) || 36000;
+      const numericPrice = parseInt(String(updated.fees || "0").replace(/[^0-9]/g, ""), 10) || 0;
       await prisma.course.upsert({
         where: { slug: slug },
         update: {
@@ -175,7 +177,8 @@ router.put("/:id", async (req: Request, res: Response) => {
           fees: updated.fees,
           price: numericPrice,
           image: updated.image,
-          features: updated.features && updated.features.length > 0 ? updated.features : undefined,
+          description: updated.description,
+          features: updated.features,
         },
         create: {
           slug: slug,
@@ -184,10 +187,10 @@ router.put("/:id", async (req: Request, res: Response) => {
           duration: updated.duration,
           fees: updated.fees,
           price: numericPrice,
-          description: `Industry-recognized certification in ${updated.title} by BITC BIZONANCE.`,
+          description: updated.description || "",
           features: updated.features || [],
           image: updated.image,
-          curriculum: [],
+          curriculum: updated.curriculum || [],
         }
       });
     } catch (err) {

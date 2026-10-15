@@ -19,6 +19,22 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
+const DEFAULT_LOGOS = {
+  tcs: "/logos/tcs.svg",
+  infosys: "/logos/infosys.svg",
+  wipro: "/logos/wipro.svg",
+  hcl: "/logos/hcl.svg",
+  "tech mahindra": "/logos/tech-mahindra.svg",
+  techmahindra: "/logos/tech-mahindra.svg",
+  cognizant: "/logos/cognizant.svg",
+  accenture: "/logos/accenture.svg",
+  ibm: "/logos/ibm.svg",
+  microsoft: "/logos/microsoft.svg",
+  google: "/logos/google.svg",
+  amazon: "/logos/amazon.svg",
+  deloitte: "/logos/deloitte.svg",
+};
+
 const SortablePartnerCard = ({ partner, onEdit, onDelete }) => {
   const {
     attributes,
@@ -36,6 +52,33 @@ const SortablePartnerCard = ({ partner, onEdit, onDelete }) => {
     opacity: isDragging ? 0.8 : 1,
   };
 
+  const normalized = partner.name?.trim().toLowerCase() || "";
+  const fallbackLogo = DEFAULT_LOGOS[normalized] || "";
+  const initialLogo = partner.logo?.trim() || fallbackLogo;
+
+  const [imgSrc, setImgSrc] = useState(() => initialLogo ? resolveImageUrl(initialLogo) : "");
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    const freshLogo = partner.logo?.trim() || fallbackLogo;
+    setImgSrc(freshLogo ? resolveImageUrl(freshLogo) : "");
+    setHasError(false);
+  }, [partner.logo, partner.name, fallbackLogo]);
+
+  const handleImageError = () => {
+    if (fallbackLogo && imgSrc !== resolveImageUrl(fallbackLogo)) {
+      setImgSrc(resolveImageUrl(fallbackLogo));
+      return;
+    }
+    const domain = normalized ? normalized.replace(/[^a-z0-9]/g, "") + ".com" : "";
+    const googleFavicon = domain ? `https://www.google.com/s2/favicons?sz=128&domain=${domain}` : "";
+    if (googleFavicon && imgSrc !== googleFavicon) {
+      setImgSrc(googleFavicon);
+      return;
+    }
+    setHasError(true);
+  };
+
   return (
     <div
       ref={setNodeRef}
@@ -45,14 +88,20 @@ const SortablePartnerCard = ({ partner, onEdit, onDelete }) => {
       <div 
         className="aspect-square bg-gray-50 flex items-center justify-center relative p-6"
       >
-        {partner.logo ? (
+        {imgSrc && !hasError ? (
           <img
-            src={resolveImageUrl(partner.logo)}
+            src={imgSrc}
             alt={partner.name}
-            className="w-full h-full object-contain pointer-events-none"
+            onError={handleImageError}
+            className="w-full h-full object-contain pointer-events-none p-2"
           />
         ) : (
-          <ImageIcon className="w-8 h-8 text-gray-300 pointer-events-none" />
+          <div className="flex flex-col items-center justify-center text-center p-2">
+            <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 font-black text-lg flex items-center justify-center mb-1">
+              {partner.name ? partner.name.slice(0, 2).toUpperCase() : "IP"}
+            </div>
+            <span className="text-[10px] text-gray-400 font-medium">No Logo</span>
+          </div>
         )}
         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
           <button
@@ -96,6 +145,8 @@ const IndustryPartners = () => {
   const [editingId, setEditingId] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [notification, setNotification] = useState(null);
+  const [confirmDelete, setConfirmDelete] = useState(null); // { id, name }
+  const [deleting, setDeleting] = useState(false);
 
   const [form, setForm] = useState({ name: "", logo: "" });
   const [editForm, setEditForm] = useState({ name: "", logo: "" });
@@ -129,9 +180,13 @@ const IndustryPartners = () => {
         const uniquePartners = [];
         const seen = new Set();
         for (const p of apiPartners) {
-          if (!seen.has(p.name?.trim().toLowerCase())) {
-            seen.add(p.name?.trim().toLowerCase());
-            uniquePartners.push(p);
+          const norm = p.name?.trim().toLowerCase();
+          if (!seen.has(norm)) {
+            seen.add(norm);
+            uniquePartners.push({
+              ...p,
+              logo: p.logo?.trim() || DEFAULT_LOGOS[norm] || ""
+            });
           }
         }
         setPartners(uniquePartners);
@@ -176,25 +231,36 @@ const IndustryPartners = () => {
     }
   };
 
-  const handleDelete = async (id, name) => {
-    if (!window.confirm(`Are you sure you want to remove "${name}"?`)) return;
+  const handleDelete = (id, name) => {
+    setConfirmDelete({ id, name });
+  };
+
+  const confirmAndDelete = async () => {
+    if (!confirmDelete) return;
+    const { id, name } = confirmDelete;
+    setDeleting(true);
     try {
       const res = await fetch(`${apiUrl}/industry-partners/${id}`, { method: "DELETE" });
       const data = await res.json();
       if (res.ok) {
         setPartners(data.partners || partners.filter((p) => p.id !== id));
-        showNotification("Industry partner removed.");
+        showNotification(`"${name}" removed successfully.`);
       } else {
         showNotification(data.error || "Failed to delete partner", "error");
       }
     } catch (err) {
-      showNotification("Network error", "error");
+      showNotification("Network error while deleting partner", "error");
+    } finally {
+      setDeleting(false);
+      setConfirmDelete(null);
     }
   };
 
   const openEdit = (partner) => {
+    const norm = partner.name?.trim().toLowerCase();
+    const currentLogo = partner.logo?.trim() || DEFAULT_LOGOS[norm] || "";
     setEditingId(partner.id);
-    setEditForm({ name: partner.name || "", logo: partner.logo || "" });
+    setEditForm({ name: partner.name || "", logo: currentLogo });
     setIsEditOpen(true);
   };
 
@@ -255,6 +321,37 @@ const IndustryPartners = () => {
 
   return (
     <div className="min-h-screen bg-gray-50/50 p-4 md:p-8">
+      {/* Custom Delete Confirmation Modal */}
+      {confirmDelete && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 animate-in fade-in zoom-in-95 duration-200">
+            <h3 className="text-base font-bold text-slate-900 mb-2">Remove Industry Partner</h3>
+            <p className="text-sm text-slate-500 mb-6 leading-relaxed">
+              Are you sure you want to remove{" "}
+              <span className="font-semibold text-slate-700">"{confirmDelete.name}"</span>?
+            </p>
+            <div className="flex items-center justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setConfirmDelete(null)}
+                disabled={deleting}
+                className="px-5 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 transition-colors cursor-pointer disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={confirmAndDelete}
+                disabled={deleting}
+                className="px-5 py-2 text-sm font-semibold bg-red-500 hover:bg-red-600 text-white rounded-full shadow-sm transition-all active:scale-95 cursor-pointer disabled:opacity-50"
+              >
+                {deleting ? "Deleting..." : "Delete"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="max-w-6xl mx-auto space-y-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
           <div>

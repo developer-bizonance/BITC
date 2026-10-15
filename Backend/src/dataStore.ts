@@ -55,15 +55,14 @@ export async function readJsonDbAsync<T = any>(fileName: string): Promise<T[]> {
     const dbRecord = await prisma.cmsData.findUnique({
       where: { key: fileName },
     });
-    if (dbRecord && dbRecord.data) {
+    if (dbRecord && dbRecord.data !== null && dbRecord.data !== undefined) {
       const data = Array.isArray(dbRecord.data) ? (dbRecord.data as T[]) : (dbRecord.data as any);
-      if (Array.isArray(data) && data.length > 0) {
-        memoryCache.set(fileName, data);
-        return data;
-      }
+      const arr = Array.isArray(data) ? data : [];
+      memoryCache.set(fileName, arr);
+      return arr;
     }
 
-    // Seed from local file into DB
+    // Seed from local file into DB ONLY IF record does not exist in DB
     const fileData = readFromFile<T>(fileName);
     if (fileData.length > 0) {
       try {
@@ -95,14 +94,17 @@ export async function readJsonDbAsync<T = any>(fileName: string): Promise<T[]> {
 export async function writeJsonDbAsync<T = any>(fileName: string, data: T[]): Promise<void> {
   memoryCache.set(fileName, data);
 
-  // Try writing to local file (works in dev, ignored on readonly serverless)
+  // Try writing to all candidate local files (works in dev, ignored on readonly serverless)
   try {
     const candidatePaths = getCandidatePaths(fileName);
     for (const filePath of candidatePaths) {
       const dir = path.dirname(filePath);
       if (fs.existsSync(dir)) {
-        fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
-        break;
+        try {
+          fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
+        } catch {
+          // Ignore read-only fs error
+        }
       }
     }
   } catch (err) {
@@ -118,6 +120,7 @@ export async function writeJsonDbAsync<T = any>(fileName: string, data: T[]): Pr
     });
   } catch (dbErr) {
     console.error(`[dataStore] Failed to persist ${fileName} to DB:`, dbErr);
+    throw dbErr;
   }
 }
 

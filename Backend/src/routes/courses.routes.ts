@@ -50,91 +50,69 @@ router.get("/:slug", async (req: Request, res: Response) => {
     const { slug } = req.params;
     const normalizedSlug = decodeURIComponent(slug).toLowerCase().replace(/[\s_]+/g, "-");
 
+    // 1. Primary check: Neon Postgres Course table
     let dbCourse = null;
     try {
-      dbCourse = await prisma.course.findUnique({ where: { slug: normalizedSlug } });
+      dbCourse = await prisma.course.findFirst({
+        where: {
+          OR: [
+            { slug: normalizedSlug },
+            { slug: normalizedSlug.replace(/[^a-z0-9]/g, "") },
+            { title: { equals: normalizedSlug.replace(/-/g, " "), mode: "insensitive" } },
+          ],
+        },
+      });
     } catch (e) {
       console.warn("DB course lookup notice:", e);
     }
 
     if (dbCourse) {
-      try {
-        const certsDb = await readJsonDbAsync("certifications.json");
-        const matchedCert = certsDb.find((c: any) => {
-          if (!c.title) return false;
-          const cNorm = c.title.toLowerCase().replace(/[^a-z0-9]/g, "");
-          const sSlugNorm = dbCourse.slug.toLowerCase().replace(/[^a-z0-9]/g, "");
-          const sTitleNorm = dbCourse.title.toLowerCase().replace(/[^a-z0-9]/g, "");
-          return cNorm === sSlugNorm || sSlugNorm.includes(cNorm) || cNorm.includes(sSlugNorm) || cNorm === sTitleNorm || sTitleNorm.includes(cNorm) || cNorm.includes(sTitleNorm);
-        });
-        if (matchedCert && matchedCert.features && matchedCert.features.length > 0) {
-          dbCourse.features = matchedCert.features;
-        }
-      } catch (e) {
-        console.warn("Could not merge features from certifications.json into dbCourse:", e);
-      }
       return res.json({ success: true, course: dbCourse });
     }
 
-    const staticCourse = fallbackCourses.find((c) => c.slug === normalizedSlug);
-    if (staticCourse) {
-      // Merge features from certifications.json if they exist (since Prisma is failing)
-      try {
-        const certsDb = await readJsonDbAsync("certifications.json");
-        const matchedCert = certsDb.find((c: any) => {
-          if (!c.title) return false;
-          const cNorm = c.title.toLowerCase().replace(/[^a-z0-9]/g, "");
-          const sSlugNorm = staticCourse.slug.toLowerCase().replace(/[^a-z0-9]/g, "");
-          const sTitleNorm = staticCourse.title.toLowerCase().replace(/[^a-z0-9]/g, "");
-          return cNorm === sSlugNorm || sSlugNorm.includes(cNorm) || cNorm.includes(sSlugNorm) || cNorm === sTitleNorm || sTitleNorm.includes(cNorm) || cNorm.includes(sTitleNorm);
-        });
-        if (matchedCert && matchedCert.features && matchedCert.features.length > 0) {
-          staticCourse.features = matchedCert.features;
-        }
-      } catch (e) {
-        console.warn("Could not merge features from certifications.json:", e);
-      }
-      return res.json({ success: true, course: staticCourse });
-    }
-
-    // If not in Prisma AND not in fallbackCourses, check certifications.json directly
+    // 2. Check certifications.json (dashboard-managed certifications)
     try {
       const certsDb = await readJsonDbAsync("certifications.json");
-      const cleanSlug = normalizedSlug.replace(/[^a-z0-9]/g, '');
+      const cleanSlug = normalizedSlug.replace(/[^a-z0-9]/g, "");
       const dynamicCert = certsDb.find((c: any) => {
         if (!c || !c.title) return false;
         const cId = String(c.id || "").toLowerCase();
         const cSlug = String(c.slug || "").toLowerCase().replace(/[\s_]+/g, "-");
-        const cTitleSlug = c.title.trim().toLowerCase().replace(/ & /g, '-').replace(/[\/\s_]+/g, "-");
-        const cClean = c.title.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
-        return cId === normalizedSlug || cSlug === normalizedSlug || cTitleSlug === normalizedSlug || (cleanSlug && cClean === cleanSlug);
+        const cTitleSlug = c.title.trim().toLowerCase().replace(/ & /g, "-").replace(/[\/\s_]+/g, "-");
+        const cClean = c.title.trim().toLowerCase().replace(/[^a-z0-9]/g, "");
+        return (
+          cId === normalizedSlug ||
+          cSlug === normalizedSlug ||
+          cTitleSlug === normalizedSlug ||
+          (cleanSlug && cClean === cleanSlug)
+        );
       });
-      
+
       if (dynamicCert) {
         return res.json({
           success: true,
           course: {
-            slug: normalizedSlug,
+            slug: dynamicCert.slug || normalizedSlug,
             title: dynamicCert.title,
             category: dynamicCert.category || "Information Technology",
-            duration: dynamicCert.duration || "6 Months",
-            fees: dynamicCert.fees || "₹36,000",
-            price: parseInt(String(dynamicCert.fees || "36000").replace(/[^0-9]/g, "")) || 36000,
-            description: dynamicCert.description || "A comprehensive program designed to provide industry-ready skills and hands-on experience.",
-            features: dynamicCert.features && dynamicCert.features.length > 0 ? dynamicCert.features : [
-              "Practical Industry Training & Live Labs",
-              "Hands-On Capstone Projects & Portfolio Building",
-              "1-on-1 Mentorship & Code Reviews",
-              "Dedicated 100% Placement Assistance",
-              "Recognized Industrial Certification"
-            ],
+            duration: dynamicCert.duration || "",
+            fees: dynamicCert.fees || "",
+            price: parseInt(String(dynamicCert.fees || "0").replace(/[^0-9]/g, "")) || 0,
+            description: dynamicCert.description || "",
+            features: Array.isArray(dynamicCert.features) ? dynamicCert.features : [],
             image: dynamicCert.image || "",
-            curriculum: dynamicCert.curriculum || []
-          }
+            curriculum: Array.isArray(dynamicCert.curriculum) ? dynamicCert.curriculum : [],
+          },
         });
       }
     } catch (e) {
       console.warn("Could not check certifications.json for dynamic course:", e);
+    }
+
+    // 3. Fallback to static courses
+    const staticCourse = fallbackCourses.find((c) => c.slug === normalizedSlug);
+    if (staticCourse) {
+      return res.json({ success: true, course: staticCourse });
     }
 
     return res.status(404).json({ success: false, error: "Course not found" });
@@ -149,75 +127,123 @@ router.get("/:slug/curriculum", async (req: Request, res: Response) => {
     const { slug } = req.params;
     const normalizedSlug = decodeURIComponent(slug).toLowerCase().replace(/[\s_]+/g, "-");
 
-    const course = fallbackCourses.find((c) => c.slug === normalizedSlug);
-    if (!course) {
-      try {
-        const certsDb = await readJsonDbAsync("certifications.json");
-        const dynamicCert = certsDb.find((c: any) => c.title && c.title.trim().toLowerCase().replace(/[\s_]+/g, "-") === normalizedSlug);
-        if (dynamicCert) {
-          return res.json({
-            success: true,
-            slug: normalizedSlug,
-            title: dynamicCert.title,
-            curriculum: dynamicCert.curriculum || [],
-          });
-        }
-      } catch (e) {}
-      return res.status(404).json({ success: false, error: "Course not found" });
+    // 1. Check Neon DB first
+    try {
+      const dbCourse = await prisma.course.findFirst({
+        where: {
+          OR: [
+            { slug: normalizedSlug },
+            { slug: normalizedSlug.replace(/[^a-z0-9]/g, "") },
+            { title: { equals: normalizedSlug.replace(/-/g, " "), mode: "insensitive" } },
+          ],
+        },
+      });
+      if (dbCourse && Array.isArray(dbCourse.curriculum) && dbCourse.curriculum.length > 0) {
+        return res.json({
+          success: true,
+          slug: dbCourse.slug,
+          title: dbCourse.title,
+          curriculum: dbCourse.curriculum,
+        });
+      }
+    } catch (e) {
+      console.warn("DB curriculum fetch notice:", e);
     }
 
-    return res.json({
-      success: true,
-      slug: course.slug,
-      title: course.title,
-      curriculum: course.curriculum || [],
-    });
+    // 2. Check certifications.json
+    try {
+      const certsDb = await readJsonDbAsync("certifications.json");
+      const cleanSlug = normalizedSlug.replace(/[^a-z0-9]/g, "");
+      const dynamicCert = certsDb.find((c: any) => {
+        if (!c || !c.title) return false;
+        const cSlug = String(c.slug || "").toLowerCase().replace(/[\s_]+/g, "-");
+        const cTitleSlug = c.title.trim().toLowerCase().replace(/ & /g, "-").replace(/[\/\s_]+/g, "-");
+        const cClean = c.title.trim().toLowerCase().replace(/[^a-z0-9]/g, "");
+        return cSlug === normalizedSlug || cTitleSlug === normalizedSlug || (cleanSlug && cClean === cleanSlug);
+      });
+      if (dynamicCert && Array.isArray(dynamicCert.curriculum)) {
+        return res.json({
+          success: true,
+          slug: normalizedSlug,
+          title: dynamicCert.title,
+          curriculum: dynamicCert.curriculum,
+        });
+      }
+    } catch (e) {}
+
+    // 3. Fallback to static
+    const course = fallbackCourses.find((c) => c.slug === normalizedSlug);
+    if (course) {
+      return res.json({
+        success: true,
+        slug: course.slug,
+        title: course.title,
+        curriculum: course.curriculum || [],
+      });
+    }
+
+    return res.status(404).json({ success: false, error: "Course not found" });
   } catch (error: any) {
     return res.status(500).json({ success: false, error: error?.message || "Failed to fetch curriculum" });
   }
 });
 
-// PUT /api/courses/:slug/curriculum (Full curriculum update or save)
+// PUT /api/courses/:slug/curriculum (Full curriculum update or save from dashboard)
 router.put("/:slug/curriculum", async (req: Request, res: Response) => {
   try {
     const { slug } = req.params;
     const { curriculum } = req.body;
     const normalizedSlug = decodeURIComponent(slug).toLowerCase().replace(/[\s_]+/g, "-");
 
-    const courseIndex = fallbackCourses.findIndex((c) => c.slug === normalizedSlug);
-    if (courseIndex === -1) {
-      try {
-        const certsDb = await readJsonDbAsync("certifications.json");
-        const dynamicCertIndex = certsDb.findIndex((c: any) => c.title && c.title.trim().toLowerCase().replace(/[\s_]+/g, "-") === normalizedSlug);
-        if (dynamicCertIndex !== -1) {
-          certsDb[dynamicCertIndex].curriculum = curriculum;
-          await writeJsonDbAsync("certifications.json", certsDb);
-          return res.json({ success: true, message: "Curriculum updated successfully in JSON fallback" });
-        }
-      } catch (e) {}
-      return res.status(404).json({ success: false, error: "Course not found" });
-    }
-
     if (!Array.isArray(curriculum)) {
       return res.status(400).json({ success: false, error: "Curriculum must be an array of modules" });
     }
 
-    fallbackCourses[courseIndex].curriculum = curriculum;
-
+    // 1. Update Neon DB Course table
     try {
-      await prisma.course.update({
-        where: { slug: normalizedSlug },
+      await prisma.course.updateMany({
+        where: {
+          OR: [
+            { slug: normalizedSlug },
+            { slug: normalizedSlug.replace(/[^a-z0-9]/g, "") },
+            { title: { equals: normalizedSlug.replace(/-/g, " "), mode: "insensitive" } },
+          ],
+        },
         data: { curriculum: curriculum as any },
       });
     } catch (e) {
-      // Prisma optional in development
+      console.warn("DB curriculum update notice:", e);
+    }
+
+    // 2. Update certifications.json
+    try {
+      const certsDb = await readJsonDbAsync("certifications.json");
+      const cleanSlug = normalizedSlug.replace(/[^a-z0-9]/g, "");
+      const dynamicCertIndex = certsDb.findIndex((c: any) => {
+        if (!c || !c.title) return false;
+        const cSlug = String(c.slug || "").toLowerCase().replace(/[\s_]+/g, "-");
+        const cTitleSlug = c.title.trim().toLowerCase().replace(/ & /g, "-").replace(/[\/\s_]+/g, "-");
+        const cClean = c.title.trim().toLowerCase().replace(/[^a-z0-9]/g, "");
+        return cSlug === normalizedSlug || cTitleSlug === normalizedSlug || (cleanSlug && cClean === cleanSlug);
+      });
+      if (dynamicCertIndex !== -1) {
+        certsDb[dynamicCertIndex].curriculum = curriculum;
+        await writeJsonDbAsync("certifications.json", certsDb);
+      }
+    } catch (e) {
+      console.warn("certifications.json curriculum update notice:", e);
+    }
+
+    // 3. Update static fallback in memory if present
+    const courseIndex = fallbackCourses.findIndex((c) => c.slug === normalizedSlug);
+    if (courseIndex !== -1) {
+      fallbackCourses[courseIndex].curriculum = curriculum;
     }
 
     return res.json({
       success: true,
       message: "Curriculum updated successfully",
-      course: fallbackCourses[courseIndex],
-      curriculum: fallbackCourses[courseIndex].curriculum,
+      curriculum,
     });
   } catch (error: any) {
     return res.status(500).json({ success: false, error: error?.message || "Failed to update curriculum" });
@@ -404,8 +430,8 @@ router.post("/", async (req: Request, res: Response) => {
       title: title.trim(),
       category: category || "Information Technology",
       duration: duration || "6 Months",
-      fees: fees || "₹36,000",
-      price: price ? parseInt(price) : 36000,
+      fees: fees || "",
+      price: price ? parseInt(price) : (fees ? parseInt(String(fees).replace(/[^0-9]/g, "")) || 0 : 0),
       description: description || "",
       features: Array.isArray(features) ? features : [],
       image: image || "",
