@@ -217,9 +217,9 @@ export default function FacultySection() {
       <div className="container max-w-[1240px] mx-auto px-4 sm:px-6 relative z-10">
 
         {/* Section Header with See More on right */}
-        <div className="mb-8 md:mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4 text-left">
+        <div className="mb-6 md:mb-10 flex flex-row items-center justify-between gap-4 text-left">
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
               Our <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Mentors</span>
             </h2>
           </div>
