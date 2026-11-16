@@ -314,8 +314,8 @@ function ContactContent() {
 
           <div className="flex flex-col gap-5 sm:gap-8 lg:flex-row lg:items-start">
 
-            {/* Left: Contact Cards */}
-            <div className="flex h-full flex-col gap-3 sm:gap-4 lg:w-[360px] shrink-0">
+            {/* Left: Contact Cards (Shown below form on mobile, on left on desktop) */}
+            <div className="flex h-full flex-col gap-3 sm:gap-4 lg:w-[360px] shrink-0 order-2 lg:order-1">
 
               <div className="flex items-start gap-3.5 rounded-2xl border border-gray-200/80 bg-white p-4 shadow-md sm:gap-4 sm:p-5 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-[100ms]">
                 <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white shadow-md border border-gray-100/80 sm:h-12 sm:w-12 p-2.5 sm:p-2.5">
@@ -378,8 +378,8 @@ function ContactContent() {
 
             </div>
 
-            {/* Right: Contact Form */}
-            <div className="flex-1 w-full animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
+            {/* Right: Contact Form (Shown first on mobile, on right on desktop) */}
+            <div className="flex-1 w-full animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100 order-1 lg:order-2">
               {submitted ? (
                 <div className="rounded-2xl border border-gray-200/80 bg-white p-8 sm:p-12 shadow-xl shadow-slate-200/60 flex flex-col items-center justify-center text-center min-h-[400px]">
                   <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
