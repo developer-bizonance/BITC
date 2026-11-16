@@ -20,18 +20,18 @@ export const metadata: Metadata = {
     description: "Accelerate your tech career with BITC. Master Full Stack Development, AI & ML, Data Science, and UI/UX Design with placement support.",
     images: [
       {
-        url: "/og-image.png",
-        secureUrl: "/og-image.png",
-        width: 1200,
-        height: 630,
-        type: "image/png",
-        alt: "BIZONANCE Industrial Training Centre. (BITC) | Amravati Logo",
-      },
-      {
         url: "/og-square.png",
         secureUrl: "/og-square.png",
         width: 800,
         height: 800,
+        type: "image/png",
+        alt: "BIZONANCE Industrial Training Centre. (BITC) | Amravati Logo",
+      },
+      {
+        url: "/og-image.png",
+        secureUrl: "/og-image.png",
+        width: 1200,
+        height: 630,
         type: "image/png",
         alt: "BIZONANCE Industrial Training Centre. (BITC) | Amravati Logo",
       },
