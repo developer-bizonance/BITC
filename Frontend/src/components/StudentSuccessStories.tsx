@@ -145,7 +145,7 @@ export default function StudentSuccessStories() {
                 <button
                   onClick={handlePrev}
                   aria-label="Previous story"
-                  className="absolute -left-3 sm:-left-5 md:-left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-11 md:h-11 rounded-full bg-white hover:bg-slate-50 border border-slate-200/90 shadow-lg shadow-slate-900/10 text-slate-700 flex items-center justify-center transition-all hover:scale-110 active:scale-95 cursor-pointer hover:border-amber-400 hover:text-amber-600"
+                  className="absolute -left-3 sm:-left-5 md:-left-6 top-[36%] sm:top-[40%] md:top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-11 md:h-11 rounded-full bg-white hover:bg-slate-50 border border-slate-200/90 shadow-lg shadow-slate-900/10 text-slate-700 flex items-center justify-center transition-all hover:scale-110 active:scale-95 cursor-pointer hover:border-amber-400 hover:text-amber-600"
                 >
                   <ChevronLeft className="w-5 h-5" />
                 </button>
@@ -153,7 +153,7 @@ export default function StudentSuccessStories() {
                 <button
                   onClick={handleNext}
                   aria-label="Next story"
-                  className="absolute -right-3 sm:-right-5 md:-right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-11 md:h-11 rounded-full bg-white hover:bg-slate-50 border border-slate-200/90 shadow-lg shadow-slate-900/10 text-slate-700 flex items-center justify-center transition-all hover:scale-110 active:scale-95 cursor-pointer hover:border-amber-400 hover:text-amber-600"
+                  className="absolute -right-3 sm:-right-5 md:-right-6 top-[36%] sm:top-[40%] md:top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-11 md:h-11 rounded-full bg-white hover:bg-slate-50 border border-slate-200/90 shadow-lg shadow-slate-900/10 text-slate-700 flex items-center justify-center transition-all hover:scale-110 active:scale-95 cursor-pointer hover:border-amber-400 hover:text-amber-600"
                 >
                   <ChevronRight className="w-5 h-5" />
                 </button>
