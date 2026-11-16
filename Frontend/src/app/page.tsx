@@ -312,6 +312,12 @@ export default function Home() {
             <p className="text-gray-600 text-base sm:text-lg mb-8 max-w-lg mx-auto md:mx-0 leading-relaxed">
               Get personalized career guidance, expert advice on Certifications, and a clear roadmap for your professional journey. Talk to our career counselors today!
             </p>
+
+            {/* Mobile Image (shown under paragraph and before buttons on mobile) */}
+            <div className="block md:hidden w-full max-w-[500px] mx-auto aspect-[16/10] sm:aspect-[3/2] rounded-3xl overflow-hidden shadow-2xl mb-8">
+              <img src="/consulting.jpg" alt="Student Consulting" className="w-full h-full object-cover" />
+            </div>
+
             <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
               <Dialog>
                 <DialogTrigger className="w-full sm:w-auto h-12 md:h-14 px-6 md:px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-800 text-base md:text-lg font-normal flex items-center justify-center hover:opacity-90 transition-all shadow-lg shadow-orange-500/20 cursor-pointer">
@@ -329,7 +335,8 @@ export default function Home() {
               </Link>
             </div>
           </div>
-          <div className="md:w-[45%] flex justify-center lg:justify-end">
+          {/* Desktop Image (hidden on mobile, shown on desktop) */}
+          <div className="hidden md:flex md:w-[45%] justify-center lg:justify-end">
             <div className="relative w-full max-w-[500px] aspect-[16/10] sm:aspect-[3/2] rounded-3xl overflow-hidden shadow-2xl">
               <img src="/consulting.jpg" alt="Student Consulting" className="w-full h-full object-cover" />
             </div>
