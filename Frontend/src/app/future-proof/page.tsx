@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { 
-  ArrowRight, ShieldCheck, Cpu, Code2, LineChart, 
+import {
+  ArrowRight, ShieldCheck, Cpu, Code2, LineChart,
   Lightbulb, Rocket, Target, Zap, Globe, Users,
   BookOpen, BrainCircuit
 } from "lucide-react";
@@ -13,15 +13,33 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Future-Proof Your Skills | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
     description: "Build future-ready tech skills with AI & modern frameworks.",
+    images: [
+      {
+        url: "/og-image.png",
+        secureUrl: "/og-image.png",
+        width: 1200,
+        height: 630,
+        type: "image/png",
+        alt: "BIZONANCE Industrial Training Centre. (BITC) | Amravati Logo",
+      },
+      {
+        url: "/og-square.png",
+        secureUrl: "/og-square.png",
+        width: 800,
+        height: 800,
+        type: "image/png",
+        alt: "BIZONANCE Industrial Training Centre. (BITC) | Amravati Logo",
+      },
+    ],
   },
 };
 
 export default function FutureProofPage() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      
+
       {/* Hero Section */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center bg-white py-24 overflow-hidden">
+      <section className="relative w-full lg:min-h-[calc(100vh-80px)] flex flex-col items-center justify-center bg-white py-14 sm:py-18 lg:py-24 overflow-hidden">
         {/* Background Elements */}
         <div className="absolute inset-0 z-0">
           <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-500/20 via-transparent to-transparent opacity-50 blur-3xl pointer-events-none" />
@@ -35,19 +53,19 @@ export default function FutureProofPage() {
               <ShieldCheck className="w-4 h-4" />
               The BITC Edge
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-7xl font-black text-slate-900 mb-6 leading-tight tracking-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-6 leading-[1.2]">
               Future-proof Your <br className="hidden md:block" />
               <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Career Trajectory</span>
             </h1>
             <p className="text-lg md:text-xl text-slate-600 mb-10 leading-relaxed font-medium">
               In a world where technology evolves daily, traditional education is no longer enough. Learn how BITC equips you with adaptable skills, AI integration, and a builder's mindset to thrive in any tech landscape.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/certifications/it" className="h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black text-lg font-medium flex items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-lg">
+              <Link href="/certifications/it" className="h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-800 text-lg font-normal flex items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-lg">
                 Explore Certifications
               </Link>
-              <Link href="#pillars" className="h-14 px-10 rounded-full bg-white text-slate-700 text-lg font-medium flex items-center justify-center hover:bg-gray-50 border border-gray-200 transition-all shadow-sm">
+              <Link href="#pillars" className="h-14 px-10 rounded-full bg-white text-slate-600 text-lg font-normal flex items-center justify-center hover:bg-gray-50 border border-gray-200 transition-all shadow-sm">
                 Our core pillars
               </Link>
             </div>
@@ -56,7 +74,7 @@ export default function FutureProofPage() {
       </section>
 
       {/* Stats overlapping hero */}
-      <section className="relative z-20 -mt-16 mb-16 px-4">
+      <section className="relative z-20 mt-6 md:-mt-16 mb-8 md:mb-16 px-4">
         <div className="container max-w-[1000px] mx-auto">
           <div className="bg-white rounded-3xl shadow-xl border border-slate-100 p-8 flex flex-col md:flex-row justify-between divide-y md:divide-y-0 md:divide-x divide-slate-100">
             <div className="flex-1 text-center py-4 md:py-0 px-4">
@@ -79,7 +97,7 @@ export default function FutureProofPage() {
       <section id="pillars" className="py-16 lg:py-24 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">How we Keep You <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Ahead</span></h2>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-6 leading-[1.2]">How we Keep You <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Ahead</span></h2>
             <p className="text-slate-600 text-lg leading-relaxed">
               We don't just teach code or business theory. We teach you how to adapt, learn, and leverage the latest tools to become an irreplaceable asset.
             </p>
@@ -165,15 +183,15 @@ export default function FutureProofPage() {
       <section className="py-24 bg-white relative overflow-hidden">
         <div className="absolute inset-0 z-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay"></div>
         <div className="container max-w-[800px] mx-auto px-4 relative z-10 text-center">
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6">Stop Learning, <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Start Evolving.</span></h2>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-6 leading-[1.2]">Stop Learning, <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Start Evolving.</span></h2>
           <p className="text-xl text-slate-600 mb-10 leading-relaxed">
             The best time to future-proof your career was 5 years ago. The second best time is today. Join BITC and become the talent that top companies are desperate to hire.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact" className="h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black text-lg font-medium flex items-center justify-center hover:scale-105 transition-transform shadow-lg shadow-orange-500/25">
+            <Link href="/contact" className="h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-800 text-lg font-normal flex items-center justify-center hover:scale-105 transition-transform shadow-lg shadow-orange-500/25">
               Get Started <ArrowRight className="ml-2 w-5 h-5" />
             </Link>
-            <Link href="/contact" className="h-14 px-10 rounded-full bg-white text-slate-900 border-2 border-slate-200 text-lg font-medium flex items-center justify-center hover:border-slate-400 transition-colors">
+            <Link href="/contact" className="h-14 px-10 rounded-full bg-white text-slate-600 border-2 border-slate-200 text-lg font-normal flex items-center justify-center hover:border-slate-400 transition-colors">
               Talk to an Advisor
             </Link>
           </div>

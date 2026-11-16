@@ -26,7 +26,8 @@ const AdminLogin = () => {
     setError('');
     
     try {
-      const response = await fetch(`${getApiUrl()}/auth/login`, {
+      const apiUrl = getApiUrl();
+      const response = await fetch(`${apiUrl}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -45,7 +46,7 @@ const AdminLogin = () => {
       }
     } catch (err) {
       console.error("Login error:", err);
-      setError("An error occurred during login.");
+      setError("Unable to connect to server. Please verify your connection.");
     }
   };
 
@@ -79,15 +80,14 @@ const AdminLogin = () => {
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="relative">
               <label className="absolute -top-3 left-3 px-2 text-xs font-medium text-gray-500 z-10 bg-[#F8FAFC] rounded-sm">
-                Email
+                Email Id
               </label>
               <input 
                 required
                 type="email" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter Email"
-                className="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 text-gray-700 transition-colors"
+                className="w-full px-4 py-3 border border-gray-200 rounded-full focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400  transition-colors text-gray-500"
               />
             </div>
 
@@ -101,8 +101,7 @@ const AdminLogin = () => {
                   type={showPassword ? "text" : "password"} 
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter Password"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 text-gray-700 transition-colors"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-full focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400  transition-colors text-gray-500"
                 />
                 <button 
                   type="button"
@@ -116,7 +115,7 @@ const AdminLogin = () => {
 
             <button 
               type="submit"
-              className="w-full bg-[#D1E3F8] hover:bg-[#bbd4f0] text-[#1E4E8C] font-semibold py-3 rounded-md transition-all shadow-sm active:scale-[0.98] hover:shadow-md"
+              className="w-full bg-[#D1E3F8] hover:bg-[#bbd4f0] text-[#1E4E8C] font-semibold py-3 rounded-full transition-all shadow-sm active:scale-[0.98] hover:shadow-md"
             >
               Login
             </button>

@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { readJsonDbAsync, writeJsonDbAsync } from "../dataStore.js";
+import prisma from "../lib/prisma.js";
 
 export interface AcademicPartner {
   id: string;
@@ -7,6 +8,7 @@ export interface AcademicPartner {
   logo: string;
   website?: string;
   city?: string;
+  isActive?: boolean;
   createdAt: string;
 }
 
@@ -24,7 +26,7 @@ router.get("/", async (_req: Request, res: Response) => {
 // POST /api/partners (Add a new partner)
 router.post("/", async (req: Request, res: Response) => {
   try {
-    const { name, logo, website, city } = req.body;
+    const { name, logo, website, city, isActive } = req.body;
 
     if (!name || typeof name !== "string" || name.trim().length < 2) {
       return res.status(400).json({ error: "Partner name is required (minimum 2 characters)." });
@@ -36,6 +38,7 @@ router.post("/", async (req: Request, res: Response) => {
       logo: logo?.trim() || "/univercity.png",
       website: website?.trim() || "",
       city: city?.trim() || "Amravati",
+      isActive: isActive !== undefined ? Boolean(isActive) : true,
       createdAt: new Date().toISOString(),
     };
 
@@ -64,9 +67,18 @@ router.put("/reorder", async (req: Request, res: Response) => {
 
     const currentDb = await readJsonDbAsync<AcademicPartner>("partners.json");
     const reorderedDb: AcademicPartner[] = [];
-    for (const id of orderedIds) {
-      const partner = currentDb.find((p) => p.id === id);
-      if (partner) reorderedDb.push(partner);
+    for (let idx = 0; idx < orderedIds.length; idx++) {
+      const id = orderedIds[idx];
+      const partner = currentDb.find((p) => String(p.id) === String(id));
+      if (partner) {
+        reorderedDb.push({ ...partner, order: idx } as any);
+        prisma.academicPartner
+          .updateMany({
+            where: { id: String(id) },
+            data: { order: idx },
+          })
+          .catch(() => null);
+      }
     }
     for (const partner of currentDb) {
       if (!orderedIds.includes(partner.id)) reorderedDb.push(partner);
@@ -84,14 +96,53 @@ router.put("/reorder", async (req: Request, res: Response) => {
   }
 });
 
+// PATCH /api/partners/:id/toggle (Toggle show/hide status)
+router.patch("/:id/toggle", async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const db = await readJsonDbAsync<AcademicPartner>("partners.json");
+    const index = db.findIndex((p) => String(p.id) === String(id));
+    if (index === -1) {
+      return res.status(404).json({ error: "Partner not found" });
+    }
+
+    const current = db[index];
+    const newIsActive = req.body?.isActive !== undefined
+      ? Boolean(req.body.isActive)
+      : (current.isActive === false ? true : false);
+    current.isActive = newIsActive;
+
+    db[index] = current;
+    await writeJsonDbAsync("partners.json", db);
+
+    try {
+      await prisma.academicPartner.updateMany({
+        where: { id: String(id) },
+        data: { isActive: newIsActive },
+      });
+    } catch (e) {
+      console.warn("[toggle] direct update warning:", e);
+    }
+
+    return res.json({
+      success: true,
+      message: `Academic Partner is now ${newIsActive ? "visible" : "hidden"} on website`,
+      partner: current,
+      partners: db,
+    });
+  } catch (error: any) {
+    return res.status(500).json({ error: error?.message || "Failed to toggle partner visibility" });
+  }
+});
+
 // PUT /api/partners/:id (Update a partner)
 router.put("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { name, logo, website, city } = req.body;
+    const { name, logo, website, city, isActive } = req.body;
 
     const db = await readJsonDbAsync<AcademicPartner>("partners.json");
-    const index = db.findIndex((p) => p.id === id);
+    const index = db.findIndex((p) => String(p.id) === String(id));
     if (index === -1) {
       return res.status(404).json({ error: "Partner not found" });
     }
@@ -103,10 +154,25 @@ router.put("/:id", async (req: Request, res: Response) => {
       logo: logo !== undefined ? logo.trim() : current.logo,
       website: website !== undefined ? website.trim() : current.website,
       city: city !== undefined ? city.trim() : current.city,
+      isActive: isActive !== undefined ? Boolean(isActive) : (current.isActive !== undefined ? current.isActive : true),
     };
 
     db[index] = updated;
     await writeJsonDbAsync("partners.json", db);
+
+    try {
+      await prisma.academicPartner.updateMany({
+        where: { id: String(id) },
+        data: {
+          name: updated.name,
+          logo: updated.logo,
+          city: updated.city,
+          isActive: updated.isActive,
+        },
+      });
+    } catch (e) {
+      console.warn("[update] direct update warning:", e);
+    }
 
     return res.json({
       success: true,

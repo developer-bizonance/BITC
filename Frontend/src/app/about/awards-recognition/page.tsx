@@ -28,9 +28,9 @@ export default function AwardsRecognitionPage() {
     <div className="flex flex-col min-h-screen text-[15px]">
 
       {/* ── HERO ── */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] bg-white py-20 lg:py-28 overflow-hidden flex flex-col items-center justify-center">
+      <section className="relative w-full lg:min-h-[calc(100vh-80px)] bg-white py-14 sm:py-18 lg:py-28 overflow-hidden flex flex-col items-center justify-center">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] opacity-25 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent pointer-events-none" />
-        <div className="container max-w-[1000px] mx-auto px-4 text-center relative z-10 flex flex-col items-center justify-center my-auto">
+        <div className="container max-w-[1000px] mx-auto px-4 text-center relative z-10 flex flex-col items-center justify-center lg:my-auto">
           <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-medium rounded-full px-5 py-2 text-sm uppercase tracking-widest mb-8">
             <Trophy className="w-4 h-4" />
             Awards &amp; Recognition
@@ -47,7 +47,7 @@ export default function AwardsRecognitionPage() {
 
 
       {/* ── STUDENT & PLACEMENT ACHIEVEMENTS ── */}
-      <section className="py-16 md:py-24 bg-white text-slate-900">
+      <section className="py-12 sm:py-16 md:py-24 bg-white text-slate-900">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Student Achievements */}
@@ -167,10 +167,10 @@ export default function AwardsRecognitionPage() {
             We are just getting started. Our goal is to continue raising the bar for industry-integrated education in India and beyond.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/certifications" className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-medium flex items-center gap-2 justify-center hover:shadow-xl transition-all text-lg">
+            <Link href="/certifications" className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-800 font-normal flex items-center gap-2 justify-center hover:shadow-xl transition-all text-lg">
               Explore Certifications <ArrowRight className="w-5 h-5" />
             </Link>
-            <Link href="/contact" className="h-14 px-8 rounded-full bg-white/80 text-slate-700 font-medium flex items-center justify-center border border-blue-200/80 hover:border-blue-300 hover:bg-white transition-all text-lg shadow-sm backdrop-blur-sm">
+            <Link href="/contact" className="h-14 px-8 rounded-full bg-white/80 text-slate-600 font-normal flex items-center justify-center border border-blue-200/80 hover:border-blue-300 hover:bg-white transition-all text-lg shadow-sm backdrop-blur-sm">
               Contact Us
             </Link>
           </div>

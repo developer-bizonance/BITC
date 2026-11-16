@@ -13,18 +13,18 @@ export const metadata: Metadata = {
 
 export default function OurInfrastructurePage() {
   return (
-    <div className="flex flex-col min-h-[calc(100vh-80px)] text-[15px] items-center justify-center bg-white py-20">
+    <div className="flex flex-col min-h-[calc(100vh-80px)] text-[15px] items-center justify-center bg-white py-10 sm:py-20">
       <div className="text-center px-4 max-w-lg">
         <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-8 text-primary">
           <Hammer className="w-12 h-12" />
         </div>
-        <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">Coming <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Soon</span></h1>
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">Coming <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Soon</span></h1>
         <p className="text-lg text-gray-600 mb-10 leading-relaxed font-medium">
           We are currently working on showcasing our state-of-the-art infrastructure. Please check back later!
         </p>
-        <Link 
-          href="/" 
-          className="inline-flex h-14 items-center justify-center rounded-full px-10 text-base font-medium text-black shadow-lg transition-all hover:-translate-y-0.5 bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)]"
+        <Link
+          href="/"
+          className="inline-flex h-14 items-center justify-center rounded-full px-10 text-base font-normal text-slate-800 shadow-lg transition-all hover:-translate-y-0.5 bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)]"
         >
           Return Home
         </Link>

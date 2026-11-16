@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import WhoCanJoinSection from "@/components/WhoCanJoinSection";
 
 export const metadata: Metadata = {
   title: "About Us | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
@@ -8,6 +9,24 @@ export const metadata: Metadata = {
   openGraph: {
     title: "About Us | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
     description: "Learn about BITC, our mission, industry-aligned training methodology, and infrastructure in Amravati.",
+    images: [
+      {
+        url: "/og-image.png",
+        secureUrl: "/og-image.png",
+        width: 1200,
+        height: 630,
+        type: "image/png",
+        alt: "BIZONANCE Industrial Training Centre. (BITC) | Amravati Logo",
+      },
+      {
+        url: "/og-square.png",
+        secureUrl: "/og-square.png",
+        width: 800,
+        height: 800,
+        type: "image/png",
+        alt: "BIZONANCE Industrial Training Centre. (BITC) | Amravati Logo",
+      },
+    ],
   },
 };
 import { Card, CardContent } from "@/components/ui/card";
@@ -33,20 +52,23 @@ export default function AboutPage() {
     <div className="flex flex-col min-h-screen text-[15px]">
 
       {/* 1. Hero Section */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] bg-white overflow-hidden flex flex-col items-center justify-center">
-        {/* Subtle background glow removed */}
-        <div className="container max-w-[1000px] mx-auto px-4 text-center relative z-10 flex flex-col items-center justify-center -mt-20">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-slate-900 leading-[1.2]">
-            Empowering the Next Generation for <br className="hidden md:block"/> <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Industry Professionals</span>
+      <section className="relative w-full lg:min-h-[calc(100vh-80px)] bg-white py-14 sm:py-18 lg:py-24 overflow-hidden flex flex-col items-center justify-center">
+        <div className="container max-w-[1000px] mx-auto px-4 text-center relative z-10 flex flex-col items-center justify-center lg:my-auto">
+          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-medium rounded-full px-4 py-1.5 text-sm mb-6">
+            <BookOpen className="w-4 h-4" />
+            About BITC
+          </div>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-slate-900 leading-[1.2]">
+            Empowering the Next Generation for <br className="hidden md:block" /> <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Industry Professionals</span>
           </h1>
-          <p className="text-base md:text-lg text-gray-600 mb-8 mt-6 max-w-[900px] mx-auto leading-relaxed">
+          <p className="text-base md:text-lg text-gray-600 mt-6 max-w-[900px] mx-auto leading-relaxed">
             At <strong>BIZONANCE Industrial Training Centre (BITC)</strong>, we believe education should prepare students for the real world—not just the classroom. Our industry-integrated learning model combines expert mentorship, practical training, live projects, internships, and career guidance to help students build successful careers.
           </p>
         </div>
       </section>
 
       {/* 2. Who We Are */}
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-12 sm:py-16 md:py-24 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -66,8 +88,8 @@ export default function AboutPage() {
             <div className="relative">
               <div className="aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl relative">
                 <img
-                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1170&auto=format&fit=crop"
-                  alt="Team collaboration"
+                  src="/BITC Training Center Collaboration.png"
+                  alt="BITC Training Center Collaboration"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent mix-blend-overlay" />
@@ -97,7 +119,7 @@ export default function AboutPage() {
               <div key={i} className="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 flex flex-col justify-center relative group overflow-hidden cursor-default">
                 <div className="absolute -right-4 -top-4 w-20 h-20 bg-primary/5 rounded-full group-hover:scale-150 transition-transform duration-500" />
                 <div className="flex items-center gap-4 relative z-10">
-                  <div className="w-10 h-10 shrink-0 rounded-full text-black flex items-center justify-center font-black text-lg shadow-sm bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">
+                  <div className="w-10 h-10 shrink-0 rounded-full text-black flex items-center justify-center font-bold text-lg shadow-sm bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">
                     <CheckCircle2 className="w-5 h-5 text-black" />
                   </div>
                   <h3 className="text-base md:text-[16px] font-medium text-gray-600 leading-tight">{item}</h3>
@@ -106,8 +128,8 @@ export default function AboutPage() {
             ))}
           </div>
 
-          <p className="mt-12 text-base md:text-lg font-semibold text-slate-900">
-            Our goal is not simply to help students complete a course—but to prepare them for successful careers.
+          <p className="mt-12 text-base md:text-lg text-slate-900">
+            Our goal is not simply to help students complete a Certification—but to prepare them for successful careers.
           </p>
         </div>
       </section>
@@ -134,7 +156,7 @@ export default function AboutPage() {
               <Card key={i} className="bg-white border border-slate-200/80 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group">
                 <CardContent className="p-8">
                   <feature.icon className="w-12 h-12 text-primary mb-6 group-hover:scale-110 transition-transform duration-300" />
-                  <h3 className="text-xl font-medium mb-3 text-gray-600 group-hover:text-primary transition-colors">{feature.title}</h3>
+                  <h3 className="text-xl font-bold mb-3 text-slate-900 group-hover:text-primary transition-colors">{feature.title}</h3>
                   <p className="text-slate-600 leading-relaxed text-base">{feature.desc}</p>
                 </CardContent>
               </Card>
@@ -144,37 +166,7 @@ export default function AboutPage() {
       </section>
 
       {/* 5. Who We Serve */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="container max-w-[1200px] mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="order-2 lg:order-1 relative">
-              <div className="aspect-square max-w-[500px] mx-auto rounded-full bg-white flex items-center justify-center p-12">
-                <div className="w-full h-full rounded-full border-2 border-dashed border-primary/30 animate-[spin_20s_linear_infinite] absolute" />
-                <div className="grid grid-cols-2 gap-4 text-center z-10">
-                  {[
-                    "Engineering Students", "Diploma Students", "University Students", "Fresh Graduates",
-                    "Working Professionals", "Entrepreneurs", "Career Switchers", "Freelancers"
-                  ].map((audience, i) => (
-                    <div key={i} className="bg-white shadow-sm border border-gray-100 rounded-xl p-3 text-base font-semibold text-gray-700">
-                      {audience}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-            <div className="order-1 lg:order-2">
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Who Can Join <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC?</span></h2>
-              <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-6">
-                Whether you are starting your career or looking to upgrade your skills, BITC provides learning opportunities tailored to your goals. Our programs are designed for individuals across various educational and professional backgrounds who are eager to bridge the gap between theory and practice.
-              </p>
-              <div className="inline-flex items-center gap-2 text-primary font-medium bg-primary/5 px-6 py-3 rounded-full">
-                <GraduationCap className="w-5 h-5" />
-                <span>Empowering learners at every stage of their journey</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <WhoCanJoinSection />
 
       {/* 6. Our Learning Ecosystem */}
       <section className="py-16 md:py-24 bg-white">
@@ -196,7 +188,7 @@ export default function AboutPage() {
               <div key={i} className="bg-white p-5 md:p-6 rounded-2xl shadow-sm border-none hover:shadow-md transition-all duration-300 flex flex-col justify-center relative group overflow-hidden cursor-default">
                 <div className="absolute -right-4 -top-4 w-20 h-20 bg-primary/5 rounded-full group-hover:scale-150 transition-transform duration-500" />
                 <div className="flex items-center gap-4 relative z-10">
-                  <div className="w-10 h-10 shrink-0 rounded-full text-black flex items-center justify-center font-black text-lg shadow-sm bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">
+                  <div className="w-10 h-10 shrink-0 rounded-full text-black flex items-center justify-center font-bold text-lg shadow-sm bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">
                     {i + 1}
                   </div>
                   <h3 className="text-base md:text-[17px] font-medium text-gray-600">{step}</h3>
@@ -219,13 +211,13 @@ export default function AboutPage() {
               { number: "200+", label: "Live projects covered" },
               { number: "10+", label: "Industry Workshops" }
             ].map((stat, i) => (
-              <div key={i} className="p-6 bg-slate-50 rounded-2xl border border-slate-100/90 shadow-sm hover:bg-white hover:border-primary/60 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary/10 group flex flex-col items-center justify-center">
-                <div className="text-3xl md:text-4xl font-black mb-3 transform group-hover:scale-105 transition-transform duration-300">
+              <div key={i} className="p-6 bg-slate-50/80 rounded-2xl border border-slate-100 shadow-sm hover:bg-white hover:border-primary/60 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary/10 group flex flex-col items-center justify-center">
+                <div className="text-3xl md:text-4xl font-bold mb-3 transform group-hover:scale-105 transition-transform duration-300 opacity-90">
                   <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">
                     {stat.number}
                   </span>
                 </div>
-                <div className="text-sm font-bold text-slate-800  leading-tight">{stat.label}</div>
+                <div className="text-sm font-medium text-slate-500 leading-tight">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -282,15 +274,15 @@ export default function AboutPage() {
       {/* 9. CTA */}
       <section className="py-20 bg-white">
         <div className="container max-w-[800px] mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">Ready to Build Your <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Future?</span></h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Ready to Build Your <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Future?</span></h2>
           <p className="text-base md:text-lg text-gray-600 mb-10">
             Join BITC and experience an education designed around industry, innovation, and career growth.
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/certifications" className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-medium flex items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 text-lg">
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <Link href="/certifications" className="w-full sm:w-auto h-12 sm:h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-800 font-normal flex items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 text-base sm:text-lg">
               Explore Certifications
             </Link>
-            <Link href="/contact" className="h-14 px-8 rounded-full bg-white text-slate-700 font-medium flex items-center justify-center border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all text-lg">
+            <Link href="/contact" className="w-full sm:w-auto h-12 sm:h-14 px-8 rounded-full bg-white text-slate-600 font-normal flex items-center justify-center border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all text-base sm:text-lg">
               Contact Us
             </Link>
           </div>

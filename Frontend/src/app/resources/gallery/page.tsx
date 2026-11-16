@@ -29,12 +29,12 @@ function isVideoUrl(url: string): boolean {
 export default async function GalleryPage() {
   let images: (string | GalleryMediaItem)[] = [];
   let videos: (string | GalleryMediaItem)[] = [];
-  
+
   try {
     const apiUrl = getApiBase();
-    
+
     // Fetch gallery items without caching
-    const res = await fetch(`${apiUrl}/gallery`, { 
+    const res = await fetch(`${apiUrl}/gallery`, {
       cache: "no-store",
       headers: {
         "Pragma": "no-cache",
@@ -74,13 +74,13 @@ export default async function GalleryPage() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Hero */}
-      <section className="bg-white pt-16 pb-4 text-slate-900 text-center">
+      <section className="bg-white pt-12 sm:pt-16 pb-4 text-slate-900 text-center">
         <div className="container max-w-[1200px] mx-auto px-4">
           <ImageIcon className="w-12 h-12 text-primary mx-auto mb-4" />
-          <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight mb-4">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-[1.2] mb-4">
             Campus <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Gallery</span>
           </h1>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto font-medium">
+          <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed font-normal">
             Glimpses of life at BITC - from intensive training sessions to vibrant campus events.
           </p>
         </div>

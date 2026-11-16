@@ -26,6 +26,7 @@ import {
   rectSortingStrategy,
 } from "@dnd-kit/sortable";
 import { SortableItem } from "./uic/SortableItem";
+import DeleteConfirmModal from "./uic/DeleteConfirmModal.jsx";
 
 // Helper to extract YouTube ID
 const getYouTubeID = (url) => {
@@ -38,6 +39,8 @@ export default function VideoTestimonials() {
   const [videoTestimonials, setVideoTestimonials] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isAddOpen, setIsAddOpen] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(null); // { id, title }
+  const [deleting, setDeleting] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [currentTesti, setCurrentTesti] = useState(null);
 
@@ -112,8 +115,14 @@ export default function VideoTestimonials() {
     }
   };
 
-  const handleDelete = async (id, title) => {
-    if (!window.confirm(`Are you sure you want to delete "${title}"?`)) return;
+  const handleDelete = (id, title) => {
+    setConfirmDelete({ id, title });
+  };
+
+  const confirmAndDelete = async () => {
+    if (!confirmDelete) return;
+    const { id, title } = confirmDelete;
+    setDeleting(true);
     try {
       const res = await fetch(`${apiUrl}/video-testimonials/${id}`, {
         method: "DELETE",
@@ -127,6 +136,9 @@ export default function VideoTestimonials() {
     } catch (error) {
       console.error("Error deleting video testimonial", error);
       alert("Error deleting video testimonial");
+    } finally {
+      setDeleting(false);
+      setConfirmDelete(null);
     }
   };
 
@@ -180,20 +192,30 @@ export default function VideoTestimonials() {
 
   return (
     <div className="p-4 md:p-6 lg:p-8 space-y-6 max-w-[1400px] mx-auto min-h-[calc(100vh-5rem)]">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-gray-100">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
-            Video <span className="text-blue-600">Testimonials</span>
-          </h1>
-          <p className="text-sm text-slate-500 mt-1">Manage YouTube video testimonials shown on the Placements page.</p>
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-pink-100 text-pink-700 flex items-center justify-center font-normal">
+              <Play className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="text-lg font-bold text-gray-900">Video Testimonials</h2>
+                <span className="px-2 py-0.5 rounded-full text-[11px] font-normal bg-pink-50 text-pink-700 border border-pink-100">
+                  {videoTestimonials.length} Active
+                </span>
+              </div>
+              <p className="text-xs text-gray-500 mt-0.5">Manage YouTube video testimonials shown on the Placements page.</p>
+            </div>
+          </div>
         </div>
         <div className="flex items-center gap-2">
           <button
             onClick={fetchVideoTestimonials}
             disabled={loading}
-            className="flex items-center gap-1.5 px-3 py-2 hover: text-xs hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
+            className="flex items-center justify-center gap-1.5 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 hover:border-blue-300 rounded-full font-medium text-xs shadow-xs transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
+            <RefreshCw className={`w-3.5 h-3.5 text-blue-700 ${loading ? "animate-spin" : ""}`} />
             Refresh
           </button>
           <button
@@ -201,9 +223,9 @@ export default function VideoTestimonials() {
               setFormData({ title: "", name: "", youtubeUrl: "" });
               setIsAddOpen(true);
             }}
-            className="flex items-center gap-1.5 px-4 py-2 hover: hover: text-xs bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
+            className="flex items-center justify-center gap-1.5 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 hover:border-blue-300 rounded-full font-medium text-xs shadow-xs transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
           >
-            <Plus className="w-4 h-4" />
+            <Plus className="w-3.5 h-3.5 text-blue-700" />
             Add Video
           </button>
         </div>
@@ -251,9 +273,10 @@ export default function VideoTestimonials() {
                         </button>
                         <button
                           onClick={() => handleDelete(t.id, t.title)}
-                          className="w-8 h-8 rounded-full bg-white hover:bg-red-50 text-gray-500 hover:text-red-600 border border-gray-200 flex items-center justify-center transition-all shadow-sm"
+                          className="w-8 h-8 text-red-500 hover:text-white bg-white hover:bg-red-600 hover:border-red-600 rounded-full border border-slate-200 shadow-xs transition-all cursor-pointer inline-flex items-center justify-center active:scale-95"
+                          title="Delete Video Testimonial"
                         >
-                          <Trash2 className="w-3.5 h-3.5" />
+                          <Trash2 size={15} />
                         </button>
                       </div>
 
@@ -328,8 +351,7 @@ export default function VideoTestimonials() {
                       required
                       value={formData.title}
                       onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                      placeholder="e.g. From Non-IT to Full Stack Developer"
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm outline-none"
+                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm outline-none text-gray-500"
                     />
                   </div>
 
@@ -342,8 +364,7 @@ export default function VideoTestimonials() {
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="e.g. Ravi Kumar"
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm outline-none"
+                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm outline-none text-gray-500"
                     />
                   </div>
 
@@ -356,8 +377,7 @@ export default function VideoTestimonials() {
                       required
                       value={formData.youtubeUrl}
                       onChange={(e) => setFormData({ ...formData, youtubeUrl: e.target.value })}
-                      placeholder="e.g. https://www.youtube.com/watch?v=..."
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm outline-none"
+                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm outline-none text-gray-500"
                     />
                     {formData.youtubeUrl && (
                       <div className="mt-2 text-xs text-slate-500 flex items-center gap-2">
@@ -379,13 +399,13 @@ export default function VideoTestimonials() {
                       setIsAddOpen(false);
                       setIsEditOpen(false);
                     }}
-                    className="px-5 py-2.5 text-sm hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
+                    className="px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 rounded-full font-medium text-xs transition-all cursor-pointer active:scale-95 disabled:opacity-50"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-5 py-2.5 hover: text-sm hover: flex items-center gap-2 hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
+                    className="px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 rounded-full font-medium text-xs transition-all cursor-pointer active:scale-95 disabled:opacity-50"
                   >
                     <Save className="w-4 h-4" />
                     {isAddOpen ? "Add Video" : "Save Changes"}
@@ -396,6 +416,17 @@ export default function VideoTestimonials() {
           </div>
         )}
       </AnimatePresence>
+
+      {/* Centered Delete Confirmation Modal */}
+      <DeleteConfirmModal
+        isOpen={!!confirmDelete}
+        title="Remove Video Testimonial"
+        itemName={confirmDelete?.title}
+        from="Video Testimonials"
+        loading={deleting}
+        onConfirm={confirmAndDelete}
+        onCancel={() => setConfirmDelete(null)}
+      />
     </div>
   );
 }

@@ -1,6 +1,6 @@
-import { resolveImageUrl, getApiUrl } from "../utils";
+import { resolveImageUrl, getApiUrl, getSiteUrl } from "../utils";
 import React, { useState, useEffect } from "react";
-import { Plus, Trash2, Pencil, RefreshCw, X, Image as ImageIcon, GripVertical } from "lucide-react";
+import { Plus, Trash2, Pencil, RefreshCw, X, Image as ImageIcon, GripVertical, Building2, Briefcase, Eye, EyeOff } from "lucide-react";
 import ImageUpload from "./ImageUpload";
 import {
   DndContext,
@@ -19,23 +19,31 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-const DEFAULT_LOGOS = {
-  tcs: "/logos/tcs.svg",
-  infosys: "/logos/infosys.svg",
-  wipro: "/logos/wipro.svg",
-  hcl: "/logos/hcl.svg",
-  "tech mahindra": "/logos/tech-mahindra.svg",
-  techmahindra: "/logos/tech-mahindra.svg",
-  cognizant: "/logos/cognizant.svg",
-  accenture: "/logos/accenture.svg",
-  ibm: "/logos/ibm.svg",
-  microsoft: "/logos/microsoft.svg",
-  google: "/logos/google.svg",
-  amazon: "/logos/amazon.svg",
-  deloitte: "/logos/deloitte.svg",
+const formatAndDedupePartners = (list) => {
+  const unique = [];
+  const seenIds = new Set();
+  const seenNames = new Set();
+  for (const p of list || []) {
+    if (!p) continue;
+    const id = p.id ? String(p.id).trim() : "";
+    const normName = p.name ? p.name.trim().toLowerCase() : "";
+
+    if (id && seenIds.has(id)) continue;
+    if (normName && seenNames.has(normName)) continue;
+
+    if (id) seenIds.add(id);
+    if (normName) seenNames.add(normName);
+
+    unique.push({
+      ...p,
+      logo: p.logo?.trim() || "",
+    });
+  }
+  return unique;
 };
 
-const SortablePartnerCard = ({ partner, onEdit, onDelete }) => {
+const SortablePartnerCard = ({ partner, onEdit, onDelete, onToggleVisibility }) => {
+  const isVisible = partner.isActive !== false;
   const {
     attributes,
     listeners,
@@ -52,30 +60,17 @@ const SortablePartnerCard = ({ partner, onEdit, onDelete }) => {
     opacity: isDragging ? 0.8 : 1,
   };
 
-  const normalized = partner.name?.trim().toLowerCase() || "";
-  const fallbackLogo = DEFAULT_LOGOS[normalized] || "";
-  const initialLogo = partner.logo?.trim() || fallbackLogo;
-
-  const [imgSrc, setImgSrc] = useState(() => initialLogo ? resolveImageUrl(initialLogo) : "");
+  const initialLogo = partner.logo?.trim() || "";
+  const [imgSrc, setImgSrc] = useState(() => (initialLogo ? resolveImageUrl(initialLogo) : ""));
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
-    const freshLogo = partner.logo?.trim() || fallbackLogo;
+    const freshLogo = partner.logo?.trim() || "";
     setImgSrc(freshLogo ? resolveImageUrl(freshLogo) : "");
     setHasError(false);
-  }, [partner.logo, partner.name, fallbackLogo]);
+  }, [partner.logo]);
 
   const handleImageError = () => {
-    if (fallbackLogo && imgSrc !== resolveImageUrl(fallbackLogo)) {
-      setImgSrc(resolveImageUrl(fallbackLogo));
-      return;
-    }
-    const domain = normalized ? normalized.replace(/[^a-z0-9]/g, "") + ".com" : "";
-    const googleFavicon = domain ? `https://www.google.com/s2/favicons?sz=128&domain=${domain}` : "";
-    if (googleFavicon && imgSrc !== googleFavicon) {
-      setImgSrc(googleFavicon);
-      return;
-    }
     setHasError(true);
   };
 
@@ -83,61 +78,120 @@ const SortablePartnerCard = ({ partner, onEdit, onDelete }) => {
     <div
       ref={setNodeRef}
       style={style}
-      className={`group bg-white rounded-xl shadow-sm border overflow-hidden hover:shadow-md transition-all flex flex-col ${isDragging ? "border-blue-500 ring-2 ring-blue-100 shadow-lg" : "border-gray-100"}`}
+      className={`group rounded-2xl p-3 border transition-all duration-200 flex flex-col justify-between relative ${
+        isDragging
+          ? "border-blue-500 ring-2 ring-blue-100 shadow-lg z-20"
+          : !isVisible
+          ? "bg-slate-100/70 border-dashed border-amber-300 shadow-none opacity-85"
+          : "bg-slate-50/80 hover:bg-white border-slate-200/80 hover:border-blue-300 hover:shadow-md"
+      }`}
     >
-      <div 
-        className="aspect-square bg-gray-50 flex items-center justify-center relative p-6"
-      >
+      {/* Action Buttons: Toggle Visibility, Edit & Delete */}
+      <div className="absolute top-2 right-2 flex flex-col items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-30 pointer-events-auto">
+        <button
+          type="button"
+          onPointerDown={(e) => e.stopPropagation()}
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            if (onToggleVisibility) onToggleVisibility(partner);
+          }}
+          title={isVisible ? "Currently Visible on website (Click to Hide)" : "Currently Hidden from website (Click to Show)"}
+          className={`w-7 h-7 rounded-lg border shadow-xs flex items-center justify-center transition-all duration-300 cursor-pointer active:scale-95 pointer-events-auto hover:scale-110 ${
+            isVisible
+              ? "bg-emerald-50 text-emerald-600 border-emerald-300 hover:bg-amber-500 hover:text-white hover:border-amber-500 hover:shadow-md"
+              : "bg-amber-50 text-amber-600 border-amber-300 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 hover:shadow-md"
+          }`}
+        >
+          {isVisible ? (
+            <Eye className="w-3.5 h-3.5 transition-transform duration-300" />
+          ) : (
+            <EyeOff className="w-3.5 h-3.5 transition-transform duration-300" />
+          )}
+        </button>
+        <button
+          type="button"
+          onPointerDown={(e) => e.stopPropagation()}
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            if (onEdit) onEdit(partner);
+          }}
+          title="Edit Partner"
+          className="w-7 h-7 rounded-lg bg-white text-blue-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 border border-slate-200 shadow-xs flex items-center justify-center transition-all duration-200 cursor-pointer active:scale-95 pointer-events-auto"
+        >
+          <Pencil className="w-3.5 h-3.5" />
+        </button>
+        <button
+          type="button"
+          onPointerDown={(e) => e.stopPropagation()}
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            if (onDelete) onDelete(partner.id, partner.name);
+          }}
+          title="Delete Partner"
+          className="w-7 h-7 text-red-500 hover:text-white bg-white hover:bg-red-600 hover:border-red-600 rounded-lg border border-slate-200 shadow-xs transition-all cursor-pointer inline-flex items-center justify-center active:scale-95 pointer-events-auto"
+        >
+          <Trash2 size={13} />
+        </button>
+      </div>
+
+      {/* Card Content & Logo */}
+      <div className="h-20 sm:h-24 flex items-center justify-center relative px-2 py-1 my-1">
         {imgSrc && !hasError ? (
           <img
             src={imgSrc}
             alt={partner.name}
             onError={handleImageError}
-            className="w-full h-full object-contain pointer-events-none p-2"
+            className={`max-h-12 sm:max-h-14 w-auto max-w-[85%] object-contain pointer-events-none transition-all duration-200 ${
+              !isVisible ? "grayscale opacity-50" : ""
+            }`}
           />
         ) : (
-          <div className="flex flex-col items-center justify-center text-center p-2">
-            <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 font-black text-lg flex items-center justify-center mb-1">
+          <div className="flex flex-col items-center justify-center text-center p-1">
+            <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 font-black text-sm flex items-center justify-center mb-0.5">
               {partner.name ? partner.name.slice(0, 2).toUpperCase() : "IP"}
             </div>
             <span className="text-[10px] text-gray-400 font-medium">No Logo</span>
           </div>
         )}
-        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-          <button
-            onPointerDown={(e) => e.stopPropagation()}
-            onClick={() => onEdit(partner)}
-            className="p-2 bg-white/10 hover:bg-white/20 rounded-lg text-white transition-colors cursor-pointer"
-            title="Edit"
-          >
-            <Pencil className="w-4 h-4" />
-          </button>
-          <button
-            onPointerDown={(e) => e.stopPropagation()}
-            onClick={() => onDelete(partner.id, partner.name)}
-            className="p-2 bg-red-500/80 hover:bg-red-600 rounded-lg text-white transition-colors cursor-pointer"
-            title="Delete"
-          >
-            <Trash2 className="w-4 h-4" />
-          </button>
-        </div>
-        <div 
-          {...attributes} 
+
+        {/* Drag handle in bottom-left */}
+        <div
+          {...attributes}
           {...listeners}
-          className="absolute top-2 left-2 p-1.5 bg-white/80 hover:bg-white rounded-md text-gray-500 hover:text-gray-900 cursor-grab active:cursor-grabbing opacity-0 group-hover:opacity-100 transition-all shadow-sm"
+          className="absolute bottom-0.5 left-0.5 p-1 bg-white/90 hover:bg-white rounded-md text-gray-400 hover:text-gray-700 cursor-grab active:cursor-grabbing opacity-0 group-hover:opacity-100 transition-all shadow-xs z-20 pointer-events-auto"
           title="Drag to reorder"
         >
-          <GripVertical className="w-4 h-4" />
+          <GripVertical className="w-3.5 h-3.5" />
         </div>
       </div>
-      <div className="p-3 border-t border-gray-50 text-center">
-        <h3 className="font-medium text-gray-900 text-sm truncate">{partner.name}</h3>
+
+      {/* Name Footer */}
+      <div className="pt-1.5 border-t border-slate-100 text-center">
+        <h3 className="font-semibold text-slate-800 text-xs truncate">{partner.name}</h3>
       </div>
     </div>
   );
 };
 
-const IndustryPartners = () => {
+const IndustryPartners = ({
+  type = "partnerships",
+  apiPath: propApiPath,
+  title,
+  subtitle,
+}) => {
+  const isTopRecruiter = type === "top-recruiters" || type === "hiring" || type === "hiring-partners" || propApiPath === "hiring-partners";
+  const apiPath = propApiPath || (isTopRecruiter ? "hiring-partners" : "industry-partners");
+  const partnerLabel = isTopRecruiter ? "Top Recruiter" : "Industrial Partner";
+  const pageTitle = title || (isTopRecruiter ? "Top Recruiters" : "Industrial Partners");
+  const pageSubtitle = subtitle || (
+    isTopRecruiter
+      ? "Manage recruiters displayed in the Home page 'Trusted By' section and 'Our Top Recruiters' section (/placements/partners)."
+      : "Manage corporate company partners displayed in the 'Our Industrial Partners' section on the website (/partnership?tab=corporate)."
+  );
+
   const [partners, setPartners] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isAddOpen, setIsAddOpen] = useState(false);
@@ -148,7 +202,7 @@ const IndustryPartners = () => {
   const [confirmDelete, setConfirmDelete] = useState(null); // { id, name }
   const [deleting, setDeleting] = useState(false);
 
-  const [form, setForm] = useState({ name: "", logo: "" });
+  const [form, setForm] = useState({ name: "", logo: "", isActive: true });
   const [editForm, setEditForm] = useState({ name: "", logo: "" });
 
   const apiUrl = getApiUrl();
@@ -169,28 +223,64 @@ const IndustryPartners = () => {
     setTimeout(() => setNotification(null), 4000);
   };
 
+  const getVisibilityKey = () => `bitc_${apiPath || "industry"}_visibility_map`;
+
+  const getSavedVisibilityMap = () => {
+    try {
+      const raw = typeof window !== "undefined" ? localStorage.getItem(getVisibilityKey()) : null;
+      return raw ? JSON.parse(raw) : {};
+    } catch {
+      return {};
+    }
+  };
+
+  const saveVisibility = (id, isActive) => {
+    try {
+      const map = getSavedVisibilityMap();
+      map[id] = Boolean(isActive);
+      if (typeof window !== "undefined") {
+        localStorage.setItem(getVisibilityKey(), JSON.stringify(map));
+      }
+    } catch {}
+  };
+
   const fetchPartners = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${apiUrl}/industry-partners`);
-      if (res.ok) {
-        const data = await res.json();
-        const apiPartners = data.partners || [];
-        // Remove duplicates by name
-        const uniquePartners = [];
-        const seen = new Set();
-        for (const p of apiPartners) {
-          const norm = p.name?.trim().toLowerCase();
-          if (!seen.has(norm)) {
-            seen.add(norm);
-            uniquePartners.push({
-              ...p,
-              logo: p.logo?.trim() || DEFAULT_LOGOS[norm] || ""
-            });
-          }
+      let apiPartners = [];
+      try {
+        const res = await fetch(`${apiUrl}/${apiPath}?t=${Date.now()}`);
+        if (res.ok) {
+          const data = await res.json();
+          apiPartners = data.partners || [];
         }
-        setPartners(uniquePartners);
+      } catch (e) {
+        console.warn("Backend API fetch notice:", e);
       }
+
+      // Fallback to Next.js API if needed
+      if (apiPartners.length === 0) {
+        try {
+          const res = await fetch(`${getSiteUrl()}/api/${apiPath}`);
+          if (res.ok) {
+            const data = await res.json();
+            apiPartners = data.partners || [];
+          }
+        } catch {}
+      }
+
+      const visibilityMap = getSavedVisibilityMap();
+      const withVisibility = apiPartners.map((p) => {
+        let active = true;
+        if (visibilityMap[p.id] !== undefined) {
+          active = Boolean(visibilityMap[p.id]);
+        } else if (p.isActive !== undefined) {
+          active = p.isActive !== false && p.isActive !== "false";
+        }
+        return { ...p, isActive: active };
+      });
+
+      setPartners(formatAndDedupePartners(withVisibility));
     } catch (err) {
       console.warn("Failed to fetch industry partners:", err);
     } finally {
@@ -200,29 +290,80 @@ const IndustryPartners = () => {
 
   useEffect(() => {
     fetchPartners();
-  }, []);
+  }, [type, apiPath]);
 
   const handleAdd = async (e) => {
     e.preventDefault();
-    if (!form.name.trim() || !form.logo) {
-      showNotification("Please fill in the partner name and upload a logo", "error");
+    if (!form.name.trim()) {
+      showNotification("Please fill in the company name", "error");
+      return;
+    }
+    if (!form.logo?.trim()) {
+      showNotification("Please upload the company logo", "error");
       return;
     }
     setSubmitting(true);
     try {
-      const res = await fetch(`${apiUrl}/industry-partners`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setPartners(data.partners || [...partners, data.partner]);
+      let added = false;
+      let newPartnerData = null;
+      let returnedPartners = null;
+      let errorMessage = "Failed to add partner. Please try again.";
+
+      // 1. Try Backend API
+      try {
+        const res = await fetch(`${apiUrl}/${apiPath}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(form),
+        });
+        const data = await res.json();
+        if (res.ok) {
+          added = true;
+          newPartnerData = data.partner;
+          if (data.partners && Array.isArray(data.partners)) {
+            returnedPartners = data.partners;
+          }
+        } else if (data.error) {
+          errorMessage = data.error;
+        }
+      } catch (e) {
+        console.warn("Backend add partner notice:", e);
+      }
+
+      // 2. Try Next.js API Fallback
+      if (!added) {
+        try {
+          const res = await fetch(`${getSiteUrl()}/api/${apiPath}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(form),
+          });
+          const data = await res.json();
+          if (res.ok) {
+            added = true;
+            newPartnerData = data.partner;
+            if (data.partners && Array.isArray(data.partners)) {
+              returnedPartners = data.partners;
+            }
+          } else if (data.error) {
+            errorMessage = data.error;
+          }
+        } catch {}
+      }
+
+      if (added) {
+        if (returnedPartners) {
+          setPartners(formatAndDedupePartners(returnedPartners));
+        } else if (newPartnerData) {
+          setPartners((prev) => formatAndDedupePartners([...prev, newPartnerData]));
+        } else {
+          await fetchPartners();
+        }
         setIsAddOpen(false);
-        setForm({ name: "", logo: "" });
-        showNotification("Industry partner added successfully!");
+        setForm({ name: "", logo: "", isActive: true });
+        showNotification(`${partnerLabel} added successfully!`);
       } else {
-        showNotification(data.error || "Failed to add partner", "error");
+        showNotification(errorMessage, "error");
       }
     } catch (err) {
       showNotification("Network error", "error");
@@ -240,13 +381,46 @@ const IndustryPartners = () => {
     const { id, name } = confirmDelete;
     setDeleting(true);
     try {
-      const res = await fetch(`${apiUrl}/industry-partners/${id}`, { method: "DELETE" });
-      const data = await res.json();
-      if (res.ok) {
-        setPartners(data.partners || partners.filter((p) => p.id !== id));
+      let deleted = false;
+      let returnedPartners = null;
+
+      // 1. Try Backend API
+      try {
+        const res = await fetch(`${apiUrl}/${apiPath}/${id}`, { method: "DELETE" });
+        if (res.ok) {
+          deleted = true;
+          const data = await res.json();
+          if (data.partners && Array.isArray(data.partners)) {
+            returnedPartners = data.partners;
+          }
+        }
+      } catch (e) {
+        console.warn("Backend delete partner notice:", e);
+      }
+
+      // 2. Try Next.js API Fallback
+      if (!deleted) {
+        try {
+          const res = await fetch(`${getSiteUrl()}/api/${apiPath}?id=${id}`, { method: "DELETE" });
+          if (res.ok) {
+            deleted = true;
+            const data = await res.json();
+            if (data.partners && Array.isArray(data.partners)) {
+              returnedPartners = data.partners;
+            }
+          }
+        } catch {}
+      }
+
+      if (deleted) {
+        if (returnedPartners) {
+          setPartners(formatAndDedupePartners(returnedPartners));
+        } else {
+          setPartners((prev) => prev.filter((p) => p.id !== id));
+        }
         showNotification(`"${name}" removed successfully.`);
       } else {
-        showNotification(data.error || "Failed to delete partner", "error");
+        showNotification("Failed to delete partner.", "error");
       }
     } catch (err) {
       showNotification("Network error while deleting partner", "error");
@@ -257,32 +431,43 @@ const IndustryPartners = () => {
   };
 
   const openEdit = (partner) => {
-    const norm = partner.name?.trim().toLowerCase();
-    const currentLogo = partner.logo?.trim() || DEFAULT_LOGOS[norm] || "";
+    const currentLogo = partner.logo?.trim() || "";
     setEditingId(partner.id);
-    setEditForm({ name: partner.name || "", logo: currentLogo });
+    setEditForm({ name: partner.name || "", logo: currentLogo, isActive: partner.isActive !== false });
     setIsEditOpen(true);
   };
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
-    if (!editForm.name.trim() || !editForm.logo) {
-      showNotification("Please provide both a name and a logo", "error");
+    if (!editForm.name.trim()) {
+      showNotification("Please enter company name", "error");
+      return;
+    }
+    if (!editForm.logo?.trim()) {
+      showNotification("Please upload the company logo", "error");
       return;
     }
     setSubmitting(true);
     try {
-      const res = await fetch(`${apiUrl}/industry-partners/${editingId}`, {
+      const res = await fetch(`${apiUrl}/${apiPath}/${editingId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(editForm),
       });
       const data = await res.json();
       if (res.ok) {
-        setPartners(data.partners || partners.map((p) => (p.id === editingId ? data.partner : p)));
+        if (data.partners && Array.isArray(data.partners)) {
+          setPartners(formatAndDedupePartners(data.partners));
+        } else {
+          setPartners((prev) =>
+            formatAndDedupePartners(
+              prev.map((p) => (p.id === editingId ? { ...p, ...data.partner, ...editForm } : p))
+            )
+          );
+        }
         setIsEditOpen(false);
         setEditingId(null);
-        showNotification("Industry partner updated!");
+        showNotification(`${partnerLabel} updated successfully!`);
       } else {
         showNotification(data.error || "Failed to update", "error");
       }
@@ -290,6 +475,78 @@ const IndustryPartners = () => {
       showNotification("Network error", "error");
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  
+  const handleToggleVisibility = async (partner) => {
+    const newIsActive = partner.isActive === false ? true : false;
+
+    // 1. Immediately persist to localStorage
+    saveVisibility(partner.id, newIsActive);
+
+    // 2. Optimistic UI update
+    setPartners((prev) =>
+      prev.map((p) => (p.id === partner.id ? { ...p, isActive: newIsActive } : p))
+    );
+
+    try {
+      // Try Backend PATCH toggle endpoint first
+      let toggled = false;
+      let updatedPartners = null;
+      try {
+        const patchRes = await fetch(`${apiUrl}/${apiPath}/${partner.id}/toggle`, {
+          method: "PATCH",
+        });
+        if (patchRes.ok) {
+          toggled = true;
+          const data = await patchRes.json();
+          if (data.partners && Array.isArray(data.partners)) {
+            updatedPartners = data.partners;
+          }
+        }
+      } catch (e) {
+        console.warn("PATCH toggle error:", e);
+      }
+
+      // Fallback to PUT
+      if (!toggled) {
+        const res = await fetch(`${apiUrl}/${apiPath}/${partner.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...partner,
+            isActive: newIsActive,
+          }),
+        });
+        if (res.ok) {
+          toggled = true;
+          const data = await res.json();
+          if (data.partners && Array.isArray(data.partners)) {
+            updatedPartners = data.partners;
+          }
+        }
+      }
+
+      // Dual-sync to Next.js API
+      try {
+        await fetch(`${getSiteUrl()}/api/${apiPath}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: partner.id,
+            isActive: newIsActive,
+          }),
+        });
+      } catch (siteSyncErr) {
+        console.warn("Dual site sync notice:", siteSyncErr);
+      }
+
+      showNotification(
+        `"${partner.name}" is now ${newIsActive ? "visible on" : "hidden from"} website.`
+      );
+    } catch (err) {
+      console.warn("Network notice:", err);
     }
   };
 
@@ -305,7 +562,7 @@ const IndustryPartners = () => {
 
     try {
       const orderedIds = newPartners.map((p) => p.id);
-      const res = await fetch(`${apiUrl}/industry-partners/reorder`, {
+      const res = await fetch(`${apiUrl}/${apiPath}/reorder`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ orderedIds }),
@@ -320,12 +577,12 @@ const IndustryPartners = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50/50 p-4 md:p-8">
+    <div className="bg-transparent p-5 md:p-6 pt-6 md:pt-7 space-y-6 animate-in fade-in duration-200">
       {/* Custom Delete Confirmation Modal */}
       {confirmDelete && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 animate-in fade-in zoom-in-95 duration-200">
-            <h3 className="text-base font-bold text-slate-900 mb-2">Remove Industry Partner</h3>
+            <h3 className="text-base font-bold text-slate-900 mb-2">Remove {partnerLabel}</h3>
             <p className="text-sm text-slate-500 mb-6 leading-relaxed">
               Are you sure you want to remove{" "}
               <span className="font-semibold text-slate-700">"{confirmDelete.name}"</span>?
@@ -352,30 +609,43 @@ const IndustryPartners = () => {
         </div>
       )}
 
-      <div className="max-w-6xl mx-auto space-y-6">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">Industry Partners</h1>
-            <p className="text-sm text-gray-500 mt-1">
-              Manage the companies displayed in the "Our industry partners" section.
-            </p>
-          </div>
-          <div className="flex gap-3 w-full sm:w-auto">
-            <button
-              onClick={fetchPartners}
-              className="px-4 py-2 hover: text-sm flex items-center justify-center hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
-            >
-              <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
-            </button>
-            <button
-              onClick={() => setIsAddOpen(true)}
-              className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 hover: text-sm bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
-            >
-              <Plus className="w-4 h-4" />
-              Add Partner
-            </button>
+      {/* Header matching Academic Partners */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-gray-100">
+        <div>
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-normal">
+              <Building2 className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="text-lg font-bold text-gray-900">{pageTitle}</h2>
+              </div>
+              <p className="text-xs text-gray-500 mt-0.5">
+                {pageSubtitle}
+              </p>
+            </div>
           </div>
         </div>
+
+        <div className="flex items-center gap-2">
+          <button
+            onClick={fetchPartners}
+            disabled={loading}
+            className="flex items-center justify-center gap-1.5 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 hover:border-blue-300 rounded-full font-medium text-xs shadow-xs transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
+            title="Refresh Partners"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 text-blue-700 ${loading ? "animate-spin" : ""}`} />
+            Refresh
+          </button>
+          <button
+            onClick={() => setIsAddOpen(true)}
+            className="flex items-center justify-center gap-1.5 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 hover:border-blue-300 rounded-full font-medium text-xs shadow-xs transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
+          >
+            <Plus className="w-3.5 h-3.5 text-blue-700" />
+            Add New {isTopRecruiter ? "Recruiter" : "Partner"}
+          </button>
+        </div>
+      </div>
 
         {notification && (
           <div
@@ -401,16 +671,16 @@ const IndustryPartners = () => {
             <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
               <ImageIcon className="w-8 h-8 text-gray-400" />
             </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-1">No industry partners found</h3>
+            <h3 className="text-lg font-medium text-gray-900 mb-1">No {partnerLabel.toLowerCase()}s found</h3>
             <p className="text-gray-500 mb-6 max-w-md mx-auto">
-              You haven't added any industry partners yet. Add a partner to see them displayed here.
+              You haven't added any {partnerLabel.toLowerCase()}s yet. Add a partner to see them displayed here.
             </p>
             <button
               onClick={() => setIsAddOpen(true)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 hover: text-sm bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
+              className="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 hover:border-blue-300 rounded-full font-medium text-xs shadow-xs transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
             >
-              <Plus className="w-4 h-4" />
-              Add Your First Partner
+              <Plus className="w-4 h-4 text-blue-700" />
+              Add Your First {isTopRecruiter ? "Recruiter" : "Partner"}
             </button>
           </div>
         ) : (
@@ -423,13 +693,14 @@ const IndustryPartners = () => {
               items={partners.map(p => p.id)}
               strategy={rectSortingStrategy}
             >
-              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3.5">
                 {partners.map((partner) => (
                   <SortablePartnerCard
                     key={partner.id}
                     partner={partner}
                     onEdit={openEdit}
                     onDelete={handleDelete}
+                    onToggleVisibility={handleToggleVisibility}
                   />
                 ))}
               </div>
@@ -439,62 +710,72 @@ const IndustryPartners = () => {
 
         {/* Add Modal */}
         {isAddOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-            <div className="bg-white rounded-2xl w-full max-w-md shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-              <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
-                <h3 className="font-semibold text-gray-900">Add Industry Partner</h3>
-                <button
-                  onClick={() => setIsAddOpen(false)}
-                  className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
-                >
-                  <X className="w-4 h-4" />
-                </button>
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+            <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-gray-100 relative">
+              <button
+                onClick={() => setIsAddOpen(false)}
+                className="absolute top-5 right-5 text-gray-400 hover:text-gray-600 p-1.5 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-normal">
+                  {isTopRecruiter ? <Briefcase className="w-5 h-5" /> : <Building2 className="w-5 h-5" />}
+                </div>
+                <div>
+                  <h3 className="text-base font-semibold text-gray-900">Add {partnerLabel}</h3>
+                  <p className="text-xs text-gray-400">
+                    {isTopRecruiter
+                      ? "Enter company name and upload recruiter logo"
+                      : "Enter company name and upload partner logo"}
+                  </p>
+                </div>
               </div>
-              <form onSubmit={handleAdd} className="p-6 space-y-5">
-                <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-gray-700">Company Name</label>
+
+              <form onSubmit={handleAdd} className="space-y-4">
+                {/* 1. Company Name */}
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1.5">
+                    Company Name <span className="text-red-500">*</span>
+                  </label>
                   <input
                     type="text"
+                    required
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    placeholder="e.g. TCS, Wipro, Google"
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all text-sm"
-                    required
+                    className="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 text-gray-800"
                   />
                 </div>
-                <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-gray-700">Company Logo</label>
-                  <ImageUpload category="partners"
+
+                {/* 2. Logo */}
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1.5">
+                    Company Logo <span className="text-red-500">*</span>
+                  </label>
+                  <ImageUpload
+                    value={form.logo}
                     onChange={(url) => setForm({ ...form, logo: url })}
-                    label="Logo"
+                    category="partners"
+                    heightClassName="h-[180px]"
                   />
-                  {form.logo && (
-                    <div className="mt-3 relative rounded-lg border border-gray-200 overflow-hidden bg-gray-50 h-24 flex items-center justify-center">
-                      <img src={resolveImageUrl(form.logo)} alt="Preview" className="max-h-20 max-w-full object-contain p-2" />
-                      <button
-                        type="button"
-                        onClick={() => setForm({ ...form, logo: "" })}
-                        className="absolute top-2 right-2 p-1.5 bg-white/90 shadow-sm hover:bg-red-50 hover:text-red-600 rounded-md transition-colors"
-                      >
-                        <X className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  )}
                 </div>
-                <div className="pt-2 flex gap-3">
+
+                {/* Action Buttons on Bottom Right */}
+                <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
                   <button
                     type="button"
                     onClick={() => setIsAddOpen(false)}
-                    className="flex-1 px-4 py-2.5 hover: text-sm bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
+                    className="px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 font-medium text-xs rounded-full transition-all cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    disabled={submitting || !form.logo}
-                    className="flex-1 px-4 py-2.5 hover: disabled:opacity-50 disabled:cursor-not-allowed text-sm hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
+                    disabled={submitting}
+                    className="px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 font-medium text-xs rounded-full transition-all cursor-pointer disabled:opacity-50"
                   >
-                    {submitting ? "Adding..." : "Add Partner"}
+                    {submitting ? "Saving..." : "Add"}
                   </button>
                 </div>
               </form>
@@ -504,68 +785,78 @@ const IndustryPartners = () => {
 
         {/* Edit Modal */}
         {isEditOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-            <div className="bg-white rounded-2xl w-full max-w-md shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-              <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
-                <h3 className="font-semibold text-gray-900">Edit Industry Partner</h3>
-                <button
-                  onClick={() => setIsEditOpen(false)}
-                  className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
-                >
-                  <X className="w-4 h-4" />
-                </button>
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+            <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-gray-100 relative">
+              <button
+                onClick={() => setIsEditOpen(false)}
+                className="absolute top-5 right-5 text-gray-400 hover:text-gray-600 p-1.5 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-normal">
+                  {isTopRecruiter ? <Briefcase className="w-5 h-5" /> : <Building2 className="w-5 h-5" />}
+                </div>
+                <div>
+                  <h3 className="text-base font-semibold text-gray-900">Edit {partnerLabel}</h3>
+                  <p className="text-xs text-gray-400">
+                    {isTopRecruiter
+                      ? "Update company name and recruiter logo"
+                      : "Update company name and partner logo"}
+                  </p>
+                </div>
               </div>
-              <form onSubmit={handleEditSubmit} className="p-6 space-y-5">
-                <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-gray-700">Company Name</label>
+
+              <form onSubmit={handleEditSubmit} className="space-y-4">
+                {/* 1. Company Name */}
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1.5">
+                    Company Name <span className="text-red-500">*</span>
+                  </label>
                   <input
                     type="text"
+                    required
                     value={editForm.name}
                     onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all text-sm"
-                    required
+                    className="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 text-gray-800"
                   />
                 </div>
-                <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-gray-700">Company Logo</label>
-                  <ImageUpload category="partners"
+
+                {/* 2. Logo */}
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1.5">
+                    Company Logo <span className="text-red-500">*</span>
+                  </label>
+                  <ImageUpload
+                    value={editForm.logo}
                     onChange={(url) => setEditForm({ ...editForm, logo: url })}
-                    label="Logo"
+                    category="partners"
+                    heightClassName="h-[180px]"
                   />
-                  {editForm.logo && (
-                    <div className="mt-3 relative rounded-lg border border-gray-200 overflow-hidden bg-gray-50 h-24 flex items-center justify-center">
-                      <img src={resolveImageUrl(editForm.logo)} alt="Preview" className="max-h-20 max-w-full object-contain p-2" />
-                      <button
-                        type="button"
-                        onClick={() => setEditForm({ ...editForm, logo: "" })}
-                        className="absolute top-2 right-2 p-1.5 bg-white/90 shadow-sm hover:bg-red-50 hover:text-red-600 rounded-md transition-colors"
-                      >
-                        <X className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  )}
                 </div>
-                <div className="pt-2 flex gap-3">
+
+                {/* Action Buttons on Bottom Right */}
+                <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
                   <button
                     type="button"
                     onClick={() => setIsEditOpen(false)}
-                    className="flex-1 px-4 py-2.5 hover: text-sm bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
+                    className="px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 font-medium text-xs rounded-full transition-all cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    disabled={submitting || !editForm.logo}
-                    className="flex-1 px-4 py-2.5 hover: disabled:opacity-50 disabled:cursor-not-allowed text-sm hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
+                    disabled={submitting}
+                    className="px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 font-medium text-xs rounded-full transition-all cursor-pointer disabled:opacity-50"
                   >
-                    {submitting ? "Saving..." : "Save Changes"}
+                    {submitting ? "Saving..." : `Update ${partnerLabel}`}
                   </button>
                 </div>
               </form>
             </div>
           </div>
         )}
-      </div>
     </div>
   );
 };

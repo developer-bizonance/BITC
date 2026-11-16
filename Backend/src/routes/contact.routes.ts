@@ -1,7 +1,6 @@
 import { Router, Request, Response } from "express";
-import { readJsonDb, writeJsonDb } from "../dataStore.js";
+import { readJsonDbAsync, writeJsonDbAsync } from "../dataStore.js";
 import { sendInquiryEmail } from "../lib/email.js";
-
 import prisma from "../lib/prisma.js";
 
 const router = Router();
@@ -18,67 +17,101 @@ export interface ContactInquiry {
   createdAt: string;
 }
 
-// In-Memory store initialized with realistic sample contact inquiries
+const toIsoString = (val: any): string => {
+  if (!val) return new Date().toISOString();
+  if (val instanceof Date) return val.toISOString();
+  try {
+    const d = new Date(val);
+    return isNaN(d.getTime()) ? new Date().toISOString() : d.toISOString();
+  } catch {
+    return new Date().toISOString();
+  }
+};
 
-// GET /api/contact - List all contact form inquiries
+// GET /api/contact - List all contact form inquiries (excluding Student Consulting)
 router.get("/", async (_req: Request, res: Response) => {
   try {
     let dbInquiries: any[] = [];
     try {
       dbInquiries = await prisma.inquiry.findMany({
+        where: {
+          NOT: {
+            enquiryType: {
+              equals: "Student Consulting",
+              mode: "insensitive",
+            },
+          },
+        },
         orderBy: { createdAt: "desc" },
       });
     } catch (dbError) {
-      // Prisma optional in development
+      console.warn("[contact.routes] Prisma inquiry.findMany notice:", dbError);
     }
 
-    if (dbInquiries && dbInquiries.length > 0) {
-      // Merge DB inquiries with in-memory ones (avoiding duplicate IDs)
-      const dbIds = new Set(dbInquiries.map((i) => i.id));
-      const filteredInMemory = readJsonDb("contact.json").filter((i) => !dbIds.has(i.id));
-
-      const merged = [
-        ...dbInquiries.map((i) => ({
-          id: i.id,
-          name: i.name,
-          email: i.email,
-          phone: i.phone,
-          city: i.city || "Amravati",
-          enquiryType: i.enquiryType || "General Inquiry",
-          message: i.message,
-          status: (i.status as any) || "PENDING",
-          createdAt: i.createdAt ? new Date(i.createdAt).toISOString() : new Date().toISOString(),
-        })),
-        ...filteredInMemory,
-      ];
-
-      // Deduplicate by email, message, and date to prevent double-submissions from showing up twice
-      const seen = new Set();
-      const uniqueMerged = merged.filter((i) => {
-        const dateKey = i.createdAt ? i.createdAt.substring(0, 10) : "";
-        const key = `${i.email}-${i.message}-${dateKey}`;
-        if (seen.has(key)) return false;
-        seen.add(key);
-        return true;
-      });
-
-      return res.json({
-        success: true,
-        source: "database",
-        count: uniqueMerged.length,
-        inquiries: uniqueMerged,
-      });
+    let jsonInquiries: any[] = [];
+    try {
+      const loaded = await readJsonDbAsync<ContactInquiry>("contact.json");
+      jsonInquiries = Array.isArray(loaded) ? loaded : [];
+    } catch (jsonErr) {
+      console.warn("[contact.routes] readJsonDbAsync notice:", jsonErr);
     }
+
+    const isContactInquiry = (i: any) => {
+      if (!i || typeof i !== "object") return false;
+      const type = String(i.enquiryType || "").toLowerCase().trim();
+      return type !== "student consulting";
+    };
+
+    const cleanDbInquiries = Array.isArray(dbInquiries) ? dbInquiries.filter(isContactInquiry) : [];
+    const cleanJsonInquiries = Array.isArray(jsonInquiries) ? jsonInquiries.filter(isContactInquiry) : [];
+
+    const mapInquiry = (i: any) => ({
+      id: String(i?.id || `inq-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`),
+      name: String(i?.name || ""),
+      email: String(i?.email || ""),
+      phone: String(i?.phone || ""),
+      city: String(i?.city || "Amravati"),
+      enquiryType: String(i?.enquiryType || "General Inquiry"),
+      message: String(i?.message || ""),
+      status: (i?.status as any) || "PENDING",
+      createdAt: toIsoString(i?.createdAt),
+    });
+
+    const normalizedDb = cleanDbInquiries.map(mapInquiry);
+    const normalizedJson = cleanJsonInquiries.map(mapInquiry);
+
+    // Merge DB inquiries with in-memory ones (avoiding duplicate IDs)
+    const dbIds = new Set(normalizedDb.map((i) => i.id));
+    const filteredJson = normalizedJson.filter((i) => !dbIds.has(i.id));
+    const merged = [...normalizedDb, ...filteredJson];
+
+    // Deduplicate by email, message, and date to prevent double-submissions from showing up twice
+    const seen = new Set();
+    const uniqueMerged = merged.filter((i) => {
+      if (!i) return false;
+      const dateKey = i.createdAt ? String(i.createdAt).substring(0, 10) : "";
+      const emailKey = String(i.email || "").trim().toLowerCase();
+      const messageKey = String(i.message || "").trim().toLowerCase();
+      const key = `${emailKey}-${messageKey}-${dateKey}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
 
     return res.json({
       success: true,
-      source: "memory",
-      count: readJsonDb("contact.json").length,
-      inquiries: readJsonDb("contact.json"),
+      source: "database",
+      count: uniqueMerged.length,
+      inquiries: uniqueMerged,
     });
   } catch (error: any) {
     console.error("GET /api/contact error:", error);
-    return res.status(500).json({ success: false, error: "Failed to fetch contact inquiries." });
+    return res.json({
+      success: true,
+      source: "fallback",
+      count: 0,
+      inquiries: [],
+    });
   }
 });
 
@@ -126,8 +159,9 @@ router.post("/", async (req: Request, res: Response) => {
       createdAt: new Date().toISOString(),
     };
 
-    // 1. Add to In-Memory store (Prepend to top)
-    writeJsonDb("contact.json", [newInquiry, ...readJsonDb("contact.json")]);
+    // 1. Add to Database store (Prepend to top)
+    const existingInquiries = (await readJsonDbAsync<ContactInquiry>("contact.json")) || [];
+    await writeJsonDbAsync("contact.json", [newInquiry, ...existingInquiries]);
 
     // 2. Send Email Notification
     try {
@@ -186,10 +220,12 @@ router.patch(["/:id", "/:id/status"], async (req: Request, res: Response) => {
 
     const normalizedStatus = status.toUpperCase() as "PENDING" | "CONTACTED" | "RESOLVED" | "ARCHIVED";
 
-    // Update in memory
-    const inqIndex = readJsonDb("contact.json").findIndex((i) => i.id === id);
+    // Update in Database store
+    const db = await readJsonDbAsync<ContactInquiry>("contact.json");
+    const inqIndex = db.findIndex((i) => i.id === id);
     if (inqIndex !== -1) {
-      readJsonDb("contact.json")[inqIndex].status = normalizedStatus;
+      db[inqIndex].status = normalizedStatus;
+      await writeJsonDbAsync("contact.json", db);
     }
 
     // Update in DB if present
@@ -215,24 +251,50 @@ router.patch(["/:id", "/:id/status"], async (req: Request, res: Response) => {
 });
 
 // DELETE /api/contact/:id - Delete an inquiry
-router.delete("/:id", async (req: Request, res: Response) => {
+router.delete("/:id?", async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-
-    const db = readJsonDb("contact.json").filter((i) => i.id !== id); writeJsonDb("contact.json", db);
-
-    try {
-      await prisma.inquiry.delete({
-        where: { id },
-      });
-    } catch (dbError) {
-      // Prisma optional
+    const id = req.params.id || req.body?.id || req.query?.id;
+    if (!id) {
+      return res.status(400).json({ success: false, error: "Inquiry ID is required" });
     }
+    const cleanId = String(id).trim().toLowerCase();
+
+    // 1. Delete from ContactEntry table
+    try {
+      await prisma.contactEntry.deleteMany({
+        where: {
+          OR: [
+            { id: String(id) },
+            { id: { equals: cleanId, mode: "insensitive" } },
+          ],
+        },
+      });
+    } catch (dbError) {}
+
+    // 2. Also delete from Inquiry table
+    try {
+      await prisma.inquiry.deleteMany({
+        where: {
+          OR: [
+            { id: String(id) },
+            { id: { equals: cleanId, mode: "insensitive" } },
+          ],
+        },
+      });
+    } catch (dbError) {}
+
+    // 3. Update JSON store & CmsData
+    const db = await readJsonDbAsync<ContactInquiry>("contact.json");
+    const filteredDb = db.filter((i) => {
+      const iId = String(i.id || (i as any)._id || "").trim().toLowerCase();
+      return iId !== cleanId;
+    });
+    await writeJsonDbAsync("contact.json", filteredDb);
 
     return res.json({
       success: true,
       message: "Inquiry response deleted successfully.",
-      inquiries: readJsonDb("contact.json"),
+      inquiries: filteredDb,
     });
   } catch (error: any) {
     console.error("DELETE /api/contact/:id error:", error);

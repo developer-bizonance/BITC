@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { 
-  ShieldCheck, Search, Award, CheckCircle2, XCircle, 
-  Download, Calendar, User, BookOpen, ExternalLink,
+import {
+  ShieldCheck, Search, Award, CheckCircle2, XCircle,
+  Calendar, User, BookOpen, ExternalLink,
   Sparkles, Shield, Building2, RefreshCw, FileCheck
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -112,31 +112,26 @@ export default function CertificateVerificationPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white text-[15px]">
-      
-      {/* Hero Section */}
-      <section className="relative w-full bg-white py-16 lg:py-24 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full overflow-hidden pointer-events-none">
-          <div className="absolute -top-[30%] left-[20%] w-[50%] h-[50%] rounded-full bg-primary/10 blur-[120px]" />
-          <div className="absolute -bottom-[20%] right-[10%] w-[40%] h-[40%] rounded-full bg-blue-500/10 blur-[100px]" />
-        </div>
 
+      {/* Hero Section */}
+      <section className="relative w-full bg-white py-12 sm:py-16 lg:py-24 overflow-hidden">
         <div className="container max-w-[1100px] mx-auto px-4 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6">
             <ShieldCheck className="w-4 h-4 text-primary" />
-            <span>OFFICIAL certificate validation</span>
+            <span>Official certificate validation</span>
           </div>
 
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight mb-6 leading-tight">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-6 leading-[1.2]">
             Verify Student <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certificate</span>
           </h1>
 
-          <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed mb-10 font-medium">
+          <p className="text-base md:text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed mb-10 font-normal">
             Enter the unique Certificate ID or Registration Code printed on the BITC certificate to instantly validate its authenticity and view credential details.
           </p>
 
           {/* Search Box Card */}
           <div className="max-w-2xl mx-auto bg-white p-4 md:p-6 rounded-3xl border border-slate-200/80 shadow-2xl shadow-slate-900/10 relative z-20">
-            <form 
+            <form
               onSubmit={(e) => {
                 e.preventDefault();
                 handleVerify();
@@ -144,20 +139,19 @@ export default function CertificateVerificationPage() {
               className="flex flex-col sm:flex-row gap-3"
             >
               <div className="relative flex-1">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                 <input
                   type="text"
-                  placeholder="e.g. BITC-2026-FS-1042"
+                  placeholder="Enter Certificate ID or Registration Code"
                   value={certIdInput}
                   onChange={(e) => setCertIdInput(e.target.value)}
-                  className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-200 rounded-2xl text-slate-900 font-bold placeholder:text-slate-400 placeholder:font-normal focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all uppercase tracking-wider text-base"
+                  className="w-full h-14 px-5 bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 font-medium focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all uppercase tracking-wider text-base placeholder:normal-case placeholder:text-slate-400 placeholder:text-sm"
                 />
               </div>
 
               <Button
                 type="submit"
                 disabled={searching}
-                className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black text-base font-medium hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] shadow-lg shadow-orange-500/20 border-0 transition-all shrink-0"
+                className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-800 text-base font-normal hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] shadow-lg shadow-orange-500/20 border-0 transition-all shrink-0 cursor-pointer"
               >
                 {searching ? (
                   <RefreshCw className="w-5 h-5 animate-spin" />
@@ -169,25 +163,6 @@ export default function CertificateVerificationPage() {
                 )}
               </Button>
             </form>
-
-            {/* Quick Sample IDs */}
-            <div className="mt-5 pt-4 border-t border-slate-100 text-left">
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-2">Try Sample Certificate IDs:</span>
-              <div className="flex flex-wrap gap-2">
-                {Object.keys(sampleCertificates).map((id) => (
-                  <button
-                    key={id}
-                    onClick={() => {
-                      setCertIdInput(id);
-                      handleVerify(id);
-                    }}
-                    className="text-xs font-medium px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-primary/10 hover:text-primary border border-slate-200 transition-colors"
-                  >
-                    {id}
-                  </button>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -195,7 +170,7 @@ export default function CertificateVerificationPage() {
       {/* Verification Result Display */}
       <section className="py-16 md:py-20 bg-white relative z-10">
         <div className="container max-w-[900px] mx-auto px-4">
-          
+
           {searching && (
             <div className="p-12 text-center bg-white rounded-3xl border border-slate-200/80 shadow-md">
               <RefreshCw className="w-10 h-10 text-primary animate-spin mx-auto mb-4" />
@@ -213,7 +188,7 @@ export default function CertificateVerificationPage() {
                 No active record was found matching Certificate ID <span className="font-mono font-bold text-slate-900">"{certIdInput}"</span>. Please check the ID for typos or contact the BITC verification desk.
               </p>
               <Link href="/contact">
-                <Button variant="outline" className="rounded-full border-red-300 text-red-700 hover:bg-red-100 font-medium">
+                <Button variant="outline" className="rounded-full border-red-300 text-red-700 hover:bg-red-100 font-normal">
                   Contact support desk
                 </Button>
               </Link>
@@ -223,7 +198,7 @@ export default function CertificateVerificationPage() {
           {!searching && result && result !== "NOT_FOUND" && (
             <Card className="border-emerald-200 bg-white shadow-2xl rounded-3xl overflow-hidden relative">
               <div className="h-3 w-full bg-emerald-500" />
-              
+
               <CardContent className="p-8 md:p-12">
                 {/* Verified Header Badge */}
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-8 border-b border-slate-100">
@@ -315,28 +290,11 @@ export default function CertificateVerificationPage() {
                   </div>
                 </div>
 
-                {/* Footer Action Buttons */}
-                <div className="mt-8 pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+                {/* Footer Security Seal */}
+                <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between">
                   <div className="flex items-center gap-2 text-xs text-slate-500 font-medium">
                     <Shield className="w-4 h-4 text-emerald-600" />
-                    <span>Digital Security Seal Verified • Amravati, MH</span>
-                  </div>
-
-                  <div className="flex gap-3 w-full sm:w-auto">
-                    <Button 
-                      onClick={() => window.print()}
-                      variant="outline" 
-                      className="rounded-full border-slate-300 text-slate-700 font-medium hover:bg-slate-50 flex-1 sm:flex-none"
-                    >
-                      <Download className="w-4 h-4 mr-2" />
-                      Print / Download
-                    </Button>
-
-                    <Link href="/certifications">
-                      <Button className="rounded-full bg-slate-900 text-white font-medium hover:bg-slate-800 flex-1 sm:flex-none">
-                        Explore Certifications
-                      </Button>
-                    </Link>
+                    <span>Digital Security Seal Verified</span>
                   </div>
                 </div>
               </CardContent>
@@ -348,19 +306,19 @@ export default function CertificateVerificationPage() {
             <div className="grid md:grid-cols-3 gap-6">
               <Card className="border-0 shadow-md bg-white rounded-2xl p-6 text-center">
                 <ShieldCheck className="w-8 h-8 text-primary mx-auto mb-3" />
-                <h3 className="font-extrabold text-slate-900 mb-1">Instant <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Verification</span></h3>
+                <h3 className="font-bold text-slate-900 mb-1">Instant <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Verification</span></h3>
                 <p className="text-xs text-slate-600">Validates student credentials in real-time directly against official BITC records.</p>
               </Card>
 
               <Card className="border-0 shadow-md bg-white rounded-2xl p-6 text-center">
                 <Building2 className="w-8 h-8 text-orange-500 mx-auto mb-3" />
-                <h3 className="font-extrabold text-slate-900 mb-1">Employer <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Trusted</span></h3>
+                <h3 className="font-bold text-slate-900 mb-1">Employer <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Trusted</span></h3>
                 <p className="text-xs text-slate-600">Enables hiring managers and corporate recruiters to verify applicant skill certifications.</p>
               </Card>
 
               <Card className="border-0 shadow-md bg-white rounded-2xl p-6 text-center">
                 <Sparkles className="w-8 h-8 text-emerald-500 mx-auto mb-3" />
-                <h3 className="font-extrabold text-slate-900 mb-1"><span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Tamper-proof</span></h3>
+                <h3 className="font-bold text-slate-900 mb-1"><span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Tamper-proof</span></h3>
                 <p className="text-xs text-slate-600">Every certificate features a unique cryptographic hash and digital signature seal.</p>
               </Card>
             </div>

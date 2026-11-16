@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Plus, Trash2, Pencil, RefreshCw, X, HelpCircle } from "lucide-react";
+import { Plus, Trash2, Pencil, RefreshCw, X, CircleHelp } from "lucide-react";
 import {
   DndContext,
   closestCenter,
@@ -192,7 +192,7 @@ const FAQ = () => {
   };
 
   return (
-    <div className="p-5 md:p-6 max-w-7xl mx-auto space-y-4">
+    <div className="p-5 md:p-6 pt-6 md:pt-7 max-w-full mx-auto space-y-6 animate-in fade-in duration-200">
       {/* Custom Delete Confirmation Modal */}
       {confirmDelete && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -221,28 +221,33 @@ const FAQ = () => {
       )}
 
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-3 border-b border-slate-200 gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-gray-100">
         <div>
-          <h2 className="text-xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
-            <HelpCircle className="w-5 h-5 text-blue-600" /> FAQ Management
-          </h2>
-          <p className="text-xs text-slate-500 mt-0.5">Manage frequently asked questions and answers</p>
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-normal">
+              <CircleHelp className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="text-lg font-bold text-gray-900">FAQ Management</h2>
+                <span className="px-2 py-0.5 rounded-full text-[11px] font-normal bg-emerald-50 text-emerald-700 border border-emerald-100">
+                  {faqs.length} Active
+                </span>
+              </div>
+              <p className="text-xs text-gray-500 mt-0.5">
+                Manage frequently asked questions and answers
+              </p>
+            </div>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={fetchFaqs}
-            className="p-2 bg-white border border-slate-200 text-slate-600 rounded-xl hover:bg-slate-50 hover:text-blue-600 transition-colors shadow-2xs cursor-pointer"
-            title="Refresh"
-          >
-            <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin text-blue-600" : ""}`} />
-          </button>
-          <button
-            onClick={() => setIsAddOpen(true)}
-            className="flex items-center gap-1.5 px-3.5 py-2 hover: text-xs cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
-          >
-            <Plus className="w-4 h-4" /> Add FAQ
-          </button>
-        </div>
+
+        <button
+          onClick={() => setIsAddOpen(true)}
+          className="flex items-center justify-center gap-1.5 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 hover:border-blue-300 rounded-full font-medium text-xs shadow-xs transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
+        >
+          <Plus className="w-3.5 h-3.5" />
+          Add New FAQ
+        </button>
       </div>
 
       {notification && (
@@ -258,7 +263,7 @@ const FAQ = () => {
         </div>
       ) : faqs.length === 0 ? (
         <div className="bg-transparent p-8 text-center">
-          <HelpCircle className="w-10 h-10 text-slate-300 mx-auto mb-2" />
+          <CircleHelp className="w-10 h-10 text-slate-300 mx-auto mb-2" />
           <h3 className="text-sm font-medium text-gray-600 mb-1">No FAQs found</h3>
           <p className="text-xs text-slate-500">Get started by adding your first FAQ.</p>
         </div>
@@ -297,10 +302,10 @@ const FAQ = () => {
                     </button>
                     <button
                       onClick={() => handleDelete(faq.id, faq.question)}
-                      className="w-8 h-8 flex items-center justify-center bg-white text-red-600 hover:bg-red-600 hover:text-white hover:border-red-600 rounded-full border border-slate-200 shadow-xs transition-all cursor-pointer active:scale-95"
+                      className="w-8 h-8 text-red-500 hover:text-white bg-white hover:bg-red-600 hover:border-red-600 rounded-full border border-slate-200 shadow-xs transition-all cursor-pointer inline-flex items-center justify-center active:scale-95"
                       title="Delete FAQ"
                     >
-                      <Trash2 className="w-3.5 h-3.5" />
+                      <Trash2 size={15} />
                     </button>
                   </div>
                 </SortableItem>
@@ -323,19 +328,19 @@ const FAQ = () => {
             <div className="p-6 overflow-y-auto">
               <form id="add-faq-form" onSubmit={handleAdd} className="space-y-5">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Question</label>
-                  <input type="text" required value={form.question} onChange={(e) => setForm({ ...form, question: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium text-sm" placeholder="e.g. What is the fee structure?" />
+                  <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">Question</label>
+                  <input type="text" required value={form.question} onChange={(e) => setForm({ ...form, question: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-normal text-sm text-gray-500" />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Answer</label>
-                  <textarea rows={4} required value={form.answer} onChange={(e) => setForm({ ...form, answer: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium text-sm" placeholder="Detailed answer..."></textarea>
+                  <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">Answer</label>
+                  <textarea rows={4} required value={form.answer} onChange={(e) => setForm({ ...form, answer: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-normal text-sm text-gray-500"></textarea>
                 </div>
               </form>
             </div>
             <div className="px-6 py-4 border-t border-gray-100 flex justify-end gap-3 bg-gray-50">
-              <button type="button" onClick={() => setIsAddOpen(false)} className="px-5 py-2.5 text-sm hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">Cancel</button>
-              <button type="submit" form="add-faq-form" disabled={submitting} className="px-5 py-2.5 text-sm hover: disabled:opacity-70 flex items-center gap-2 hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">
-                {submitting ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />} Add FAQ
+              <button type="button" onClick={() => setIsAddOpen(false)} className="px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 rounded-full font-medium text-xs transition-all cursor-pointer active:scale-95 disabled:opacity-50">Cancel</button>
+              <button type="submit" form="add-faq-form" disabled={submitting} className="inline-flex items-center justify-center gap-2 px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 rounded-full font-medium text-xs shadow-xs transition-all cursor-pointer hover:scale-[1.02] active:scale-95 disabled:opacity-50">
+                {submitting ? <RefreshCw className="w-4 h-4 animate-spin shrink-0" /> : <Plus className="w-4 h-4 shrink-0" />} <span>Save Changes</span>
               </button>
             </div>
           </div>
@@ -355,19 +360,19 @@ const FAQ = () => {
             <div className="p-6 overflow-y-auto">
               <form id="edit-faq-form" onSubmit={handleEdit} className="space-y-5">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Question</label>
-                  <input type="text" required value={editForm.question} onChange={(e) => setEditForm({ ...editForm, question: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium text-sm" />
+                  <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">Question</label>
+                  <input type="text" required value={editForm.question} onChange={(e) => setEditForm({ ...editForm, question: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-normal text-sm text-gray-500" />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Answer</label>
-                  <textarea rows={4} required value={editForm.answer} onChange={(e) => setEditForm({ ...editForm, answer: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium text-sm"></textarea>
+                  <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">Answer</label>
+                  <textarea rows={4} required value={editForm.answer} onChange={(e) => setEditForm({ ...editForm, answer: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-normal text-sm text-gray-500"></textarea>
                 </div>
               </form>
             </div>
             <div className="px-6 py-4 border-t border-gray-100 flex justify-end gap-3 bg-gray-50">
-              <button type="button" onClick={() => setIsEditOpen(false)} className="px-5 py-2.5 text-sm hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">Cancel</button>
-              <button type="submit" form="edit-faq-form" disabled={submitting} className="px-5 py-2.5 text-sm hover: disabled:opacity-70 flex items-center gap-2 hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">
-                {submitting ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Pencil className="w-4 h-4" />} Save Changes
+              <button type="button" onClick={() => setIsEditOpen(false)} className="px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 rounded-full font-medium text-xs transition-all cursor-pointer active:scale-95 disabled:opacity-50">Cancel</button>
+              <button type="submit" form="edit-faq-form" disabled={submitting} className="inline-flex items-center justify-center gap-2 px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 rounded-full font-medium text-xs shadow-xs transition-all cursor-pointer hover:scale-[1.02] active:scale-95 disabled:opacity-50">
+                {submitting ? <RefreshCw className="w-4 h-4 animate-spin shrink-0" /> : <Pencil className="w-4 h-4 shrink-0" />} <span>Save Changes</span>
               </button>
             </div>
           </div>

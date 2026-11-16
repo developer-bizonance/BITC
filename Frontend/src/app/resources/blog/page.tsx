@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { BookOpen, Calendar, ArrowRight, User } from "lucide-react";
 import { getApiBase, resolveImageUrl } from "@/lib/utils";
+import BlogShareButton from "@/components/BlogShareButton";
 
 export const metadata: Metadata = {
   title: "Tech Blog & Insights | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
@@ -47,19 +48,23 @@ export default async function BlogPage() {
 
           uniqueBlogs.push(b);
         }
-        blogs = uniqueBlogs.map((b: any, i: number) => ({
-          id: b.id || b.slug || i,
-          title: b.title,
-          excerpt: b.content
-            ? b.content.replace(/<[^>]*>/g, "").trim().substring(0, 160) + "..."
-            : "No description available",
-          category: b.category || "General",
-          date: b.publishedAt
-            ? new Date(b.publishedAt).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" })
-            : "Recently",
-          author: b.author || "Admin",
-          image: b.image ? resolveImageUrl(b.image) : "",
-        }));
+        blogs = uniqueBlogs.map((b: any, i: number) => {
+          const blogSlug = normSlug(b.slug) || (b.title ? normSlug(b.title) : "") || b.id || `blog-${i}`;
+          return {
+            id: b.id || b.slug || i,
+            slug: blogSlug,
+            title: b.title,
+            excerpt: b.content
+              ? b.content.replace(/<[^>]*>/g, "").trim().substring(0, 160) + "..."
+              : "No description available",
+            category: b.category || "General",
+            date: b.publishedAt
+              ? new Date(b.publishedAt).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" })
+              : "Recently",
+            author: b.author || "Admin",
+            image: b.image ? resolveImageUrl(b.image) : "",
+          };
+        });
       }
     }
   } catch (error) {
@@ -69,13 +74,13 @@ export default async function BlogPage() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* 1. Hero Section */}
-      <section className="bg-white pt-16 pb-8 text-slate-900 text-center">
+      <section className="bg-white pt-12 sm:pt-16 pb-6 sm:pb-8 text-slate-900 text-center">
         <div className="container max-w-[1200px] mx-auto px-4">
           <BookOpen className="w-12 h-12 text-primary mx-auto mb-4" />
-          <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight mb-4">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-[1.2] mb-4">
             Our <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Blog</span>
           </h1>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto font-medium">
+          <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed font-normal">
             Stay updated with the latest tech trends, career advice, and news from BITC.
           </p>
         </div>
@@ -90,7 +95,10 @@ export default async function BlogPage() {
                 key={blog.id}
                 className="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-shadow group flex flex-col"
               >
-                <div className="h-48 overflow-hidden relative bg-slate-100 flex items-center justify-center">
+                <Link
+                  href={`/resources/blog/${blog.slug || blog.id}`}
+                  className="h-48 overflow-hidden relative bg-slate-100 flex items-center justify-center block"
+                >
                   {blog.image ? (
                     <img
                       src={blog.image}
@@ -104,7 +112,7 @@ export default async function BlogPage() {
                       <span className="text-xs font-medium text-slate-400">BITC Insights</span>
                     </div>
                   )}
-                </div>
+                </Link>
 
                 <div className="p-6 flex flex-col flex-1">
                   <div className="flex items-center gap-4 text-xs text-slate-500 font-medium mb-3">
@@ -116,18 +124,27 @@ export default async function BlogPage() {
                     </span>
                   </div>
                   <h3 className="text-xl font-medium text-gray-800 mb-3 group-hover:text-primary transition-colors line-clamp-2">
-                    {blog.title}
+                    <Link href={`/resources/blog/${blog.slug || blog.id}`}>
+                      {blog.title}
+                    </Link>
                   </h3>
                   <p className="text-slate-600 text-sm leading-relaxed mb-6 line-clamp-3">
                     {blog.excerpt}
                   </p>
 
-                  <Link
-                    href={`/resources/blog/${blog.id}`}
-                    className="mt-auto inline-flex items-center gap-2 text-primary font-semibold text-sm hover:gap-3 transition-all"
-                  >
-                    Read More <ArrowRight className="w-4 h-4" />
-                  </Link>
+                  <div className="mt-auto pt-2 flex items-center justify-between">
+                    <Link
+                      href={`/resources/blog/${blog.slug || blog.id}`}
+                      className="inline-flex items-center gap-2 text-primary font-semibold text-sm hover:gap-3 transition-all"
+                    >
+                      Read More <ArrowRight className="w-4 h-4" />
+                    </Link>
+                    <BlogShareButton
+                      url={`/resources/blog/${blog.slug || blog.id}`}
+                      title={blog.title}
+                      direction="up"
+                    />
+                  </div>
                 </div>
               </div>
             ))}

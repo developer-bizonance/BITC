@@ -126,7 +126,7 @@ export default function GalleryClient({ images = [], videos = [] }: GalleryClien
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
                           target.onerror = null;
-                          target.src = "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop";
+                          target.style.opacity = "0.6";
                         }}
                       />
                       {/* Gradient Hover Overlay */}

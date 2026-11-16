@@ -8,6 +8,7 @@ import { ArrowRight, BookOpen, Building2, CheckCircle2, GraduationCap, Users, Br
 import type { Metadata } from "next";
 import FeaturedCertifications from "@/components/FeaturedCertifications";
 import AcademicPartners from "@/components/AcademicPartners";
+import TrustedBy from "@/components/TrustedBy";
 import StudentSuccessStories from "@/components/StudentSuccessStories";
 import FacultySection from "@/components/FacultySection";
 
@@ -17,6 +18,30 @@ export const metadata: Metadata = {
   openGraph: {
     title: "BIZONANCE Industrial Training Centre | Amravati",
     description: "Accelerate your tech career with BITC. Master Full Stack Development, AI & ML, Data Science, and UI/UX Design with placement support.",
+    images: [
+      {
+        url: "/og-image.png",
+        secureUrl: "/og-image.png",
+        width: 1200,
+        height: 630,
+        type: "image/png",
+        alt: "BIZONANCE Industrial Training Centre. (BITC) | Amravati Logo",
+      },
+      {
+        url: "/og-square.png",
+        secureUrl: "/og-square.png",
+        width: 800,
+        height: 800,
+        type: "image/png",
+        alt: "BIZONANCE Industrial Training Centre. (BITC) | Amravati Logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BIZONANCE Industrial Training Centre | Amravati",
+    description: "Accelerate your tech career with BITC. Master Full Stack Development, AI & ML, Data Science, and UI/UX Design with placement support.",
+    images: ["/og-image.png"],
   },
 };
 
@@ -27,7 +52,7 @@ export default function Home() {
 
 
       {/* 1. Hero Section */}
-      <section className="relative w-full bg-white min-h-[calc(100vh-62px)] py-6 sm:py-8 lg:py-10 overflow-hidden flex items-center justify-center">
+      <section className="relative w-full bg-white lg:min-h-[calc(100vh-62px)] py-6 sm:py-8 lg:py-10 overflow-hidden flex items-center justify-center">
         {/* Subtle background glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] opacity-25 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent pointer-events-none" />
 
@@ -35,8 +60,8 @@ export default function Home() {
 
           {/* Left Content */}
           <div className="w-full lg:w-[55%] xl:w-[52%] flex flex-col justify-center">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-slate-900 leading-[1.2]">
-              <span className="block whitespace-nowrap">Learn from Industry Experts</span>
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold mb-4 text-slate-900 leading-[1.2]">
+              <span className="block sm:whitespace-nowrap">Learn from Industry Experts</span>
               <span className="block text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] leading-[1.2]">Become a Certified and Industry Ready</span>
             </h1>
 
@@ -55,11 +80,8 @@ export default function Home() {
             </div>
 
             <div className="flex flex-wrap items-center gap-3 lg:gap-4">
-              <Link href="#featured-certifications" className="h-11 sm:h-12 lg:h-14 px-6 sm:px-7 lg:px-9 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black text-sm sm:text-base lg:text-lg font-medium flex items-center justify-center hover:opacity-90 transition-all shadow-lg shadow-orange-500/25 hover:shadow-xl hover:-translate-y-0.5">
+              <Link href="#featured-certifications" className="w-full sm:w-auto h-11 sm:h-12 lg:h-14 px-6 sm:px-7 lg:px-9 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-800 text-sm sm:text-base lg:text-lg font-normal flex items-center justify-center hover:opacity-90 transition-all shadow-lg shadow-orange-500/25 hover:shadow-xl hover:-translate-y-0.5">
                 Explore Certifications <ArrowRight className="ml-2 w-4 h-4 lg:w-5 lg:h-5" />
-              </Link>
-              <Link href="/contact" className="h-11 sm:h-12 lg:h-14 px-6 sm:px-7 lg:px-9 rounded-full bg-gray-100 text-slate-700 text-sm sm:text-base lg:text-lg font-medium flex items-center justify-center hover:bg-gray-200 transition-all shadow-xs">
-                Contact Us
               </Link>
             </div>
           </div>
@@ -88,11 +110,11 @@ export default function Home() {
       {/* 5. Featured Certifications */}
       <section id="featured-certifications" className="py-12 md:py-20 bg-white">
         <div className="container max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-end mb-5">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-slate-dark mb-1">Our <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span></h2>
-              <p className="text-gray-500 text-[16px]">Master the skills that top companies are looking for.</p>
-            </div>
+          <div className="text-center mb-8 max-w-2xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">
+              Our <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span>
+            </h2>
+            <p className="text-gray-500 text-[16px]">Master the skills that top companies are looking for.</p>
           </div>
 
           <FeaturedCertifications />
@@ -104,27 +126,27 @@ export default function Home() {
         <div className="container max-w-[1200px] mx-auto bg-transparent relative overflow-hidden">
 
 
-          <div className="relative z-10 px-6 py-16 md:py-20 md:px-16 flex flex-col md:flex-row items-center justify-between gap-12">
+          <div className="relative z-10 px-4 sm:px-6 py-10 md:py-20 md:px-16 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12">
             <div className="max-w-2xl text-center md:text-left">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-orange-600 text-sm font-medium mb-6 shadow-sm">
                 <Medal className="w-4 h-4 text-orange-500" />
                 BITC Scholarship for Students
               </div>
-              <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-tight tracking-tight">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-6 leading-[1.2]">
                 Up to <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">50% Scholarship</span><br />For Deserving Students.
               </h2>
-              <p className="text-lg text-slate-600 leading-relaxed mb-8 font-medium max-w-xl mx-auto md:mx-0">
+              <p className="text-base sm:text-lg text-gray-500 leading-relaxed mb-8 font-normal max-w-xl mx-auto md:mx-0">
                 We believe financial constraints should never hold back true talent. Unlock your potential and let us fund your tech career journey.
               </p>
 
-              <Link href="/scholarships" className="inline-flex h-14 items-center justify-center rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] px-8 text-lg font-medium text-black shadow-lg hover:shadow-xl hover:scale-105 hover:shadow-orange-500/20 transition-all duration-300">
+              <Link href="/scholarships" className="inline-flex w-full sm:w-auto h-12 sm:h-14 items-center justify-center rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] px-8 text-base md:text-lg font-normal text-slate-800 shadow-lg hover:shadow-xl hover:scale-105 hover:shadow-orange-500/20 transition-all duration-300">
                 Check eligibility criteria <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
             </div>
 
-            <div className="hidden md:flex w-full max-w-[500px] items-center justify-center relative">
-              <div className="w-full h-[450px] relative z-10 hover:-translate-y-2 transition-transform duration-500">
-                <img src="/student-grad-nobg.png" alt="Student in graduation gown" className="w-full h-full object-contain scale-[1.25]" />
+            <div className="flex w-full max-w-[300px] sm:max-w-[380px] md:max-w-[500px] items-center justify-center relative mt-4 md:mt-0">
+              <div className="w-full h-[260px] sm:h-[340px] md:h-[450px] relative z-10 hover:-translate-y-2 transition-transform duration-500">
+                <img src="/student-grad-nobg.png" alt="Student in graduation gown" className="w-full h-full object-contain scale-105 md:scale-[1.25]" />
               </div>
             </div>
           </div>
@@ -183,7 +205,7 @@ export default function Home() {
             ].map((feature, i) => (
               <Card key={i} className="border border-gray-100 shadow-sm hover:shadow-md transition-shadow group bg-white">
                 <CardContent className="p-5 flex items-start gap-4">
-                  <div className="w-10 h-10 bg-primary/5 flex items-center justify-center rounded-xl shrink-0 group-hover:bg-primary group-hover:-translate-y-1 transition-all duration-300">
+                  <div className="w-10 h-10 bg-primary/5 flex items-center justify-center rounded-xl shrink-0 group-hover:bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] group-hover:shadow-md group-hover:shadow-orange-500/20 group-hover:-translate-y-1 transition-all duration-300">
                     <feature.icon className="h-4 w-4 text-primary group-hover:text-black transition-colors" />
                   </div>
                   <div>
@@ -245,87 +267,37 @@ export default function Home() {
       {/* Faculty Section */}
       <FacultySection />
 
-      <section className="py-16 md:py-24 bg-white relative">
-        <div className="container max-w-[1400px] mx-auto px-4 relative z-10">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+      <section className="py-12 md:py-16 bg-white relative">
+        <div className="container max-w-[1100px] mx-auto px-4 relative z-10">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3">
               100% <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Placement Assistance</span>
             </h2>
-            <p className="text-gray-500 text-[16px] max-w-2xl mx-auto">Our dedicated placement cell ensures you get the right launchpad for your career.</p>
+            <p className="text-gray-500 text-sm md:text-base max-w-xl mx-auto">Our dedicated placement cell ensures you get the right launchpad for your career.</p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 text-center">
             {[
               { stat: "10+", label: "Hiring Partners" },
               { stat: "500+", label: "Students Certified" },
               { stat: "12 LPA", label: "Highest Package" },
               { stat: "95%", label: "Placement Ratio" }
             ].map((item, index) => (
-              <div key={index} className="p-8 bg-slate-50 rounded-2xl border border-slate-100/90 shadow-sm hover:bg-white hover:border-primary/60 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary/10 group">
-                <div className="text-4xl md:text-5xl font-black mb-3 transform group-hover:scale-105 transition-transform duration-300">
+              <div key={index} className="p-5 md:p-6 bg-slate-50 rounded-2xl border border-slate-100/90 shadow-sm hover:bg-white hover:border-primary/60 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary/10 group">
+                <div className="text-3xl md:text-4xl font-bold mb-2 opacity-65 group-hover:opacity-100 transform group-hover:scale-105 transition-all duration-300">
                   <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">
                     {item.stat}
                   </span>
                 </div>
-                <div className="text-[14px] font-extrabold text-slate-800  tracking-wider">{item.label}</div>
+                <div className="text-xs md:text-[13px] font-bold text-slate-800 tracking-wider">{item.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 2. Trusted by Colleges & Companies */}
-      <section className="py-6 bg-slate-50 text-slate-800 relative overflow-hidden my-2">
-        <div className="container max-w-[1400px] mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12 opacity-80 pt-8 pb-4 border-t border-slate-100 overflow-hidden">
-            <div className="flex items-center gap-3 shrink-0 z-10 bg-white md:pr-4">
-              <div className="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
-              <p className="text-sm font-bold text-slate-800 tracking-[0.2em] uppercase">
-                Trusted By
-              </p>
-            </div>
-
-            <div className="flex-1 overflow-hidden relative w-full [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-              <style dangerouslySetInnerHTML={{
-                __html: `
-                  @keyframes trustedMarquee {
-                    0% { transform: translateX(0%); }
-                    100% { transform: translateX(-50%); }
-                  }
-                  .animate-trusted-marquee {
-                    animation: trustedMarquee 35s linear infinite;
-                  }
-                  .animate-trusted-marquee:hover {
-                    animation-play-state: paused;
-                  }
-                `
-              }} />
-              <div className="flex w-max animate-trusted-marquee items-center gap-12 md:gap-16">
-                {[...Array(2)].flatMap(() => [
-                  { name: "TCS", logo: "https://upload.wikimedia.org/wikipedia/en/b/b1/Tata_Consultancy_Services.svg" },
-                  { name: "Infosys", logo: "https://upload.wikimedia.org/wikipedia/commons/9/95/Infosys_logo.svg" },
-                  { name: "Wipro", logo: "https://upload.wikimedia.org/wikipedia/commons/a/a0/Wipro_Primary_Logo_Color_RGB.svg" },
-                  { name: "Tech Mahindra", logo: "https://upload.wikimedia.org/wikipedia/commons/3/34/Tech_Mahindra_New_Logo.svg" },
-                  { name: "HCL", logo: "https://upload.wikimedia.org/wikipedia/commons/8/8a/HCL_Technologies_logo.svg" },
-                  { name: "Cognizant", logo: "https://upload.wikimedia.org/wikipedia/commons/4/43/Cognizant_logo_2022.svg" },
-                  { name: "Accenture", logo: "https://upload.wikimedia.org/wikipedia/commons/1/1c/Accenture_logo.svg" },
-                  { name: "IBM", logo: "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" },
-                  { name: "Microsoft", logo: "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg" },
-                  { name: "Capgemini", logo: "https://upload.wikimedia.org/wikipedia/commons/9/9d/Capgemini_201x_logo.svg" }
-                ]).map((company, i) => (
-                  <div key={i} className="flex items-center justify-center transition-all duration-300 shrink-0">
-                    <img
-                      src={company.logo}
-                      alt={company.name}
-                      className="h-5 md:h-6 lg:h-7 w-auto object-contain max-w-[90px] md:max-w-[110px]"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* 2. Trusted By Marquee (Dynamic from database) */}
+      <TrustedBy />
 
       {/* Student Consulting Center */}
       <section className="py-16 md:py-24 bg-white text-slate-900 relative overflow-hidden">
@@ -334,25 +306,25 @@ export default function Home() {
           <div className="md:w-[55%] text-center md:text-left">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-sm font-medium mb-6 shadow-sm">
               <Compass className="w-4 h-4" />
-              Student counseling center
+              Student Counseling Center
             </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">Career Guidance & <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Counseling</span></h2>
-            <p className="text-gray-600 text-lg mb-8 max-w-lg mx-auto md:mx-0 leading-relaxed">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">Career Guidance & <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Counseling</span></h2>
+            <p className="text-gray-600 text-base sm:text-lg mb-8 max-w-lg mx-auto md:mx-0 leading-relaxed">
               Get personalized career guidance, expert advice on Certifications, and a clear roadmap for your professional journey. Talk to our career counselors today!
             </p>
-            <div className="flex flex-wrap justify-center md:justify-start gap-4">
+            <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
               <Dialog>
-                <DialogTrigger className="h-12 md:h-14 px-6 md:px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-900 text-base md:text-lg font-medium flex items-center justify-center hover:opacity-90 transition-all shadow-lg shadow-orange-500/20">
+                <DialogTrigger className="w-full sm:w-auto h-12 md:h-14 px-6 md:px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-800 text-base md:text-lg font-normal flex items-center justify-center hover:opacity-90 transition-all shadow-lg shadow-orange-500/20 cursor-pointer">
                   Book your consultation <ArrowRight className="ml-2 w-5 h-5" />
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-md bg-white border border-gray-100 p-6 md:p-8 rounded-3xl">
+                <DialogContent className="sm:max-w-md bg-white border border-gray-100 p-5 sm:p-6 md:p-7 rounded-3xl max-h-[92vh] overflow-y-auto no-scrollbar [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                   <DialogHeader>
-                    <DialogTitle className="text-2xl font-bold text-slate-900 text-center mb-2">Book a Free Consultation</DialogTitle>
+                    <DialogTitle className="text-xl sm:text-2xl font-bold text-slate-900 text-center mb-1">Book a Free Consultation</DialogTitle>
                   </DialogHeader>
                   <ConsultationForm />
                 </DialogContent>
               </Dialog>
-              <Link href="/about/student-consulting-center" className="h-12 md:h-14 px-6 md:px-8 rounded-full border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-slate-700 text-base md:text-lg font-medium flex items-center justify-center transition-all">
+              <Link href="/about/student-consulting-center" className="w-full sm:w-auto h-12 md:h-14 px-6 md:px-8 rounded-full border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-slate-700 text-base md:text-lg font-medium flex items-center justify-center transition-all">
                 Learn More
               </Link>
             </div>

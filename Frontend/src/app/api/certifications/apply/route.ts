@@ -1,17 +1,30 @@
 import { NextResponse } from "next/server";
-import { applicationsDb } from "@/lib/userStore";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
+import { getApiBase } from "@/lib/utils";
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With",
+};
+
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 204,
+    headers: corsHeaders,
+  });
+}
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { courseId, courseTitle, name, email, phone } = body;
+    const { courseId, courseTitle, name, email, phone, city, qualification, specialization, message } = body;
 
     if (!courseId || !courseTitle || !name || !email || !phone) {
       return NextResponse.json(
         { error: "All application fields are required" },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
 
@@ -39,24 +52,30 @@ export async function POST(request: Request) {
       userId = `GUEST-${Date.now()}`;
     }
 
+    const appId = `APP-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+
     const newApplication = {
-      id: `APP-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`,
+      id: appId,
+      fullId: appId,
       userId: userId,
       userName: name,
       userEmail: email,
       userPhone: phone,
+      name,
+      email,
+      phone,
+      city: city || "",
+      qualification: qualification || "",
+      specialization: specialization || "",
+      message: message || "",
       courseId,
       courseTitle,
       status: "UNDER_REVIEW" as const,
       appliedAt: new Date().toISOString(),
     };
 
-    // Save in memory fallback
-    applicationsDb.push(newApplication);
-
     // Persist into Neon DB
     try {
-      // Find course matching slug, ID, or title
       let dbCourse = await prisma.course.findFirst({
         where: {
           OR: [
@@ -68,13 +87,12 @@ export async function POST(request: Request) {
         },
       });
 
-      // If course doesn't exist in DB, fallback to first course or create minimal record
       if (!dbCourse) {
         dbCourse = await prisma.course.findFirst();
       }
 
       if (dbCourse && !userId.startsWith("GUEST-")) {
-        const createdApp = await prisma.application.create({
+        await prisma.application.create({
           data: {
             userId: userId,
             courseId: dbCourse.id,
@@ -84,20 +102,43 @@ export async function POST(request: Request) {
             status: "UNDER_REVIEW",
           },
         });
-        console.log("Successfully saved application to Neon DB:", createdApp.id);
       }
+
+      const existingRecord = await prisma.cmsData.findUnique({
+        where: { key: "course-applications.json" },
+      });
+      const currentList: any[] = Array.isArray(existingRecord?.data)
+        ? (existingRecord.data as any[])
+        : [];
+      const updatedList = [newApplication, ...currentList.filter((a) => a.id !== appId)];
+      await prisma.cmsData.upsert({
+        where: { key: "course-applications.json" },
+        update: { data: updatedList as any },
+        create: { key: "course-applications.json", data: updatedList as any },
+      });
+
+      // Sync to central API store
+      const backendBase = getApiBase();
+      await fetch(`${backendBase}/cms/course-applications`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ data: updatedList }),
+      }).catch(() => {});
     } catch (dbError) {
       console.error("Neon DB application save error:", dbError);
     }
 
-    return NextResponse.json({
-      message: "Application submitted successfully",
-      application: newApplication,
-    });
+    return NextResponse.json(
+      {
+        message: "Application submitted successfully",
+        application: newApplication,
+      },
+      { status: 201, headers: corsHeaders }
+    );
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to submit course application" },
-      { status: 500 }
+      { status: 500, headers: corsHeaders }
     );
   }
 }

@@ -41,12 +41,13 @@ model Course {
   title        String
   category     String
   duration     String
-  fees         String        @default("₹36,000")
-  price        Int           @default(36000)
+  fees         String        @default("")
+  price        Int           @default(0)
   description  String
   features     String[]
   image        String?
   curriculum   Json?
+  order        Int           @default(0)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   inquiries    Inquiry[]
@@ -59,44 +60,55 @@ model Inquiry {
   email       String
   phone       String
   city        String?
+  school      String?
+  college     String?
+  collegeName String?
   enquiryType String?  @default("General Inquiry")
   message     String
   status      String   @default("PENDING") // PENDING, CONTACTED, CONVERTED
   courseId    String?
   course      Course?  @relation(fields: [courseId], references: [id])
   createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
 }
 
 model Application {
-  id          String            @id @default(uuid())
-  userId      String
-  user        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  courseId    String
-  course      Course            @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  status      ApplicationStatus @default(UNDER_REVIEW)
-  name        String?
-  email       String?
-  phone       String?
+  id             String            @id @default(uuid())
+  userId         String?
+  user           User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
+  courseId       String?
+  course         Course?           @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  status         ApplicationStatus @default(UNDER_REVIEW)
+  name           String?
+  email          String?
+  phone          String?
   city           String?
   qualification  String?
   specialization String?
   message        String?
-  appliedAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
+  courseTitle    String?
+  userName       String?
+  userEmail      String?
+  userPhone      String?
+  appliedAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
 }
 
 model Event {
-  id           String              @id @default(uuid())
-  title        String
-  date         DateTime
-  type         String              // WORKSHOP, VISIT, CONVOCATION
-  imageUrl     String?
-  venue        String?
-  speaker      String?
-  description  String?
-  isFeatured   Boolean             @default(false)
-  createdAt    DateTime            @default(now())
-  registrations EventRegistration[]
+  id               String              @id @default(uuid())
+  title            String
+  date             DateTime
+  type             String              // WORKSHOP, VISIT, CONVOCATION
+  imageUrl         String?
+  venue            String?
+  speaker          String?
+  shortDescription String?
+  description      String?
+  isFeatured       Boolean             @default(false)
+  photos           String[]            @default([])
+  videos           String[]            @default([])
+  createdAt        DateTime            @default(now())
+  registrations    EventRegistration[]
 }
 
 model EventRegistration {
@@ -116,8 +128,10 @@ model Blog {
   id          String    @id @default(uuid())
   title       String
   slug        String    @unique
+  image       String?
   content     String
   author      String
+  category    String?
   publishedAt DateTime?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -127,4 +141,281 @@ model CmsData {
   key       String   @id
   data      Json
   updatedAt DateTime @default(now()) @updatedAt
+}
+
+model EventSubscriber {
+  id        String   @id @default(uuid())
+  name      String?
+  email     String
+  phone     String?
+  city      String?
+  college   String?
+  createdAt DateTime @default(now())
+}
+
+// -----------------------------------------------------------------
+// RELATIONAL MODELS (CONVERTED FROM CMS JSON BLOBS INTO REAL TABLES)
+// -----------------------------------------------------------------
+
+// Academic Partners (MOU Collaborations)
+model AcademicPartner {
+  id        String   @id @default(uuid())
+  name      String
+  city      String?
+  logo      String?
+  isActive  Boolean  @default(true)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Industry Partners (Corporate Upskilling, Live Projects)
+model IndustryPartner {
+  id        String   @id @default(uuid())
+  name      String
+  logo      String?
+  website   String?
+  category  String?
+  isActive  Boolean  @default(true)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Top Recruiters / Hiring Partners
+model TopRecruiter {
+  id        String   @id @default(uuid())
+  name      String
+  logo      String?
+  website   String?
+  category  String?
+  isActive  Boolean  @default(true)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Frequently Asked Questions
+model Faq {
+  id        String   @id @default(uuid())
+  question  String
+  answer    String
+  category  String?
+  isActive  Boolean  @default(true)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Student Testimonials
+model Testimonial {
+  id         String   @id @default(uuid())
+  name       String
+  role       String?
+  company    String?
+  image      String?
+  quote      String
+  course     String?
+  rating     Int      @default(5)
+  packageAmt String?
+  youtubeUrl String?
+  order      Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// Employee / Faculty Testimonials
+model EmployeeTestimonial {
+  id        String   @id @default(uuid())
+  name      String
+  role      String?
+  image     String?
+  quote     String
+  rating    Int      @default(5)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Video Testimonials
+model VideoTestimonial {
+  id         String   @id @default(uuid())
+  name       String
+  title      String
+  youtubeUrl String
+  order      Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// Faculty & Mentors
+model Mentor {
+  id          String   @id @default(uuid())
+  name        String
+  role        String
+  company     String?
+  companyLogo String?
+  bio         String?
+  exp         String?
+  img         String?
+  area        String?
+  skills      String[]
+  thought     String?
+  linkedin    String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Careers / Job Openings at BITC
+model Career {
+  id           String   @id @default(uuid())
+  title        String
+  department   String?
+  location     String?
+  type         String?
+  experience   String?
+  description  String?
+  specialities String?
+  status       String   @default("Active")
+  order        Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// Job Applications (Join Team / Faculty / Trainer applications)
+model JobApplication {
+  id                 String   @id @default(uuid())
+  fullName           String
+  role               String?
+  position           String?
+  email              String
+  phone              String
+  status             String   @default("Pending")
+  currentOrg         String?
+  dateToJoin         String?
+  department         String?
+  experience         String?
+  qualification      String?
+  otherQualification String?
+  subjectCourse      String?
+  linkedinUrl        String?
+  resumeUrl          String?
+  resumeFileName     String?
+  message            String?
+  coverNote          String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+// Scholarship Applications
+model ScholarshipApplication {
+  id         String   @id @default(uuid())
+  fullName   String
+  email      String
+  phone      String
+  city       String?
+  course     String?
+  category   String?
+  cvUrl      String?
+  cvFileName String?
+  cvBase64   String?
+  message    String?
+  status     String   @default("Pending")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// Partnership Applications (Corporate & Academic MoU Requests)
+model PartnershipApplication {
+  id               String   @id @default(uuid())
+  type             String?
+  organizationName String
+  contactPerson    String
+  designation      String?
+  email            String
+  phone            String
+  website          String?
+  partnershipType  String?
+  mouFile          String?
+  message          String?
+  status           String   @default("Pending")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+// Contact Form Inquiries
+model ContactEntry {
+  id          String   @id @default(uuid())
+  name        String
+  email       String
+  phone       String
+  city        String?
+  enquiryType String?
+  message     String
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Gallery Items (Photos and Videos)
+model GalleryItem {
+  id        String   @id @default(uuid())
+  title     String
+  type      String   // "image" or "video"
+  imgUrl    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Syllabus & Brochure Downloads
+model DownloadItem {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  fileUrl     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Alumni
+model Alumni {
+  id            String   @id @default(uuid())
+  name          String
+  role          String?
+  company       String?
+  batch         String?
+  photo         String?
+  linkedin      String?
+  certification String?
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+// Alumni Hiring Companies
+model AlumniCompany {
+  id        String   @id @default(uuid())
+  name      String
+  logo      String?
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Categories
+model Category {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Enquiry Types
+model EnquiryType {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

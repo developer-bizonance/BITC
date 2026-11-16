@@ -1,10 +1,13 @@
 "use client";
 
+import { eventSlug } from "@/lib/utils";
+
 import { useState } from "react";
 import Link from "next/link";
+import EventCard from "@/components/events/EventCard";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CalendarDays, MapPin, Users, ChevronRight } from "lucide-react";
+import { CalendarDays, MapPin, Users, Clock, ChevronRight, Star } from "lucide-react";
 
 export default function ConductedEventsGridTabs({ 
   conductedEventsByYear, 
@@ -27,8 +30,8 @@ export default function ConductedEventsGridTabs({
             onClick={() => setSelectedYear(year)}
             className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-all shadow-sm ${
               selectedYear === year
-                ? "bg-slate-900 text-white shadow-slate-900/20"
-                : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:text-slate-900"
+                ? "bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-900 shadow-md shadow-orange-500/20"
+                : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:text-slate-900 cursor-pointer"
             }`}
           >
             {year}
@@ -51,36 +54,48 @@ export default function ConductedEventsGridTabs({
                       referrerPolicy="no-referrer"
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
-                    <div className="absolute top-4 left-4 z-20 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full text-[11px] font-medium text-slate-900 shadow-sm uppercase tracking-wider">
-                      {event.category}
-                    </div>
                   </div>
                 ) : null}
                 <CardContent className="p-6 md:p-8 flex flex-col flex-1">
                   <h3 className="text-xl font-medium text-gray-600 mb-5 line-clamp-2 leading-tight group-hover:text-primary transition-colors">{event.title}</h3>
                   
-                  <div className="space-y-3.5 mb-8 flex-1">
+                  <div className="space-y-3 mb-8 flex-1">
+                    {event.speaker && (
+                    <div className="flex items-center gap-3 text-sm text-gray-600">
+                      <Users className="w-4.5 h-4.5 text-primary shrink-0" />
+                      <span className="font-semibold text-slate-800">{event.speaker}</span>
+                    </div>
+                    )}
                     <div className="flex items-start gap-3 text-sm text-gray-600">
                       <CalendarDays className="w-4.5 h-4.5 text-primary shrink-0 mt-0.5" />
                       <div className="font-semibold text-slate-800">{event.date}</div>
                     </div>
+                    {event.time && (
+                    <div className="flex items-center gap-3 text-sm text-gray-600">
+                      <Clock className="w-4.5 h-4.5 text-primary shrink-0" />
+                      <span className="text-slate-700">{event.time}</span>
+                    </div>
+                    )}
                     {event.venue && (
                     <div className="flex items-center gap-3 text-sm text-gray-600">
                       <MapPin className="w-4.5 h-4.5 text-primary shrink-0" />
                       <span className="text-slate-700">{event.venue}</span>
                     </div>
                     )}
-                    {event.speaker && (
-                    <div className="flex items-center gap-3 text-sm text-gray-600">
-                      <Users className="w-4.5 h-4.5 text-primary shrink-0" />
-                      <span className="text-slate-700">Industry expert: <span className="font-semibold">{event.speaker}</span></span>
+                    {event.rating && event.rating > 0 && (
+                    <div className="flex items-center gap-3 text-sm text-slate-700">
+                      <Star className="w-4.5 h-4.5 text-amber-500 fill-amber-500 shrink-0" />
+                      <span className="font-semibold text-slate-900">{event.rating} / 5</span>
+                      <span className="text-xs text-gray-400">
+                        ({event.ratingsCount || 1} review{(event.ratingsCount || 1) === 1 ? "" : "s"})
+                      </span>
                     </div>
                     )}
                   </div>
 
                   <div className="flex items-center justify-end pt-5 border-t border-gray-100 mt-auto">
-                    <Link href={`/events/${event.id}`} className="w-full">
-                      <Button className="w-full text-black font-medium transition-all duration-300 rounded-full py-6 shadow-none hover:shadow-lg hover:shadow-orange-500/20 bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:-translate-y-0.5">
+                    <Link href={`/events/${event.slug || eventSlug(event.title, event.id)}`} className="w-full">
+                      <Button className="w-full text-slate-800 font-normal transition-all duration-300 rounded-full py-6 shadow-none hover:shadow-lg hover:shadow-orange-500/20 bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:-translate-y-0.5">
                         View Details <ChevronRight className="w-4 h-4 ml-1" />
                       </Button>
                     </Link>

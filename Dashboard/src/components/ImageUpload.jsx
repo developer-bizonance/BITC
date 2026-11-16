@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Upload, X, Loader2 } from 'lucide-react';
 import { getApiUrl, getServerBase, resolveImageUrl } from "../utils";
 
-const ImageUpload = ({ value, onChange, className = "", category = "misc" }) => {
+const ImageUpload = ({ value, onChange, className = "", heightClassName = "h-[240px]", category = "misc" }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState('');
 
@@ -22,8 +22,8 @@ const ImageUpload = ({ value, onChange, className = "", category = "misc" }) => 
       return;
     }
 
-    if (file.size > 10 * 1024 * 1024) {
-      setError('File must be less than 10MB');
+    if (file.size > 5 * 1024 * 1024) {
+      setError('File must be less than 5MB');
       return;
     }
 
@@ -88,7 +88,7 @@ const ImageUpload = ({ value, onChange, className = "", category = "misc" }) => 
   return (
     <div className={`w-full ${className}`}>
       {value ? (
-        <div className="relative w-full rounded-xl border border-gray-200 overflow-hidden bg-gray-50 flex items-center justify-center p-2 group h-[240px]">
+        <div className={`relative w-full rounded-2xl border border-gray-200 overflow-hidden bg-gray-50 flex items-center justify-center p-3 group ${heightClassName}`}>
           {previewUrl.match(/\.(mp4|webm|ogg|mov)$/i) ? (
             <video src={previewUrl} controls className="max-h-full max-w-full object-contain" />
           ) : (
@@ -106,7 +106,7 @@ const ImageUpload = ({ value, onChange, className = "", category = "misc" }) => 
         </div>
       ) : (
         <div className="relative w-full">
-          <label className={`w-full flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-xl cursor-pointer transition-all ${
+          <label className={`w-full ${heightClassName} flex flex-col items-center justify-center p-4 border-2 border-dashed rounded-2xl cursor-pointer transition-all ${
             error ? 'border-red-300 bg-red-50 hover:bg-red-100' : 'border-gray-300 bg-gray-50 hover:bg-gray-100'
           }`}>
             <div className="flex flex-col items-center justify-center">
@@ -118,11 +118,11 @@ const ImageUpload = ({ value, onChange, className = "", category = "misc" }) => 
               <p className="text-sm font-semibold text-gray-700">
                 {isUploading ? 'Uploading...' : 'Click to upload image'}
               </p>
-              <p className="text-xs text-gray-500 mt-1">Image (max. 10MB)</p>
+              <p className="text-xs text-gray-500 mt-1">Image (max. 5MB)</p>
             </div>
             <input
               type="file"
-              className="hidden"
+              className="hidden text-gray-500"
               accept="image/*,video/*"
               onChange={handleFileChange}
               disabled={isUploading}

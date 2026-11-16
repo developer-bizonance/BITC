@@ -1,8 +1,10 @@
 "use client";
 
-import React, { useState, Suspense, useRef } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { getApiBase } from "@/lib/utils";
+import DocumentUpload from "@/components/ui/DocumentUpload";
 import {
   Briefcase,
   GraduationCap,
@@ -13,34 +15,38 @@ import {
   Check,
   Calendar,
   Paperclip,
-  Trash2,
-  Upload,
-  FileText,
+  ChevronDown,
+  ArrowRight,
 } from "lucide-react";
+interface ApplyFormProps {
+  title?: React.ReactNode;
+  subtitle?: string;
+  defaultRole?: string;
+  onClose?: () => void;
+}
 
-// Categorized courses & certifications available across BITC website
-const courseCertificationOptions = [
-  "Information Technology",
-  "Digital Media Technology",
-  "Management Programs",
-  "Design Programs",
+const defaultDomains = [
+  "Industry Experts",
+  "Technical Consultants",
+  "Corporate Trainers",
 ];
 
-export function ApplyFormContent() {
+export function ApplyFormContent({ title, subtitle, defaultRole, onClose }: ApplyFormProps = {}) {
   const searchParams = useSearchParams();
-  const initialRole = searchParams.get("role") || "Faculty – Full Stack Development";
+  const initialRole = searchParams.get("role") || defaultRole || "Industry Expert & Mentor";
 
   const [form, setForm] = useState({
     fullName: "",
     email: "",
     phone: "",
-    position: searchParams.get("role") || "",
+    position: searchParams.get("role") || defaultRole || "Industry Expert & Mentor",
     subjectCourse: "",
-    experience: "3-5 Years",
+    otherSubjectCourse: "",
+    experience: "",
     qualification: "",
     otherQualification: "",
     dateToJoin: "",
-    joinQuickOption: "Immediate",
+    joinQuickOption: "",
     currentOrg: "",
     resumeUrl: "",
     linkedinUrl: "",
@@ -53,7 +59,33 @@ export function ApplyFormContent() {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [resumeFile, setResumeFile] = useState<{ name: string; size: string; data: string } | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [domainOptions, setDomainOptions] = useState<string[]>(defaultDomains);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadDynamicDomains() {
+      try {
+        const res = await fetch(`${getApiBase()}/mentor-categories`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.categories && Array.isArray(data.categories) && data.categories.length > 0) {
+            const list = data.categories
+              .map((c: any) => (typeof c === "string" ? c : c.name)?.trim())
+              .filter(Boolean);
+            if (isMounted && list.length > 0) {
+              setDomainOptions(list);
+            }
+          }
+        }
+      } catch (err) {
+        console.warn("Could not load dynamic mentor domains, using fallback defaults:", err);
+      }
+    }
+    loadDynamicDomains();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   // Field validator
   const validateField = (name: string, value: string) => {
@@ -74,23 +106,23 @@ export function ApplyFormContent() {
     } else if (name === "phone") {
       const cleanPhone = value.replace(/\D/g, "");
       if (!cleanPhone) {
-        error = "Mobile number is required.";
+        error = "Contact number is required.";
       } else if (cleanPhone.length < 10) {
         error = `Please enter full 10-digit number (${cleanPhone.length}/10).`;
       } else if (!/^[6-9]\d{9}$/.test(cleanPhone)) {
-        error = "Mobile number must start with 6, 7, 8, or 9.";
+        error = "Contact number must start with 6, 7, 8, or 9.";
       }
-    } else if (name === "otherQualification") {
-      if (form.qualification === "Other" && !value.trim()) {
-        error = "Please specify your degree / qualification.";
+    } else if (name === "otherSubjectCourse") {
+      if (form.subjectCourse === "Other" && !value.trim()) {
+        error = "Please specify your domain.";
+      }
+    } else if (name === "subjectCourse") {
+      if (!value) {
+        error = "Please select a working domain.";
       }
     } else if (name === "dateToJoin") {
       if (form.joinQuickOption === "Custom Date" && !value) {
         error = "Please select your expected joining date.";
-      }
-    } else if (name === "subjectCourse") {
-      if (!value) {
-        error = "Please select a certification specialization.";
       }
     }
     return error;
@@ -112,9 +144,9 @@ export function ApplyFormContent() {
     const scErr = validateField("subjectCourse", form.subjectCourse);
     if (scErr) newErrors.subjectCourse = scErr;
 
-    if (form.qualification === "Other") {
-      const oqErr = validateField("otherQualification", form.otherQualification);
-      if (oqErr) newErrors.otherQualification = oqErr;
+    if (form.subjectCourse === "Other") {
+      const oscErr = validateField("otherSubjectCourse", form.otherSubjectCourse);
+      if (oscErr) newErrors.otherSubjectCourse = oscErr;
     }
 
     if (form.joinQuickOption === "Custom Date") {
@@ -128,8 +160,7 @@ export function ApplyFormContent() {
       email: true,
       phone: true,
       subjectCourse: true,
-      qualification: true,
-      otherQualification: true,
+      otherSubjectCourse: true,
       dateToJoin: true,
     });
 
@@ -173,8 +204,7 @@ export function ApplyFormContent() {
   };
 
   // Handle File Upload
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleFileSelect = (file: File) => {
     if (!file) return;
 
     if (file.size > 5 * 1024 * 1024) {
@@ -184,10 +214,10 @@ export function ApplyFormContent() {
 
     const reader = new FileReader();
     reader.onload = () => {
-      const sizeStr = file.size > 1024 * 1024 
-        ? `${(file.size / (1024 * 1024)).toFixed(1)} MB` 
+      const sizeStr = file.size > 1024 * 1024
+        ? `${(file.size / (1024 * 1024)).toFixed(1)} MB`
         : `${Math.round(file.size / 1024)} KB`;
-      
+
       setResumeFile({
         name: file.name,
         size: sizeStr,
@@ -205,9 +235,6 @@ export function ApplyFormContent() {
 
   const removeResumeFile = () => {
     setResumeFile(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -220,37 +247,74 @@ export function ApplyFormContent() {
     setSubmitting(true);
     setSubmitError(null);
 
-    const finalDateToJoin = form.joinQuickOption === "Custom Date" ? form.dateToJoin : form.joinQuickOption;
+    const finalDateToJoin = form.joinQuickOption === "Custom Date" ? form.dateToJoin : (form.joinQuickOption || form.dateToJoin || "");
+    const finalCourse = form.subjectCourse === "Other" && form.otherSubjectCourse?.trim()
+      ? form.otherSubjectCourse.trim()
+      : (form.subjectCourse?.trim() || "");
+    const finalPosition = form.position || defaultRole || "Industry Expert & Mentor";
 
     try {
       const payload = {
         fullName: form.fullName.trim(),
         email: form.email.trim(),
         phone: form.phone.trim(),
-        position: form.position,
-        subjectCourse: form.subjectCourse,
-        experience: form.experience,
-        qualification: form.qualification,
-        otherQualification: form.otherQualification,
-        dateToJoin: finalDateToJoin || "Immediate",
-        currentOrg: form.currentOrg.trim(),
+        position: finalPosition,
+        subjectCourse: finalCourse,
+        experience: form.experience ? form.experience.trim() : "",
+        qualification: form.qualification ? form.qualification.trim() : "",
+        otherQualification: form.otherQualification ? form.otherQualification.trim() : "",
+        dateToJoin: finalDateToJoin ? finalDateToJoin.trim() : "",
+        currentOrg: form.currentOrg ? form.currentOrg.trim() : "",
         resumeUrl: resumeFile ? resumeFile.data : form.resumeUrl.trim(),
         resumeFileName: resumeFile ? resumeFile.name : "",
         linkedinUrl: form.linkedinUrl.trim(),
         coverNote: form.coverNote.trim(),
       };
 
-      const res = await fetch("/api/careers/apply", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      let success = false;
+      let errorMsg = "";
 
-      const data = await res.json();
-      if (res.ok) {
+      // 1. Direct submit to Central Backend API (primary database)
+      try {
+        const apiBase = getApiBase();
+        const apiRes = await fetch(`${apiBase}/careers/apply`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (apiRes.ok) {
+          success = true;
+        } else {
+          const d = await apiRes.json().catch(() => ({}));
+          errorMsg = d.error || "";
+        }
+      } catch (apiErr) {
+        console.warn("Direct API apply notice:", apiErr);
+      }
+
+      // 2. Dual-submit fallback to local Next.js route ONLY IF backend failed
+      if (!success) {
+        try {
+          const localRes = await fetch("/api/careers/apply", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          if (localRes.ok) {
+            success = true;
+          } else {
+            const d = await localRes.json().catch(() => ({}));
+            errorMsg = d.error || errorMsg;
+          }
+        } catch (localErr) {
+          console.warn("Local apply notice:", localErr);
+        }
+      }
+
+      if (success) {
         setSubmitSuccess(true);
       } else {
-        setSubmitError(data.error || "Failed to submit application. Please try again.");
+        setSubmitError(errorMsg || "Failed to submit application. Please try again.");
       }
     } catch (err) {
       setSubmitError("Network error. Please check your connection and try again.");
@@ -266,361 +330,218 @@ export function ApplyFormContent() {
           <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
             <Check className="w-10 h-10" />
           </div>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 border border-green-200 text-green-700 text-xs font-medium uppercase tracking-wider mb-3">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 border border-green-200 text-green-700 text-xs font-medium mb-3">
             Application Submitted
           </span>
-          <h2 className="text-3xl font-black text-slate-900 mb-3">Welcome to the BITC <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Talent Pool!</span></h2>
-          <p className="text-slate-600 max-w-lg mx-auto mb-8 text-base leading-relaxed">
-            Thank you, <strong className="text-slate-900">{form.fullName}</strong>. Your application to teach{" "}
-            <strong className="text-primary">{form.subjectCourse}</strong> has been successfully submitted to our Academic Board.
-          </p>
+          {(() => {
+            const selectedDomain =
+              form.subjectCourse === "Other" && form.otherSubjectCourse?.trim()
+                ? form.otherSubjectCourse.trim()
+                : (form.subjectCourse?.trim() || form.position || "Certification Program");
 
-          <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-6 max-w-md mx-auto mb-8 text-left space-y-2.5 text-xs text-slate-600">
-            <div className="flex justify-between">
-              <span className="font-bold text-slate-800">Applied Role:</span>
-              <span>{form.position}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="font-bold text-slate-800">Contact Email:</span>
-              <span>{form.email}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="font-bold text-slate-800">Availability / Date:</span>
-              <span className="text-emerald-700 font-bold">
-                {form.joinQuickOption === "Custom Date" ? form.dateToJoin : form.joinQuickOption}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="font-bold text-slate-800">Next Step:</span>
-              <span className="text-primary font-bold">HR Review & Demo Call</span>
-            </div>
-          </div>
+            return (
+              <>
+                <p className="text-slate-600 max-w-lg mx-auto mb-6 text-base leading-relaxed">
+                  Thank you, <strong className="text-slate-900">{form.fullName}</strong>. Your application to teach{" "}
+                  <strong className="text-primary">{selectedDomain}</strong> has been successfully submitted to our Academic Board.
+                </p>
 
-          <div className="flex justify-center gap-4">
-            <Link
-              href="/about/careers"
-              className="px-8 py-3.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-medium text-sm transition-all shadow-lg"
-            >
-              Back to Careers
-            </Link>
-            <button
-              onClick={() => {
-                setSubmitSuccess(false);
-                setForm({
-                  fullName: "",
-                  email: "",
-                  phone: "",
-                  position: "Faculty – Full Stack Development",
-                  subjectCourse: "MERN Stack Development (MongoDB, Express, React, Node)",
-                  experience: "3-5 Years",
-                  qualification: "B.Tech / BE",
-                  otherQualification: "",
-                  dateToJoin: "",
-                  joinQuickOption: "Immediate",
-                  currentOrg: "",
-                  resumeUrl: "",
-                  linkedinUrl: "",
-                  coverNote: "",
-                });
-                setResumeFile(null);
-                setErrors({});
-                setTouched({});
-              }}
-              className="px-8 py-3.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-900 font-medium text-sm transition-all"
-            >
-              Submit Another
-            </button>
-          </div>
+                <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-6 max-w-md mx-auto mb-2 text-left space-y-2.5 text-xs text-slate-600">
+                  <div className="flex justify-between">
+                    <span className="font-bold text-slate-800">Certification Domain:</span>
+                    <span className="font-semibold text-slate-900">{selectedDomain}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-bold text-slate-800">Contact Email:</span>
+                    <span>{form.email}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-bold text-slate-800">Next Step:</span>
+                    <span className="text-primary font-bold">HR Review</span>
+                  </div>
+                </div>
+              </>
+            );
+          })()}
         </div>
       ) : (
         <div className="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
-          <div className="p-5 md:p-6 bg-white text-center border-b border-slate-100">
-            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-2">
-              Faculty & Trainer <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Application Form</span>
-            </h2>
-            <p className="text-slate-600 text-sm max-w-xl mx-auto">
-              Select the course or certification you wish to teach, upload your resume, and submit your profile.
+          <div className="p-5 md:p-6 pb-2 text-center bg-white">
+            <h3 className="text-2xl font-medium text-gray-600 mb-1">
+              {title || (
+                <>
+                  Apply <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">as Mentor</span>
+                </>
+              )}
+            </h3>
+            <p className="text-slate-600 text-xs md:text-sm">
+              {subtitle || "Join our network to train talent, share knowledge, or collaborate on tech."}
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} noValidate className="p-5 md:p-6 space-y-6 bg-white">
+          <form onSubmit={handleSubmit} noValidate className="px-5 md:px-8 pb-8 pt-2 space-y-3 bg-white">
             {submitError && (
-              <div className="p-4 rounded-2xl bg-red-50 border border-red-200 text-red-700 text-xs font-semibold flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
+              <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-semibold flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 shrink-0" />
                 <span>{submitError}</span>
               </div>
             )}
 
             {/* Candidate Name & Email */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
-                  Name <span className="text-red-500">*</span>
-                </label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="space-y-1 text-left">
+                <label className="text-xs font-medium text-slate-600">Name</label>
                 <input
                   type="text"
+                  required
                   value={form.fullName}
                   onChange={(e) => handleChange("fullName", e.target.value)}
                   onBlur={() => handleBlur("fullName")}
-                  placeholder="Enter your name"
-                  className={`w-full px-4 py-3.5 bg-slate-50 border-2 rounded-xl text-slate-900 text-sm focus:outline-none transition-all font-medium shadow-sm ${
-                    touched.fullName && errors.fullName
-                      ? "border-red-500 ring-2 ring-red-100 bg-red-50/20"
-                      : "border-slate-200 focus:border-primary focus:ring-0 focus:bg-white"
-                  }`}
+                  className={`w-full px-3 py-2 rounded-xl border ${touched.fullName && errors.fullName
+                    ? "border-red-400 bg-red-50"
+                    : "border-slate-200 bg-slate-50"
+                    } focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all text-sm text-slate-800`}
                 />
                 {touched.fullName && errors.fullName && (
-                  <p className="text-red-500 text-xs mt-1.5 font-medium flex items-center gap-1">
-                    <AlertCircle className="w-3.5 h-3.5" /> {errors.fullName}
-                  </p>
+                  <p className="text-red-500 text-[10px] ml-1">{errors.fullName}</p>
                 )}
               </div>
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
-                  Email Id <span className="text-red-500">*</span>
-                </label>
+              <div className="space-y-1 text-left">
+                <label className="text-xs font-medium text-slate-600">Email Id</label>
                 <input
                   type="email"
+                  required
                   value={form.email}
                   onChange={(e) => handleChange("email", e.target.value)}
                   onBlur={() => handleBlur("email")}
-                  placeholder="Enter your email Id"
-                  className={`w-full px-4 py-3.5 bg-slate-50 border-2 rounded-xl text-slate-900 text-sm focus:outline-none transition-all font-medium shadow-sm ${
-                    touched.email && errors.email
-                      ? "border-red-500 ring-2 ring-red-100 bg-red-50/20"
-                      : "border-slate-200 focus:border-primary focus:ring-0 focus:bg-white"
-                  }`}
+                  className={`w-full px-3 py-2 rounded-xl border ${touched.email && errors.email
+                    ? "border-red-400 bg-red-50"
+                    : "border-slate-200 bg-slate-50"
+                    } focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all text-sm text-slate-800`}
                 />
                 {touched.email && errors.email && (
-                  <p className="text-red-500 text-xs mt-1.5 font-medium flex items-center gap-1">
-                    <AlertCircle className="w-3.5 h-3.5" /> {errors.email}
-                  </p>
+                  <p className="text-red-500 text-[10px] ml-1">{errors.email}</p>
                 )}
               </div>
             </div>
 
             {/* Mobile & Applying Role */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
-                  Contact <span className="text-red-500">*</span>
-                </label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="space-y-1 text-left">
+                <label className="text-xs font-medium text-slate-600">Contact Number</label>
                 <input
                   type="tel"
+                  required
                   maxLength={10}
                   inputMode="numeric"
                   pattern="[0-9]*"
                   value={form.phone}
                   onChange={(e) => handleChange("phone", e.target.value)}
                   onBlur={() => handleBlur("phone")}
-                  placeholder="Enter your mobile number"
-                  className={`w-full px-4 py-3.5 bg-slate-50 border-2 rounded-xl text-slate-900 text-sm focus:outline-none transition-all font-medium shadow-sm ${
-                    touched.phone && errors.phone
-                      ? "border-red-500 ring-2 ring-red-100 bg-red-50/20"
-                      : "border-slate-200 focus:border-primary focus:ring-0 focus:bg-white"
-                  }`}
+                  className={`w-full px-3 py-2 rounded-xl border ${touched.phone && errors.phone
+                    ? "border-red-400 bg-red-50"
+                    : "border-slate-200 bg-slate-50"
+                    } focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all text-sm text-slate-800`}
                 />
                 {touched.phone && errors.phone && (
-                  <p className="text-red-500 text-xs mt-1.5 font-medium flex items-center gap-1">
-                    <AlertCircle className="w-3.5 h-3.5" /> {errors.phone}
-                  </p>
+                  <p className="text-red-500 text-[10px] ml-1">{errors.phone}</p>
                 )}
               </div>
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
-                  Position applied for <span className="text-red-500">*</span>
-                </label>
-                <select
-                  value={form.position}
-                  onChange={(e) => handleChange("position", e.target.value)}
-                  className="w-full px-4 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl text-slate-900 text-sm focus:bg-white focus:border-primary focus:ring-0 outline-none transition-all font-medium cursor-pointer shadow-sm"
-                >
-                  <option value="" disabled>Select position</option>
-                  <option value="Faculty – Full Stack Development">Faculty – Full Stack Development</option>
-                  <option value="Technical Trainer – Data Science">Technical Trainer – Data Science</option>
-                  <option value="Industry Expert & Mentor">Industry Expert & Mentor</option>
-                  <option value="T and P Office (Placement Cell)">T and P Office (Placement Cell)</option>
-                  <option value="Visiting corporate trainer">Visiting corporate trainer</option>
-                  <option value="Soft Skills & Aptitude Trainer">Soft Skills & Aptitude Trainer</option>
-                </select>
+              <div className="space-y-1 text-left">
+                <label className="text-xs font-medium text-slate-600">Working Domain</label>
+                <div className="relative">
+                  <select
+                    value={form.subjectCourse}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      handleChange("subjectCourse", val);
+                      if (val !== "Other") {
+                        setForm((prev) => ({ ...prev, otherSubjectCourse: "" }));
+                        setErrors((prev) => {
+                          const next = { ...prev };
+                          delete next.otherSubjectCourse;
+                          return next;
+                        });
+                      }
+                    }}
+                    onBlur={() => handleBlur("subjectCourse")}
+                    className={`w-full px-3 py-2 pr-10 rounded-xl border ${touched.subjectCourse && errors.subjectCourse
+                      ? "border-red-400 bg-red-50"
+                      : "border-slate-200 bg-slate-50"
+                      } focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all appearance-none cursor-pointer text-sm ${!form.subjectCourse ? "text-gray-400" : "text-slate-800 font-medium"
+                      }`}
+                  >
+                    <option value="" disabled className="text-gray-400">Select Domain</option>
+                    {domainOptions.map((domain) => (
+                      <option key={domain} value={domain} className="text-slate-800">{domain}</option>
+                    ))}
+                    <option value="Other" className="text-slate-800">Other</option>
+                  </select>
+                  <ChevronDown className="w-4 h-4 text-slate-500 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                </div>
+                {touched.subjectCourse && errors.subjectCourse && (
+                  <p className="text-red-500 text-[10px] ml-1">{errors.subjectCourse}</p>
+                )}
               </div>
             </div>
 
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
-                Choose Domain <span className="text-red-500">*</span>
-              </label>
-              <select
-                value={form.subjectCourse}
-                onChange={(e) => handleChange("subjectCourse", e.target.value)}
-                onBlur={() => handleBlur("subjectCourse")}
-                className={`w-full px-4 py-3.5 bg-slate-50 border-2 rounded-xl text-slate-900 text-sm focus:border-primary focus:ring-0 focus:bg-white outline-none transition-all font-medium cursor-pointer shadow-sm ${
-                  touched.subjectCourse && errors.subjectCourse
-                    ? "border-red-500 ring-2 ring-red-100 bg-red-50/20"
-                    : "border-slate-200"
-                }`}
-              >
-                <option value="" disabled>Select domain</option>
-                {courseCertificationOptions.map((domain) => (
-                  <option key={domain} value={domain} className="font-medium text-slate-800 bg-white py-1">
-                    {domain}
-                  </option>
-                ))}
-              </select>
-              {touched.subjectCourse && errors.subjectCourse && (
-                <p className="text-red-500 text-xs mt-1.5 font-medium flex items-center gap-1">
-                  <AlertCircle className="w-3.5 h-3.5" /> {errors.subjectCourse}
-                </p>
-              )}
-            </div>
-
-            {/* Highest Qualification (1 Column) */}
-            <div className="grid grid-cols-1 gap-5">
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
-                  Highest Qualification <span className="text-red-500">*</span>
-                </label>
-                <select
-                  value={form.qualification}
-                  onChange={(e) => {
-                    const val = e.target.value;
-                    setForm((prev) => ({
-                      ...prev,
-                      qualification: val,
-                      ...(val !== "Other" ? { otherQualification: "" } : {}),
-                    }));
-                    if (val !== "Other") {
-                      setErrors((prev) => {
-                        const next = { ...prev };
-                        delete next.otherQualification;
-                        return next;
-                      });
-                    }
-                  }}
-                  className="w-full px-4 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl text-slate-900 text-sm focus:bg-white focus:border-primary focus:ring-0 outline-none transition-all font-medium cursor-pointer shadow-sm"
-                >
-                  <option value="" disabled>Select qualification</option>
-                  <option value="B.Tech / BE">B.Tech / B.E.</option>
-                  <option value="M.Tech / ME">M.Tech / M.E.</option>
-                  <option value="MCA / M.Sc IT">MCA / M.Sc. IT / Computer Science</option>
-                  <option value="BCA / B.Sc CS">BCA / B.Sc. Computer Science</option>
-                  <option value="PhD / Doctorate">PhD / Doctorate</option>
-                  <option value="MBA / PGDM">MBA / PGDM</option>
-                  <option value="Industry certified professional">Industry certified professional</option>
-                  <option value="Other">Other (Please specify degree)</option>
-                </select>
-              </div>
-            </div>
-
-            {form.qualification === "Other" && (
-              <div className="animate-in fade-in zoom-in-95 duration-200">
-                <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
-                  Specify Your Degree / Qualification <span className="text-red-500">*</span>
-                </label>
+            {form.subjectCourse === "Other" && (
+              <div className="space-y-1 text-left animate-in fade-in zoom-in duration-200">
+                <label className="text-xs font-semibold text-slate-700">Specify Working Domain</label>
                 <input
                   type="text"
-                  value={form.otherQualification}
-                  onChange={(e) => handleChange("otherQualification", e.target.value)}
-                  onBlur={() => handleBlur("otherQualification")}
-                  placeholder="Enter your degree / qualification"
-                  className={`w-full px-4 py-3.5 bg-slate-50 border-2 rounded-xl text-slate-900 text-sm focus:outline-none transition-all font-medium shadow-sm ${
-                    touched.otherQualification && errors.otherQualification
-                      ? "border-red-500 ring-2 ring-red-100 bg-red-50/20"
-                      : "border-slate-200 focus:border-primary focus:ring-0 focus:bg-white"
-                  }`}
+                  placeholder="Enter your working domain"
+                  value={form.otherSubjectCourse}
+                  onChange={(e) => handleChange("otherSubjectCourse", e.target.value)}
+                  onBlur={() => handleBlur("otherSubjectCourse")}
+                  className={`w-full px-3 py-2 rounded-xl border ${touched.otherSubjectCourse && errors.otherSubjectCourse
+                    ? "border-red-400 bg-red-50"
+                    : "border-slate-200 bg-slate-50"
+                    } focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all text-sm`}
                 />
-                {touched.otherQualification && errors.otherQualification && (
-                  <p className="text-red-500 text-xs mt-1.5 font-medium flex items-center gap-1">
-                    <AlertCircle className="w-3.5 h-3.5" /> {errors.otherQualification}
-                  </p>
+                {touched.otherSubjectCourse && errors.otherSubjectCourse && (
+                  <p className="text-red-500 text-[10px] ml-1">{errors.otherSubjectCourse}</p>
                 )}
               </div>
             )}
 
-            {/* Resume Upload Button & Link */}
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider flex items-center justify-between">
-                <span className="flex items-center gap-1.5">
-                  <Paperclip className="w-4 h-4 text-primary" /> Upload Resume / CV (.PDF, .DOCX)
-                </span>
-                <span className="text-[11px] text-slate-400 font-normal">Max size: 5MB</span>
-              </label>
-
-              {resumeFile ? (
-                <div className="flex items-center justify-between p-4 bg-emerald-50 border border-emerald-200 rounded-2xl shadow-sm">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-medium">
-                      <FileText className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-slate-900 truncate max-w-[300px]">{resumeFile.name}</p>
-                      <p className="text-xs text-emerald-700 font-semibold">{resumeFile.size} • Ready for upload</p>
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={removeResumeFile}
-                    className="p-2 rounded-full text-red-500 hover:bg-red-100/50 transition-colors"
-                    title="Remove file"
-                  >
-                    <Trash2 className="w-5 h-5" />
-                  </button>
-                </div>
-              ) : (
-                <div
-                  onClick={() => fileInputRef.current?.click()}
-                  className="border-2 border-dashed border-slate-300 hover:border-primary bg-white hover:bg-primary/5 rounded-2xl p-6 text-center cursor-pointer transition-all flex flex-col items-center justify-center group shadow-sm"
-                >
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept=".pdf,.doc,.docx"
-                    onChange={handleFileUpload}
-                    className="hidden"
-                  />
-                  <Upload className="w-8 h-8 text-slate-400 group-hover:text-primary mb-2 transition-colors" />
-                  <p className="text-sm font-bold text-slate-800 group-hover:text-primary">
-                    Click to upload Resume / CV file
-                  </p>
-                  <p className="text-xs text-slate-400 mt-1">Supports PDF, DOC, DOCX up to 5MB</p>
-                </div>
-              )}
-            </div>
-
             {/* LinkedIn Profile */}
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
-                LinkedIn profile url
-              </label>
+            <div className="space-y-1 text-left">
+              <label className="text-xs font-medium text-slate-600">LinkedIn profile url</label>
               <input
-                type="url"
+                type="text"
                 value={form.linkedinUrl}
                 onChange={(e) => handleChange("linkedinUrl", e.target.value)}
-                placeholder="Enter your LinkedIn profile URL"
-                className="w-full px-4 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl text-slate-900 text-sm focus:bg-white focus:border-primary focus:ring-0 outline-none transition-all font-medium shadow-sm"
+                className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all text-sm text-slate-800"
               />
             </div>
 
+            {/* CV/Profile Upload Button & Link */}
+            <DocumentUpload
+              label="CV/Profile (Max 5MB)"
+              required
+              file={resumeFile}
+              onFileSelect={handleFileSelect}
+              onFileRemove={removeResumeFile}
+              accept=".pdf,.doc,.docx"
+              error={errors.resume}
+            />
+
             {/* Submit Button */}
-            <div className="pt-2">
-              <button
-                type="submit"
-                disabled={submitting}
-                className="w-full py-4 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-medium text-base hover:shadow-2xl shadow-orange-500/30 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 hover:-translate-y-0.5"
-              >
-                {submitting ? (
-                  <>Submitting...</>
-                ) : (
-                  <>
-                    <Send className="w-5 h-5" /> Submit
-                  </>
-                )}
-              </button>
-            </div>
+            <button
+              type="submit"
+              disabled={submitting}
+              className="w-full h-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-800 text-sm font-normal flex items-center justify-center hover:shadow-lg hover:shadow-orange-500/25 hover:-translate-y-0.5 transition-all mt-1 disabled:opacity-50 cursor-pointer"
+            >
+              {submitting ? "Submitting..." : "Submit Details"} <ArrowRight className="ml-2 w-4 h-4" />
+            </button>
+            <p className="text-center text-[11px] text-slate-400 mt-2">
+              🔒 Your contact information is kept confidential and reviewed solely by BITC HR.
+            </p>
           </form>
         </div>
       )}
-    </div>
+    </div >
   );
 }
 

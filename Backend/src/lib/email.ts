@@ -1,4 +1,4 @@
-import nodemailer from "nodemailer";
+import nodemailer, { Transporter } from "nodemailer";
 
 export interface SendInquiryEmailParams {
   fullName: string;
@@ -22,7 +22,7 @@ export async function sendInquiryEmail(params: SendInquiryEmailParams) {
   const smtpPass = process.env.SMTP_PASS;
   const smtpFrom = process.env.SMTP_FROM || `"BITC Website" <info@bizonance.in>`;
 
-  let transporter: nodemailer.Transporter;
+  let transporter: Transporter;
 
   if (smtpUser && smtpPass) {
     transporter = nodemailer.createTransport({
@@ -42,7 +42,7 @@ export async function sendInquiryEmail(params: SendInquiryEmailParams) {
 
   const mailSubject = `[BITC Website Inquiry] ${selectedEnquiry} - ${fullName.trim()}`;
   const plainTextBody = `
-BIZONANCE INDUSTRIAL TRAINING CENTRE
+BIZONANCE Industrial Training Centre
 =========================================
 NEW INQUIRY RECEIVED FROM BITC WEBSITE
 Submitted At : ${timestamp}
@@ -139,7 +139,7 @@ export async function sendCourseApplicationEmail(params: SendCourseApplicationEm
   const smtpPass = process.env.SMTP_PASS;
   const smtpFrom = process.env.SMTP_FROM || `"BITC Admissions" <info@bizonance.in>`;
 
-  let transporter: nodemailer.Transporter;
+  let transporter: Transporter;
 
   if (smtpUser && smtpPass) {
     transporter = nodemailer.createTransport({
@@ -159,7 +159,7 @@ export async function sendCourseApplicationEmail(params: SendCourseApplicationEm
 
   const mailSubject = `[BITC Course Application] ${courseTitle} - ${name.trim()} (${appId})`;
   const plainTextBody = `
-BIZONANCE INDUSTRIAL TRAINING CENTRE
+BIZONANCE Industrial Training Centre
 =========================================
 NEW COURSE ENROLLMENT APPLICATION
 Application ID : ${appId}

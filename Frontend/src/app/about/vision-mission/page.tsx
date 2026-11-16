@@ -20,7 +20,6 @@ import {
   GraduationCap,
   CheckCircle2,
   Quote,
-  ArrowDown,
   Target,
   TrendingUp,
   Zap,
@@ -40,56 +39,51 @@ export default function VisionMissionPage() {
     <div className="flex flex-col min-h-screen text-[15px]">
 
       {/* ── 1. HERO ── */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] bg-white py-20 lg:py-28 overflow-hidden flex flex-col items-center justify-center">
+      <section className="relative w-full lg:min-h-[calc(100vh-80px)] bg-white py-14 sm:py-18 lg:py-28 overflow-hidden flex flex-col items-center justify-center">
         {/* Background accents */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] opacity-25 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/30 via-transparent to-transparent pointer-events-none" />
         <div className="absolute bottom-0 right-0 w-[600px] h-[600px] opacity-10 bg-[radial-gradient(circle_at_bottom_right,_var(--tw-gradient-stops))] from-blue-400 via-transparent to-transparent pointer-events-none" />
 
-        <div className="container max-w-[1000px] mx-auto px-4 text-center relative z-10 flex flex-col items-center justify-center my-auto">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-medium rounded-full px-5 py-2 text-sm uppercase tracking-widest mb-8">
+        <div className="container max-w-[1000px] mx-auto px-4 text-center relative z-10 flex flex-col items-center justify-center lg:my-auto">
+          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-medium rounded-full px-4 py-1.5 text-sm mb-6">
             <Target className="w-4 h-4" />
             Vision &amp; Mission
           </div>
 
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-slate-900 leading-[1.2]">
-            Driven By Purpose. <br className="hidden sm:block" />
-            Inspired By Innovation. <br className="hidden sm:block" />
-            <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Focused On Your Future.</span>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-slate-900 leading-[1.2]">
+            Driven By Purpose <br className="hidden sm:block" />
+            Inspired By Innovation <br className="hidden sm:block" />
+            <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Focused On Your Future</span>
           </h1>
 
           <p className="text-base md:text-lg text-gray-600 max-w-[900px] mx-auto leading-relaxed">
             At <strong>BIZONANCE Industrial Training Centre (BITC)</strong>, our vision and mission guide every program, partnership, and learning experience. We are committed to creating professionals who are ready to thrive in the ever-changing world of industry.
           </p>
-
-          {/* Scroll hint */}
-          <div className="mt-8 animate-bounce">
-            <ArrowDown className="w-6 h-6 text-gray-400 mx-auto" />
-          </div>
         </div>
       </section>
 
       {/* ── 2. OUR VISION ── */}
-      <section className="py-24 bg-white">
+      <section className="py-12 sm:py-16 lg:py-24 bg-white">
         <div className="container max-w-4xl mx-auto px-4 text-center">
-          <p className="text-primary font-bold text-sm uppercase tracking-widest mb-4">Our Vision</p>
-          <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-8">
+          <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">Our Vision</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 leading-tight mb-6">
             Empowering the Next Generation of <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Industry Leaders</span>
           </h2>
-          <p className="text-xl text-gray-600 leading-relaxed font-medium">
+          <p className="text-base md:text-lg text-gray-500 leading-relaxed font-normal">
             We strive to create a world where every learner is equipped with the practical skills, industry knowledge, and confidence to achieve their highest career potential and drive innovation in the modern workforce.
           </p>
         </div>
       </section>
 
       {/* ── 3. OUR MISSION ── */}
-      <section className="py-20 md:py-28 bg-white">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-28 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-start">
             {/* Left text block */}
             <div className="lg:col-span-2 lg:sticky lg:top-28">
               <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">Our Mission</p>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 leading-tight">
-                Empowering Careers Through <span className="text-primary">Expert-led</span> Learning
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 leading-tight">
+                Empowering Careers Through <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Expert-led</span> Learning
               </h2>
               <p className="text-gray-600 text-lg leading-relaxed mb-6">
                 Our mission is to provide practical, industry-oriented education that enables students and professionals to build successful careers through expert mentorship, hands-on learning, internships, and career-focused development.
@@ -114,7 +108,7 @@ export default function VisionMissionPage() {
                     <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/15 transition-colors">
                       <item.icon className="w-6 h-6 text-primary" />
                     </div>
-                    <h3 className="text-lg font-medium text-gray-600 mb-2">{item.title}</h3>
+                    <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
                     <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
                   </CardContent>
                 </Card>
@@ -129,8 +123,8 @@ export default function VisionMissionPage() {
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-16">
             <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">What we stand for</p>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">The Values That Define <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC</span></h2>
-            <p className="text-gray-600 max-w-[600px] mx-auto text-lg">Six principles that shape every decision, program, and outcome.</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">The Values That Define <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC</span></h2>
+            <p className="text-base md:text-lg text-gray-500 max-w-[600px] mx-auto font-normal">Six principles that shape every decision, program, and outcome.</p>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -147,7 +141,7 @@ export default function VisionMissionPage() {
                 <div className={`w-14 h-14 rounded-2xl ${val.color.split(" ")[0]} flex items-center justify-center mb-5`}>
                   <val.icon className={`w-7 h-7 ${val.color.split(" ")[1]}`} />
                 </div>
-                <h3 className="text-xl font-medium text-gray-600 mb-3">{val.title}</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">{val.title}</h3>
                 <p className="text-gray-500 leading-relaxed">{val.desc}</p>
               </div>
             ))}
@@ -159,14 +153,11 @@ export default function VisionMissionPage() {
       <section className="py-24 md:py-32 relative overflow-hidden bg-white">
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10">
           <div className="text-center mb-20 md:mb-28">
-            <div className="inline-flex items-center gap-2 bg-white border border-gray-200 text-slate-700 font-bold rounded-full px-5 py-2 text-sm uppercase tracking-widest mb-6 shadow-sm">
-              <Sparkles className="w-4 h-4 text-amber-500" />
-              Our Philosophy
-            </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight">
+            <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">Our Philosophy</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
               Learn. Experience. <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Grow.</span>
             </h2>
-            <p className="text-gray-600 max-w-[700px] mx-auto text-lg md:text-xl leading-relaxed">
+            <p className="text-base md:text-lg text-gray-500 max-w-[700px] mx-auto leading-relaxed font-normal">
               Education shouldn't stop at knowledge. At BITC, every learner goes through a structured, three-step professional journey to ensure true career readiness.
             </p>
           </div>
@@ -174,29 +165,27 @@ export default function VisionMissionPage() {
           <div className="grid lg:grid-cols-3 gap-8 lg:gap-12 relative">
             {/* Connecting Line (Desktop) */}
             <div className="hidden lg:block absolute top-14 left-[15%] right-[15%] h-1 bg-gray-200 z-0 rounded-full overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-400 via-purple-400 to-green-400 w-full animate-pulse" />
+              <div className="absolute inset-0 bg-blue-300/80 w-full" />
             </div>
 
             {/* 1. Learn */}
-            <div className="group relative z-10 bg-slate-50 rounded-3xl p-6 md:p-8 border border-gray-200 shadow-xl hover:shadow-2xl hover: transition-all duration-500 hover:-translate-y-2 flex flex-col h-full overflow-hidden">
+            <div className="group relative z-10 bg-slate-50 rounded-3xl p-6 md:p-8 border border-gray-200 shadow-xl hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 hover:-translate-y-2 flex flex-col h-full overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-b from-blue-100/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
+
               <div className="relative w-16 h-16 mx-auto rounded-2xl bg-white border-2 border-blue-100 shadow-md flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 overflow-hidden">
                 <div className="absolute inset-0 bg-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <BookOpen className="w-8 h-8 text-blue-600 relative z-10" />
               </div>
-              
-              <div className="text-center mb-8 relative z-10">
-                <div className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-100 font-bold text-xs mb-3 shadow-md">1</div>
-                <h3 className="text-2xl font-extrabold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">Learn</h3>
-                <p className="text-gray-500 font-medium text-sm">Build a strong foundation</p>
+
+              <div className="text-center mb-6 relative z-10">
+                <h3 className="text-2xl font-bold text-slate-900 group-hover:text-primary transition-colors">Learn</h3>
               </div>
-              
+
               <ul className="space-y-3 relative z-10 mt-auto">
                 {[
                   { text: "Learn from Experts", icon: Users },
                   { text: "Understand Industry", icon: Building2 },
-                  { text: "Practice Skills", icon: Code }
+                  { text: "Master Skills", icon: Code }
                 ].map((item, i) => (
                   <li key={i} className="flex items-center gap-3 bg-white group-hover:bg-blue-50/50 transition-all duration-300 p-3 rounded-xl border border-gray-100 group-hover:border-blue-100 group-hover:shadow-sm">
                     <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 transition-colors duration-300">
@@ -209,28 +198,27 @@ export default function VisionMissionPage() {
             </div>
 
             {/* 2. Experience */}
-            <div className="group relative z-10 bg-slate-50 rounded-3xl p-6 md:p-8 border border-gray-200 shadow-xl hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-500 hover:-translate-y-2 flex flex-col h-full overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-b from-purple-100/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
-              <div className="relative w-16 h-16 mx-auto rounded-2xl bg-white border-2 border-purple-100 shadow-md flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 overflow-hidden">
-                <div className="absolute inset-0 bg-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <Rocket className="w-8 h-8 text-purple-600 relative z-10" />
+            <div className="group relative z-10 bg-slate-50 rounded-3xl p-6 md:p-8 border border-gray-200 shadow-xl hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 hover:-translate-y-2 flex flex-col h-full overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-b from-blue-100/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+              <div className="relative w-16 h-16 mx-auto rounded-2xl bg-white border-2 border-blue-100 shadow-md flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 overflow-hidden">
+                <div className="absolute inset-0 bg-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <Rocket className="w-8 h-8 text-blue-600 relative z-10" />
               </div>
-              
-              <div className="text-center mb-8 relative z-10">
-                <div className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-purple-600 text-white font-bold text-xs mb-3 shadow-md">2</div>
-                <h3 className="text-2xl font-extrabold text-slate-900 mb-2 group-hover:text-purple-600 transition-colors">Experience</h3>
-                <p className="text-gray-500 font-medium text-sm">Apply your knowledge</p>
+
+              <div className="text-center mb-6 relative z-10">
+                <h3 className="text-2xl font-bold text-slate-900 group-hover:text-primary transition-colors">Experience</h3>
               </div>
-              
+
               <ul className="space-y-3 relative z-10 mt-auto">
                 {[
-                  { text: "Build live projects", icon: Lightbulb },
-                  { text: "Gain internship experience", icon: Briefcase }
+                  { text: "Teamwork", icon: Users },
+                  { text: "Build Technical Mindset", icon: Lightbulb },
+                  { text: "Live Projects", icon: Briefcase },
                 ].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 bg-white group-hover:bg-purple-50/50 transition-all duration-300 p-3 rounded-xl border border-gray-100 group-hover:border-purple-100 group-hover:shadow-sm">
-                    <div className="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center flex-shrink-0 group-hover:bg-purple-600 transition-colors duration-300">
-                      <item.icon className="w-4 h-4 text-purple-600 group-hover:text-white transition-colors duration-300" />
+                  <li key={i} className="flex items-center gap-3 bg-white group-hover:bg-blue-50/50 transition-all duration-300 p-3 rounded-xl border border-gray-100 group-hover:border-blue-100 group-hover:shadow-sm">
+                    <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 transition-colors duration-300">
+                      <item.icon className="w-4 h-4 text-blue-600 group-hover:text-white transition-colors duration-300" />
                     </div>
                     <span className="font-semibold text-slate-700 text-sm">{item.text}</span>
                   </li>
@@ -239,29 +227,27 @@ export default function VisionMissionPage() {
             </div>
 
             {/* 3. Grow */}
-            <div className="group relative z-10 bg-slate-50 rounded-3xl p-6 md:p-8 border border-gray-200 shadow-xl hover:shadow-2xl hover:shadow-green-500/20 transition-all duration-500 hover:-translate-y-2 flex flex-col h-full overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-b from-green-100/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
-              <div className="relative w-16 h-16 mx-auto rounded-2xl bg-white border-2 border-green-100 shadow-md flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 overflow-hidden">
-                <div className="absolute inset-0 bg-green-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <TrendingUp className="w-8 h-8 text-green-600 relative z-10" />
+            <div className="group relative z-10 bg-slate-50 rounded-3xl p-6 md:p-8 border border-gray-200 shadow-xl hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 hover:-translate-y-2 flex flex-col h-full overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-b from-blue-100/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+              <div className="relative w-16 h-16 mx-auto rounded-2xl bg-white border-2 border-blue-100 shadow-md flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 overflow-hidden">
+                <div className="absolute inset-0 bg-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <TrendingUp className="w-8 h-8 text-blue-600 relative z-10" />
               </div>
-              
-              <div className="text-center mb-8 relative z-10">
-                <div className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-green-600 text-white font-bold text-xs mb-3 shadow-md">3</div>
-                <h3 className="text-2xl font-extrabold text-slate-900 mb-2 group-hover:text-green-600 transition-colors">Grow</h3>
-                <p className="text-gray-500 font-medium text-sm">Achieve career success</p>
+
+              <div className="text-center mb-6 relative z-10">
+                <h3 className="text-2xl font-bold text-slate-900 group-hover:text-primary transition-colors">Grow</h3>
               </div>
-              
+
               <ul className="space-y-3 relative z-10 mt-auto">
                 {[
-                  { text: "Earn Certification", icon: Award },
-                  { text: "Develop professional skills", icon: Sparkles },
+                  { text: "Certified Devloper", icon: Award },
+                  { text: "Grow with Industry Trends", icon: Sparkles },
                   { text: "Launch a Successful Career", icon: Target }
                 ].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 bg-white group-hover:bg-green-50/50 transition-all duration-300 p-3 rounded-xl border border-gray-100 group-hover:border-green-100 group-hover:shadow-sm">
-                    <div className="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center flex-shrink-0 group-hover:bg-green-600 transition-colors duration-300">
-                      <item.icon className="w-4 h-4 text-green-600 group-hover:text-white transition-colors duration-300" />
+                  <li key={i} className="flex items-center gap-3 bg-white group-hover:bg-blue-50/50 transition-all duration-300 p-3 rounded-xl border border-gray-100 group-hover:border-blue-100 group-hover:shadow-sm">
+                    <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 transition-colors duration-300">
+                      <item.icon className="w-4 h-4 text-blue-600 group-hover:text-white transition-colors duration-300" />
                     </div>
                     <span className="font-semibold text-slate-700 text-sm">{item.text}</span>
                   </li>
@@ -279,7 +265,7 @@ export default function VisionMissionPage() {
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div>
               <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">Our Promise</p>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">Our Commitment to Every <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Learner</span></h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Our Commitment to Every <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Learner</span></h2>
               <p className="text-gray-600 text-lg leading-relaxed mb-10">
                 When you join BITC, we promise to provide an end-to-end learning experience that goes far beyond theory.
               </p>
@@ -308,7 +294,7 @@ export default function VisionMissionPage() {
             <div className="bg-white text-slate-900 border border-slate-200/80 rounded-[2rem] p-8 md:p-12 shadow-xl relative overflow-hidden">
               <div className="relative z-10">
                 <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">Long-Term Goals</p>
-                <h3 className="text-2xl md:text-3xl font-extrabold mb-8 text-slate-900">Our Strategic <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Goals</span></h3>
+                <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Our Strategic <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Goals</span></h3>
                 <p className="text-slate-600 mb-8 font-medium">By empowering learners, we aim to:</p>
                 <ul className="space-y-5">
                   {[
@@ -337,7 +323,7 @@ export default function VisionMissionPage() {
       <section className="py-20 md:py-28 bg-white">
         <div className="container max-w-[1000px] mx-auto px-4 text-center">
           <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">Why it matters</p>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">Preparing Learners for <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Tomorrow</span></h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Preparing Learners for <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Tomorrow</span></h2>
           <p className="text-gray-600 text-xl leading-relaxed max-w-[750px] mx-auto">
             The future belongs to professionals who continuously learn, adapt, and innovate. BITC is committed to creating an environment where education, technology, and industry come together to shape successful careers and lifelong learners.
           </p>

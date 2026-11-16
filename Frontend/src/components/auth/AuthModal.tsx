@@ -3,11 +3,10 @@
 import React, { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import {
-  X, Mail, User, Phone, CheckCircle2,
-  ArrowRight, ShieldCheck, BookOpen, AlertCircle, RefreshCw
+  X, CheckCircle2,
+  ArrowRight, ShieldCheck, BookOpen, AlertCircle, RefreshCw, ChevronDown
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { courses } from "@/data/courses";
 
 export function AuthModal() {
   const {
@@ -91,7 +90,7 @@ export function AuthModal() {
     const errors: Record<string, string> = {};
     if (!isValidName(name)) errors.name = "Name must contain only letters";
     if (!isValidEmail(email)) errors.email = "Enter a valid Email Id";
-    if (!phone.trim()) errors.phone = "Mobile number is required";
+    if (!phone.trim()) errors.phone = "Contact number is required";
     else if (!isValidPhone(phone)) errors.phone = "Enter exactly 10 digits, numbers only";
     if (!city.trim()) errors.city = "City is required";
     if (!qualification.trim()) errors.qualification = "Qualification is required";
@@ -110,12 +109,8 @@ export function AuthModal() {
     setSubmitting(true);
     setErrorMsg(null);
 
-    // If they changed the course from the dropdown, find the correct courseId
-    let appliedCourseId = pendingCourse.id;
-    const selectedCourseData = courses.find(c => c.title === course);
-    if (selectedCourseData) {
-      appliedCourseId = selectedCourseData.slug;
-    }
+    // Use the pendingCourse slug or id
+    const appliedCourseId = (pendingCourse as any)?.slug || pendingCourse?.id || course.trim().toLowerCase().replace(/[\s_]+/g, "-");
 
     const res = await applyForCourse(appliedCourseId, course, name, email, phone, city, qualification, specialization, message);
 
@@ -138,7 +133,7 @@ export function AuthModal() {
 
       {/* Modal Content */}
       <div className="relative w-full max-w-[600px] bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 fade-in duration-200">
-        
+
         {/* Close Button */}
         <button
           onClick={handleClose}
@@ -147,7 +142,7 @@ export function AuthModal() {
           <X className="w-5 h-5" />
         </button>
 
-        <div className="p-4 md:p-6 overflow-y-auto">
+        <div className="p-4 md:p-6 overflow-y-auto no-scrollbar [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
 
           {/* APPLICATION SUCCESS STATE */}
           {appliedRecord ? (
@@ -166,7 +161,7 @@ export function AuthModal() {
               <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200/80 text-left text-xs space-y-2">
 
                 <div className="flex justify-between">
-                  <span className="text-slate-500 font-bold">Email:</span>
+                  <span className="text-slate-500 font-bold">Email Id:</span>
                   <span className="font-bold text-slate-800">{appliedRecord.userEmail}</span>
                 </div>
                 <div className="flex justify-between">
@@ -190,7 +185,7 @@ export function AuthModal() {
             <>
               {/* MODAL TITLE HEADER */}
               <div className="mb-4">
-                <h2 className="text-2xl font-black text-slate-900">
+                <h2 className="text-2xl font-bold text-slate-800">
                   Apply for {course || "Certification"}
                 </h2>
                 <p className="text-slate-500 text-xs mt-1 font-medium">
@@ -210,97 +205,85 @@ export function AuthModal() {
               <form onSubmit={handleApplySubmit} className="space-y-3" noValidate>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="text-xs font-bold text-slate-700 block mb-1">
+                    <label className="text-xs font-medium text-slate-500 block mb-1">
                       Name <span className="text-red-500">*</span>
                     </label>
-                    <div className="relative">
-                      <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                      <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => {
-                          setName(sanitizeName(e.target.value));
-                          clearFieldError("name");
-                        }}
-                        onBlur={() => {
-                          if (!name.trim()) setFieldErrors((prev) => ({ ...prev, name: "Name is required" }));
-                        }}
-                        placeholder="Enter your full name"
-                        className={`w-full h-10 pl-10 pr-4 bg-slate-50 border rounded-xl text-xs font-semibold focus:outline-none focus:bg-white transition-all text-slate-900 placeholder:text-slate-400 placeholder:font-medium ${fieldErrors.name
-                          ? "border-red-400 focus:border-red-500"
-                          : "border-slate-200 focus:border-primary"
-                          }`}
-                      />
-                    </div>
+                    <input
+                      type="text"
+                      value={name}
+                      onChange={(e) => {
+                        setName(sanitizeName(e.target.value));
+                        clearFieldError("name");
+                      }}
+                      onBlur={() => {
+                        if (!name.trim()) setFieldErrors((prev) => ({ ...prev, name: "Name is required" }));
+                      }}
+                      className={`w-full h-10 px-4 bg-slate-50 border rounded-xl text-xs font-normal focus:outline-none focus:bg-white transition-all text-slate-800 ${fieldErrors.name
+                        ? "border-red-400 focus:border-red-500"
+                        : "border-slate-200 focus:border-primary"
+                        }`}
+                    />
                     {fieldErrors.name && (
                       <p className="text-[11px] font-medium text-red-500 mt-1">{fieldErrors.name}</p>
                     )}
                   </div>
 
                   <div>
-                    <label className="text-xs font-bold text-slate-700 block mb-1">
-                      Email <span className="text-red-500">*</span>
+                    <label className="text-xs font-medium text-slate-500 block mb-1">
+                      Email Id <span className="text-red-500">*</span>
                     </label>
-                    <div className="relative">
-                      <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                      <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => {
-                          setEmail(e.target.value);
-                          clearFieldError("email");
-                        }}
-                        onBlur={() => {
-                          if (!email.trim()) setFieldErrors((prev) => ({ ...prev, email: "Email is required" }));
-                        }}
-                        placeholder="Enter your Email id"
-                        className={`w-full h-10 pl-10 pr-4 bg-slate-50 border rounded-xl text-xs font-semibold focus:outline-none focus:bg-white transition-all text-slate-900 placeholder:text-slate-400 placeholder:font-medium ${fieldErrors.email
-                          ? "border-red-400 focus:border-red-500"
-                          : "border-slate-200 focus:border-primary"
-                          }`}
-                      />
-                    </div>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                        clearFieldError("email");
+                      }}
+                      onBlur={() => {
+                        if (!email.trim()) setFieldErrors((prev) => ({ ...prev, email: "Email Id is required" }));
+                      }}
+                      className={`w-full h-10 px-4 bg-slate-50 border rounded-xl text-xs font-normal focus:outline-none focus:bg-white transition-all text-slate-800 ${fieldErrors.email
+                        ? "border-red-400 focus:border-red-500"
+                        : "border-slate-200 focus:border-primary"
+                        }`}
+                    />
                     {fieldErrors.email && (
                       <p className="text-[11px] font-medium text-red-500 mt-1">{fieldErrors.email}</p>
                     )}
                   </div>
 
                   <div>
-                    <label className="text-xs font-bold text-slate-700 block mb-1">
-                      Contact <span className="text-red-500">*</span>
+                    <label className="text-xs font-medium text-slate-500 block mb-1">
+                      Contact Number <span className="text-red-500">*</span>
                     </label>
-                    <div className="relative">
-                      <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                      <input
-                        type="tel"
-                        inputMode="numeric"
-                        maxLength={10}
-                        value={phone}
-                        onChange={(e) => {
-                          setPhone(sanitizePhone(e.target.value));
-                          clearFieldError("phone");
-                        }}
-                        onBlur={() => {
-                          if (!phone.trim()) {
-                            setFieldErrors((prev) => ({ ...prev, phone: "Mobile number is required" }));
-                          } else if (!isValidPhone(phone)) {
-                            setFieldErrors((prev) => ({ ...prev, phone: "Enter exactly 10 digits, numbers only" }));
-                          }
-                        }}
-                        placeholder="Enter Your mobile Number"
-                        className={`w-full h-10 pl-10 pr-4 bg-slate-50 border rounded-xl text-xs font-semibold focus:outline-none focus:bg-white transition-all text-slate-900 placeholder:text-slate-400 placeholder:font-medium ${fieldErrors.phone
-                          ? "border-red-400 focus:border-red-500"
-                          : "border-slate-200 focus:border-primary"
-                          }`}
-                      />
-                    </div>
+                    <input
+                      type="tel"
+                      inputMode="numeric"
+                      maxLength={10}
+                      value={phone}
+                      onChange={(e) => {
+                        setPhone(sanitizePhone(e.target.value));
+                        clearFieldError("phone");
+                      }}
+                      onBlur={() => {
+                        if (!phone.trim()) {
+                          setFieldErrors((prev) => ({ ...prev, phone: "Contact number is required" }));
+                        } else if (!isValidPhone(phone)) {
+                          setFieldErrors((prev) => ({ ...prev, phone: "Enter exactly 10 digits, numbers only" }));
+                        }
+                      }}
+                      className={`w-full h-10 px-4 bg-slate-50 border rounded-xl text-xs font-normal focus:outline-none focus:bg-white transition-all text-slate-800 ${fieldErrors.phone
+                        ? "border-red-400 focus:border-red-500"
+                        : "border-slate-200 focus:border-primary"
+                        }`}
+                    />
                     {fieldErrors.phone && (
                       <p className="text-[11px] font-medium text-red-500 mt-1">{fieldErrors.phone}</p>
                     )}
                   </div>
 
                   <div>
-                    <label className="text-xs font-bold text-slate-700 block mb-1">
+                    <label className="text-xs font-medium text-slate-500 block mb-1">
                       City <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -313,47 +296,50 @@ export function AuthModal() {
                       onBlur={() => {
                         if (!city.trim()) setFieldErrors((prev) => ({ ...prev, city: "City is required" }));
                       }}
-                      placeholder="Enter your city"
-                      className={`w-full h-10 px-4 bg-slate-50 border rounded-xl text-xs font-semibold focus:outline-none focus:bg-white transition-all text-slate-900 placeholder:text-slate-400 placeholder:font-medium ${fieldErrors.city ? "border-red-400 focus:border-red-500" : "border-slate-200 focus:border-primary"}`}
+                      className={`w-full h-10 px-4 bg-slate-50 border rounded-xl text-xs font-normal focus:outline-none focus:bg-white transition-all text-slate-800 ${fieldErrors.city ? "border-red-400 focus:border-red-500" : "border-slate-200 focus:border-primary"}`}
                     />
                     {fieldErrors.city && <p className="text-[11px] font-medium text-red-500 mt-1">{fieldErrors.city}</p>}
                   </div>
 
                   <div>
-                    <label className="text-xs font-bold text-slate-700 block mb-1">
+                    <label className="text-xs font-medium text-slate-500 block mb-1">
                       Higher Qualification <span className="text-red-500">*</span>
                     </label>
-                    <select
-                      value={qualification}
-                      onChange={(e) => {
-                        setQualification(e.target.value);
-                        clearFieldError("qualification");
-                      }}
-                      onBlur={() => {
-                        if (!qualification.trim()) setFieldErrors((prev) => ({ ...prev, qualification: "Qualification is required" }));
-                      }}
-                      className={`w-full h-10 px-4 bg-slate-50 border rounded-xl text-xs font-semibold focus:outline-none focus:bg-white transition-all text-slate-900 appearance-none cursor-pointer ${fieldErrors.qualification ? "border-red-400 focus:border-red-500" : "border-slate-200 focus:border-primary"}`}
-                    >
-                      <option value="" disabled>Select Qualification</option>
-                      <option value="B.E">B.E</option>
-                      <option value="M.E">M.E</option>
-                      <option value="B.Tech">B.Tech</option>
-                      <option value="M.Tech">M.Tech</option>
-                      <option value="B.C.A">B.C.A</option>
-                      <option value="M.C.A">M.C.A</option>
-                      <option value="B.Sc">B.Sc</option>
-                      <option value="M.Sc">M.Sc</option>
-                      <option value="B.Com">B.Com</option>
-                      <option value="M.Com">M.Com</option>
-                      <option value="B.B.A">B.B.A</option>
-                      <option value="M.B.A">M.B.A</option>
-                      <option value="Other">Other</option>
-                    </select>
+                    <div className="relative">
+                      <select
+                        value={qualification}
+                        onChange={(e) => {
+                          setQualification(e.target.value);
+                          clearFieldError("qualification");
+                        }}
+                        onBlur={() => {
+                          if (!qualification.trim()) setFieldErrors((prev) => ({ ...prev, qualification: "Qualification is required" }));
+                        }}
+                        className={`w-full h-10 px-4 pr-10 bg-slate-50 border rounded-xl text-xs font-normal focus:outline-none focus:bg-white transition-all appearance-none cursor-pointer ${qualification === "" ? "text-gray-400" : "text-slate-800 font-medium"
+                          } ${fieldErrors.qualification ? "border-red-400 focus:border-red-500" : "border-slate-200 focus:border-primary"}`}
+                      >
+                        <option value="" disabled className="text-gray-400">Select Qualification</option>
+                        <option value="B.E" className="text-slate-800">B.E</option>
+                        <option value="M.E" className="text-slate-800">M.E</option>
+                        <option value="B.Tech" className="text-slate-800">B.Tech</option>
+                        <option value="M.Tech" className="text-slate-800">M.Tech</option>
+                        <option value="B.C.A" className="text-slate-800">B.C.A</option>
+                        <option value="M.C.A" className="text-slate-800">M.C.A</option>
+                        <option value="B.Sc" className="text-slate-800">B.Sc</option>
+                        <option value="M.Sc" className="text-slate-800">M.Sc</option>
+                        <option value="B.Com" className="text-slate-800">B.Com</option>
+                        <option value="M.Com" className="text-slate-800">M.Com</option>
+                        <option value="B.B.A" className="text-slate-800">B.B.A</option>
+                        <option value="M.B.A" className="text-slate-800">M.B.A</option>
+                        <option value="Other" className="text-slate-800">Other</option>
+                      </select>
+                      <ChevronDown className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    </div>
                     {fieldErrors.qualification && <p className="text-[11px] font-medium text-red-500 mt-1">{fieldErrors.qualification}</p>}
                   </div>
 
                   <div>
-                    <label className="text-xs font-bold text-slate-700 block mb-1">
+                    <label className="text-xs font-medium text-slate-500 block mb-1">
                       Your Specialization <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -366,28 +352,31 @@ export function AuthModal() {
                       onBlur={() => {
                         if (!specialization.trim()) setFieldErrors((prev) => ({ ...prev, specialization: "Specialization is required" }));
                       }}
-                      placeholder="Ex. CSE"
-                      className={`w-full h-10 px-4 bg-slate-50 border rounded-xl text-xs font-semibold focus:outline-none focus:bg-white transition-all text-slate-900 placeholder:text-slate-400 placeholder:font-medium ${fieldErrors.specialization ? "border-red-400 focus:border-red-500" : "border-slate-200 focus:border-primary"}`}
+                      className={`w-full h-10 px-4 bg-slate-50 border rounded-xl text-xs font-normal focus:outline-none focus:bg-white transition-all text-slate-800 ${fieldErrors.specialization ? "border-red-400 focus:border-red-500" : "border-slate-200 focus:border-primary"}`}
                     />
                     {fieldErrors.specialization && <p className="text-[11px] font-medium text-red-500 mt-1">{fieldErrors.specialization}</p>}
                   </div>
 
                   <div className="sm:col-span-2">
-                    <label className="text-xs font-bold text-slate-700 block mb-1">
+                    <label className="text-xs font-medium text-slate-500 block mb-1">
                       Certification <span className="text-red-500">*</span>
                     </label>
-                    <input
-                      type="text"
-                      value={course}
-                      readOnly
-                      className="w-full h-10 px-4 bg-slate-100 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none text-slate-500 cursor-not-allowed"
-                    />
+                    <div className="cursor-not-allowed">
+                      <input
+                        type="text"
+                        value={course}
+                        readOnly
+                        disabled
+                        tabIndex={-1}
+                        className="w-full h-10 px-4 bg-slate-100 border border-slate-200 rounded-xl text-xs font-medium text-slate-700 select-none pointer-events-none focus:outline-none"
+                      />
+                    </div>
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-xs font-bold text-slate-700 block mb-1">
-                    Message <span className="text-red-500">*</span>
+                  <label className="text-xs font-medium text-slate-500 block mb-1">
+                    Your Message <span className="text-red-500">*</span>
                   </label>
                   <textarea
                     rows={2}
@@ -397,10 +386,9 @@ export function AuthModal() {
                       clearFieldError("message");
                     }}
                     onBlur={() => {
-                      if (!message.trim()) setFieldErrors((prev) => ({ ...prev, message: "Message is required" }));
+                      if (!message.trim()) setFieldErrors((prev) => ({ ...prev, message: "Your message is required" }));
                     }}
-                    placeholder="Enter your message"
-                    className={`w-full p-4 bg-slate-50 border rounded-xl text-xs font-semibold focus:outline-none focus:bg-white transition-all resize-none text-slate-900 placeholder:text-slate-400 placeholder:font-medium ${fieldErrors.message ? "border-red-400 focus:border-red-500" : "border-slate-200 focus:border-primary"}`}
+                    className={`w-full p-4 bg-slate-50 border rounded-xl text-xs font-normal focus:outline-none focus:bg-white transition-all resize-none text-slate-800 ${fieldErrors.message ? "border-red-400 focus:border-red-500" : "border-slate-200 focus:border-primary"}`}
                   />
                   {fieldErrors.message && <p className="text-[11px] font-medium text-red-500 mt-1">{fieldErrors.message}</p>}
                 </div>
@@ -408,17 +396,17 @@ export function AuthModal() {
                 <Button
                   type="submit"
                   disabled={submitting}
-                  className="w-full h-11 rounded-full bg-slate-900 text-white text-sm font-medium hover:bg-slate-800 shadow-md shadow-slate-900/20 border-0 transition-all mt-2"
+                  className="w-full h-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-800 text-sm font-normal flex items-center justify-center hover:shadow-lg hover:shadow-orange-500/25 hover:-translate-y-0.5 transition-all border-0 mt-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {submitting ? (
-                    <RefreshCw className="w-5 h-5 animate-spin" />
+                    <RefreshCw className="w-4 h-4 animate-spin mr-2" />
                   ) : (
                     <>
-                      Submit <ArrowRight className="w-4 h-4 ml-2" />
+                      Submit Details <ArrowRight className="w-4 h-4 ml-2" />
                     </>
                   )}
                 </Button>
-                
+
                 <p className="text-center text-[10px] text-slate-400 font-medium mt-4">
                   By submitting, you agree to our <a href="/terms-of-service" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-600">Terms & Conditions</a>
                 </p>

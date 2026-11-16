@@ -13,16 +13,16 @@ import {
   Briefcase,
   Layers,
 } from "lucide-react";
-import { getApiUrl } from "../utils";
+import { getApiUrl, getSiteUrl } from "../utils";
 
 // Filter Category Options (Removed unread tab as requested)
 const CATEGORIES = [
   { key: "all", label: "All", icon: Layers },
   { key: "contact", label: "Contact Inquiries", icon: Mail, tab: "Contact Inquiries" },
-  { key: "consulting", label: "Student Consulting", icon: MessageSquare, tab: "Student Consulting" },
+  { key: "consulting", label: "Student Counseling", icon: MessageSquare, tab: "Student Counseling" },
   { key: "course", label: "Course Applications", icon: GraduationCap, tab: "Course Applications" },
   { key: "scholarship", label: "Scholarship Applications", icon: Award, tab: "Scholarship Applications" },
-  { key: "faculty", label: "Faculty Applications", icon: Briefcase, tab: "Faculty Applications" },
+  { key: "faculty", label: "Career Applications", icon: Briefcase, tab: "Career Applications" },
   { key: "partnership", label: "Partnerships", icon: Handshake, tab: "Partnerships" },
   { key: "event", label: "Events", icon: Calendar, tab: "Events" },
 ];
@@ -49,6 +49,7 @@ export default function NotificationCenter() {
   const dropdownRef = useRef(null);
 
   const apiUrl = getApiUrl();
+  const siteUrl = getSiteUrl();
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -69,7 +70,7 @@ export default function NotificationCenter() {
     const items = [];
 
     try {
-      // 1. Course Applications (/api/admin/applications)
+      // 1. Course Applications (/api/admin/applications & /api/cms/course-applications)
       let apps = [];
       const appsRes = await fetch(`${apiUrl}/admin/applications`).catch(() => null);
       if (appsRes && appsRes.ok) {
@@ -77,10 +78,17 @@ export default function NotificationCenter() {
         apps = appsData.applications || [];
       }
       if (apps.length === 0) {
-        const fbRes = await fetch("https://bitc.bizonance.com/api/admin/applications").catch(() => null);
+        const fbRes = await fetch(`${getSiteUrl()}/api/admin/applications`).catch(() => null);
         if (fbRes && fbRes.ok) {
           const fbData = await fbRes.json();
           apps = fbData.applications || [];
+        }
+      }
+      if (apps.length === 0) {
+        const cmsRes = await fetch(`${apiUrl}/cms/course-applications`).catch(() => null);
+        if (cmsRes && cmsRes.ok) {
+          const cmsData = await cmsRes.json();
+          apps = Array.isArray(cmsData) ? cmsData : (cmsData.applications || cmsData.data || []);
         }
       }
       apps.forEach((app) => {
@@ -100,11 +108,16 @@ export default function NotificationCenter() {
         });
       });
 
-      // 2. Contact Inquiries (/api/contact)
-      const inqRes = await fetch(`${apiUrl}/contact`).catch(() => null);
+      // 2. Contact Inquiries (/api/contact) - query Next.js endpoint directly
+      const inqRes = await fetch(`${siteUrl}/api/contact`).catch(() => null);
       if (inqRes && inqRes.ok) {
         const inqData = await inqRes.json();
-        const inqs = inqData.inquiries || [];
+        const inqs = (inqData.inquiries || []).filter(
+          (inq) => {
+            const t = (inq.enquiryType || "").toLowerCase().trim();
+            return t !== "student consulting" && t !== "student counseling";
+          }
+        );
         inqs.forEach((inq) => {
           items.push({
             id: `contact-inq-${inq.id || inq.fullId || Math.random()}`,
@@ -124,36 +137,54 @@ export default function NotificationCenter() {
       }
 
       // 3. Partnership Applications (/api/partnership-applications)
+      let parts = [];
       const partRes = await fetch(`${apiUrl}/partnership-applications`).catch(() => null);
       if (partRes && partRes.ok) {
         const partData = await partRes.json();
-        const parts = partData.applications || [];
-        parts.forEach((p) => {
-          items.push({
-            id: `partner-app-${p.id || p.fullId || Math.random()}`,
-            rawId: p.fullId || p.id,
-            email: p.email,
-            type: "partnership",
-            title: "Partnership Application",
-            name: p.organizationName || p.contactPerson || "Organization",
-            subtitle: `${p.type || "MoU Collaboration"} request (${p.city || p.partnershipType || "Partner"})`,
-            time: p.appliedAt || p.createdAt || "Recently",
-            tab: "Partnerships",
-            subTopic: p.type === "corporate" ? "corporate-partnership" : "educational-partnership",
-            badgeColor: "bg-purple-50 text-purple-700",
-            icon: Handshake,
-          });
-        });
+        parts = partData.applications || [];
       }
+      if (parts.length === 0) {
+        const fbRes = await fetch(`${getSiteUrl()}/api/partnership-applications`).catch(() => null);
+        if (fbRes && fbRes.ok) {
+          const fbData = await fbRes.json();
+          parts = fbData.applications || [];
+        }
+      }
+      if (parts.length === 0) {
+        const cmsRes = await fetch(`${apiUrl}/cms/partnership-applications`).catch(() => null);
+        if (cmsRes && cmsRes.ok) {
+          const cmsData = await cmsRes.json();
+          parts = Array.isArray(cmsData) ? cmsData : (cmsData.applications || cmsData.data || []);
+        }
+      }
+      parts.forEach((p) => {
+        items.push({
+          id: `partner-app-${p.id || p.fullId || Math.random()}`,
+          rawId: p.fullId || p.id,
+          email: p.email,
+          type: "partnership",
+          title: "Partnership Application",
+          name: p.organizationName || p.contactPerson || "Organization",
+          subtitle: `${p.type || "MoU Collaboration"} request (${p.city || p.partnershipType || "Partner"})`,
+          time: p.appliedAt || p.createdAt || "Recently",
+          tab: "Partnerships",
+          subTopic: p.type === "corporate" ? "corporate-partnership" : "educational-partnership",
+          badgeColor: "bg-purple-50 text-purple-700",
+          icon: Handshake,
+        });
+      });
 
-      // 4. Scholarship Applications (/api/scholarships)
+      // 4. Scholarship Applications (/api/scholarships & /api/cms/scholarships)
       let schRes = await fetch(`${apiUrl}/scholarships`).catch(() => null);
       if (!schRes || !schRes.ok) {
-        schRes = await fetch("https://bitc.bizonance.com/api/scholarships").catch(() => null);
+        schRes = await fetch(`${getSiteUrl()}/api/scholarships`).catch(() => null);
+      }
+      if (!schRes || !schRes.ok) {
+        schRes = await fetch(`${apiUrl}/cms/scholarships`).catch(() => null);
       }
       if (schRes && schRes.ok) {
         const schData = await schRes.json();
-        const schs = schData.applications || [];
+        const schs = Array.isArray(schData) ? schData : (schData.applications || schData.data || []);
         schs.forEach((s) => {
           items.push({
             id: `sch-app-${s.id || s._id || s.fullId || Math.random()}`,
@@ -178,17 +209,17 @@ export default function NotificationCenter() {
         const directData = await directInqRes.json();
         const dInqs = directData.inquiries || [];
         dInqs.forEach((di) => {
-          const isConsulting = di.enquiryType === "Student Consulting";
+          const isConsulting = di.enquiryType === "Student Consulting" || di.enquiryType === "Student Counseling";
           items.push({
             id: `direct-inq-${di.id || di.fullId || Math.random()}`,
             rawId: di.fullId || di.id,
             email: di.email,
             type: isConsulting ? "consulting" : "contact",
-            title: isConsulting ? "Consultation Request" : "Direct Inquiry",
+            title: isConsulting ? "Counseling Request" : "Direct Inquiry",
             name: di.name || "Student / Visitor",
             subtitle: di.message ? `"${di.message.slice(0, 55)}${di.message.length > 55 ? "..." : ""}"` : (di.enquiryType || "Inquiry"),
             time: di.createdAt || "Recently",
-            tab: isConsulting ? "Student Consulting" : "Contact Inquiries",
+            tab: isConsulting ? "Student Counseling" : "Contact Inquiries",
             subTopic: isConsulting ? null : "inquiries-list",
             badgeColor: isConsulting ? "bg-teal-50 text-teal-700" : "bg-amber-50 text-amber-700",
             icon: MessageSquare,
@@ -196,27 +227,77 @@ export default function NotificationCenter() {
         });
       }
 
-      // 6. Faculty Applications (/api/join-team)
-      const facultyRes = await fetch(`${apiUrl}/join-team`).catch(() => null);
-      if (facultyRes && facultyRes.ok) {
-        const facultyData = await facultyRes.json();
-        const facultyList = Array.isArray(facultyData) ? facultyData : (facultyData.applications || []);
-        facultyList.forEach((fac) => {
+      // 6. Faculty Applications (Multi-source: careers/applications, join-team, Neon CMS)
+      const facultyMap = new Map();
+      const addFacApps = (list) => {
+        if (!Array.isArray(list)) return;
+        for (const fac of list) {
+          const key = fac.fullId || fac._id || fac.id || `${fac.email}-${fac.position || fac.role}`;
+          if (key && !facultyMap.has(key)) {
+            facultyMap.set(key, fac);
+          }
+        }
+      };
+
+      try {
+        const [resCareersApp, resJoinTeam, resCmsApp, resCmsJt] = await Promise.allSettled([
+          fetch(`${apiUrl}/careers/applications`),
+          fetch(`${apiUrl}/join-team`),
+          fetch(`${apiUrl}/cms/applications`),
+          fetch(`${apiUrl}/cms/join-team`),
+        ]);
+
+        if (resCareersApp.status === "fulfilled" && resCareersApp.value.ok) {
+          const d = await resCareersApp.value.json();
+          addFacApps(d.applications || (Array.isArray(d) ? d : []));
+        }
+        if (resJoinTeam.status === "fulfilled" && resJoinTeam.value.ok) {
+          const d = await resJoinTeam.value.json();
+          addFacApps(Array.isArray(d) ? d : (d.applications || []));
+        }
+        if (resCmsApp.status === "fulfilled" && resCmsApp.value.ok) {
+          const d = await resCmsApp.value.json();
+          addFacApps(Array.isArray(d) ? d : (d.data || d.applications || []));
+        }
+        if (resCmsJt.status === "fulfilled" && resCmsJt.value.ok) {
+          const d = await resCmsJt.value.json();
+          addFacApps(Array.isArray(d) ? d : (d.data || d.applications || []));
+        }
+
+        // Fallback to website API routes if needed
+        if (facultyMap.size === 0) {
+          const [resSiteApp, resSiteJt] = await Promise.allSettled([
+            fetch(`${getSiteUrl()}/api/careers/applications`),
+            fetch(`${getSiteUrl()}/api/join-team`),
+          ]);
+          if (resSiteApp.status === "fulfilled" && resSiteApp.value.ok) {
+            const d = await resSiteApp.value.json();
+            addFacApps(d.applications || (Array.isArray(d) ? d : []));
+          }
+          if (resSiteJt.status === "fulfilled" && resSiteJt.value.ok) {
+            const d = await resSiteJt.value.json();
+            addFacApps(d.applications || (Array.isArray(d) ? d : []));
+          }
+        }
+
+        facultyMap.forEach((fac) => {
           items.push({
             id: `faculty-app-${fac._id || fac.id || Math.random()}`,
-            rawId: fac._id || fac.id,
+            rawId: fac.fullId || fac._id || fac.id,
             email: fac.email,
             type: "faculty",
-            title: "Faculty Application",
-            name: fac.name || "Faculty Applicant",
-            subtitle: fac.role ? `Applied for ${fac.role}${fac.department ? ` (${fac.department})` : ""}` : "New Faculty Application received",
-            time: fac.createdAt || "Recently",
-            tab: "Faculty Applications",
+            title: "Career Application",
+            name: fac.fullName || fac.name || "Career Applicant",
+            subtitle: (fac.position || fac.role) ? `Applied for ${fac.position || fac.role}${fac.department || fac.subjectCourse ? ` (${fac.department || fac.subjectCourse})` : ""}` : "New Career Application received",
+            time: fac.createdAt || fac.appliedAt || "Recently",
+            tab: "Career Applications",
             subTopic: null,
             badgeColor: "bg-rose-50 text-rose-700",
             icon: Briefcase,
           });
         });
+      } catch (err) {
+        console.warn("Faculty notification fetch error:", err);
       }
 
       // 7. Event Registrations (/api/event-registrations)
@@ -227,7 +308,7 @@ export default function NotificationCenter() {
         evs = eventData.registrations || [];
       }
       if (evs.length === 0) {
-        const fbRes = await fetch("https://bitc.bizonance.com/api/event-registrations").catch(() => null);
+        const fbRes = await fetch(`${getSiteUrl()}/api/event-registrations`).catch(() => null);
         if (fbRes && fbRes.ok) {
           const fbData = await fbRes.json();
           evs = fbData.registrations || [];
@@ -429,8 +510,8 @@ export default function NotificationCenter() {
         };
       case "consulting":
         return {
-          title: "No consulting requests",
-          desc: "No pending student consulting requests.",
+          title: "No counseling requests",
+          desc: "No pending student counseling requests.",
         };
       case "course":
         return {
@@ -444,8 +525,8 @@ export default function NotificationCenter() {
         };
       case "faculty":
         return {
-          title: "No faculty applications",
-          desc: "No new faculty applications submitted.",
+          title: "No career applications",
+          desc: "No new career applications submitted.",
         };
       case "partnership":
         return {

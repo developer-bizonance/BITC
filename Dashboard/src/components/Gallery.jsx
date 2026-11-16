@@ -20,7 +20,7 @@ const getYouTubeId = (url) => {
 
 const getVimeoId = (url) => {
   if (!url || typeof url !== "string") return null;
-  const match = url.trim().match(/(?:vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+))/);
+  const match = url.trim().match(/(?:vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+))/);
   return match ? match[1] : null;
 };
 
@@ -214,7 +214,7 @@ const Gallery = () => {
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               onError={(e) => {
                 e.target.onerror = null;
-                e.target.src = "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop";
+                e.target.style.opacity = "0.5";
               }}
             />
           )}
@@ -232,10 +232,10 @@ const Gallery = () => {
             </button>
             <button
               onClick={() => handleDelete(img.id, img.title)}
-              className="w-8 h-8 flex items-center justify-center bg-white text-red-600 hover:bg-red-600 hover:text-white hover:border-red-600 rounded-full border border-slate-200 shadow-md hover:shadow-lg transition-all cursor-pointer active:scale-95"
+              className="w-8 h-8 text-red-500 hover:text-white bg-white hover:bg-red-600 hover:border-red-600 rounded-full border border-slate-200 shadow-xs transition-all cursor-pointer inline-flex items-center justify-center active:scale-95"
               title="Delete"
             >
-              <Trash2 className="w-3.5 h-3.5" />
+              <Trash2 size={15} />
             </button>
           </div>
         </div>
@@ -252,7 +252,7 @@ const Gallery = () => {
   };
 
   return (
-    <div className="p-8 pb-24 max-w-7xl mx-auto">
+    <div className="p-5 md:p-6 pt-6 md:pt-7 max-w-full mx-auto space-y-6 animate-in fade-in duration-200">
       {/* Custom Delete Confirmation Modal */}
       {confirmDelete && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -280,32 +280,40 @@ const Gallery = () => {
         </div>
       )}
 
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-3 border-b border-slate-200 gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-gray-100">
         <div>
-          <h2 className="text-xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
-            <ImageIcon className="w-5 h-5 text-blue-600" /> Gallery Management
-          </h2>
-          <p className="text-xs text-slate-500 mt-0.5">Manage campus photos, labs, workshops, and placement drives</p>
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center font-normal">
+              <ImageIcon className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="text-lg font-bold text-gray-900">Gallery Management</h2>
+                <span className="px-2 py-0.5 rounded-full text-[11px] font-normal bg-purple-50 text-purple-700 border border-purple-100">
+                  {gallery.length} Active
+                </span>
+              </div>
+              <p className="text-xs text-gray-500 mt-0.5">
+                Manage campus photos, labs, workshops, and placement drives
+              </p>
+            </div>
+          </div>
         </div>
+
         <div className="flex items-center gap-2">
           <button
-            onClick={fetchGallery}
-            className="p-2 bg-white border border-slate-200 text-slate-600 rounded-xl hover:bg-slate-50 hover:text-blue-600 transition-colors shadow-2xs cursor-pointer"
-            title="Refresh"
-          >
-            <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin text-blue-600" : ""}`} />
-          </button>
-          <button
             onClick={() => setIsAddOpen(true)}
-            className="flex items-center gap-2 px-5 py-2.5 hover: text-xs hover: cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
+            className="flex items-center justify-center gap-1.5 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 hover:border-blue-300 rounded-full font-medium text-xs shadow-xs transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
           >
-            <ImageIcon className="w-4 h-4" /> Add Image
+            <Plus className="w-3.5 h-3.5 text-blue-700" />
+            Add Image
           </button>
           <button
             onClick={() => setIsVideoAddOpen(true)}
-            className="flex items-center gap-2 px-5 py-2.5 hover: text-xs hover: cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
+            className="flex items-center justify-center gap-1.5 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 hover:border-blue-300 rounded-full font-medium text-xs shadow-xs transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
           >
-            <Video className="w-4 h-4" /> Add Video
+            <Video className="w-3.5 h-3.5 text-blue-700" />
+            Add Video
           </button>
         </div>
       </div>
@@ -380,11 +388,11 @@ const Gallery = () => {
             <div className="p-6 overflow-y-auto">
               <form id="add-gal-form" onSubmit={handleAdd} className="space-y-5">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Title</label>
-                  <input type="text" required value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium text-sm" placeholder="e.g. Campus Orientation" />
+                  <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">Title</label>
+                  <input type="text" required value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-normal text-sm text-gray-500" />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Upload Image</label>
+                  <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">Upload Image</label>
                   <ImageUpload category="gallery"
                     value={form.imgUrl}
                     onChange={(url) => setForm({ ...form, imgUrl: url })}
@@ -393,9 +401,9 @@ const Gallery = () => {
               </form>
             </div>
             <div className="px-6 py-4 border-t border-gray-100 flex justify-end gap-3 bg-gray-50">
-              <button type="button" onClick={() => setIsAddOpen(false)} className="px-5 py-2.5 text-sm hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">Cancel</button>
-              <button type="submit" form="add-gal-form" disabled={submitting} className="px-5 py-2.5 text-sm hover: disabled:opacity-70 flex items-center gap-2 hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">
-                {submitting ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />} Add Image
+              <button type="button" onClick={() => setIsAddOpen(false)} className="px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 rounded-full font-medium text-xs transition-all cursor-pointer active:scale-95 disabled:opacity-50">Cancel</button>
+              <button type="submit" form="add-gal-form" disabled={submitting} className="inline-flex items-center justify-center gap-2 px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 rounded-full font-medium text-xs shadow-xs transition-all cursor-pointer hover:scale-[1.02] active:scale-95 disabled:opacity-50">
+                {submitting ? <RefreshCw className="w-4 h-4 animate-spin shrink-0" /> : <Plus className="w-4 h-4 shrink-0" />} <span>Save Changes</span>
               </button>
             </div>
           </div>
@@ -415,19 +423,19 @@ const Gallery = () => {
             <div className="p-6 overflow-y-auto">
               <form id="add-video-form" onSubmit={handleAdd} className="space-y-5">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Title</label>
-                  <input type="text" required value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium text-sm" placeholder="e.g. Testimonial Video" />
+                  <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">Title</label>
+                  <input type="text" required value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-normal text-sm text-gray-500" />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Video Link (YouTube, Vimeo, etc.)</label>
-                  <input type="text" required value={form.imgUrl} onChange={(e) => setForm({ ...form, imgUrl: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium text-sm" placeholder="Paste link here..." />
+                  <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">Video Link (YouTube, Vimeo, etc.)</label>
+                  <input type="text" required value={form.imgUrl} onChange={(e) => setForm({ ...form, imgUrl: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-normal text-sm text-gray-500" />
                 </div>
               </form>
             </div>
             <div className="px-6 py-4 border-t border-gray-100 flex justify-end gap-3 bg-gray-50">
-              <button type="button" onClick={() => setIsVideoAddOpen(false)} className="px-5 py-2.5 text-sm hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">Cancel</button>
-              <button type="submit" form="add-video-form" disabled={submitting} className="px-5 py-2.5 text-sm hover: disabled:opacity-70 flex items-center gap-2 hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">
-                {submitting ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />} Add Video
+              <button type="button" onClick={() => setIsVideoAddOpen(false)} className="px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 rounded-full font-medium text-xs transition-all cursor-pointer active:scale-95 disabled:opacity-50">Cancel</button>
+              <button type="submit" form="add-video-form" disabled={submitting} className="inline-flex items-center justify-center gap-2 px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 rounded-full font-medium text-xs shadow-xs transition-all cursor-pointer hover:scale-[1.02] active:scale-95 disabled:opacity-50">
+                {submitting ? <RefreshCw className="w-4 h-4 animate-spin shrink-0" /> : <Plus className="w-4 h-4 shrink-0" />} <span>Save Changes</span>
               </button>
             </div>
           </div>
@@ -447,12 +455,12 @@ const Gallery = () => {
             <div className="p-6 overflow-y-auto">
               <form id="edit-gal-form" onSubmit={handleEdit} className="space-y-5">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Title</label>
-                  <input type="text" required value={editForm.title} onChange={(e) => setEditForm({ ...editForm, title: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium text-sm" />
+                  <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">Title</label>
+                  <input type="text" required value={editForm.title} onChange={(e) => setEditForm({ ...editForm, title: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-normal text-sm text-gray-500" />
                 </div>
                 {editType === 'photo' ? (
                   <div>
-                    <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Upload Image</label>
+                    <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">Upload Image</label>
                     <ImageUpload category="gallery"
                       value={editForm.imgUrl}
                       onChange={(url) => setEditForm({ ...editForm, imgUrl: url })}
@@ -460,16 +468,16 @@ const Gallery = () => {
                   </div>
                 ) : (
                   <div>
-                    <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Video Link (YouTube, Vimeo, etc.)</label>
-                    <input type="text" required value={editForm.imgUrl} onChange={(e) => setEditForm({ ...editForm, imgUrl: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium text-sm" placeholder="Paste link here..." />
+                    <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">Video Link (YouTube, Vimeo, etc.)</label>
+                    <input type="text" required value={editForm.imgUrl} onChange={(e) => setEditForm({ ...editForm, imgUrl: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-normal text-sm text-gray-500" />
                   </div>
                 )}
               </form>
             </div>
             <div className="px-6 py-4 border-t border-gray-100 flex justify-end gap-3 bg-gray-50">
-              <button type="button" onClick={() => setIsEditOpen(false)} className="px-5 py-2.5 text-sm hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">Cancel</button>
-              <button type="submit" form="edit-gal-form" disabled={submitting} className="px-5 py-2.5 text-sm hover: disabled:opacity-70 flex items-center gap-2 hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">
-                {submitting ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Pencil className="w-4 h-4" />} Save Changes
+              <button type="button" onClick={() => setIsEditOpen(false)} className="px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 rounded-full font-medium text-xs transition-all cursor-pointer active:scale-95 disabled:opacity-50">Cancel</button>
+              <button type="submit" form="edit-gal-form" disabled={submitting} className="inline-flex items-center justify-center gap-2 px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 rounded-full font-medium text-xs shadow-xs transition-all cursor-pointer hover:scale-[1.02] active:scale-95 disabled:opacity-50">
+                {submitting ? <RefreshCw className="w-4 h-4 animate-spin shrink-0" /> : <Pencil className="w-4 h-4 shrink-0" />} <span>Save Changes</span>
               </button>
             </div>
           </div>

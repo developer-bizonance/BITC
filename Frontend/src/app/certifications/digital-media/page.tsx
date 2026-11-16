@@ -8,7 +8,6 @@ import {
   GraduationCap, Clock, CheckCircle2, ArrowRight, Sparkles,
   Palette, Eye, Layers, IndianRupee, Award, Star, Users, Laptop, Briefcase
 } from "lucide-react";
-import { courses as staticCourses } from "@/data/courses";
 import { getApiBase, resolveImageUrl } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -23,31 +22,73 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic';
 
 export default async function DigitalMediaCoursesPage() {
-  let dynamicCourses = [];
+  let certsList: any[] = [];
+  let coursesList: any[] = [];
+
   try {
     const API_URL = getApiBase();
-    const res = await fetch(`${API_URL}/certifications?category=Digital%20Media%20Technology`, { cache: "no-store" });
-    if (res.ok) {
-      const data = await res.json();
-      dynamicCourses = data.certifications || [];
+    const [certsRes, coursesRes] = await Promise.allSettled([
+      fetch(`${API_URL}/certifications`, { cache: "no-store" }),
+      fetch(`${API_URL}/courses?category=Digital%20Media%20Technology`, { cache: "no-store" }),
+    ]);
+
+    if (certsRes.status === "fulfilled" && certsRes.value.ok) {
+      const data = await certsRes.value.json();
+      const allCerts = data.certifications || [];
+      certsList = allCerts.filter((c: any) => {
+        const cat = (c.category || "").toLowerCase().trim();
+        return cat.includes("media") || cat.includes("digital media");
+      });
+    }
+
+    if (coursesRes.status === "fulfilled" && coursesRes.value.ok) {
+      const data = await coursesRes.value.json();
+      coursesList = data.courses || [];
     }
   } catch (error) {
     console.error("Failed to fetch Digital Media courses:", error);
   }
 
-  if (!dynamicCourses || dynamicCourses.length === 0) {
-    dynamicCourses = staticCourses.filter(c => c.category === "Digital Media Technology");
-  }
+  // Build unified courses array prioritizing certifications images and metadata
+  const mapByTitle = new Map<string, any>();
 
-  const finalCourses = dynamicCourses.map((c: any) => {
+  // 1. First add from certsList (the live CMS source of truth where all images are configured)
+  certsList.forEach((cert) => {
+    const key = (cert.title || "").trim().toLowerCase();
+    if (key) mapByTitle.set(key, cert);
+  });
+
+  // 2. Merge coursesList from DB/API
+  coursesList.forEach((course) => {
+    const key = (course.title || "").trim().toLowerCase();
+    const existing = mapByTitle.get(key);
+    if (existing) {
+      mapByTitle.set(key, {
+        ...course,
+        image: existing.image || course.image,
+        fees: existing.fees || course.fees,
+        duration: existing.duration || course.duration,
+        features: (existing.features && existing.features.length > 0) ? existing.features : course.features,
+      });
+    } else {
+      mapByTitle.set(key, course);
+    }
+  });
+
+  const combinedCourses = Array.from(mapByTitle.values());
+
+  const finalCourses = combinedCourses.map((c: any) => {
+    const rawImage = typeof c.image === "string" ? c.image.trim() : "";
+    const userImage = rawImage ? resolveImageUrl(rawImage) : "";
+
     return {
-      id: c.slug || c.title.toLowerCase().replace(/ & /g, '-').replace(/[\/\s]+/g, '-'),
+      id: c.slug || c.title.toLowerCase().replace(/ & /g, '-').replace(/[\/\s_]+/g, '-'),
       title: c.title,
       tag: c.category || "Digital Media Technology",
       duration: c.duration || "6 Months",
-      fees: c.fees || "₹36,000",
+      fees: (c.fees && typeof c.fees === "string") ? c.fees.trim() : (c.fees || ""),
       icon: Video,
-      image: resolveImageUrl(c.image) || "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop",
+      image: userImage,
     };
   });
 
@@ -55,18 +96,18 @@ export default async function DigitalMediaCoursesPage() {
     <div className="flex flex-col min-h-screen text-[15px]">
 
       {/* Hero Banner */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-start pt-16 md:pt-20 lg:pt-24 bg-white overflow-hidden">
+      <section className="relative w-full lg:min-h-[calc(100vh-80px)] flex flex-col items-center justify-center py-14 sm:py-18 lg:py-24 bg-white overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent pointer-events-none" />
-        <div className="container max-w-[1360px] mx-auto px-4 relative z-10 text-center">
-          <div className="max-w-3xl mx-auto">
+        <div className="container max-w-[1360px] mx-auto px-4 relative z-10 text-center flex flex-col items-center justify-center lg:my-auto">
+          <div className="max-w-4xl mx-auto">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs md:text-sm font-medium mb-6">
               <Video className="w-4 h-4" />
-              <span>DIGITAL MEDIA TECHNOLOGY</span>
+              <span>Digital Media Technology</span>
             </div>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4 leading-[1.2]">
               Digital Media <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span>
             </h1>
-            <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-8 font-medium max-w-2xl mx-auto">
+            <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-8 font-normal max-w-3xl mx-auto">
               Master the art of visual storytelling. Learn industry-standard tools for video editing, animation, and digital media production to launch your creative career.
             </p>
 
@@ -89,85 +130,104 @@ export default async function DigitalMediaCoursesPage() {
       </section>
 
       {/* Certifications Grid */}
-      <section className="py-14 md:py-20 bg-white/70">
+      <section className="py-12 sm:py-16 md:py-20 bg-white/70">
         <div className="container max-w-[1360px] mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {finalCourses.map((course: any) => (
-              <Card
-                key={course.id}
-                className="group p-0 gap-0 overflow-hidden rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-2xl transition-all duration-300 bg-white flex flex-col justify-between h-full relative hover:-translate-y-1.5"
-              >
-                {/* Top Image Banner */}
-                <div className="h-48 relative w-full overflow-hidden bg-slate-900">
-                  <img
-                    src={resolveImageUrl(course.image)}
-                    alt={course.title}
-                    className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/20 to-transparent" />
-                </div>
-
-                {/* Body Content */}
-                <div className="p-4 flex flex-col flex-1 justify-between">
-                  <div>
-                    {/* Title */}
-                    <h3 className="text-base font-extrabold text-slate-900 group-hover:text-primary transition-colors flex items-center leading-snug mb-3">
-                      {course.title}
-                    </h3>
-
-                    {/* Features List */}
-                    <div className="space-y-2 mb-4">
-                      {/* 1. Duration */}
-                      <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
-                        <Clock className="w-3.5 h-3.5 text-primary shrink-0" />
-                        <span>Duration: <strong className="text-slate-900 font-semibold">{course.duration}</strong></span>
+            {finalCourses.map((course: any) => {
+              const Icon = course.icon || Video;
+              return (
+                <Card
+                  key={course.id}
+                  className="group p-0 gap-0 overflow-hidden rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-2xl transition-all duration-300 bg-white flex flex-col justify-between h-full relative hover:-translate-y-1.5"
+                >
+                  {/* Top Image Banner */}
+                  <div className="h-48 relative w-full overflow-hidden bg-slate-900">
+                    {course.image ? (
+                      <img
+                        src={course.image}
+                        alt={course.title}
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-slate-800 text-slate-400 group-hover:scale-108 transition-transform duration-700">
+                        <Icon className="w-16 h-16 opacity-25 text-primary" />
                       </div>
-
-                      {/* 2. Learn from Experts */}
-                      <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
-                        <Users className="w-3.5 h-3.5 text-primary shrink-0" />
-                        <span>Learn from Experts</span>
-                      </div>
-
-                      {/* 3. Assignments & Live Projects */}
-                      <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
-                        <Laptop className="w-3.5 h-3.5 text-primary shrink-0" />
-                        <span>Assignments & Live Projects</span>
-                      </div>
-
-                      {/* 4. Internship Opportunity */}
-                      <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
-                        <Briefcase className="w-3.5 h-3.5 text-primary shrink-0" />
-                        <span>Internship Opportunity</span>
-                      </div>
-
-                      {/* 5. Become Certified */}
-                      <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
-                        <Award className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                        <span>Become a Certified</span>
-                      </div>
-                    </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/20 to-transparent" />
                   </div>
 
-                  {/* Bottom Pricing & CTA */}
-                  <div className="mt-auto pt-2.5 border-t border-slate-100 space-y-2">
-                    <div className="flex items-center justify-between text-xs text-slate-600">
-                      <span className="font-medium text-slate-500">Certification Fees:</span>
-                      <span className="text-slate-900 font-extrabold text-xs bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200/80">
-                        {course.fees || "₹36,000"}
-                      </span>
+                  {/* Body Content */}
+                  <div className="p-4 flex flex-col flex-1 justify-between">
+                    <div>
+                      {/* Title */}
+                      <h3 className="text-base font-extrabold text-slate-900 group-hover:text-primary transition-colors flex items-center leading-snug mb-3">
+                        {course.title}
+                      </h3>
+
+                      {/* Features List */}
+                      <div className="space-y-2 mb-4">
+                        {/* 1. Duration */}
+                        <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
+                          <Clock className="w-3.5 h-3.5 text-primary shrink-0" />
+                          <span>Duration: <strong className="text-slate-900 font-semibold">{course.duration}</strong></span>
+                        </div>
+
+                        {/* 2. Learn from Experts */}
+                        <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
+                          <Users className="w-3.5 h-3.5 text-primary shrink-0" />
+                          <span>Learn from Experts</span>
+                        </div>
+
+                        {/* 3. Assignments & Live Projects */}
+                        <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
+                          <Laptop className="w-3.5 h-3.5 text-primary shrink-0" />
+                          <span>Assignments & Live Projects</span>
+                        </div>
+
+                        {/* 4. Internship Opportunity */}
+                        <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
+                          <Briefcase className="w-3.5 h-3.5 text-primary shrink-0" />
+                          <span>Internship Opportunity</span>
+                        </div>
+
+                        {/* 5. Become Certified */}
+                        <div className="flex items-center gap-2 text-xs text-slate-700 font-medium">
+                          <Award className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                          <span>Become a Certified</span>
+                        </div>
+                      </div>
                     </div>
 
-                    <Link href={`/certifications/${course.id}`} className="block w-full">
-                      <Button className="w-full h-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:opacity-90 text-black font-medium text-xs transition-all duration-300 shadow-sm cursor-pointer flex items-center justify-center gap-2 group/btn">
-                        <span>View Certification</span>
-                        <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
-                      </Button>
-                    </Link>
+                    {/* Bottom Pricing & CTA */}
+                    <div className="mt-auto pt-2.5 border-t border-slate-100 space-y-2">
+                      {(() => {
+                        const fee = course.fees?.trim();
+                        if (!fee || fee === "0" || fee === "₹0") return null;
+                        const formatted = fee.startsWith("₹") || isNaN(Number(fee.replace(/,/g, "")))
+                          ? fee
+                          : `₹${Number(fee.replace(/,/g, "")).toLocaleString("en-IN")}`;
+                        return (
+                          <div className="flex items-center justify-between text-xs text-slate-600">
+                            <span className="font-medium text-slate-500">Certification Fees:</span>
+                            <span className="text-slate-900 font-extrabold text-xs bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200/80">
+                              {formatted}
+                            </span>
+                          </div>
+                        );
+                      })()}
+
+                      <Link href={`/certifications/${course.id}`} className="block w-full">
+                        <Button className="w-full h-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:opacity-90 text-slate-800 font-normal text-xs transition-all duration-300 shadow-sm cursor-pointer flex items-center justify-center gap-2 group/btn">
+                          <span>View Certification</span>
+                          <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
+                        </Button>
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              </Card>
-            ))}
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -176,8 +236,8 @@ export default async function DigitalMediaCoursesPage() {
       <section className="py-16 md:py-20 bg-white">
         <div className="container max-w-[1360px] mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Why Learn Digital Media At <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC?</span></h2>
-            <p className="text-gray-500 max-w-2xl mx-auto text-base">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3 leading-[1.2]">Why Learn At <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC?</span></h2>
+            <p className="text-base md:text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed font-normal">
               Learn from real digital artists and build projects that stand out to creative agencies and studios.
             </p>
           </div>
@@ -204,11 +264,11 @@ export default async function DigitalMediaCoursesPage() {
       {/* Importance of Certification */}
       <section className="py-20 bg-white text-slate-900">
         <div className="container max-w-[1360px] mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3 leading-[1.2]">
               Importance of <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Digital Media Certifications</span> in Today's Era
             </h2>
-            <p className="text-base md:text-lg text-slate-600 font-medium leading-relaxed">
+            <p className="text-base md:text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed font-normal">
               Media is the currency of the modern web. Here is why certified digital media professionals are critical to every industry.
             </p>
           </div>

@@ -1,19 +1,21 @@
 import express from "express";
 import prisma from "../lib/prisma.js";
-import { readJsonDb, writeJsonDb, readJsonDbAsync, writeJsonDbAsync } from "../dataStore.js";
+import { readJsonDbAsync, writeJsonDbAsync } from "../dataStore.js";
 
 const router = express.Router();
 
 // POST /api/event-registrations
 router.post("/", async (req, res) => {
   try {
-    const { name, email, phone, eventId, college, education, course, graduationYear, city } = req.body;
+    const { name, email, phone, eventId, college, education, course, graduationYear, city, profession, area, address } = req.body;
 
     if (!name || !email || !phone) {
       return res.status(400).json({ error: "Name, email, and phone are required." });
     }
 
-    const collegeValue = (college || education || "").trim();
+    const collegeValue = (profession || college || education || "").trim();
+    const cleanArea = (area || address || "").trim();
+    const cleanCity = cleanArea && city && !city.includes(cleanArea) ? `${city} (${cleanArea})` : (city || cleanArea || "");
 
     let registration: any = null;
     try {
@@ -30,7 +32,7 @@ router.post("/", async (req, res) => {
         include: { event: true },
       });
     } catch (dbError) {
-      console.warn("Prisma failed for event registration, falling back to JSON:", dbError);
+      console.warn("[eventRegistration] Prisma create failed, falling back to CmsData:", dbError);
     }
 
     if (!registration) {
@@ -39,7 +41,7 @@ router.post("/", async (req, res) => {
         name: name.trim(),
         email: email.trim(),
         phone: phone.trim(),
-        city: city || "",
+        city: cleanCity,
         college: collegeValue,
         education: collegeValue,
         course: course || "",
@@ -49,17 +51,13 @@ router.post("/", async (req, res) => {
       };
     }
 
-    // Persist to JSON / CmsData store as well
+    // Persist to Neon PostgreSQL CmsData table
     try {
       const cmsRegs = await readJsonDbAsync<any>("event-registrations.json");
       cmsRegs.unshift(registration);
       await writeJsonDbAsync("event-registrations.json", cmsRegs);
-    } catch {
-      try {
-        const db = readJsonDb<any>("event-registrations.json");
-        db.unshift(registration);
-        writeJsonDb("event-registrations.json", db);
-      } catch {}
+    } catch (cmsErr) {
+      console.warn("[eventRegistration] CmsData write notice:", cmsErr);
     }
 
     return res.status(201).json({ success: true, registration });
@@ -79,14 +77,14 @@ router.get("/", async (req, res) => {
         include: { event: true },
       });
     } catch (dbError) {
-      console.warn("Prisma failed for event registration GET, falling back to JSON:", dbError);
+      console.warn("[eventRegistration] Prisma findMany failed, falling back to CmsData:", dbError);
     }
 
     let cmsRegs: any[] = [];
     try {
       cmsRegs = await readJsonDbAsync<any>("event-registrations.json");
-    } catch {
-      cmsRegs = readJsonDb<any>("event-registrations.json");
+    } catch (cmsErr) {
+      console.warn("[eventRegistration] CmsData read notice:", cmsErr);
     }
 
     const map = new Map<string, any>();
@@ -116,5 +114,44 @@ router.get("/", async (req, res) => {
     return res.status(500).json({ error: "Failed to fetch registrations." });
   }
 });
+
+// DELETE /api/event-registrations/:id? or ?id=...
+const handleDeleteRegistration = async (req: express.Request, res: express.Response) => {
+  try {
+    const id = (req.params.id || req.query.id || req.body?.id) as string;
+
+    if (!id) {
+      return res.status(400).json({ error: "Registration ID is required." });
+    }
+
+    // 1. Delete from Prisma
+    try {
+      await prisma.eventRegistration.deleteMany({
+        where: { OR: [{ id }, { id: String(id) }] },
+      });
+    } catch (dbErr) {
+      console.warn("[eventRegistration] Prisma delete notice:", dbErr);
+    }
+
+    // 2. Delete from CmsData
+    try {
+      const cmsRegs = await readJsonDbAsync<any>("event-registrations.json");
+      const filtered = cmsRegs.filter((r) => r.id !== id && r._id !== id);
+      if (filtered.length !== cmsRegs.length) {
+        await writeJsonDbAsync("event-registrations.json", filtered);
+      }
+    } catch (cmsErr) {
+      console.warn("[eventRegistration] CmsData delete notice:", cmsErr);
+    }
+
+    return res.status(200).json({ success: true, message: "Registration deleted successfully" });
+  } catch (error) {
+    console.error("[DELETE /api/event-registrations] Error:", error);
+    return res.status(500).json({ error: "Failed to delete registration." });
+  }
+};
+
+router.delete("/:id", handleDeleteRegistration);
+router.delete("/", handleDeleteRegistration);
 
 export default router;

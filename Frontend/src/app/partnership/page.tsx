@@ -1,23 +1,15 @@
-import type { Metadata } from "next";
-import { Handshake } from "lucide-react";
-import { Suspense } from "react";
-import PartnershipClient from "./PartnershipClient";
+import { redirect } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "Partnerships & Collaborations",
-  description: "Explore Educational and Corporate partnerships with BITC Amravati.",
-  openGraph: {
-    title: "Partnerships | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
-    description: "Academic MoU collaborations and Corporate Training programs.",
-  },
-};
+interface PageProps {
+  searchParams: Promise<{
+    tab?: string;
+  }>;
+}
 
-export default function PartnershipPage() {
-  return (
-    <div className="flex flex-col min-h-screen bg-white">
-      <Suspense fallback={null}>
-        <PartnershipClient />
-      </Suspense>
-    </div>
-  );
+export default async function PartnershipPage({ searchParams }: PageProps) {
+  const { tab } = await searchParams;
+  if (tab === "corporate") {
+    redirect("/partnership/corporate");
+  }
+  redirect("/partnership/educational");
 }

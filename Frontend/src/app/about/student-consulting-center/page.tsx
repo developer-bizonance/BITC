@@ -14,33 +14,33 @@ export default function StudentConsultingCenter() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-20 lg:py-28 bg-white overflow-hidden">
+      <section className="relative py-14 sm:py-18 lg:py-28 bg-white overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-full opacity-30 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent pointer-events-none" />
-        
+
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10 flex flex-col items-center text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6">
             <Compass className="w-4 h-4" />
             Student Consoling Centre
           </div>
-          
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-slate-900 max-w-4xl leading-tight">
+
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-slate-900 max-w-4xl leading-[1.2]">
             Navigate Your Career With <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Expert Consulting</span>
           </h1>
-          
+
           <p className="text-base md:text-lg text-gray-600 mb-10 max-w-2xl leading-relaxed">
             Not sure which certification to choose? Confused about career paths? Our expert counselors are here to help you make informed decisions and build a clear roadmap for success.
           </p>
-          
-          <div className="flex flex-wrap justify-center gap-4">
+
+          <div className="flex flex-wrap justify-center gap-4 w-full">
             <Dialog>
               <DialogTrigger render={
-                <button className="h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-900 text-lg font-medium flex items-center justify-center hover:opacity-90 transition-all shadow-lg shadow-orange-500/20 hover:-translate-y-0.5 cursor-pointer">
+                <button className="w-full sm:w-auto h-12 sm:h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-800 text-base sm:text-lg font-normal flex items-center justify-center hover:opacity-90 transition-all shadow-lg shadow-orange-500/20 hover:-translate-y-0.5 cursor-pointer">
                   Book your consultation <ArrowRight className="ml-2 w-5 h-5" />
                 </button>
               } />
-              <DialogContent className="sm:max-w-md bg-white border border-gray-100 p-6 md:p-8 rounded-3xl">
+              <DialogContent className="sm:max-w-md bg-white border border-gray-100 p-5 sm:p-6 md:p-7 rounded-3xl max-h-[92vh] overflow-y-auto no-scrollbar [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                 <DialogHeader>
-                  <DialogTitle className="text-2xl font-bold text-slate-900 text-center mb-2">Book a Free Consultation</DialogTitle>
+                  <DialogTitle className="text-xl sm:text-2xl font-bold text-slate-900 text-center mb-1">Book a Free Consultation</DialogTitle>
                 </DialogHeader>
                 <div className="text-left mt-2">
                   <ConsultationForm theme="light" />
@@ -52,7 +52,7 @@ export default function StudentConsultingCenter() {
       </section>
 
       {/* Services Section */}
-      <section className="py-20 bg-white">
+      <section className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">How we Can Help <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">You</span></h2>
@@ -97,7 +97,7 @@ export default function StudentConsultingCenter() {
                   <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 text-primary">
                     <service.icon className="w-7 h-7" />
                   </div>
-                  <h3 className="text-xl font-medium text-gray-600 mb-3">{service.title}</h3>
+                  <h3 className="text-xl font-bold text-slate-900 mb-3">{service.title}</h3>
                   <p className="text-gray-600 leading-relaxed">{service.desc}</p>
                 </CardContent>
               </Card>

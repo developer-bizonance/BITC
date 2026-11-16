@@ -10,40 +10,21 @@ export const metadata: Metadata = {
     description: "Explore BITC's network of 250+ top hiring partners hiring our industry-ready graduates.",
   },
 };
-import { 
-  Building2, Monitor, LineChart, PenTool, 
-  CheckCircle2, Users, Briefcase, Award 
+import {
+  Building2, Monitor, LineChart, PenTool,
+  CheckCircle2, Users, Briefcase, Award
 } from "lucide-react";
 import Link from "next/link";
+import prisma from "@/lib/prisma";
 import { resolveImageUrl, getApiBase } from "@/lib/utils";
-
-// Using local and remote logos for the layout
-const topPartners = [
-  { name: "TCS", logo: "/logos/tcs.svg" },
-  { name: "Infosys", logo: "/logos/infosys.svg" },
-  { name: "Wipro", logo: "/logos/wipro.svg" },
-  { name: "Tech Mahindra", logo: "/logos/tech-mahindra.svg" },
-  { name: "HCL", logo: "/logos/hcl.svg" },
-  { name: "Cognizant", logo: "/logos/cognizant.svg" },
-  { name: "Accenture", logo: "https://upload.wikimedia.org/wikipedia/commons/c/cd/Accenture.svg" },
-  { name: "Capgemini", logo: "https://upload.wikimedia.org/wikipedia/commons/9/9d/Capgemini_201x_logo.svg" },
-  { name: "IBM", logo: "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" },
-  { name: "Amazon", logo: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" },
-  { name: "Flipkart", logo: "https://cdn.worldvectorlogo.com/logos/flipkart.svg" },
-  { name: "Deloitte", logo: "https://cdn.worldvectorlogo.com/logos/deloitte-2.svg" },
-  { name: "KPMG", logo: "https://upload.wikimedia.org/wikipedia/commons/9/9d/KPMG_logo.svg" },
-  { name: "EY", logo: "https://upload.wikimedia.org/wikipedia/commons/3/34/EY_logo_2019.svg" },
-  { name: "PwC", logo: "https://upload.wikimedia.org/wikipedia/commons/0/05/PricewaterhouseCoopers_Logo.svg" },
-  { name: "Google", logo: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" },
-  { name: "Microsoft", logo: "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg" },
-  { name: "Oracle", logo: "https://upload.wikimedia.org/wikipedia/commons/5/50/Oracle_logo.svg" }
-];
+import TopRecruitersGrid from "@/components/TopRecruitersGrid";
+import { SubmitMouButton } from "@/components/SubmitMouModal";
 
 const industries = [
-  { name: "Information Technology", icon: Monitor, count: "150+" },
-  { name: "Business Development", icon: LineChart, count: "80+" },
-  { name: "Design & Media", icon: PenTool, count: "120+" },
-  { name: "Corporate & Management", icon: Building2, count: "100+" },
+  { name: "Information Technology", icon: Monitor, count: "50+" },
+  { name: "Business Development", icon: LineChart, count: "50+" },
+  { name: "Design & Media", icon: PenTool, count: "50+" },
+  { name: "Corporate & Management", icon: Building2, count: "50+" },
 ];
 
 const whyHire = [
@@ -53,7 +34,7 @@ const whyHire = [
     icon: Award,
   },
   {
-    title: "Hands-on Live Projects",
+    title: "Work On Live Projects",
     desc: "Every BITC student builds a portfolio through real-world projects, ensuring they have practical, applicable skills.",
     icon: Briefcase,
   },
@@ -63,7 +44,7 @@ const whyHire = [
     icon: CheckCircle2,
   },
   {
-    title: "Strong soft skills",
+    title: "Skill Orianted",
     desc: "We rigorously train our students in communication, teamwork, and corporate etiquette to fit seamlessly into any culture.",
     icon: Users,
   }
@@ -72,78 +53,81 @@ const whyHire = [
 export const dynamic = 'force-dynamic';
 
 export default async function HiringPartnersPage() {
-  let partners: { name: string, logo?: string }[] = topPartners;
+  let partners: { id?: string; name: string; logo?: string; isActive?: boolean }[] = [];
 
   try {
-    const backendUrl = getApiBase();
-    const res = await fetch(`${backendUrl}/industry-partners`, { cache: "no-store" });
-    if (res.ok) {
-      const data = await res.json();
-      if (data.partners && data.partners.length > 0) {
-        partners = data.partners.map((apiPartner: any) => {
-          const localMatch = topPartners.find(p => p.name.trim().toLowerCase() === apiPartner.name.trim().toLowerCase());
-          return {
+    // 1. Direct Neon PostgreSQL query for lightning-fast SSR
+    try {
+      const record = await prisma.cmsData.findUnique({
+        where: { key: "hiring-partners.json" },
+      });
+      if (Array.isArray(record?.data) && record.data.length > 0) {
+        partners = (record.data as any[])
+          .filter((p: any) => p && p.isActive !== false && p.isActive !== "false" && p.status !== "hidden")
+          .map((apiPartner: any) => ({
             ...apiPartner,
-            logo: apiPartner.logo ? resolveImageUrl(apiPartner.logo) : (localMatch ? localMatch.logo : undefined)
-          };
-        });
+            logo: apiPartner.logo ? resolveImageUrl(apiPartner.logo) : undefined,
+          }));
+      }
+    } catch (dbErr) {
+      console.warn("[HiringPartnersPage] Direct DB query notice:", dbErr);
+    }
+
+    // 2. Fallback to API if DB is empty
+    if (partners.length === 0) {
+      const backendUrl = getApiBase();
+      const res = await fetch(`${backendUrl}/hiring-partners?t=${Date.now()}`, { cache: "no-store" });
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data.partners) && data.partners.length > 0) {
+          partners = data.partners
+            .filter((p: any) => p && p.isActive !== false && p.isActive !== "false" && p.status !== "hidden")
+            .map((apiPartner: any) => ({
+              ...apiPartner,
+              logo: apiPartner.logo ? resolveImageUrl(apiPartner.logo) : undefined,
+            }));
+        }
       }
     }
   } catch (error) {
-    console.error("Failed to fetch industry partners:", error);
+    console.error("Failed to fetch hiring partners:", error);
   }
 
   return (
     <div className="flex flex-col min-h-screen">
-      
+
       {/* 1. Hero Banner */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center py-8 md:py-12 bg-white overflow-hidden">
+      <section className="relative w-full lg:min-h-[calc(100vh-80px)] flex flex-col items-center justify-center py-12 sm:py-14 md:py-12 bg-white overflow-hidden">
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10 text-center flex flex-col items-center justify-center h-full">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-4">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            INDUSTRY PARTNERS
+            Hiring Partners
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
-            Top Companies <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Hire From BITC.</span>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-6 leading-[1.2]">
+            Top Companies <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Hire From BITC</span>
           </h1>
-          <p className="text-lg md:text-xl text-slate-600 max-w-[800px] mx-auto leading-relaxed font-medium">
+          <p className="text-base md:text-lg text-gray-600 max-w-[800px] mx-auto leading-relaxed font-normal">
             We are proud to partner with leading MNCs, innovative startups, and top corporate firms to provide outstanding career opportunities for our students.
           </p>
+          <div className="mt-8 flex justify-center">
+            <SubmitMouButton />
+          </div>
         </div>
       </section>
 
       {/* 2. Top Recruiters Grid */}
-      <section className="py-20 bg-white relative z-20">
+      <section className="py-12 sm:py-16 md:py-20 bg-white relative z-20">
         <div className="container max-w-[1200px] mx-auto px-4">
-          <Card className="border-0 shadow-2xl rounded-3xl bg-white overflow-hidden p-8 md:p-12">
-            <div className="text-center mb-10">
-              <h2 className="text-2xl font-bold text-slate-900 mb-2">Our Top <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Recruiters</span></h2>
-              <p className="text-gray-500">Graduates from BITC are placed at these prestigious organizations.</p>
-            </div>
-            
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 md:gap-8">
-              {partners.map((company, i) => (
-                <div key={i} className="h-24 px-6 bg-white border border-slate-200/80 rounded-xl flex items-center justify-center text-center hover:shadow-lg hover:border-primary/40 hover:-translate-y-1 transition-all duration-300 group cursor-default">
-                  {company.logo ? (
-                    <img 
-                      src={company.logo} 
-                      alt={company.name} 
-                      title={company.name}
-                      className="max-h-12 w-auto object-contain transition-all duration-300 group-hover:scale-110" 
-                    />
-                  ) : (
-                    <span className="font-extrabold text-base lg:text-lg text-slate-900 group-hover:text-primary transition-colors uppercase tracking-wider leading-tight">
-                      {company.name}
-                    </span>
-                  )}
-                </div>
-              ))}
-            </div>
+          <div className="text-center mb-10">
+            <h2 className="text-4xl font-bold text-slate-900 mb-2">Our Top <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Recruiters</span></h2>
+            <p className="text-base md:text-lg text-gray-600 leading-relaxed font-normal">Graduates from BITC are placed at these prestigious organizations.</p>
+          </div>
 
-            <div className="mt-12 text-center text-sm font-semibold text-slate-600 uppercase tracking-widest">
-              And 400+ more startups and mid-size companies...
-            </div>
-          </Card>
+          <TopRecruitersGrid initialPartners={partners} />
+
+          <div className="mt-12 text-center text-sm font-semibold text-slate-600 uppercase tracking-widest">
+            And 100+ more startups and mid-size companies...
+          </div>
         </div>
       </section>
 
@@ -152,7 +136,7 @@ export default async function HiringPartnersPage() {
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Industries we <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Serve</span></h2>
-            <p className="text-gray-500 text-lg">Our diverse talent pool meets the demands of various high-growth sectors.</p>
+            <p className="text-base md:text-lg text-gray-600 leading-relaxed font-normal">Our diverse talent pool meets the demands of various high-growth sectors.</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -177,7 +161,7 @@ export default async function HiringPartnersPage() {
       <section className="py-20 bg-white text-slate-900 relative overflow-hidden">
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            
+
             <div>
               <div className="inline-flex items-center gap-2 bg-primary/10 text-primary font-medium rounded-full px-4 py-1.5 text-sm uppercase tracking-wider mb-6">
                 For Employers
@@ -186,10 +170,10 @@ export default async function HiringPartnersPage() {
                 Why Should You Hire <br />
                 <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC Certified?</span>
               </h2>
-              <p className="text-slate-600 text-lg mb-8 leading-relaxed font-medium">
+              <p className="text-base md:text-lg text-gray-600 mb-8 leading-relaxed font-normal">
                 We don't just teach theory; we build professionals. Partnering with BITC means gaining access to a curated pool of talent that is ready to contribute to your company's success from day one.
               </p>
-              
+
               <ul className="space-y-6">
                 <li className="flex items-center gap-4">
                   <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
@@ -230,16 +214,12 @@ export default async function HiringPartnersPage() {
       <section className="py-20 bg-white text-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[800px] mx-auto px-4 relative z-10 text-center">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">Looking for Top <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Talent?</span></h2>
-          <p className="text-xl text-slate-600 font-medium mb-10 leading-relaxed">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-6 leading-[1.2]">Looking for Top <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Talent?</span></h2>
+          <p className="text-base md:text-lg text-gray-600 mb-10 leading-relaxed font-normal">
             Connect with our Placement Cell to organize a campus drive or share your requirements for off-campus recruitment.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link href="/contact">
-              <Button className="h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] text-lg font-medium shadow-xl shadow-primary/20 hover:-translate-y-1 transition-all border-0 w-full sm:w-auto">
-                Become a Hiring Partner
-              </Button>
-            </Link>
+            <SubmitMouButton />
           </div>
         </div>
       </section>

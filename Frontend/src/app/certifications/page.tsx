@@ -7,16 +7,34 @@ export const metadata: Metadata = {
   openGraph: {
     title: "All Certifications | BIZONANCE Industrial Training Centre. (BITC) | Amravati",
     description: "Explore industry-vetted certification programs in Full Stack, AI, Data Science, UI/UX, and Management.",
+    images: [
+      {
+        url: "/og-image.png",
+        secureUrl: "/og-image.png",
+        width: 1200,
+        height: 630,
+        type: "image/png",
+        alt: "BIZONANCE Industrial Training Centre. (BITC) | Amravati Logo",
+      },
+      {
+        url: "/og-square.png",
+        secureUrl: "/og-square.png",
+        width: 800,
+        height: 800,
+        type: "image/png",
+        alt: "BIZONANCE Industrial Training Centre. (BITC) | Amravati Logo",
+      },
+    ],
   },
 };
 
 export default function CoursesPage() {
   return (
-    <div className="py-12 md:py-20 bg-white min-h-screen">
+    <div className="py-10 sm:py-14 md:py-20 bg-white min-h-screen">
       <div className="container max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-center text-center mb-10">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-slate-dark mb-4">Our <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span></h1>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-dark mb-4">Our <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Certifications</span></h1>
             <p className="text-gray-500 text-[16px] md:text-lg max-w-2xl mx-auto">
               Industry-vetted curriculum designed to make you day-one ready. Master the skills that top companies are looking for.
             </p>

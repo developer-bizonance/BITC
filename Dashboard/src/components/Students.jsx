@@ -21,6 +21,8 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { getApiUrl } from "../utils";
+import DeleteConfirmModal from "./uic/DeleteConfirmModal.jsx";
+import { WhatsAppButton } from "./uic/WhatsAppButton";
 
 const Students = () => {
   const [students, setStudents] = useState([]);
@@ -34,6 +36,8 @@ const Students = () => {
   const [submitting, setSubmitting] = useState(false);
   const [notification, setNotification] = useState(null);
   const [copiedField, setCopiedField] = useState(null);
+  const [confirmDelete, setConfirmDelete] = useState(null); // { id, name }
+  const [deleting, setDeleting] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
@@ -85,7 +89,7 @@ const Students = () => {
   const handleAdd = async (e) => {
     e.preventDefault();
     if (!form.name.trim() || !form.email.trim()) {
-      showNotification("Please enter student name and email", "error");
+      showNotification("Please enter student name and email ID", "error");
       return;
     }
     setSubmitting(true);
@@ -126,7 +130,7 @@ const Students = () => {
   const handleEdit = async (e) => {
     e.preventDefault();
     if (!editForm.name.trim() || !editForm.email.trim()) {
-      showNotification("Please fill in both name and email", "error");
+      showNotification("Please fill in both name and email ID", "error");
       return;
     }
     setSubmitting(true);
@@ -154,10 +158,14 @@ const Students = () => {
   };
 
   // Delete Student
-  const handleDelete = async (id, name) => {
-    if (!window.confirm(`Are you sure you want to delete the student account for "${name}"?`)) {
-      return;
-    }
+  const handleDelete = (id, name) => {
+    setConfirmDelete({ id, name });
+  };
+
+  const confirmAndDelete = async () => {
+    if (!confirmDelete) return;
+    const { id, name } = confirmDelete;
+    setDeleting(true);
     try {
       const res = await fetch(`${apiUrl}/students/${id}`, { method: "DELETE" });
       const data = await res.json();
@@ -169,6 +177,9 @@ const Students = () => {
       }
     } catch (err) {
       showNotification("Network error", "error");
+    } finally {
+      setDeleting(false);
+      setConfirmDelete(null);
     }
   };
 
@@ -179,7 +190,7 @@ const Students = () => {
       return;
     }
 
-    const headers = ["ID", "Full Name", "Email Address", "Phone Number", "Registered Date"];
+    const headers = ["ID", "Full Name", "Email Id", "Contact Number", "Registered Date"];
     const rows = students.map((s) => [
       `"${(s.id || "").replace(/"/g, '""')}"`,
       `"${(s.name || "").replace(/"/g, '""')}"`,
@@ -213,13 +224,12 @@ const Students = () => {
   });
 
   return (
-    <div className="p-5 md:p-8 bg-[#fcfcfc] min-h-screen font-sans text-slate-900 antialiased space-y-6">
+    <div className="p-5 md:p-6 pt-6 md:pt-7 max-w-full mx-auto space-y-6 animate-in fade-in duration-200 min-h-screen">
       {/* Toast Notification */}
       {notification && (
         <div
-          className={`fixed top-4 right-4 z-50 px-4 py-2.5 rounded-xl shadow-xl font-medium text-xs flex items-center gap-2 transition-all ${
-            notification.type === "error" ? "bg-red-600 text-white" : "bg-emerald-600 text-white"
-          }`}
+          className={`fixed top-4 right-4 z-50 px-4 py-2.5 rounded-xl shadow-xl font-medium text-xs flex items-center gap-2 transition-all ${notification.type === "error" ? "bg-red-600 text-white" : "bg-emerald-600 text-white"
+            }`}
         >
           <Check className="w-4 h-4" />
           <span>{notification.msg}</span>
@@ -227,48 +237,39 @@ const Students = () => {
       )}
 
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
-        <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center shadow-md shadow-blue-500/20 font-bold">
-            <Users className="w-5 h-5" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-xl md:text-2xl font-extrabold text-slate-900">
-                Registered Students
-              </h1>
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200">
-                {students.length} Total Accounts
-              </span>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-gray-100">
+        <div>
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-normal">
+              <Users className="w-4 h-4" />
             </div>
-            <p className="text-xs text-slate-500 mt-0.5">
-              Manage registered student portal credentials, login records, and active student profiles
-            </p>
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="text-lg font-bold text-gray-900">
+                  Registered Students
+                </h2>
+                <span className="px-2 py-0.5 rounded-full text-[11px] font-normal bg-blue-50 text-blue-700 border border-blue-100">
+                  {students.length} Accounts
+                </span>
+              </div>
+              <p className="text-xs text-gray-500 mt-0.5">
+                Manage registered student portal credentials, login records, and active student profiles
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* Header Action Buttons */}
         <div className="flex items-center gap-2">
           <button
-            onClick={fetchStudents}
-            disabled={loading}
-            className="flex items-center gap-1.5 px-3 py-2 hover: text-xs cursor-pointer hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
-          >
-            <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin text-blue-600" : ""}`} />
-            Refresh
-          </button>
-
-          <button
             onClick={handleExportCSV}
-            className="flex items-center gap-1.5 px-3.5 py-2 hover: text-xs cursor-pointer hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
+            className="flex items-center justify-center gap-1.5 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 hover:border-blue-300 rounded-full font-medium text-xs shadow-xs transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
           >
             <Download className="w-3.5 h-3.5" />
             Export CSV
           </button>
-
           <button
             onClick={() => setIsAddOpen(true)}
-            className="flex items-center gap-1.5 px-4 py-2 hover: text-xs cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
+            className="flex items-center justify-center gap-1.5 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 hover:border-blue-300 rounded-full font-medium text-xs shadow-xs transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
           >
             <Plus className="w-3.5 h-3.5" />
             Add Student
@@ -301,10 +302,10 @@ const Students = () => {
           <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
             type="text"
-            placeholder="Search students by name, email, phone, or ID..."
+            placeholder="Search students by name, email ID, contact number, or ID..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-9 pr-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+            className="w-full pl-9 pr-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-normal focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-gray-500"
           />
         </div>
       </div>
@@ -330,8 +331,8 @@ const Students = () => {
               <thead>
                 <tr className="bg-slate-50/80 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                   <th className="py-3.5 px-4">Student</th>
-                  <th className="py-3.5 px-4">Email Address</th>
-                  <th className="py-3.5 px-4">Phone Number</th>
+                  <th className="py-3.5 px-4">Email Id</th>
+                  <th className="py-3.5 px-4">Contact Number</th>
                   <th className="py-3.5 px-4">Registered Date</th>
                   <th className="py-3.5 px-4 text-center">Status</th>
                   <th className="py-3.5 px-4 text-right">Actions</th>
@@ -365,8 +366,8 @@ const Students = () => {
                           {student.email}
                         </a>
                         <button
-                          onClick={() => copyToClipboard(student.email, "Email")}
-                          title="Copy Email"
+                          onClick={() => copyToClipboard(student.email, "Email Id")}
+                          title="Copy Email Id"
                           className="opacity-0 group-hover:opacity-100 hover:text-blue-600 transition-opacity p-0.5 text-slate-400 cursor-pointer"
                         >
                           <Copy className="w-3 h-3" />
@@ -378,9 +379,17 @@ const Students = () => {
                     <td className="py-3.5 px-4 text-slate-600" onClick={(e) => e.stopPropagation()}>
                       <div className="flex items-center gap-1.5">
                         <Phone className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                        <a href={`tel:${student.phone}`} className="hover:text-blue-600 font-normal">
+                        <span className="font-normal text-slate-700">
                           {student.phone || "Not Provided"}
-                        </a>
+                        </span>
+                        {student.phone && (
+                          <WhatsAppButton
+                            phone={student.phone}
+                            name={student.name}
+                            message={`Hello ${student.name}, this is from BITC (BIZONANCE Industrial Training Centre)...`}
+                            size="sm"
+                          />
+                        )}
                       </div>
                     </td>
 
@@ -423,9 +432,9 @@ const Students = () => {
                         <button
                           onClick={() => handleDelete(student.id, student.name)}
                           title="Delete Student"
-                          className="p-1.5 text-slate-400 hover:text-red-600 transition-colors cursor-pointer"
+                          className="w-8 h-8 text-red-500 hover:text-white bg-white hover:bg-red-600 hover:border-red-600 rounded-full border border-slate-200 shadow-xs transition-all cursor-pointer inline-flex items-center justify-center active:scale-95"
                         >
-                          <Trash2 className="w-4 h-4" />
+                          <Trash2 size={15} />
                         </button>
                       </div>
                     </td>
@@ -463,38 +472,38 @@ const Students = () => {
                 <input
                   type="text"
                   required
-                  placeholder="e.g. John Doe"
+
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none"
+                  className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none text-gray-500"
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-medium text-gray-500 mb-1">
-                  Email Address *
+                  Email Id *
                 </label>
                 <input
                   type="email"
                   required
-                  placeholder="student@example.com"
+
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none"
+                  className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none text-gray-500"
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-medium text-gray-500 mb-1">
-                  Phone Number
+                  Contact Number
                 </label>
                 <input
                   type="tel"
                   maxLength={10}
-                  placeholder="9876543210"
+
                   value={form.phone}
                   onChange={(e) => setForm({ ...form, phone: e.target.value.replace(/\D/g, "").slice(0, 10) })}
-                  className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none"
+                  className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none text-gray-500"
                 />
               </div>
 
@@ -504,10 +513,10 @@ const Students = () => {
                 </label>
                 <input
                   type="password"
-                  placeholder="Default: Student@123"
+
                   value={form.password}
                   onChange={(e) => setForm({ ...form, password: e.target.value })}
-                  className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none"
+                  className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none text-gray-500"
                 />
               </div>
 
@@ -515,14 +524,14 @@ const Students = () => {
                 <button
                   type="button"
                   onClick={() => setIsAddOpen(false)}
-                  className="px-4 py-2 text-xs hover: cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
+                  className="px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 rounded-full font-medium text-xs transition-all cursor-pointer active:scale-95 disabled:opacity-50"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-4 py-2 hover: text-xs cursor-pointer hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
+                  className="px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 rounded-full font-medium text-xs transition-all cursor-pointer active:scale-95 disabled:opacity-50"
                 >
                   {submitting ? "Creating..." : "Create Account"}
                 </button>
@@ -560,33 +569,33 @@ const Students = () => {
                   required
                   value={editForm.name}
                   onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-                  className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none"
+                  className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none text-gray-500"
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-medium text-gray-500 mb-1">
-                  Email Address *
+                  Email Id *
                 </label>
                 <input
                   type="email"
                   required
                   value={editForm.email}
                   onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
-                  className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none"
+                  className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none text-gray-500"
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-medium text-gray-500 mb-1">
-                  Phone Number
+                  Contact Number
                 </label>
                 <input
                   type="tel"
                   maxLength={10}
                   value={editForm.phone}
                   onChange={(e) => setEditForm({ ...editForm, phone: e.target.value.replace(/\D/g, "").slice(0, 10) })}
-                  className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none"
+                  className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none text-gray-500"
                 />
               </div>
 
@@ -594,14 +603,14 @@ const Students = () => {
                 <button
                   type="button"
                   onClick={() => setIsEditOpen(false)}
-                  className="px-4 py-2 text-xs hover: cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
+                  className="px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 rounded-full font-medium text-xs transition-all cursor-pointer active:scale-95 disabled:opacity-50"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-4 py-2 hover: text-xs cursor-pointer hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
+                  className="px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 rounded-full font-medium text-xs transition-all cursor-pointer active:scale-95 disabled:opacity-50"
                 >
                   {submitting ? "Saving..." : "Save Changes"}
                 </button>
@@ -648,48 +657,58 @@ const Students = () => {
                 </div>
                 <div>
                   <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
-                    Email Address
+                    Email Id
                   </span>
                   <p className="font-medium text-slate-800">{selectedStudent.email}</p>
                 </div>
                 <div>
                   <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
-                    Phone Number
+                    Contact Number
                   </span>
-                  <p className="font-medium text-slate-800">{selectedStudent.phone || "Not Provided"}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="font-medium text-slate-800">{selectedStudent.phone || "Not Provided"}</p>
+                    {selectedStudent.phone && (
+                      <WhatsAppButton
+                        phone={selectedStudent.phone}
+                        name={selectedStudent.name}
+                        message={`Hello ${selectedStudent.name}, this is from BITC (BIZONANCE Industrial Training Centre)...`}
+                        showLabel={true}
+                      />
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Quick Action Footer */}
+            {/* Action Footer */}
             <div className="px-6 py-4 border-t border-slate-100 bg-slate-50/70 flex items-center justify-between">
               <span className="text-xs text-slate-400">
-                Click to contact {selectedStudent.name}
+                Student Account: {selectedStudent.email}
               </span>
 
               <div className="flex items-center gap-2">
-                <a
-                  href={`tel:${selectedStudent.phone}`}
-                  className="flex items-center gap-1.5 px-3.5 py-2 hover: text-xs bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
+                <button
+                  onClick={() => setIsDetailOpen(false)}
+                  className="px-4 py-1.5 text-xs bg-slate-200 text-slate-700 hover:bg-slate-300 font-medium rounded-3xl transition-all cursor-pointer"
                 >
-                  <Phone className="w-3.5 h-3.5 text-emerald-600" />
-                  Call Student
-                </a>
-
-                <a
-                  href={`mailto:${selectedStudent.email}?subject=BITC Student Portal Notification&body=Dear ${encodeURIComponent(
-                    selectedStudent.name
-                  )},\n\nThank you for registering at BIZONANCE Industrial Training Centre (BITC).\n\nBest regards,\nBITC Academic Team`}
-                  className="flex items-center gap-1.5 px-3.5 py-2 hover: hover: text-xs bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
-                >
-                  <Send className="w-3.5 h-3.5" />
-                  Email Student
-                </a>
+                  Close
+                </button>
               </div>
             </div>
           </motion.div>
         </div>
       )}
+
+      {/* Centered Delete Confirmation Modal */}
+      <DeleteConfirmModal
+        isOpen={!!confirmDelete}
+        title="Remove Student Account"
+        itemName={confirmDelete?.name}
+        from="Students"
+        loading={deleting}
+        onConfirm={confirmAndDelete}
+        onCancel={() => setConfirmDelete(null)}
+      />
     </div>
   );
 };

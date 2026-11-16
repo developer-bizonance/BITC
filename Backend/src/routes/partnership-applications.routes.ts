@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { readJsonDbAsync, writeJsonDbAsync } from "../dataStore.js";
+import prisma from "../lib/prisma.js";
 
 export interface PartnershipApplication {
   id: string;
@@ -11,6 +12,9 @@ export interface PartnershipApplication {
   email: string;
   phone: string;
   partnershipType: string;
+  mouFile?: string;
+  mouFileName?: string;
+  mouFileSize?: string;
   message: string;
   status: "Pending" | "Reviewed" | "Contacted" | "Approved" | "Rejected";
   createdAt: string;
@@ -40,6 +44,9 @@ router.post("/", async (req: Request, res: Response) => {
       email,
       phone,
       partnershipType,
+      mouFile,
+      mouFileName,
+      mouFileSize,
       message,
     } = req.body;
 
@@ -56,7 +63,10 @@ router.post("/", async (req: Request, res: Response) => {
       designation: designation?.trim() || "",
       email: email.trim().toLowerCase(),
       phone: phone.trim(),
-      partnershipType: partnershipType?.trim() || "Other",
+      partnershipType: partnershipType?.trim() || "MoU Collaboration",
+      mouFile: mouFile?.trim() || "",
+      mouFileName: mouFileName?.trim() || "",
+      mouFileSize: mouFileSize?.trim() || "",
       message: message?.trim() || "",
       status: "Pending",
       createdAt: new Date().toISOString(),
@@ -77,13 +87,22 @@ router.post("/", async (req: Request, res: Response) => {
   }
 });
 
-// PATCH /api/partnership-applications/:id
-router.patch("/:id", async (req: Request, res: Response) => {
+// PATCH /api/partnership-applications/:id or /api/partnership-applications
+const handlePatch = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id || req.body?.id || req.query?.id;
     const { status } = req.body;
+    if (!id) {
+      return res.status(400).json({ error: "Application ID is required" });
+    }
+    const cleanId = String(id).trim().toLowerCase();
     const appsDb = await readJsonDbAsync<PartnershipApplication>("partnership-applications.json");
-    const app = appsDb.find((a) => a.id === id);
+    const app = appsDb.find((a) => {
+      const aId = String(a.id || "").trim().toLowerCase();
+      const aUnderscoreId = String((a as any)._id || "").trim().toLowerCase();
+      return aId === cleanId || aUnderscoreId === cleanId;
+    });
+
     if (!app) {
       return res.status(404).json({ error: "Application not found" });
     }
@@ -98,19 +117,40 @@ router.patch("/:id", async (req: Request, res: Response) => {
   } catch (err: any) {
     return res.status(500).json({ error: err?.message || "Failed to update application" });
   }
-});
+};
 
-// DELETE /api/partnership-applications/:id
-router.delete("/:id", async (req: Request, res: Response) => {
+router.patch("/:id", handlePatch);
+router.patch("/", handlePatch);
+
+// Helper for delete
+const handleDelete = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    const appsDb = await readJsonDbAsync<PartnershipApplication>("partnership-applications.json");
-    const initialLen = appsDb.length;
-    const updatedDb = appsDb.filter((a) => a.id !== id);
-
-    if (updatedDb.length === initialLen) {
-      return res.status(404).json({ error: "Application not found" });
+    const id = req.params.id || req.body?.id || req.query?.id;
+    if (!id) {
+      return res.status(400).json({ error: "Application ID is required" });
     }
+    const cleanId = String(id).trim().toLowerCase();
+
+    // 1. Direct Prisma delete from PostgreSQL
+    try {
+      await prisma.partnershipApplication.deleteMany({
+        where: {
+          OR: [
+            { id: String(id) },
+            { id: { equals: cleanId, mode: "insensitive" } },
+          ],
+        },
+      });
+    } catch (dbErr) {
+      console.warn("[partnership-applications] DB DELETE notice:", dbErr);
+    }
+
+    const appsDb = await readJsonDbAsync<PartnershipApplication>("partnership-applications.json");
+    const updatedDb = appsDb.filter((a) => {
+      const aId = String(a.id || "").trim().toLowerCase();
+      const aUnderscoreId = String((a as any)._id || "").trim().toLowerCase();
+      return aId !== cleanId && aUnderscoreId !== cleanId;
+    });
 
     await writeJsonDbAsync("partnership-applications.json", updatedDb);
 
@@ -122,6 +162,13 @@ router.delete("/:id", async (req: Request, res: Response) => {
   } catch (err: any) {
     return res.status(500).json({ error: err?.message || "Failed to delete application" });
   }
-});
+};
+
+// DELETE & POST delete fallbacks
+router.delete("/:id", handleDelete);
+router.delete("/", handleDelete);
+router.post("/delete", handleDelete);
+router.post("/delete/:id", handleDelete);
+router.post("/:id/delete", handleDelete);
 
 export default router;

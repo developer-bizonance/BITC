@@ -1,3 +1,4 @@
+import TrustedBy from "@/components/TrustedBy";
 import type { Metadata } from "next";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,10 +12,10 @@ export const metadata: Metadata = {
   },
 };
 import Link from "next/link";
-import { 
-  Target, Briefcase, GraduationCap, Users, 
-  TrendingUp, FileText, CheckCircle2, MessageSquare, 
-  ArrowRight, Award, Trophy 
+import {
+  Target, Briefcase, GraduationCap, Users,
+  TrendingUp, FileText, CheckCircle2, MessageSquare,
+  ArrowRight, Award, Trophy
 } from "lucide-react";
 
 const activities = [
@@ -73,44 +74,50 @@ const process = [
 export default function PlacementCellPage() {
   return (
     <div className="flex flex-col min-h-screen">
-      
+
       {/* 1. Hero Banner */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center py-8 md:py-12 bg-white overflow-hidden">
+      <section className="relative w-full lg:min-h-[calc(100vh-80px)] flex flex-col items-center justify-center py-12 sm:py-14 md:py-12 bg-white overflow-hidden">
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10 text-center flex flex-col items-center justify-center h-full">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-4">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            PLACEMENT CELL
+            Placement Cell
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
-            Empowering Your <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Career Journey.</span>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-6 leading-[1.2]">
+            Empowering Your <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Career Journey</span>
           </h1>
-          <p className="text-lg md:text-xl text-slate-600 max-w-[800px] mx-auto leading-relaxed font-medium">
+          <p className="text-base md:text-lg text-gray-600 max-w-[800px] mx-auto leading-relaxed font-normal">
             Our dedicated Placement Cell bridges the gap between academics and industry, equipping you with the skills, confidence, and opportunities to secure your dream job.
           </p>
         </div>
       </section>
 
       {/* 2. Key Statistics */}
-      <section className="py-16 bg-white relative z-20">
-        <div className="container max-w-[1000px] mx-auto px-4">
-          <Card className="border border-slate-200/80 shadow-2xl rounded-3xl bg-white overflow-hidden">
-            <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-slate-100">
-              {[
-                { label: "Placement Ratio", value: "95%", icon: TrendingUp },
-                { label: "Hiring Partners", value: "10+", icon: Briefcase },
-                { label: "Highest Package", value: "12 LPA", icon: Award },
-                { label: "Students Trained", value: "500+", icon: Users },
-              ].map((stat, i) => (
-                <div key={i} className="p-8 text-center flex flex-col items-center justify-center">
-                  <div className="w-12 h-12 bg-orange-500/10 text-orange-600 rounded-full flex items-center justify-center mb-4 font-medium">
-                    <stat.icon className="w-6 h-6" />
-                  </div>
-                  <div className="text-3xl font-black text-slate-900 mb-1 tracking-tight">{stat.value}</div>
-                  <div className="text-xs font-bold text-slate-700 uppercase tracking-widest">{stat.label}</div>
+      <section className="py-10 sm:py-12 md:py-16 bg-white relative">
+        <div className="container max-w-[1100px] mx-auto px-4 relative z-10">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3">
+              100% <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Placement Assistance</span>
+            </h2>
+            <p className="text-base md:text-lg text-gray-600 max-w-xl mx-auto leading-relaxed font-normal">Our dedicated placement cell ensures you get the right launchpad for your career.</p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 text-center">
+            {[
+              { stat: "10+", label: "Hiring Partners" },
+              { stat: "500+", label: "Students Certified" },
+              { stat: "12 LPA", label: "Highest Package" },
+              { stat: "95%", label: "Placement Ratio" }
+            ].map((item, index) => (
+              <div key={index} className="p-5 md:p-6 bg-slate-50 rounded-2xl border border-slate-100/90 shadow-sm hover:bg-white hover:border-primary/60 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary/10 group">
+                <div className="text-3xl md:text-4xl font-bold mb-2 opacity-65 group-hover:opacity-100 transform group-hover:scale-105 transition-all duration-300">
+                  <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">
+                    {item.stat}
+                  </span>
                 </div>
-              ))}
-            </div>
-          </Card>
+                <div className="text-xs md:text-[13px] font-bold text-slate-800 tracking-wider">{item.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -119,7 +126,7 @@ export default function PlacementCellPage() {
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">How we Prepare <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">You</span></h2>
-            <p className="text-gray-500 text-lg leading-relaxed">
+            <p className="text-base md:text-lg text-gray-600 leading-relaxed font-normal">
               Our comprehensive placement preparation program goes beyond traditional academics to ensure you are completely industry-ready by the time you graduate.
             </p>
           </div>
@@ -146,26 +153,33 @@ export default function PlacementCellPage() {
       <section className="py-12 bg-white">
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="flex flex-col lg:flex-row gap-10 items-center">
-            
-            <div className="flex-1 w-full relative max-w-md mx-auto lg:max-w-none">
+
+            {/* Desktop Image Column (Left on desktop, hidden on mobile) */}
+            <div className="hidden lg:block flex-1 w-full relative max-w-md mx-auto lg:max-w-none">
               <div className="aspect-square lg:aspect-[4/5] lg:max-w-md mx-auto rounded-[2rem] overflow-hidden shadow-xl relative">
-                <img 
-                  src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1000&auto=format&fit=crop" 
-                  alt="Students in a mock interview" 
+                <img
+                  src="/placement-process.jpg"
+                  alt="Students in a mock interview and placement drive"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent" />
-                <div className="absolute bottom-6 left-6 right-6 text-black">
-                  <div className="text-xl font-bold mb-1">Structured Path to Success</div>
-                  <p className="text-gray-200 text-sm">Our 5-step process ensures no one is left behind.</p>
-                </div>
               </div>
             </div>
 
             <div className="flex-1 w-full space-y-6">
               <div>
                 <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Our Proven Placement <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Process</span></h2>
-                <p className="text-gray-500 text-base mb-6">We follow a rigorous, step-by-step methodology to transform students into highly employable professionals.</p>
+                <p className="text-base md:text-lg text-gray-600 mb-6 leading-relaxed font-normal">We follow a rigorous, step-by-step methodology to transform students into highly employable professionals.</p>
+              </div>
+
+              {/* Mobile Image (Shown under paragraph on mobile, hidden on lg) */}
+              <div className="block lg:hidden w-full relative max-w-md mx-auto mb-8">
+                <div className="aspect-square rounded-[2rem] overflow-hidden shadow-xl relative">
+                  <img
+                    src="/placement-process.jpg"
+                    alt="Students in a mock interview and placement drive"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
               </div>
 
               <div className="space-y-4">
@@ -191,22 +205,25 @@ export default function PlacementCellPage() {
         </div>
       </section>
 
+      {/* Trusted By Marquee (Dynamic from database) */}
+      <TrustedBy />
+
       {/* 5. CTA */}
       <section className="py-20 bg-white text-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[800px] mx-auto px-4 relative z-10 text-center">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">Your Dream Job <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Awaits</span></h2>
-          <p className="text-xl text-slate-600 font-medium mb-10 leading-relaxed">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-6 leading-[1.2]">Your Dream Job <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Awaits</span></h2>
+          <p className="text-base md:text-lg text-gray-600 mb-10 leading-relaxed font-normal">
             Take the first step towards a successful career. Get in touch with the BITC Placement Cell today.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link href="/contact">
-              <Button className="w-full sm:w-auto h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] text-lg font-medium shadow-xl shadow-primary/20 hover:-translate-y-1 transition-all border-0">
+            <Link href="/contact?enquiry=Placement%20%26%20Student%20Recruitment#contact-form">
+              <Button className="w-full sm:w-auto h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-800 hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] text-lg font-normal shadow-xl shadow-primary/20 hover:-translate-y-1 transition-all border-0">
                 Contact placement officer
               </Button>
             </Link>
             <Link href="/placements/partners">
-              <Button variant="outline" className="w-full sm:w-auto h-14 px-10 rounded-full border-blue-200/80 text-slate-700 hover:bg-white hover:border-blue-300 text-lg font-medium hover:-translate-y-1 transition-all bg-white/80 backdrop-blur-sm shadow-sm">
+              <Button variant="outline" className="w-full sm:w-auto h-14 px-10 rounded-full border-blue-200/80 text-slate-600 hover:bg-white hover:border-blue-300 text-lg font-normal hover:-translate-y-1 transition-all bg-white/80 backdrop-blur-sm shadow-sm">
                 View hiring partners
               </Button>
             </Link>

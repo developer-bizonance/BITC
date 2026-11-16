@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Plus, Trash2, Pencil, RefreshCw, X, BookOpen, Clock, Tag } from "lucide-react";
 import { getApiUrl } from "../utils";
+import DeleteConfirmModal from "./uic/DeleteConfirmModal.jsx";
+import ImageUpload from "./ImageUpload";
 
 const Courses = () => {
   const [courses, setCourses] = useState([]);
@@ -10,12 +12,15 @@ const Courses = () => {
   const [editingCourseSlug, setEditingCourseSlug] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [notification, setNotification] = useState(null);
+  const [confirmDelete, setConfirmDelete] = useState(null); // { slug, title }
+  const [deleting, setDeleting] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   const [form, setForm] = useState({
     title: "",
     category: "Information Technology",
     duration: "6 Months",
-    fees: "?36,000",
+    fees: "",
     price: 36000,
     description: "",
     image: "",
@@ -53,8 +58,26 @@ const Courses = () => {
     }
   };
 
+  const fetchCategories = async () => {
+    try {
+      const res = await fetch(`${apiUrl}/categories`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.categories && Array.isArray(data.categories)) {
+          setCategories(data.categories);
+          if (data.categories.length > 0 && !form.category) {
+            setForm((prev) => ({ ...prev, category: data.categories[0].name }));
+          }
+        }
+      }
+    } catch (err) {
+      console.warn("Failed to fetch categories:", err);
+    }
+  };
+
   useEffect(() => {
     fetchCourses();
+    fetchCategories();
   }, []);
 
   const handleAdd = async (e) => {
@@ -78,7 +101,7 @@ const Courses = () => {
           title: "",
           category: "Information Technology",
           duration: "6 Months",
-          fees: "?36,000",
+          fees: "",
           price: 36000,
           description: "",
           image: "",
@@ -94,8 +117,14 @@ const Courses = () => {
     }
   };
 
-  const handleDelete = async (slug, title) => {
-    if (!window.confirm(`Are you sure you want to remove course "${title}"?`)) return;
+  const handleDelete = (slug, title) => {
+    setConfirmDelete({ slug, title });
+  };
+
+  const confirmAndDelete = async () => {
+    if (!confirmDelete) return;
+    const { slug, title } = confirmDelete;
+    setDeleting(true);
     try {
       const res = await fetch(`${apiUrl}/courses/${slug}`, { method: "DELETE" });
       const data = await res.json();
@@ -107,6 +136,9 @@ const Courses = () => {
       }
     } catch (err) {
       showNotification("Network error", "error");
+    } finally {
+      setDeleting(false);
+      setConfirmDelete(null);
     }
   };
 
@@ -160,18 +192,28 @@ const Courses = () => {
         </div>
       )}
 
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-6 border-b border-gray-100">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-            <BookOpen className="w-8 h-8 text-blue-600" /> Manage Courses
-          </h1>
-          <p className="text-gray-500 mt-2">Add, edit, or remove academic courses.</p>
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-normal">
+              <BookOpen className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="text-lg font-bold text-gray-900">Manage Courses</h2>
+                <span className="px-2 py-0.5 rounded-full text-[11px] font-normal bg-blue-50 text-blue-700 border border-blue-100">
+                  {courses.length} Active
+                </span>
+              </div>
+              <p className="text-xs text-gray-500 mt-0.5">Add, edit, or remove academic courses.</p>
+            </div>
+          </div>
         </div>
         <button
           onClick={() => setIsAddOpen(true)}
-          className="hover: px-5 py-2.5 flex items-center gap-2 bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
+          className="flex items-center justify-center gap-1.5 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 hover:border-blue-300 rounded-full font-medium text-xs shadow-xs transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
         >
-          <Plus size={20} /> Add Course
+          <Plus className="w-3.5 h-3.5" /> Add Course
         </button>
       </div>
 
@@ -185,7 +227,7 @@ const Courses = () => {
               <p className="text-sm font-semibold text-blue-600 mt-1">{course.category}</p>
               <div className="flex items-center gap-4 mt-4 text-sm text-gray-600">
                 <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {course.duration}</span>
-                <span className="flex items-center gap-1.5"><Tag className="w-4 h-4" /> {course.fees}</span>
+                {course.fees ? <span className="flex items-center gap-1.5"><Tag className="w-4 h-4" /> {course.fees}</span> : null}
               </div>
               <p className="text-gray-500 text-sm mt-4 line-clamp-3 flex-1">{course.description}</p>
               
@@ -198,9 +240,10 @@ const Courses = () => {
                 </button>
                 <button
                   onClick={() => handleDelete(course.slug, course.title)}
-                  className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                  className="w-8 h-8 text-red-500 hover:text-white bg-white hover:bg-red-600 hover:border-red-600 rounded-full border border-slate-200 shadow-xs transition-all cursor-pointer inline-flex items-center justify-center active:scale-95"
+                  title="Delete Course"
                 >
-                  <Trash2 size={18} />
+                  <Trash2 size={15} />
                 </button>
               </div>
             </div>
@@ -220,43 +263,50 @@ const Courses = () => {
               <form id="add-course-form" onSubmit={handleAdd} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">Title</label>
-                    <input type="text" value={form.title} onChange={(e) => setForm({...form, title: e.target.value})} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl" required />
+                    <label className="block text-sm font-medium text-gray-500 mb-1">Title</label>
+                    <input type="text" value={form.title} onChange={(e) => setForm({...form, title: e.target.value})} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-500" required />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">Category</label>
-                    <select value={form.category} onChange={(e) => setForm({...form, category: e.target.value})} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl">
-                      <option value="Information Technology">Information Technology</option>
-                      <option value="Management">Management</option>
-                      <option value="Design">Design</option>
+                    <label className="block text-sm font-medium text-gray-500 mb-1">Category</label>
+                    <select value={form.category} onChange={(e) => setForm({...form, category: e.target.value})} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-500">
+                      {categories.map((cat) => (
+                        <option key={cat.id || cat.name} value={cat.name}>
+                          {cat.name}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">Duration</label>
-                    <input type="text" value={form.duration} onChange={(e) => setForm({...form, duration: e.target.value})} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl" />
+                    <label className="block text-sm font-medium text-gray-500 mb-1">Duration</label>
+                    <input type="text" value={form.duration} onChange={(e) => setForm({...form, duration: e.target.value})} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-500" />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">Fees String</label>
-                    <input type="text" value={form.fees} onChange={(e) => setForm({...form, fees: e.target.value})} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl" />
+                    <label className="block text-sm font-medium text-gray-500 mb-1">Fees String (Optional - leave blank to hide on website)</label>
+                    <input type="text" value={form.fees} onChange={(e) => setForm({...form, fees: e.target.value})} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-500" />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">Numeric Price</label>
-                    <input type="number" value={form.price} onChange={(e) => setForm({...form, price: e.target.value})} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl" />
+                    <label className="block text-sm font-medium text-gray-500 mb-1">Numeric Price</label>
+                    <input type="number" value={form.price} onChange={(e) => setForm({...form, price: e.target.value})} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-500" />
                   </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">Image URL</label>
-                    <input type="text" value={form.image} onChange={(e) => setForm({...form, image: e.target.value})} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl" />
+                  <div className="col-span-2">
+                    <label className="block text-sm font-medium text-gray-500 mb-1">Course Image</label>
+                    <ImageUpload
+                      category="courses"
+                      value={form.image}
+                      onChange={(url) => setForm({ ...form, image: url })}
+                      heightClassName="h-[180px]"
+                    />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">Description</label>
-                  <textarea value={form.description} onChange={(e) => setForm({...form, description: e.target.value})} rows="4" className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl"></textarea>
+                  <label className="block text-sm font-medium text-gray-500 mb-1">Description</label>
+                  <textarea value={form.description} onChange={(e) => setForm({...form, description: e.target.value})} rows="4" className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-500"></textarea>
                 </div>
               </form>
             </div>
             <div className="p-6 border-t border-gray-100 flex justify-end gap-3 bg-gray-50 mt-auto">
-              <button onClick={() => setIsAddOpen(false)} className="px-6 py-2.5 hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">Cancel</button>
-              <button type="submit" form="add-course-form" disabled={submitting} className="hover: px-8 py-2.5 hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">
+              <button onClick={() => setIsAddOpen(false)} className="px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 rounded-full font-medium text-xs transition-all cursor-pointer active:scale-95 disabled:opacity-50">Cancel</button>
+              <button type="submit" form="add-course-form" disabled={submitting} className="px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 rounded-full font-medium text-xs transition-all cursor-pointer active:scale-95 disabled:opacity-50">
                 {submitting ? 'Saving...' : 'Save Course'}
               </button>
             </div>
@@ -276,49 +326,67 @@ const Courses = () => {
               <form id="edit-course-form" onSubmit={handleUpdate} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">Title</label>
-                    <input type="text" value={editForm.title} onChange={(e) => setEditForm({...editForm, title: e.target.value})} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl" required />
+                    <label className="block text-sm font-medium text-gray-500 mb-1">Title</label>
+                    <input type="text" value={editForm.title} onChange={(e) => setEditForm({...editForm, title: e.target.value})} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-500" required />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">Category</label>
-                    <select value={editForm.category} onChange={(e) => setEditForm({...editForm, category: e.target.value})} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl">
-                      <option value="Information Technology">Information Technology</option>
-                      <option value="Management">Management</option>
-                      <option value="Design">Design</option>
+                    <label className="block text-sm font-medium text-gray-500 mb-1">Category</label>
+                    <select value={editForm.category} onChange={(e) => setEditForm({...editForm, category: e.target.value})} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-500">
+                      {categories.map((cat) => (
+                        <option key={cat.id || cat.name} value={cat.name}>
+                          {cat.name}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">Duration</label>
-                    <input type="text" value={editForm.duration} onChange={(e) => setEditForm({...editForm, duration: e.target.value})} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl" />
+                    <label className="block text-sm font-medium text-gray-500 mb-1">Duration</label>
+                    <input type="text" value={editForm.duration} onChange={(e) => setEditForm({...editForm, duration: e.target.value})} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-500" />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">Fees String</label>
-                    <input type="text" value={editForm.fees} onChange={(e) => setEditForm({...editForm, fees: e.target.value})} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl" />
+                    <label className="block text-sm font-medium text-gray-500 mb-1">Fees String</label>
+                    <input type="text" value={editForm.fees} onChange={(e) => setEditForm({...editForm, fees: e.target.value})} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-500" />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">Numeric Price</label>
-                    <input type="number" value={editForm.price} onChange={(e) => setEditForm({...editForm, price: e.target.value})} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl" />
+                    <label className="block text-sm font-medium text-gray-500 mb-1">Numeric Price</label>
+                    <input type="number" value={editForm.price} onChange={(e) => setEditForm({...editForm, price: e.target.value})} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-500" />
                   </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">Image URL</label>
-                    <input type="text" value={editForm.image} onChange={(e) => setEditForm({...editForm, image: e.target.value})} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl" />
+                  <div className="col-span-2">
+                    <label className="block text-sm font-medium text-gray-500 mb-1">Course Image</label>
+                    <ImageUpload
+                      category="courses"
+                      value={editForm.image}
+                      onChange={(url) => setEditForm({ ...editForm, image: url })}
+                      heightClassName="h-[180px]"
+                    />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">Description</label>
-                  <textarea value={editForm.description} onChange={(e) => setEditForm({...editForm, description: e.target.value})} rows="4" className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl"></textarea>
+                  <label className="block text-sm font-medium text-gray-500 mb-1">Description</label>
+                  <textarea value={editForm.description} onChange={(e) => setEditForm({...editForm, description: e.target.value})} rows="4" className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-500"></textarea>
                 </div>
               </form>
             </div>
             <div className="p-6 border-t border-gray-100 flex justify-end gap-3 bg-gray-50 mt-auto">
-              <button onClick={() => setIsEditOpen(false)} className="px-6 py-2.5 hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">Cancel</button>
-              <button type="submit" form="edit-course-form" disabled={submitting} className="hover: px-8 py-2.5 hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">
+              <button onClick={() => setIsEditOpen(false)} className="px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 rounded-full font-medium text-xs transition-all cursor-pointer active:scale-95 disabled:opacity-50">Cancel</button>
+              <button type="submit" form="edit-course-form" disabled={submitting} className="px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 rounded-full font-medium text-xs transition-all cursor-pointer active:scale-95 disabled:opacity-50">
                 {submitting ? 'Updating...' : 'Update Course'}
               </button>
             </div>
           </div>
         </div>
       )}
+
+      {/* Centered Delete Confirmation Modal */}
+      <DeleteConfirmModal
+        isOpen={!!confirmDelete}
+        title="Remove Course"
+        itemName={confirmDelete?.title}
+        from="Courses"
+        loading={deleting}
+        onConfirm={confirmAndDelete}
+        onCancel={() => setConfirmDelete(null)}
+      />
     </div>
   );
 };

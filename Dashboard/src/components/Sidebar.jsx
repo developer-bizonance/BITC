@@ -23,9 +23,11 @@ import {
     FileText,
     Image,
     Download,
-    HelpCircle,
     LayoutDashboard,
     Building2,
+    Bell,
+    CircleHelp,
+    Star,
 } from "lucide-react"
 
 // Import dashboard components
@@ -46,9 +48,12 @@ import Students from "./Students.jsx"
 import EnquiryTypes from "./EnquiryTypes.jsx"
 import StudentConsulting from "./StudentConsulting.jsx"
 import EventRegistrations from "./EventRegistrations.jsx"
+import EventSubscribers from "./EventSubscribers.jsx"
+import EventFeedback from "./EventFeedback.jsx"
 import ScholarshipApplications from "./ScholarshipApplications.jsx"
 import PartnershipApplications from "./PartnershipApplications.jsx"
 import IndustryPartners from "./IndustryPartners.jsx"
+import { DashboardErrorBoundary } from "./uic/ErrorBoundary.jsx"
 
 // Sidebar configuration with Home, About, and Contact Inquiries tabs
 const sidebarItems = [
@@ -68,8 +73,13 @@ const sidebarItems = [
                 Icon: GraduationCap,
             },
             {
+                id: "top-recruiters",
+                title: "Top Recruiters",
+                Icon: Building2,
+            },
+            {
                 id: "featured-certifications",
-                title: "Featured Certifications",
+                title: "Certifications",
                 Icon: Award,
             },
             {
@@ -122,7 +132,7 @@ const sidebarItems = [
             {
                 id: "faq",
                 title: "FAQ",
-                Icon: HelpCircle,
+                Icon: CircleHelp,
             },
         ],
     },
@@ -142,8 +152,8 @@ const sidebarItems = [
                 Icon: Briefcase,
             },
             {
-                id: "industry-partners",
-                title: "Industry Partners",
+                id: "industrial-partners",
+                title: "Industrial Partners",
                 Icon: Building2,
             }
         ]
@@ -162,6 +172,16 @@ const sidebarItems = [
                 id: "view-registrations",
                 title: "View Registrations",
                 Icon: Users,
+            },
+            {
+                id: "event-subscribers",
+                title: "Event Subscribers",
+                Icon: Bell,
+            },
+            {
+                id: "event-feedback",
+                title: "Feedback Form",
+                Icon: Star,
             },
         ],
     },
@@ -184,7 +204,7 @@ const sidebarItems = [
         ]
     },
     {
-        title: "Student Consulting",
+        title: "Student Counseling",
         Icon: MessageSquare,
         Content: StudentConsulting,
     },
@@ -199,7 +219,7 @@ const sidebarItems = [
         Content: ScholarshipApplications,
     },
     {
-        title: "Faculty Applications",
+        title: "Career Applications",
         Icon: Briefcase,
         Content: Applications,
     },
@@ -207,7 +227,11 @@ const sidebarItems = [
 
 function Sidebar({ isOpen: propIsOpen }) {
     const [activeTab, setActiveTab] = useState(() => {
-        try { return localStorage.getItem("bitc_activeTab") || "Dashboard" } catch { return "Dashboard" }
+        try {
+            const stored = localStorage.getItem("bitc_activeTab")
+            if (stored === "Faculty Applications") return "Career Applications"
+            return stored || "Dashboard"
+        } catch { return "Dashboard" }
     })
     const [activeSubTopic, setActiveSubTopic] = useState(() => {
         try { return localStorage.getItem("bitc_activeSubTopic") || "academic-partners" } catch { return "academic-partners" }
@@ -215,7 +239,8 @@ function Sidebar({ isOpen: propIsOpen }) {
     const [expandedMenu, setExpandedMenu] = useState(() => {
         try {
             const tab = localStorage.getItem("bitc_activeTab") || "Dashboard"
-            return { [tab]: true }
+            const resolved = tab === "Faculty Applications" ? "Career Applications" : tab
+            return { [resolved]: true }
         } catch { return { Dashboard: true } }
     })
     const [isMobile, setIsMobile] = useState(false)
@@ -243,13 +268,14 @@ function Sidebar({ isOpen: propIsOpen }) {
         const handleNavigate = (e) => {
             const { tab, subTopic } = e.detail || {};
             if (tab) {
-                setActiveTab(tab);
-                try { localStorage.setItem("bitc_activeTab", tab); } catch {}
-                setExpandedMenu((prev) => ({ ...prev, [tab]: true }));
+                const resolvedTab = tab === "Faculty Applications" ? "Career Applications" : tab;
+                setActiveTab(resolvedTab);
+                try { localStorage.setItem("bitc_activeTab", resolvedTab); } catch { }
+                setExpandedMenu({ [resolvedTab]: true });
             }
             if (subTopic) {
                 setActiveSubTopic(subTopic);
-                try { localStorage.setItem("bitc_activeSubTopic", subTopic); } catch {}
+                try { localStorage.setItem("bitc_activeSubTopic", subTopic); } catch { }
             }
         };
         window.addEventListener("bitc:navigate", handleNavigate);
@@ -257,10 +283,10 @@ function Sidebar({ isOpen: propIsOpen }) {
     }, []);
 
     const toggleExpand = (title) => {
-        setExpandedMenu((prev) => ({
-            ...prev,
-            [title]: !prev[title],
-        }))
+        setExpandedMenu((prev) => {
+            const isCurrentlyOpen = !!prev[title];
+            return isCurrentlyOpen ? {} : { [title]: true };
+        });
     }
 
     const iconColors = [
@@ -292,18 +318,19 @@ function Sidebar({ isOpen: propIsOpen }) {
                     <button
                         onClick={() => {
                             setActiveTab(item.title)
-                            try { localStorage.setItem("bitc_activeTab", item.title) } catch {}
+                            try { localStorage.setItem("bitc_activeTab", item.title) } catch { }
                             if (item.subItems && item.subItems.length > 0) {
-                                setActiveSubTopic(item.subItems[0].id)
-                                try { localStorage.setItem("bitc_activeSubTopic", item.subItems[0].id) } catch {}
+                                setActiveSubTopic(item.subItems[0].id);
+                                try { localStorage.setItem("bitc_activeSubTopic", item.subItems[0].id); } catch { }
+                                toggleExpand(item.title);
+                            } else {
+                                setExpandedMenu({});
                             }
-                            toggleExpand(item.title)
                         }}
-                        className={`flex items-center justify-between w-full py-3 px-4 text-left transition-all duration-200 ease-in-out rounded-r-full text-sm font-semibold cursor-pointer ${
-                            isParentActive
-                                ? "bg-[#d9efff] text-gray-900"
-                                : "text-gray-700 hover:bg-[#e4ebf3]"
-                        }`}
+                        className={`flex items-center justify-between w-full py-3 px-4 text-left transition-all duration-200 ease-in-out rounded-r-full text-sm font-semibold cursor-pointer ${isParentActive
+                            ? "bg-[#d9efff] text-gray-900"
+                            : "text-gray-700 hover:bg-[#e4ebf3]"
+                            }`}
                     >
                         <div className="flex items-center space-x-4">
                             <div className={`w-8 h-8 rounded-full flex items-center justify-center ${colorStyle.bg}`}>
@@ -354,19 +381,18 @@ function Sidebar({ isOpen: propIsOpen }) {
                                                 try {
                                                     localStorage.setItem("bitc_activeTab", item.title)
                                                     localStorage.setItem("bitc_activeSubTopic", sub.id)
-                                                } catch {}
+                                                } catch { }
+                                                setExpandedMenu({ [item.title]: true });
                                                 if (isMobile) setIsOpen(false)
                                             }}
-                                            className={`flex items-center space-x-2.5 py-2.5 px-3 rounded-xl text-xs font-semibold transition-all text-left cursor-pointer ${
-                                                isSubActive
-                                                    ? "bg-blue-400/30 text-slate-900 font-bold"
-                                                    : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
-                                            }`}
+                                            className={`flex items-center space-x-2.5 py-2.5 px-3 rounded-xl text-xs font-semibold transition-all text-left cursor-pointer ${isSubActive
+                                                ? "bg-blue-400/30 text-slate-900 font-bold"
+                                                : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                                                }`}
                                         >
                                             <sub.Icon
-                                                className={`w-3.5 h-3.5 ${
-                                                    isSubActive ? "text-slate-900" : "text-gray-500"
-                                                }`}
+                                                className={`w-3.5 h-3.5 ${isSubActive ? "text-slate-900" : "text-gray-500"
+                                                    }`}
                                             />
                                             <span>{sub.title}</span>
                                         </button>
@@ -406,65 +432,86 @@ function Sidebar({ isOpen: propIsOpen }) {
                             transition={{ duration: 0.15 }}
                             className="h-full"
                         >
-                            {activeTab === "Dashboard" && (
-                                <Overview />
-                            )}
-                            {activeTab === "Home" && (
-                                <Home
-                                    activeSubTopic={activeSubTopic}
-                                    setActiveSubTopic={setActiveSubTopic}
-                                />
-                            )}
-                            {activeTab === "About" && (
-                                <About
-                                    activeSubTopic={activeSubTopic}
-                                />
-                            )}
-                            {activeTab === "Events" && (activeSubTopic === "manage-events" || !activeSubTopic) && (
-                                <Events />
-                            )}
-                            {activeTab === "Events" && activeSubTopic === "view-registrations" && (
-                                <EventRegistrations />
-                            )}
-                            {activeTab === "Resources" && (activeSubTopic === "blogs" || !["gallery", "downloads", "faq"].includes(activeSubTopic)) && (
-                                <Blogs />
-                            )}
-                            {activeTab === "Resources" && activeSubTopic === "gallery" && (
-                                <Gallery />
-                            )}
-                            {activeTab === "Resources" && activeSubTopic === "downloads" && (
-                                <Downloads />
-                            )}
-                            {activeTab === "Resources" && activeSubTopic === "faq" && (
-                                <FAQ />
-                            )}
-                            {activeTab === "Partnerships" && (!activeSubTopic || activeSubTopic === "educational-partnership" || activeSubTopic === "corporate-partnership") && (
-                                <PartnershipApplications 
-                                    activeSubTopic={activeSubTopic}
-                                />
-                            )}
-                            {activeTab === "Partnerships" && activeSubTopic === "industry-partners" && (
-                                <IndustryPartners />
-                            )}
+                            <DashboardErrorBoundary resetKey={`${activeTab}-${activeSubTopic}`}>
+                                {activeTab === "Dashboard" && (
+                                    <Overview />
+                                )}
+                                {activeTab === "Home" && (activeSubTopic === "top-recruiters" || activeSubTopic === "hiring-partners" || activeSubTopic === "industry-partners") && (
+                                    <IndustryPartners
+                                        type="top-recruiters"
+                                        apiPath="hiring-partners"
+                                        title="Top Recruiters"
+                                        subtitle="Manage recruiters displayed in the Home page 'Trusted By' section and 'Our Top Recruiters' section (/placements/partners)."
+                                    />
+                                )}
+                                {activeTab === "Home" && !["top-recruiters", "hiring-partners", "industry-partners"].includes(activeSubTopic) && (
+                                    <Home
+                                        activeSubTopic={activeSubTopic}
+                                        setActiveSubTopic={setActiveSubTopic}
+                                    />
+                                )}
+                                {activeTab === "About" && (
+                                    <About
+                                        activeSubTopic={activeSubTopic}
+                                    />
+                                )}
+                                {activeTab === "Events" && (activeSubTopic === "manage-events" || !activeSubTopic) && (
+                                    <Events />
+                                )}
+                                {activeTab === "Events" && activeSubTopic === "view-registrations" && (
+                                    <EventRegistrations />
+                                )}
+                                {activeTab === "Events" && activeSubTopic === "event-subscribers" && (
+                                    <EventSubscribers />
+                                )}
+                                {activeTab === "Events" && activeSubTopic === "event-feedback" && (
+                                    <EventFeedback />
+                                )}
+                                {activeTab === "Resources" && (activeSubTopic === "blogs" || !["gallery", "downloads", "faq"].includes(activeSubTopic)) && (
+                                    <Blogs />
+                                )}
+                                {activeTab === "Resources" && activeSubTopic === "gallery" && (
+                                    <Gallery />
+                                )}
+                                {activeTab === "Resources" && activeSubTopic === "downloads" && (
+                                    <Downloads />
+                                )}
+                                {activeTab === "Resources" && activeSubTopic === "faq" && (
+                                    <FAQ />
+                                )}
+                                {activeTab === "Partnerships" && (!activeSubTopic || activeSubTopic === "educational-partnership" || activeSubTopic === "corporate-partnership") && (
+                                    <PartnershipApplications
+                                        activeSubTopic={activeSubTopic}
+                                    />
+                                )}
+                                {activeTab === "Partnerships" && (activeSubTopic === "industrial-partners" || activeSubTopic === "industry-partners" || activeSubTopic === "hiring-partners") && (
+                                    <IndustryPartners
+                                        type="industrial"
+                                        apiPath="industry-partners"
+                                        title="Industrial Partners"
+                                        subtitle="Manage corporate company partners displayed in the 'Our Industrial Partners' section on the website (/partnership?tab=corporate)."
+                                    />
+                                )}
 
-                            {activeTab === "Contact Inquiries" && (activeSubTopic === "inquiries-list" || !activeSubTopic) && (
-                                <ContactEntries />
-                            )}
-                            {activeTab === "Contact Inquiries" && activeSubTopic === "enquiry-types" && (
-                                <EnquiryTypes />
-                            )}
-                            {activeTab === "Student Consulting" && (
-                                <StudentConsulting />
-                            )}
-                            {activeTab === "Course Applications" && (
-                                <CourseApplications />
-                            )}
-                            {activeTab === "Scholarship Applications" && (
-                                <ScholarshipApplications />
-                            )}
-                            {activeTab === "Faculty Applications" && (
-                                <Applications />
-                            )}
+                                {activeTab === "Contact Inquiries" && (activeSubTopic === "inquiries-list" || !activeSubTopic) && (
+                                    <ContactEntries />
+                                )}
+                                {activeTab === "Contact Inquiries" && activeSubTopic === "enquiry-types" && (
+                                    <EnquiryTypes />
+                                )}
+                                {(activeTab === "Student Counseling" || activeTab === "Student Consulting") && (
+                                    <StudentConsulting />
+                                )}
+                                {activeTab === "Course Applications" && (
+                                    <CourseApplications />
+                                )}
+                                {activeTab === "Scholarship Applications" && (
+                                    <ScholarshipApplications />
+                                )}
+                                {(activeTab === "Career Applications" || activeTab === "Faculty Applications") && (
+                                    <Applications />
+                                )}
+                            </DashboardErrorBoundary>
                         </motion.div>
                     </AnimatePresence>
                 </div>

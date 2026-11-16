@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -178,4 +177,87 @@
 .animate-marquee:hover {
   -webkit-animation-play-state: paused !important;
   animation-play-state: paused !important;
+}
+
+/* Hide scrollbar utility classes */
+.no-scrollbar::-webkit-scrollbar,
+.hide-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.no-scrollbar,
+.hide-scrollbar {
+  -ms-overflow-style: none !important; /* IE and Edge */
+  scrollbar-width: none !important; /* Firefox */
+}
+
+/* Comprehensive scrollbar hiding for all dialogs, modals, and forms */
+[data-slot="dialog-content"],
+[data-slot="dialog-content"] *,
+[role="dialog"],
+[role="dialog"] *,
+.fixed [class*="overflow-y-auto"],
+.fixed [class*="overflow-x-auto"],
+form,
+form *,
+form [class*="overflow-y-auto"],
+form [class*="overflow-x-auto"] {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+[data-slot="dialog-content"]::-webkit-scrollbar,
+[data-slot="dialog-content"] *::-webkit-scrollbar,
+[role="dialog"]::-webkit-scrollbar,
+[role="dialog"] *::-webkit-scrollbar,
+.fixed [class*="overflow-y-auto"]::-webkit-scrollbar,
+.fixed [class*="overflow-x-auto"]::-webkit-scrollbar,
+form::-webkit-scrollbar,
+form *::-webkit-scrollbar,
+form [class*="overflow-y-auto"]::-webkit-scrollbar,
+form [class*="overflow-x-auto"]::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+
+/* ==========================================================================
+   GLOBAL FAINT BUTTON TYPOGRAPHY SYSTEM
+   Ensures all buttons & interactive button-styled links across BITC use the 
+   refined, elegant faint font style (normal weight + softened text colors).
+   ========================================================================== */
+button:not([data-slot="accordion-trigger"]):not([role="tab"]),
+[role="button"]:not([data-slot="accordion-trigger"]):not([role="tab"]),
+a[class*="rounded-full"],
+button[class*="rounded-full"],
+[data-slot="button"] {
+  font-weight: 400 !important;
+}
+
+/* Primary yellow/orange gradient buttons -> faint dark slate text */
+button[class*="bg-[linear-gradient"],
+a[class*="bg-[linear-gradient"],
+[data-slot="button"][class*="bg-[linear-gradient"] {
+  color: #1e293b !important; /* text-slate-800 */
+  font-weight: 400 !important;
+}
+
+/* Secondary outline / white / light slate buttons -> faint muted slate text */
+button[class*="bg-slate-100"],
+a[class*="bg-slate-100"],
+button[class*="bg-slate-50"],
+a[class*="bg-slate-50"],
+button[class*="bg-gray-100"],
+a[class*="bg-gray-100"],
+button[class*="bg-white"]:not([class*="text-primary"]):not([class*="bg-[linear-gradient"]),
+a[class*="bg-white"]:not([class*="text-primary"]):not([class*="bg-[linear-gradient"]),
+button[class*="border-slate-200"]:not([class*="bg-slate-900"]):not([class*="bg-black"]):not([class*="bg-[linear-gradient"]),
+a[class*="border-slate-200"]:not([class*="bg-slate-900"]):not([class*="bg-black"]):not([class*="bg-[linear-gradient"]),
+button[class*="border-gray-200"]:not([class*="bg-slate-900"]):not([class*="bg-black"]):not([class*="bg-[linear-gradient"]),
+a[class*="border-gray-200"]:not([class*="bg-slate-900"]):not([class*="bg-black"]):not([class*="bg-[linear-gradient"]) {
+  color: #475569 !important; /* text-slate-600 */
+  font-weight: 400 !important;
 }

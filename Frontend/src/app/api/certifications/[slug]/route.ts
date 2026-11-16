@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { getCourseBySlug } from "@/data/courses";
+import { getApiBase } from "@/lib/utils";
+
+export const dynamic = "force-dynamic";
 
 export async function GET(
   request: Request,
@@ -8,12 +10,18 @@ export async function GET(
 ) {
   try {
     const { slug } = await params;
-    const normalizedSlug = decodeURIComponent(slug).toLowerCase().replace(/[\s_]+/g, '-');
+    const normalizedSlug = decodeURIComponent(slug).toLowerCase().replace(/[\s_]+/g, "-");
 
-    // Try fetching from Neon DB
+    // 1. Try fetching from Neon DB
     try {
-      const dbCourse = await prisma.course.findUnique({
-        where: { slug: normalizedSlug },
+      const dbCourse = await prisma.course.findFirst({
+        where: {
+          OR: [
+            { slug: normalizedSlug },
+            { slug: normalizedSlug.replace(/[^a-z0-9]/g, "") },
+            { title: { equals: normalizedSlug.replace(/-/g, " "), mode: "insensitive" } },
+          ],
+        },
       });
 
       if (dbCourse) {
@@ -24,24 +32,31 @@ export async function GET(
         });
       }
     } catch (dbError) {
-      console.warn(`Neon DB lookup failed for slug '${slug}', using fallback data:`, dbError);
+      console.warn(`Neon DB lookup failed for slug '${slug}', trying backend API:`, dbError);
     }
 
-    // Static fallback
-    const staticCourse = getCourseBySlug(normalizedSlug);
-
-    if (!staticCourse) {
-      return NextResponse.json(
-        { success: false, error: "Certification not found" },
-        { status: 404 }
-      );
+    // 2. Try fetching from Express Backend API
+    try {
+      const apiBase = getApiBase();
+      const res = await fetch(`${apiBase}/courses/${normalizedSlug}`, { cache: "no-store" });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.course) {
+          return NextResponse.json({
+            success: true,
+            source: "database",
+            course: data.course,
+          });
+        }
+      }
+    } catch (apiErr) {
+      console.warn("Backend API course fetch failed:", apiErr);
     }
 
-    return NextResponse.json({
-      success: true,
-      source: "static",
-      course: staticCourse,
-    });
+    return NextResponse.json(
+      { success: false, error: "Certification not found" },
+      { status: 404 }
+    );
   } catch (error) {
     return NextResponse.json(
       { success: false, error: "Failed to fetch course details" },
@@ -49,3 +64,4 @@ export async function GET(
     );
   }
 }
+

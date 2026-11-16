@@ -14,8 +14,8 @@ export default function VideoTestimonialCard({ video }: { video: any }) {
 
   const ytId = getYouTubeID(video.youtubeUrl || "");
   const thumbnailUrl = ytId 
-    ? `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg` 
-    : "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1000&auto=format&fit=crop";
+    ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg` 
+    : (video.thumbnailUrl || "");
 
   return (
     <div className="group cursor-pointer">

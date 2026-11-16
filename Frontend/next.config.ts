@@ -20,25 +20,37 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  async rewrites() {
+  async redirects() {
     return [
       {
-        source: "/api/:path*",
-        destination: `${BACKEND_URL}/api/:path*`,
-      },
-      {
-        source: "/uploads/:path*",
-        destination: `${BACKEND_URL}/uploads/:path*`,
+        source: '/alumni',
+        destination: '/about/alumni',
+        permanent: true,
       },
     ];
+  },
+  async rewrites() {
+    return {
+      beforeFiles: [],
+      afterFiles: [],
+      fallback: [
+        {
+          source: "/api/:path*",
+          destination: `${BACKEND_URL}/api/:path*`,
+        },
+        {
+          source: "/uploads/:path*",
+          destination: `${BACKEND_URL}/uploads/:path*`,
+        },
+      ],
+    };
   },
   async headers() {
     return [
       {
         source: "/api/:path*",
         headers: [
-          { key: "Access-Control-Allow-Credentials", value: "true" },
-          { key: "Access-Control-Allow-Origin", value: "http://localhost:5173" },
+          { key: "Access-Control-Allow-Origin", value: "*" },
           { key: "Access-Control-Allow-Methods", value: "GET,OPTIONS,PATCH,DELETE,POST,PUT" },
           { key: "Access-Control-Allow-Headers", value: "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization" },
         ],

@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { readJsonDbAsync, writeJsonDbAsync } from "../dataStore.js";
+import prisma from "../lib/prisma.js";
 
 export interface CategoryItem {
   id: string;
@@ -17,8 +18,9 @@ router.get("/", async (req: Request, res: Response) => {
     if (result.length === 0) {
       result = [
         { id: `cat-1`, name: "Information Technology" },
-        { id: `cat-2`, name: "Management" },
-        { id: `cat-3`, name: "Design" }
+        { id: `cat-2`, name: "Digital Media Technology" },
+        { id: `cat-3`, name: "Management Programs" },
+        { id: `cat-4`, name: "Design Programs" }
       ];
       await writeJsonDbAsync("categories.json", result);
     }
@@ -143,6 +145,15 @@ router.put("/:id", async (req: Request, res: Response) => {
       }
     } catch (e) {
       console.warn("Could not sync category name to certifications:", e);
+    }
+
+    try {
+      await prisma.course.updateMany({
+        where: { category: { equals: oldName, mode: "insensitive" } },
+        data: { category: trimmedName },
+      });
+    } catch (e) {
+      console.warn("Could not sync category name to prisma.course:", e);
     }
 
     return res.json({

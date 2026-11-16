@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
-import { readJsonDb, writeJsonDb } from "../dataStore.js";
+import { readJsonDbAsync, writeJsonDbAsync } from "../dataStore.js";
+import prisma from "../lib/prisma.js";
 
 export interface JobOpening {
   id: string;
@@ -35,28 +36,39 @@ export interface CareerApplication {
   createdAt: string;
 }
 
-function getCareers(): JobOpening[] {
-  return readJsonDb<JobOpening>("careers.json");
+export async function getCareers(): Promise<JobOpening[]> {
+  return await readJsonDbAsync<JobOpening>("careers.json");
 }
 
-function saveCareers(data: JobOpening[]) {
-  writeJsonDb("careers.json", data);
+export async function saveCareers(data: JobOpening[]): Promise<void> {
+  await writeJsonDbAsync("careers.json", data);
 }
 
-export function getApplications(): CareerApplication[] {
-  return readJsonDb<CareerApplication>("applications.json");
+export async function getApplications(): Promise<CareerApplication[]> {
+  return await readJsonDbAsync<CareerApplication>("applications.json");
 }
 
-export function saveApplications(data: CareerApplication[]) {
-  writeJsonDb("applications.json", data);
+export async function saveApplications(data: CareerApplication[]): Promise<void> {
+  await writeJsonDbAsync("applications.json", data);
 }
 
+export function formatExperience(exp?: string): string {
+  if (!exp) return "1+ Years";
+  const trimmed = exp.trim();
+  if (!trimmed) return "1+ Years";
+  if (/fresher/i.test(trimmed)) return trimmed;
+  if (/years?/i.test(trimmed)) return trimmed;
+  if (trimmed.endsWith("+")) return `${trimmed} Years`;
+  if (/^\d+\s*(-|to)\s*\d+$/i.test(trimmed)) return `${trimmed} Years`;
+  if (/^\d+$/.test(trimmed)) return `${trimmed}+ Years`;
+  return `${trimmed}+ Years`;
+}
 
 const router = Router();
 
 // GET /api/careers
-router.get("/", (_req: Request, res: Response) => {
-  const careersDb = getCareers();
+router.get("/", async (_req: Request, res: Response) => {
+  const careersDb = await getCareers();
   return res.json({
     success: true,
     openings: careersDb,
@@ -64,7 +76,7 @@ router.get("/", (_req: Request, res: Response) => {
 });
 
 // POST /api/careers (Add new job opening)
-router.post("/", (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response) => {
   try {
     const { title, type, location, experience, department, description, specialities } = req.body;
 
@@ -77,17 +89,35 @@ router.post("/", (req: Request, res: Response) => {
       title: title.trim(),
       type: type?.trim() || "Full-Time",
       location: location?.trim() || "On-Site",
-      experience: experience?.trim() || "1+ Years",
-      department: department?.trim() || "Training & Operations",
+      experience: formatExperience(experience),
+      department: department?.trim() || "Academic & Training",
       description: description?.trim() || "",
-      specialities: specialities?.trim() || "",
+      specialities: (specialities || req.body.specialization || "")?.trim(),
       status: "Active",
       createdAt: new Date().toISOString(),
     };
 
-    const careersDb = getCareers();
+    const careersDb = await getCareers();
+
+    // Prevent duplicate entries within 30 seconds
+    const isDuplicate = careersDb.some((job) => {
+      const sameTitle = (job.title || "").toLowerCase().trim() === title.trim().toLowerCase();
+      const sameDept = (job.department || "").toLowerCase().trim() === (department || "").trim().toLowerCase();
+      const diffSecs = Math.abs(Date.now() - new Date(job.createdAt || 0).getTime()) / 1000;
+      return sameTitle && sameDept && diffSecs < 30;
+    });
+
+    if (isDuplicate) {
+      return res.status(200).json({
+        success: true,
+        message: "Job opening already exists",
+        opening: careersDb.find((job) => (job.title || "").toLowerCase().trim() === title.trim().toLowerCase()),
+        openings: careersDb,
+      });
+    }
+
     careersDb.unshift(newJob);
-    saveCareers(careersDb);
+    await saveCareers(careersDb);
 
     return res.status(201).json({
       success: true,
@@ -101,14 +131,14 @@ router.post("/", (req: Request, res: Response) => {
 });
 
 // PUT /api/careers/reorder (Reorder careers)
-router.put("/reorder", (req: Request, res: Response) => {
+router.put("/reorder", async (req: Request, res: Response) => {
   try {
     const { orderedIds } = req.body;
     if (!Array.isArray(orderedIds)) {
       return res.status(400).json({ error: "orderedIds must be an array" });
     }
 
-    const careersDb = getCareers();
+    const careersDb = await getCareers();
     const reorderedDb: JobOpening[] = [];
     for (const id of orderedIds) {
       const item = careersDb.find((m) => m.id === id);
@@ -118,7 +148,7 @@ router.put("/reorder", (req: Request, res: Response) => {
       if (!orderedIds.includes(item.id)) reorderedDb.push(item);
     }
 
-    saveCareers(reorderedDb);
+    await saveCareers(reorderedDb);
 
     return res.json({
       success: true,
@@ -131,12 +161,12 @@ router.put("/reorder", (req: Request, res: Response) => {
 });
 
 // PUT /api/careers/:id (Update job opening)
-router.put("/:id", (req: Request, res: Response) => {
+router.put("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { title, type, location, experience, department, description, specialities, status } = req.body;
 
-    const careersDb = getCareers();
+    const careersDb = await getCareers();
     const index = careersDb.findIndex((j) => j.id === id);
     if (index === -1) {
       return res.status(404).json({ error: "Job opening not found" });
@@ -148,15 +178,15 @@ router.put("/:id", (req: Request, res: Response) => {
       title: title !== undefined ? title.trim() : current.title,
       type: type !== undefined ? type.trim() : current.type,
       location: location !== undefined ? location.trim() : current.location,
-      experience: experience !== undefined ? experience.trim() : current.experience,
+      experience: experience !== undefined ? formatExperience(experience) : current.experience,
       department: department !== undefined ? department.trim() : current.department,
       description: description !== undefined ? description.trim() : current.description,
-      specialities: specialities !== undefined ? specialities.trim() : current.specialities,
+      specialities: specialities !== undefined ? specialities.trim() : (req.body.specialization !== undefined ? req.body.specialization.trim() : current.specialities),
       status: status !== undefined ? status : current.status,
     };
 
     careersDb[index] = updated;
-    saveCareers(careersDb);
+    await saveCareers(careersDb);
 
     return res.json({
       success: true,
@@ -170,10 +200,10 @@ router.put("/:id", (req: Request, res: Response) => {
 });
 
 // DELETE /api/careers/:id (Remove job opening)
-router.delete("/:id", (req: Request, res: Response) => {
+router.delete("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const careersDb = getCareers();
+    const careersDb = await getCareers();
     const initialLen = careersDb.length;
     const filteredDb = careersDb.filter((j) => j.id !== id);
 
@@ -181,7 +211,7 @@ router.delete("/:id", (req: Request, res: Response) => {
       return res.status(404).json({ error: "Job opening not found" });
     }
     
-    saveCareers(filteredDb);
+    await saveCareers(filteredDb);
 
     return res.json({
       success: true,
@@ -194,7 +224,7 @@ router.delete("/:id", (req: Request, res: Response) => {
 });
 
 // POST /api/careers/apply (Apply for Faculty / Trainer / Professional position)
-router.post("/apply", (req: Request, res: Response) => {
+router.post("/apply", async (req: Request, res: Response) => {
   try {
     const {
       fullName,
@@ -213,12 +243,12 @@ router.post("/apply", (req: Request, res: Response) => {
       coverNote,
     } = req.body;
 
-    if (!fullName || !email || !phone || !subjectCourse) {
-      return res.status(400).json({ error: "Full Name, Email, Phone, and Course Specialization are required." });
+    if (!fullName || !email || !phone) {
+      return res.status(400).json({ error: "Full Name, Email, and Phone are required." });
     }
 
     const appId = `APP-${Date.now().toString().slice(-4)}`;
-    const finalQualification = qualification === "Other" && otherQualification ? `Other (${otherQualification.trim()})` : (qualification?.trim() || "Graduate");
+    const finalQualification = qualification === "Other" && otherQualification ? `Other (${otherQualification.trim()})` : (qualification?.trim() || "");
 
     const newApplication: CareerApplication = {
       _id: `app-${Date.now()}`,
@@ -226,12 +256,12 @@ router.post("/apply", (req: Request, res: Response) => {
       fullName: fullName.trim(),
       email: email.trim().toLowerCase(),
       phone: phone.trim(),
-      position: position?.trim() || "Faculty / Technical Trainer",
-      subjectCourse: subjectCourse.trim(),
-      experience: experience?.trim() || "Fresher / 0-1 Year",
+      position: position?.trim() || "Industry Expert & Mentor",
+      subjectCourse: (subjectCourse?.trim()) || "",
+      experience: experience?.trim() || "",
       qualification: finalQualification,
       otherQualification: otherQualification?.trim() || "",
-      dateToJoin: dateToJoin?.trim() || "Immediate",
+      dateToJoin: dateToJoin?.trim() || "",
       currentOrg: currentOrg?.trim() || "",
       resumeUrl: resumeUrl?.trim() || "",
       resumeFileName: resumeFileName?.trim() || "",
@@ -241,9 +271,25 @@ router.post("/apply", (req: Request, res: Response) => {
       createdAt: new Date().toISOString(),
     };
 
-    const applicationsDb = getApplications();
+    const applicationsDb = await getApplications();
+    const isDuplicate = applicationsDb.some((a) => {
+      const isSame = (a.email || "").toLowerCase() === email.trim().toLowerCase() && (a.phone || "") === phone.trim();
+      if (isSame) {
+        const diff = Math.abs(new Date().getTime() - new Date(a.createdAt || 0).getTime());
+        if (diff < 30000) return true;
+      }
+      return false;
+    });
+
+    if (isDuplicate) {
+      return res.status(200).json({
+        success: true,
+        message: "Application already received",
+      });
+    }
+
     applicationsDb.unshift(newApplication);
-    saveApplications(applicationsDb);
+    await saveApplications(applicationsDb);
 
     return res.status(201).json({
       success: true,
@@ -256,8 +302,8 @@ router.post("/apply", (req: Request, res: Response) => {
 });
 
 // GET /api/careers/applications (List all job/faculty applications)
-router.get("/applications", (_req: Request, res: Response) => {
-  const applicationsDb = getApplications();
+router.get("/applications", async (_req: Request, res: Response) => {
+  const applicationsDb = await getApplications();
   return res.json({
     success: true,
     applications: applicationsDb,
@@ -265,12 +311,12 @@ router.get("/applications", (_req: Request, res: Response) => {
 });
 
 // PATCH /api/careers/applications/:id (Update application status)
-router.patch("/applications/:id", (req: Request, res: Response) => {
+router.patch("/applications/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
 
-    const applicationsDb = getApplications();
+    const applicationsDb = await getApplications();
     const app = applicationsDb.find((a) => a._id === id || a.id === id);
     if (!app) {
       return res.status(404).json({ error: "Application not found." });
@@ -279,7 +325,7 @@ router.patch("/applications/:id", (req: Request, res: Response) => {
     if (status) {
       app.status = status;
     }
-    saveApplications(applicationsDb);
+    await saveApplications(applicationsDb);
 
     return res.json({
       success: true,
@@ -289,6 +335,47 @@ router.patch("/applications/:id", (req: Request, res: Response) => {
     });
   } catch (error: any) {
     return res.status(500).json({ error: error?.message || "Failed to update application" });
+  }
+});
+
+// DELETE /api/careers/applications/:id (Delete application)
+router.delete("/applications/:id?", async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id || req.body?.id || req.query?.id;
+    if (!id) {
+      return res.status(400).json({ error: "Application ID is required" });
+    }
+    const cleanId = String(id).trim().toLowerCase();
+
+    // 1. Direct Prisma delete from PostgreSQL
+    try {
+      await prisma.jobApplication.deleteMany({
+        where: {
+          OR: [
+            { id: String(id) },
+            { id: { equals: cleanId, mode: "insensitive" } },
+          ],
+        },
+      });
+    } catch (dbErr) {
+      console.warn("[careers.routes] DB DELETE notice:", dbErr);
+    }
+
+    const applicationsDb = await getApplications();
+    const filtered = applicationsDb.filter((a) => {
+      const aId = String(a.id || "").trim().toLowerCase();
+      const aUnderscoreId = String(a._id || "").trim().toLowerCase();
+      return aId !== cleanId && aUnderscoreId !== cleanId;
+    });
+
+    await saveApplications(filtered);
+    return res.json({
+      success: true,
+      message: "Application deleted successfully",
+      applications: filtered,
+    });
+  } catch (error: any) {
+    return res.status(500).json({ error: error?.message || "Failed to delete application" });
   }
 });
 

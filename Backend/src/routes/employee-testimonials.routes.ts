@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { readJsonDb, writeJsonDb } from "../dataStore.js";
+import { readJsonDbAsync, writeJsonDbAsync } from "../dataStore.js";
 
 export interface EmployeeTestimonialItem {
   id: string;
@@ -11,20 +11,19 @@ export interface EmployeeTestimonialItem {
   createdAt: string;
 }
 
-// Initial In-Memory Store
-
 const router = Router();
 
 // GET /api/employee-testimonials
-router.get("/", (_req: Request, res: Response) => {
+router.get("/", async (_req: Request, res: Response) => {
+  const testimonials = await readJsonDbAsync<EmployeeTestimonialItem>("employee-testimonials.json");
   return res.json({
     success: true,
-    testimonials: readJsonDb("employee-testimonials.json"),
+    testimonials,
   });
 });
 
 // POST /api/employee-testimonials
-router.post("/", (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response) => {
   try {
     const { name, role, quote, image, rating } = req.body;
 
@@ -46,13 +45,15 @@ router.post("/", (req: Request, res: Response) => {
       createdAt: new Date().toISOString(),
     };
 
-    const db = readJsonDb("employee-testimonials.json"); db.unshift(newTestimonial); writeJsonDb("employee-testimonials.json", db);
+    const db = await readJsonDbAsync<EmployeeTestimonialItem>("employee-testimonials.json");
+    db.unshift(newTestimonial);
+    await writeJsonDbAsync("employee-testimonials.json", db);
 
     return res.status(201).json({
       success: true,
       message: "Employee testimonial added successfully",
       testimonial: newTestimonial,
-      testimonials: readJsonDb("employee-testimonials.json"),
+      testimonials: db,
     });
   } catch (error: any) {
     return res.status(500).json({ error: error?.message || "Failed to add employee testimonial" });
@@ -60,28 +61,29 @@ router.post("/", (req: Request, res: Response) => {
 });
 
 // PUT /api/employee-testimonials/reorder (Reorder employee testimonials)
-router.put("/reorder", (req: Request, res: Response) => {
+router.put("/reorder", async (req: Request, res: Response) => {
   try {
     const { orderedIds } = req.body;
     if (!Array.isArray(orderedIds)) {
       return res.status(400).json({ error: "orderedIds must be an array" });
     }
 
+    const currentDb = await readJsonDbAsync<EmployeeTestimonialItem>("employee-testimonials.json");
     const reorderedDb: EmployeeTestimonialItem[] = [];
     for (const id of orderedIds) {
-      const item = readJsonDb("employee-testimonials.json").find((m) => m.id === id);
+      const item = currentDb.find((m) => m.id === id);
       if (item) reorderedDb.push(item);
     }
-    for (const item of readJsonDb("employee-testimonials.json")) {
+    for (const item of currentDb) {
       if (!orderedIds.includes(item.id)) reorderedDb.push(item);
     }
 
-    writeJsonDb("employee-testimonials.json", reorderedDb);
+    await writeJsonDbAsync("employee-testimonials.json", reorderedDb);
 
     return res.json({
       success: true,
       message: "Employee Testimonials reordered successfully",
-      testimonials: readJsonDb("employee-testimonials.json"),
+      testimonials: reorderedDb,
     });
   } catch (error: any) {
     return res.status(500).json({ error: error?.message || "Failed to reorder employee testimonials" });
@@ -89,17 +91,18 @@ router.put("/reorder", (req: Request, res: Response) => {
 });
 
 // PUT /api/employee-testimonials/:id
-router.put("/:id", (req: Request, res: Response) => {
+router.put("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { name, role, quote, image, rating } = req.body;
 
-    const index = readJsonDb("employee-testimonials.json").findIndex((t) => t.id === id);
+    const db = await readJsonDbAsync<EmployeeTestimonialItem>("employee-testimonials.json");
+    const index = db.findIndex((t) => t.id === id);
     if (index === -1) {
       return res.status(404).json({ error: "Employee testimonial not found" });
     }
 
-    const current = readJsonDb("employee-testimonials.json")[index];
+    const current = db[index];
     const updated: EmployeeTestimonialItem = {
       ...current,
       name: name !== undefined ? name.trim() : current.name,
@@ -109,13 +112,14 @@ router.put("/:id", (req: Request, res: Response) => {
       rating: rating !== undefined ? Number(rating) : current.rating,
     };
 
-    const db = readJsonDb("employee-testimonials.json"); db[index] = updated; writeJsonDb("employee-testimonials.json", db);
+    db[index] = updated;
+    await writeJsonDbAsync("employee-testimonials.json", db);
 
     return res.json({
       success: true,
       message: "Employee testimonial updated successfully",
       testimonial: updated,
-      testimonials: readJsonDb("employee-testimonials.json"),
+      testimonials: db,
     });
   } catch (error: any) {
     return res.status(500).json({ error: error?.message || "Failed to update employee testimonial" });
@@ -123,20 +127,22 @@ router.put("/:id", (req: Request, res: Response) => {
 });
 
 // DELETE /api/employee-testimonials/:id
-router.delete("/:id", (req: Request, res: Response) => {
+router.delete("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const initialLen = readJsonDb("employee-testimonials.json").length;
-    const db = readJsonDb("employee-testimonials.json").filter((t) => t.id !== id); writeJsonDb("employee-testimonials.json", db);
+    const currentDb = await readJsonDbAsync<EmployeeTestimonialItem>("employee-testimonials.json");
+    const filteredDb = currentDb.filter((t) => t.id !== id);
 
-    if (readJsonDb("employee-testimonials.json").length === initialLen) {
+    if (filteredDb.length === currentDb.length) {
       return res.status(404).json({ error: "Employee testimonial not found" });
     }
+
+    await writeJsonDbAsync("employee-testimonials.json", filteredDb);
 
     return res.json({
       success: true,
       message: "Employee testimonial removed successfully",
-      testimonials: readJsonDb("employee-testimonials.json"),
+      testimonials: filteredDb,
     });
   } catch (error: any) {
     return res.status(500).json({ error: error?.message || "Failed to delete employee testimonial" });

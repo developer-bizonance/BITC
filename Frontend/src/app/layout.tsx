@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   keywords: [
     "BITC",
     "BIZONANCE Industrial Training Centre. (BITC) | Amravati",
-    "BIZONANCE industrial training centre",
+    "BIZONANCE Industrial Training Centre",
     "BIZONANCE INDIA PRIVATE LIMITED",
     "Industrial training amravati",
     "IT Certifications Amravati",
@@ -58,9 +58,19 @@ export const metadata: Metadata = {
     siteName: "BIZONANCE Industrial Training Centre | Amravati",
     images: [
       {
-        url: "/logos.png",
+        url: "/og-image.png",
+        secureUrl: "/og-image.png",
         width: 1200,
         height: 630,
+        type: "image/png",
+        alt: "BIZONANCE Industrial Training Centre. (BITC) | Amravati Logo",
+      },
+      {
+        url: "/og-square.png",
+        secureUrl: "/og-square.png",
+        width: 800,
+        height: 800,
+        type: "image/png",
         alt: "BIZONANCE Industrial Training Centre. (BITC) | Amravati Logo",
       },
     ],
@@ -70,7 +80,7 @@ export const metadata: Metadata = {
     title: "BIZONANCE Industrial Training Centre | Amravati",
     description:
       "Industry-focused Training Center offering certifications in Full Stack, AI, Data Science & Management with placement assistance.",
-    images: ["/logos.png"],
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,

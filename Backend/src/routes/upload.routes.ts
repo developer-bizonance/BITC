@@ -27,10 +27,10 @@ export function deleteUploadedFile(imageUrl: string | null | undefined): void {
     
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);
-      console.log(`[Upload] Deleted old image: ${safePath}`);
+      console.log(`[Upload] Deleted old file: ${safePath}`);
     }
   } catch (err) {
-    console.warn(`[Upload] Could not delete old image:`, err);
+    console.warn(`[Upload] Could not delete old file:`, err);
   }
 }
 
@@ -55,44 +55,64 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage,
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
   fileFilter: (_req, file, cb) => {
-    if (file.mimetype.startsWith("image/") || file.mimetype.startsWith("video/")) {
+    if (
+      file.mimetype.startsWith("image/") ||
+      file.mimetype.startsWith("video/") ||
+      file.mimetype === "application/pdf" ||
+      file.mimetype === "application/msword" ||
+      file.mimetype === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+      file.mimetype.includes("document") ||
+      file.originalname.match(/\.(pdf|doc|docx|png|jpg|jpeg|webp)$/i)
+    ) {
       cb(null, true);
     } else {
-      cb(new Error("Only image or video files are allowed"));
+      cb(new Error("Only image, video, or document (PDF, Word) files are allowed"));
     }
   },
 });
 
-// POST /api/upload  — Upload a new image, optionally replacing an old one
-// Body: multipart/form-data with field "image"
+// POST /api/upload  — Upload a new file or image, optionally replacing an old one
+// Body: multipart/form-data with field "file", "image", or "mou"
 // Optional query params: ?oldUrl=<previously-stored-url> & category=<folder-name>
-router.post("/", upload.single("image"), (req, res) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json({ success: false, error: "No image file provided" });
-    }
+router.post(
+  "/",
+  (req, res, next) => {
+    upload.any()(req, res, (err) => {
+      if (err) {
+        return res.status(400).json({ success: false, error: err.message || "Upload failed" });
+      }
+      next();
+    });
+  },
+  (req, res) => {
+    try {
+      const file = req.file || (req.files && Array.isArray(req.files) ? req.files[0] : undefined);
+      if (!file) {
+        return res.status(400).json({ success: false, error: "No file provided" });
+      }
 
-    // Delete the old image if the caller told us what it was
-    const oldUrl = req.query.oldUrl as string | undefined;
-    if (oldUrl) {
-      deleteUploadedFile(oldUrl);
-    }
+      // Delete the old file if the caller told us what it was
+      const oldUrl = req.query.oldUrl as string | undefined;
+      if (oldUrl) {
+        deleteUploadedFile(oldUrl);
+      }
 
-    const category = (req.query.category as string) || "misc";
-    const safeCategory = category.replace(/[^a-zA-Z0-9_-]/g, "");
-    
-    // Store as a relative path — the frontend constructs the full URL using the API base
-    const imageUrl = `/uploads/${safeCategory}/${req.file.filename}`;
-    return res.json({ success: true, url: imageUrl });
-  } catch (error) {
-    console.error("Error uploading image:", error);
-    return res.status(500).json({ success: false, error: "Internal server error" });
+      const category = (req.query.category as string) || "misc";
+      const safeCategory = category.replace(/[^a-zA-Z0-9_-]/g, "");
+      
+      // Store as a relative path — the frontend constructs the full URL using the API base
+      const fileUrl = `/uploads/${safeCategory}/${file.filename}`;
+      return res.json({ success: true, url: fileUrl });
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      return res.status(500).json({ success: false, error: "Internal server error" });
+    }
   }
-});
+);
 
-// DELETE /api/upload  — Explicitly delete a stored image
+// DELETE /api/upload  — Explicitly delete a stored file/image
 // Body: { url: "/uploads/filename.png" }
 router.delete("/", (req, res) => {
   const { url } = req.body as { url?: string };
@@ -100,7 +120,7 @@ router.delete("/", (req, res) => {
     return res.status(400).json({ success: false, error: "No url provided" });
   }
   deleteUploadedFile(url);
-  return res.json({ success: true, message: "Image deleted" });
+  return res.json({ success: true, message: "File deleted" });
 });
 
 export default router;

@@ -26,9 +26,12 @@ import {
   ExternalLink,
   Globe,
   Tag,
+  MessageSquare,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { getApiUrl, useRecordHighlight } from "../utils";
+import { getApiUrl, getSiteUrl, useRecordHighlight, resolveImageUrl } from "../utils";
+import { WhatsAppButton } from "./uic/WhatsAppButton";
+import DeleteConfirmModal from "./uic/DeleteConfirmModal.jsx";
 
 const getStatusStyle = (status) => {
   const s = (status || "").toLowerCase().trim();
@@ -100,36 +103,92 @@ const PartnershipApplications = ({ activeSubTopic }) => {
 
   // --- API CONFIGURATION ---
   const API_ENDPOINT = `${getApiUrl()}/partnership-applications`;
+  const CMS_ENDPOINT = `${getApiUrl()}/cms/partnership-applications`;
+  const FALLBACK_ENDPOINT = `${getSiteUrl()}/api/partnership-applications`;
 
   const fetchApplicants = async () => {
     setLoading(true);
     try {
-      const response = await fetch(API_ENDPOINT);
-      if (!response.ok) throw new Error("Connection failed");
-      const data = await response.json();
+      const map = new Map();
 
-      const apps = data.applications || [];
+      // 1. Fetch from Primary Backend endpoint
+      try {
+        const response = await fetch(API_ENDPOINT);
+        if (response.ok) {
+          const data = await response.json();
+          const list = data.applications || (Array.isArray(data) ? data : []);
+          for (const app of list) {
+            const key = app.id || app._id || app.fullId;
+            if (key) map.set(key, app);
+          }
+        }
+      } catch (err) {
+        console.warn("Primary partnership endpoint notice:", err);
+      }
+
+      // 2. Fetch from CMS store (direct Neon PostgreSQL CmsData)
+      try {
+        const cmsRes = await fetch(CMS_ENDPOINT);
+        if (cmsRes.ok) {
+          const cmsData = await cmsRes.json();
+          const list = Array.isArray(cmsData) ? cmsData : (cmsData.data || cmsData.applications || []);
+          for (const app of list) {
+            const key = app.id || app._id || app.fullId;
+            if (key) {
+              if (map.has(key)) {
+                map.set(key, { ...app, ...map.get(key) });
+              } else {
+                map.set(key, app);
+              }
+            }
+          }
+        }
+      } catch (cmsErr) {
+        console.warn("CMS partnership endpoint notice:", cmsErr);
+      }
+
+      // 3. Fetch from fallback Next.js website endpoint
+      try {
+        const fbRes = await fetch(FALLBACK_ENDPOINT);
+        if (fbRes.ok) {
+          const fbData = await fbRes.json();
+          const list = fbData.applications || (Array.isArray(fbData) ? fbData : []);
+          for (const app of list) {
+            const key = app.id || app._id || app.fullId;
+            if (key && !map.has(key)) map.set(key, app);
+          }
+        }
+      } catch (fbErr) {
+        console.warn("Fallback partnership endpoint notice:", fbErr);
+      }
+
+      const apps = Array.from(map.values()).sort((a, b) => {
+        const timeA = new Date(a.createdAt || 0).getTime();
+        const timeB = new Date(b.createdAt || 0).getTime();
+        return timeB - timeA;
+      });
+
       const formatted = apps.map((app) => ({
         ...app,
         id: app.id || `APP-${Math.floor(Math.random() * 1000)}`,
-        fullId: app.id,
+        fullId: app.id || app._id,
         date: app.createdAt
           ? (() => {
-              const d = new Date(app.createdAt);
-              return `${d.getDate().toString().padStart(2, "0")}-${(d.getMonth() + 1)
-                .toString()
-                .padStart(2, "0")}-${d.getFullYear()}`;
-            })()
+            const d = new Date(app.createdAt);
+            return `${d.getDate().toString().padStart(2, "0")}-${(d.getMonth() + 1)
+              .toString()
+              .padStart(2, "0")}-${d.getFullYear()}`;
+          })()
           : "Recent",
         time: app.createdAt
           ? new Date(app.createdAt).toLocaleTimeString("en-IN", {
-              hour: "2-digit",
-              minute: "2-digit",
-            })
+            hour: "2-digit",
+            minute: "2-digit",
+          })
           : "",
-        status: app.status
+        status: app.status && app.status.toLowerCase() !== "pending" && app.status.toLowerCase() !== "new"
           ? app.status.replace("_", " ").toLowerCase().replace(/\b\w/g, (l) => l.toUpperCase())
-          : "Pending",
+          : "Reviewed",
         name: app.contactPerson || app.name || "Unknown",
         email: app.email || "",
         phone: app.phone || "",
@@ -137,6 +196,9 @@ const PartnershipApplications = ({ activeSubTopic }) => {
         website: app.website || "",
         designation: app.designation || "",
         partnershipType: app.partnershipType || "",
+        mouFile: app.mouFile || app.mou || "",
+        mouFileName: app.mouFileName || "",
+        mouFileSize: app.mouFileSize || "",
         type: app.type || "corporate",
       }));
 
@@ -156,17 +218,58 @@ const PartnershipApplications = ({ activeSubTopic }) => {
   const handleStatusChange = async (id, newStatus) => {
     try {
       setApplicants((prev) =>
-        prev.map((a) => (a.fullId === id ? { ...a, status: newStatus } : a))
+        prev.map((a) => (a.fullId === id || a.id === id ? { ...a, status: newStatus } : a))
       );
-      if (selectedApplicant && selectedApplicant.fullId === id) {
+      if (selectedApplicant && (selectedApplicant.fullId === id || selectedApplicant.id === id)) {
         setSelectedApplicant((prev) => ({ ...prev, status: newStatus }));
       }
 
-      await fetch(`${API_ENDPOINT}/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: newStatus }),
-      });
+      // Sync status change directly to Neon PostgreSQL database via CMS store
+      const syncCmsPromise = (async () => {
+        try {
+          const cmsRes = await fetch(CMS_ENDPOINT);
+          if (cmsRes.ok) {
+            const list = await cmsRes.json();
+            if (Array.isArray(list)) {
+              let modified = false;
+              const cleanId = String(id).trim().toLowerCase();
+              const updated = list.map((a) => {
+                const aId = String(a.id || "").trim().toLowerCase();
+                const aUnderscoreId = String(a._id || "").trim().toLowerCase();
+                const aFullId = String(a.fullId || "").trim().toLowerCase();
+                if (aId === cleanId || aUnderscoreId === cleanId || aFullId === cleanId) {
+                  modified = true;
+                  return { ...a, status: newStatus };
+                }
+                return a;
+              });
+              if (modified) {
+                await fetch(CMS_ENDPOINT, {
+                  method: "PUT",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ data: updated }),
+                });
+              }
+            }
+          }
+        } catch (cmsErr) {
+          console.warn("[PartnershipApplications] CMS status sync notice:", cmsErr);
+        }
+      })();
+
+      await Promise.allSettled([
+        syncCmsPromise,
+        fetch(`${API_ENDPOINT}/${id}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ status: newStatus }),
+        }),
+        fetch(`${FALLBACK_ENDPOINT}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id, status: newStatus }),
+        }),
+      ]);
     } catch (error) {
       console.error("Status update failed:", error);
     }
@@ -175,7 +278,7 @@ const PartnershipApplications = ({ activeSubTopic }) => {
   const handleDeleteClick = (e, app) => {
     if (e && e.stopPropagation) e.stopPropagation();
     setConfirmDelete({
-      id: app.fullId,
+      id: app.fullId || app.id,
       name: app.organizationName || app.name || "this partnership request",
     });
   };
@@ -183,17 +286,94 @@ const PartnershipApplications = ({ activeSubTopic }) => {
   const confirmAndDelete = async () => {
     if (!confirmDelete) return;
     const { id } = confirmDelete;
+    const targetApp = applicants.find((a) => a.fullId === id || a.id === id || a._id === id);
+    const allIds = Array.from(new Set([
+      id,
+      targetApp?.fullId,
+      targetApp?.id,
+      targetApp?._id,
+      ...(targetApp?.altIds || [])
+    ].filter(Boolean)));
+    const targetEmail = targetApp?.email ? String(targetApp.email).trim().toLowerCase() : "";
+    const targetOrg = targetApp?.organizationName ? String(targetApp.organizationName).trim().toLowerCase() : "";
+
     setDeleting(true);
     try {
-      const res = await fetch(`${API_ENDPOINT}/${id}`, {
-        method: "DELETE",
-      });
-      if (res.ok) {
-        setApplicants((prev) => prev.filter((app) => app.fullId !== id));
-        if (selectedApplicant && selectedApplicant.fullId === id) {
-          setIsModalOpen(false);
-        }
+      // 1. Optimistically remove from state immediately
+      setApplicants((prev) => prev.filter((app) => {
+        const matchId = allIds.includes(app.fullId) || allIds.includes(app.id) || allIds.includes(app._id);
+        const matchEmail = targetEmail && String(app.email || "").trim().toLowerCase() === targetEmail;
+        return !matchId && !matchEmail;
+      }));
+      if (selectedApplicant && (
+        allIds.includes(selectedApplicant.fullId) ||
+        allIds.includes(selectedApplicant.id) ||
+        allIds.includes(selectedApplicant._id) ||
+        (targetEmail && String(selectedApplicant.email || "").toLowerCase() === targetEmail)
+      )) {
+        setIsModalOpen(false);
       }
+
+      // 2. Direct persistence delete from Neon PostgreSQL database via CMS endpoint
+      const syncCmsPromise = (async () => {
+        try {
+          const cmsRes = await fetch(CMS_ENDPOINT);
+          if (cmsRes.ok) {
+            const list = await cmsRes.json();
+            const arr = Array.isArray(list) ? list : (list.data || list.applications || []);
+            if (Array.isArray(arr)) {
+              const cleanIds = allIds.map((x) => String(x).trim().toLowerCase());
+              const filtered = arr.filter((a) => {
+                const aId = String(a.id || "").trim().toLowerCase();
+                const aUnderscoreId = String(a._id || "").trim().toLowerCase();
+                const aFullId = String(a.fullId || "").trim().toLowerCase();
+                const aEmail = String(a.email || "").trim().toLowerCase();
+                if (cleanIds.includes(aId) || cleanIds.includes(aUnderscoreId) || cleanIds.includes(aFullId)) {
+                  return false;
+                }
+                if (targetEmail && aEmail === targetEmail) {
+                  return false;
+                }
+                return true;
+              });
+              if (filtered.length !== arr.length) {
+                await fetch(CMS_ENDPOINT, {
+                  method: "PUT",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ data: filtered }),
+                });
+              }
+            }
+          }
+        } catch (cmsErr) {
+          console.warn("[PartnershipApplications] CMS delete sync notice:", cmsErr);
+        }
+      })();
+
+      // 3. Parallel calls to standard REST endpoints & POST fallback
+      const deleteCalls = [
+        syncCmsPromise,
+        fetch(`${API_ENDPOINT}/delete`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ids: allIds, email: targetEmail, organizationName: targetOrg }),
+        }),
+        fetch(`${FALLBACK_ENDPOINT}/delete`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ids: allIds, email: targetEmail }),
+        }),
+      ];
+
+      for (const singleId of allIds) {
+        deleteCalls.push(
+          fetch(`${API_ENDPOINT}/${encodeURIComponent(singleId)}`, { method: "DELETE" }),
+          fetch(`${API_ENDPOINT}?id=${encodeURIComponent(singleId)}`, { method: "DELETE" }),
+          fetch(`${FALLBACK_ENDPOINT}?id=${encodeURIComponent(singleId)}`, { method: "DELETE" })
+        );
+      }
+
+      await Promise.allSettled(deleteCalls);
     } catch (err) {
       console.error("Failed to delete application", err);
     } finally {
@@ -217,8 +397,8 @@ const PartnershipApplications = ({ activeSubTopic }) => {
       "ID",
       "Organization",
       "Contact Person",
-      "Email",
-      "Phone",
+      "Email Id",
+      "Contact Number",
       "Website",
       "Designation",
       "Type",
@@ -275,66 +455,65 @@ const PartnershipApplications = ({ activeSubTopic }) => {
   });
 
   return (
-    <div className="p-4 md:p-8 max-w-[1600px] mx-auto min-h-screen">
+    <div className="p-5 md:p-6 pt-6 md:pt-7 max-w-full mx-auto space-y-6 animate-in fade-in duration-200 min-h-screen">
       {/* Centered Delete Confirmation Modal */}
-      {confirmDelete && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 animate-in fade-in zoom-in-95 duration-200">
-            <h3 className="text-base font-bold text-slate-900 mb-2">Delete Partnership Request</h3>
-            <p className="text-sm text-slate-500 mb-6 leading-relaxed">
-              Are you sure you want to delete the partnership request from{" "}
-              <span className="font-semibold text-slate-700">"{confirmDelete.name}"</span>? This action cannot be undone.
-            </p>
-            <div className="flex items-center justify-end gap-3">
-              <button
-                type="button"
-                onClick={() => setConfirmDelete(null)}
-                disabled={deleting}
-                className="px-5 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 transition-colors cursor-pointer disabled:opacity-50"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={confirmAndDelete}
-                disabled={deleting}
-                className="px-5 py-2 text-sm font-semibold bg-red-500 hover:bg-red-600 text-white rounded-full shadow-sm transition-all active:scale-95 cursor-pointer disabled:opacity-50"
-              >
-                {deleting ? "Deleting..." : "Delete"}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <DeleteConfirmModal
+        isOpen={!!confirmDelete}
+        title="Remove Partnership Request"
+        itemName={confirmDelete?.name}
+        from="Partnership Requests"
+        loading={deleting}
+        onConfirm={confirmAndDelete}
+        onCancel={() => setConfirmDelete(null)}
+      />
 
       {/* ── Page Header ── */}
-      <div className="mb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-transparent p-2">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-gray-100">
         <div>
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-[#EAF3FE] flex items-center justify-center text-[#294B7A]">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-normal">
               {expectedType === "educational" ? (
-                <GraduationCap size={24} fill="currentColor" stroke="none" />
+                <GraduationCap className="w-4 h-4" />
               ) : (
-                <Briefcase size={24} fill="currentColor" stroke="none" />
+                <Briefcase className="w-4 h-4" />
               )}
             </div>
             <div>
-              <h1 className="text-xl md:text-[22px] font-bold text-[#1E293B] tracking-tight capitalize">
-                {expectedType} Partnership Requests
-              </h1>
-              <p className="text-[#64748B] text-sm mt-0.5 font-medium">
+              <div className="flex items-center gap-2">
+                <h2 className="text-lg font-bold text-gray-900 capitalize">
+                  {expectedType} Partnership Requests
+                </h2>
+                <span className="px-2 py-0.5 rounded-full text-[11px] font-normal bg-blue-50 text-blue-700 border border-blue-100">
+                  {filtered.length} Requests
+                </span>
+              </div>
+              <p className="text-xs text-gray-500 mt-0.5">
                 Review submitted partnership requests
               </p>
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-3 w-full md:w-auto">
+        <div className="flex items-center gap-2">
+          {expectedType === "corporate" && (
+            <button
+              onClick={() => {
+                window.dispatchEvent(
+                  new CustomEvent("bitc:navigate", {
+                    detail: { tab: "Partnerships", subTopic: "industrial-partners" },
+                  })
+                );
+              }}
+              className="flex items-center justify-center gap-1.5 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 hover:border-blue-300 rounded-full font-medium text-xs shadow-xs transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
+            >
+              <Building className="w-3.5 h-3.5 text-blue-700" /> Manage
+            </button>
+          )}
           <button
             onClick={handleExportCSV}
-            className="flex items-center gap-2 px-5 py-2.5 bg-[#D6E4F8] text-[#294B7A] hover:bg-[#c6d7f0] text-sm font-semibold rounded-xl transition-colors active:scale-95 cursor-pointer"
+            className="flex items-center justify-center gap-1.5 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 hover:border-blue-300 rounded-full font-medium text-xs shadow-xs transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
           >
-            <Download size={16} /> Export Data
+            <Download className="w-3.5 h-3.5 text-blue-700" /> Export Data
           </button>
         </div>
       </div>
@@ -348,10 +527,10 @@ const PartnershipApplications = ({ activeSubTopic }) => {
           <input
             id="globalSearchInput"
             type="text"
-            placeholder="Search by organization, contact person, email, or ID..."
+            placeholder="Search by organization, contact person, email ID, contact number, or ID..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-white border border-slate-200/60 rounded-xl py-2.5 pl-10 pr-4 outline-none focus:ring-2 focus:ring-blue-400/20 focus:border-blue-400 transition-all text-sm text-[#1E293B] placeholder:text-[#94A3B8] shadow-sm font-medium"
+            className="w-full bg-white border border-slate-200/60 rounded-xl py-2.5 pl-10 pr-4 outline-none focus:ring-2 focus:ring-blue-400/20 focus:border-blue-400 transition-all text-sm text-[#1E293B] placeholder:text-[#94A3B8] shadow-sm font-normal text-gray-500"
           />
         </div>
         <div className="relative w-full sm:w-52">
@@ -359,14 +538,14 @@ const PartnershipApplications = ({ activeSubTopic }) => {
             id="globalStatusSelect"
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full appearance-none bg-white border border-slate-200/60 rounded-xl py-2.5 pl-4 pr-10 outline-none focus:ring-2 focus:ring-blue-400/20 focus:border-blue-400 text-sm text-[#1E293B] cursor-pointer font-bold shadow-sm"
+            className="w-full appearance-none bg-white border border-slate-200/60 rounded-xl py-2.5 pl-4 pr-10 outline-none focus:ring-2 focus:ring-blue-400/20 focus:border-blue-400 text-sm text-[#1E293B] cursor-pointer font-normal shadow-sm text-gray-500"
           >
             <option value="all">All Statuses</option>
-            <option value="pending">Pending</option>
             <option value="reviewed">Reviewed</option>
             <option value="contacted">Contacted</option>
             <option value="approved">Approved</option>
             <option value="rejected">Rejected</option>
+            <option value="pending">Pending</option>
           </select>
           <div className="absolute inset-y-0 right-3.5 flex items-center pointer-events-none">
             <ChevronDown size={15} className="text-[#A0AEC0]" />
@@ -383,8 +562,8 @@ const PartnershipApplications = ({ activeSubTopic }) => {
                 <th className="px-6 py-4 whitespace-nowrap">Date</th>
                 <th className="px-6 py-4 whitespace-nowrap">Organization</th>
                 <th className="px-6 py-4 whitespace-nowrap">Contact Person</th>
-                <th className="px-6 py-4 whitespace-nowrap">Phone</th>
-                <th className="px-6 py-4 whitespace-nowrap">Partnership Type</th>
+                <th className="px-6 py-4 whitespace-nowrap">Contact Number</th>
+                <th className="px-6 py-4 whitespace-nowrap">Uploaded MoU</th>
                 <th className="px-6 py-4 text-center whitespace-nowrap">Status</th>
                 <th className="px-6 py-4 text-right whitespace-nowrap">Actions</th>
               </tr>
@@ -409,14 +588,14 @@ const PartnershipApplications = ({ activeSubTopic }) => {
                   <tr
                     key={app.fullId}
                     onClick={() => {
-                      setSelectedApplicant(app);
+                      const effectiveStatus = (!app.status || app.status.toLowerCase() === 'pending' || app.status.toLowerCase() === 'new') ? 'Reviewed' : app.status;
+                      setSelectedApplicant({ ...app, status: effectiveStatus });
                       setIsModalOpen(true);
                     }}
-                    className={`transition-all duration-700 cursor-pointer ${
-                      isHighlighted(app)
-                        ? "bg-amber-100/90 ring-2 ring-amber-400 shadow-md border-l-4 border-l-amber-500 scale-[1.005] z-10 animate-pulse"
-                        : "hover:bg-slate-50/80"
-                    }`}
+                    className={`transition-all duration-700 cursor-pointer ${isHighlighted(app)
+                      ? "bg-slate-100/80 hover:bg-slate-100"
+                      : "hover:bg-slate-50/80"
+                      }`}
                     data-highlighted={isHighlighted(app) ? "true" : undefined}
                   >
                     {/* Date */}
@@ -456,48 +635,66 @@ const PartnershipApplications = ({ activeSubTopic }) => {
 
                     {/* Phone */}
                     <td className="px-6 py-5 align-middle whitespace-nowrap">
-                      <p className="text-[12px] text-[#475569] font-medium">
-                        {app.phone || "—"}
-                      </p>
+                      <div className="flex items-center gap-1.5">
+                        <p className="text-[12px] text-[#475569] font-medium">
+                          {app.phone || "—"}
+                        </p>
+                        {app.phone && app.phone !== "—" && (
+                          <WhatsAppButton
+                            phone={app.phone}
+                            name={app.name}
+                            message={`Hello ${app.name}, this is regarding your partnership proposal with BITC (BIZONANCE Industrial Training Centre).`}
+                            size="sm"
+                          />
+                        )}
+                      </div>
                     </td>
 
-                    {/* Partnership Type */}
+                    {/* Uploaded MoU Document */}
                     <td className="px-6 py-5 align-middle max-w-[220px] whitespace-nowrap">
-                      <p
-                        className="text-[#475569] font-medium text-[13px] truncate whitespace-nowrap"
-                        title={app.partnershipType || "—"}
-                      >
-                        {app.partnershipType || "—"}
-                      </p>
+                      {app.mouFile ? (
+                        <a
+                          href={app.mouFile.startsWith('data:') ? app.mouFile : resolveImageUrl(app.mouFile)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          download={app.mouFileName || "MoU-Document"}
+                          className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 rounded-full font-medium text-xs transition-all cursor-pointer shadow-2xs hover:scale-105 active:scale-95"
+                          onClick={(e) => e.stopPropagation()}
+                          title="View / Download Uploaded MoU"
+                        >
+                          <FileText className="w-3.5 h-3.5 text-amber-600" />
+                          <span>View MoU</span>
+                        </a>
+                      ) : (
+                        <span className="text-slate-400 font-medium text-xs">—</span>
+                      )}
                     </td>
 
                     {/* Status Badge */}
                     <td className="px-6 py-5 text-center align-middle whitespace-nowrap">
                       <span
-                        className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-[12px] font-semibold border ${
-                          app.status.toLowerCase() === "reviewed"
-                            ? "bg-[#EAF3FE] text-[#294B7A] border-blue-200"
-                            : app.status.toLowerCase() === "approved"
+                        className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-[12px] font-semibold border ${app.status.toLowerCase() === "reviewed"
+                          ? "bg-[#EAF3FE] text-[#294B7A] border-blue-200"
+                          : app.status.toLowerCase() === "approved"
                             ? "bg-[#E0F8E9] text-[#2E8B57] border-green-200"
                             : app.status.toLowerCase() === "contacted"
-                            ? "bg-[#EAF3FE] text-[#294B7A] border-blue-200"
-                            : app.status.toLowerCase() === "rejected"
-                            ? "bg-red-50 text-red-600 border-red-200"
-                            : "bg-[#FFF4D2] text-[#B8860B] border-yellow-200"
-                        }`}
+                              ? "bg-[#EAF3FE] text-[#294B7A] border-blue-200"
+                              : app.status.toLowerCase() === "rejected"
+                                ? "bg-red-50 text-red-600 border-red-200"
+                                : "bg-[#FFF4D2] text-[#B8860B] border-yellow-200"
+                          }`}
                       >
                         <span
-                          className={`w-1.5 h-1.5 rounded-full ${
-                            app.status.toLowerCase() === "reviewed"
-                              ? "bg-[#294B7A]"
-                              : app.status.toLowerCase() === "approved"
+                          className={`w-1.5 h-1.5 rounded-full ${app.status.toLowerCase() === "reviewed"
+                            ? "bg-[#294B7A]"
+                            : app.status.toLowerCase() === "approved"
                               ? "bg-[#2E8B57]"
                               : app.status.toLowerCase() === "contacted"
-                              ? "bg-[#294B7A]"
-                              : app.status.toLowerCase() === "rejected"
-                              ? "bg-red-600"
-                              : "bg-[#B8860B]"
-                          }`}
+                                ? "bg-[#294B7A]"
+                                : app.status.toLowerCase() === "rejected"
+                                  ? "bg-red-600"
+                                  : "bg-[#B8860B]"
+                            }`}
                         />
                         {app.status.charAt(0).toUpperCase() + app.status.slice(1)}
                       </span>
@@ -537,89 +734,149 @@ const PartnershipApplications = ({ activeSubTopic }) => {
               className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col border border-slate-100"
             >
               {/* Modal Header */}
-              <div className="flex justify-between items-start px-6 py-5 border-b border-slate-100 bg-white rounded-t-2xl">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-700 shadow-inner font-bold text-xl">
-                    {(selectedApplicant.name || selectedApplicant.organizationName || "P")
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-6 py-4 border-b border-slate-100 bg-white rounded-t-2xl">
+                <div className="flex items-center gap-3.5 min-w-0 flex-1">
+                  <div className="w-11 h-11 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-amber-700 shadow-xs font-black text-lg shrink-0">
+                    {(selectedApplicant.organizationName || selectedApplicant.institutionName || selectedApplicant.name || "P")
                       .charAt(0)
                       .toUpperCase()}
                   </div>
-                  <div>
-                    <h3 className="text-xl font-black text-slate-900 tracking-tight leading-tight mb-0.5">
-                      {selectedApplicant.name || selectedApplicant.organizationName || "Unknown Applicant"}
+                  <div className="min-w-0 flex-1">
+                    {/* 1. Name */}
+                    <h3 className="text-lg md:text-xl font-black text-slate-900 tracking-tight leading-tight truncate mb-1">
+                      {selectedApplicant.organizationName || selectedApplicant.institutionName || selectedApplicant.name || "Unknown Organization"}
                     </h3>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                      {selectedApplicant.organizationName ? `${selectedApplicant.organizationName} • ` : ""}
-                      {selectedApplicant.type ? `${selectedApplicant.type} PARTNERSHIP` : "PARTNERSHIP APPLICATION"}
-                    </p>
+
+                    {/* 2. Tag (Between Name and Date + Time) */}
+                    <div className="mb-1.5 flex items-center">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-orange-50 text-orange-600 border border-orange-200/80 shrink-0">
+                        {selectedApplicant.type === "educational"
+                          ? "Educational Partnership"
+                          : selectedApplicant.partnershipType || "Industrial Partnership"}
+                      </span>
+                    </div>
+
+                    {/* 3. Date + Time */}
+                    <div className="flex items-center gap-2 text-xs text-slate-500 font-medium flex-wrap">
+                      <span className="flex items-center gap-1">
+                        <Calendar size={12} className="text-slate-400" />
+                        {selectedApplicant.date}
+                      </span>
+                      {selectedApplicant.time && (
+                        <>
+                          <span className="text-slate-300">•</span>
+                          <span className="flex items-center gap-1">
+                            <Clock size={12} className="text-slate-400" />
+                            {selectedApplicant.time}
+                          </span>
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
-                <button
-                  onClick={() => setIsModalOpen(false)}
-                  className="p-2 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
-                >
-                  <X className="w-5 h-5" />
-                </button>
+
+                {/* Header Actions: Status Select, Close */}
+                <div className="flex items-center gap-2.5 shrink-0 self-end sm:self-center">
+                  {/* Status Dropdown - Pending moved to last */}
+                  {(() => {
+                    const currentSt = (!selectedApplicant.status || selectedApplicant.status.toLowerCase() === 'pending' || selectedApplicant.status.toLowerCase() === 'new')
+                      ? 'Reviewed'
+                      : selectedApplicant.status;
+                    const st = getStatusStyle(currentSt);
+                    return (
+                      <div className="relative inline-flex items-center">
+                        <select
+                          value={currentSt}
+                          onChange={(e) =>
+                            handleStatusChange(selectedApplicant.fullId, e.target.value)
+                          }
+                          className={`appearance-none flex items-center pl-3.5 pr-8 py-1.5 text-xs font-bold rounded-full border shadow-xs transition-all active:scale-95 cursor-pointer outline-none ${st.bg}`}
+                        >
+                          <option value="Reviewed" className="bg-white text-slate-800">Reviewed</option>
+                          <option value="Contacted" className="bg-white text-slate-800">Contacted</option>
+                          <option value="Approved" className="bg-white text-slate-800">Approved</option>
+                          <option value="Rejected" className="bg-white text-slate-800">Rejected</option>
+                          <option value="Pending" className="bg-white text-slate-800">Pending</option>
+                        </select>
+                        <ChevronDown size={13} className={`absolute right-2.5 pointer-events-none transition-colors ${st.chevron}`} />
+                      </div>
+                    );
+                  })()}
+
+                  {/* Close Modal (X) */}
+                  <button
+                    onClick={() => setIsModalOpen(false)}
+                    className="w-8 h-8 rounded-full bg-slate-50 text-slate-400 hover:text-slate-700 hover:bg-slate-100 border border-slate-200/60 transition-colors flex items-center justify-center cursor-pointer shrink-0"
+                    title="Close"
+                    aria-label="Close"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
 
-              {/* Modal Body */}
-              <div className="p-6 overflow-y-auto bg-slate-50 flex-1 space-y-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-                {/* Candidate / Partner Information Grid */}
-                <div className="grid grid-cols-2 gap-4">
+              {/* Modal Body / Form Section */}
+              <div className="p-6 overflow-y-auto bg-slate-50 flex-1 space-y-5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Contact Person Name */}
                   <div>
                     <div className="flex items-center gap-1.5 text-slate-500 mb-1 capitalize text-[10px] font-semibold tracking-wider">
-                      <Mail size={12} className="text-slate-400" /> Email Address
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <p className="text-slate-800 font-medium text-sm break-all">{selectedApplicant.email || "—"}</p>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="flex items-center gap-1.5 text-slate-500 mb-1 capitalize text-[10px] font-semibold tracking-wider">
-                      <Phone size={12} className="text-slate-400" /> Phone Number
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <p className="text-slate-800 font-medium text-sm break-words">{selectedApplicant.phone || "—"}</p>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="flex items-center gap-1.5 text-slate-500 mb-1 capitalize text-[10px] font-semibold tracking-wider">
-                      <Calendar size={12} className="text-slate-400" /> Date
+                      <User size={12} className="text-slate-400" /> Contact Person Name
                     </div>
                     <p className="text-slate-800 font-medium text-sm break-words">
-                      {selectedApplicant.date}
+                      {selectedApplicant.name || "—"}
                     </p>
                   </div>
 
-                  {selectedApplicant.organizationName && (
-                    <div className="col-span-2 sm:col-span-1">
-                      <div className="flex items-center gap-1.5 text-slate-500 mb-1 capitalize text-[10px] font-semibold tracking-wider">
-                        <Building size={12} className="text-slate-400" /> Organization
-                      </div>
-                      <p className="text-slate-800 font-medium text-sm break-words leading-snug">
-                        {selectedApplicant.organizationName}
-                      </p>
+                  {/* Designation */}
+                  <div>
+                    <div className="flex items-center gap-1.5 text-slate-500 mb-1 capitalize text-[10px] font-semibold tracking-wider">
+                      <Briefcase size={12} className="text-slate-400" /> Designation
                     </div>
-                  )}
+                    <p className="text-slate-800 font-medium text-sm break-words">
+                      {selectedApplicant.designation || "—"}
+                    </p>
+                  </div>
 
-                  {selectedApplicant.designation && (
-                    <div>
-                      <div className="flex items-center gap-1.5 text-slate-500 mb-1 capitalize text-[10px] font-semibold tracking-wider">
-                        <Briefcase size={12} className="text-slate-400" /> Designation / Role
-                      </div>
+                  {/* Email Id */}
+                  <div>
+                    <div className="flex items-center gap-1.5 text-slate-500 mb-1 capitalize text-[10px] font-semibold tracking-wider">
+                      <Mail size={12} className="text-slate-400" /> Email Id
+                    </div>
+                    <p className="text-slate-800 font-medium text-sm break-all">
+                      {selectedApplicant.email || "—"}
+                    </p>
+                  </div>
+
+                  {/* Contact Number */}
+                  <div>
+                    <div className="flex items-center gap-1.5 text-slate-500 mb-1 capitalize text-[10px] font-semibold tracking-wider">
+                      <Phone size={12} className="text-slate-400" /> Contact Number
+                    </div>
+                    <div className="flex items-center gap-2 flex-wrap">
                       <p className="text-slate-800 font-medium text-sm break-words">
-                        {selectedApplicant.designation}
+                        {selectedApplicant.phone || "—"}
                       </p>
+                      {selectedApplicant.phone &&
+                        selectedApplicant.phone !== "—" &&
+                        selectedApplicant.phone.replace(/\D/g, "").length >= 10 && (
+                          <WhatsAppButton
+                            phone={selectedApplicant.phone}
+                            name={selectedApplicant.name}
+                            message={`Hello ${selectedApplicant.name}, this is regarding your partnership proposal with BITC (BIZONANCE Industrial Training Centre).`}
+                            showLabel={false}
+                            className="p-1.5 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 rounded-full border border-emerald-200/80 bg-emerald-50/50 transition-all shadow-2xs"
+                          />
+                        )}
                     </div>
-                  )}
+                  </div>
 
-                  {selectedApplicant.website && (
-                    <div className="col-span-2">
-                      <div className="flex items-center gap-1.5 text-slate-500 mb-1 capitalize text-[10px] font-semibold tracking-wider">
-                        <Globe size={12} className="text-slate-400" /> Website
-                      </div>
+                  {/* Website URL */}
+                  <div className="col-span-1 sm:col-span-2">
+                    <div className="flex items-center gap-1.5 text-slate-500 mb-1 capitalize text-[10px] font-semibold tracking-wider">
+                      <Globe size={12} className="text-slate-400" /> Website URL
+                    </div>
+                    {selectedApplicant.website ? (
                       <a
                         href={
                           selectedApplicant.website.startsWith("http")
@@ -628,102 +885,73 @@ const PartnershipApplications = ({ activeSubTopic }) => {
                         }
                         target="_blank"
                         rel="noreferrer"
-                        className="text-blue-600 hover:underline font-medium text-sm break-all block"
+                        className="text-blue-600 hover:underline font-medium text-sm break-all inline-flex items-center gap-1.5"
                       >
-                        {selectedApplicant.website}
+                        <span>{selectedApplicant.website}</span>
+                        <ExternalLink size={12} className="shrink-0" />
                       </a>
-                    </div>
-                  )}
+                    ) : (
+                      <p className="text-slate-500 text-sm italic">Not provided</p>
+                    )}
+                  </div>
 
-                  {(selectedApplicant.partnershipType || selectedApplicant.type) && (
-                    <div className="col-span-2">
-                      <div className="flex items-center gap-1.5 text-slate-500 mb-1 capitalize text-[10px] font-semibold tracking-wider">
-                        <Tag size={12} className="text-slate-400" /> Topic
+                  {/* Uploaded MoU Document */}
+                  <div className="col-span-1 sm:col-span-2">
+                    <div className="flex items-center gap-1.5 text-slate-500 mb-1 capitalize text-[10px] font-semibold tracking-wider">
+                      <FileText size={12} className="text-slate-400" /> Uploaded MoU Document
+                    </div>
+                    {selectedApplicant.mouFile ? (
+                      <div className="flex items-center gap-3 p-3 bg-amber-50/70 border border-amber-200/80 rounded-xl">
+                        <div className="w-9 h-9 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
+                          <FileText className="w-5 h-5" />
+                        </div>
+                        <div className="flex-1 truncate">
+                          <p className="text-xs font-bold text-slate-800 truncate">
+                            {selectedApplicant.mouFileName || "MoU Collaboration Document"}
+                          </p>
+                          <p className="text-[10px] text-slate-500">Document attached by applicant</p>
+                        </div>
+                        <a
+                          href={selectedApplicant.mouFile.startsWith('data:') ? selectedApplicant.mouFile : resolveImageUrl(selectedApplicant.mouFile)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          download={selectedApplicant.mouFileName || "MoU-Document"}
+                          className="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-full text-xs font-semibold shadow-xs transition-all shrink-0 flex items-center gap-1.5 cursor-pointer active:scale-95"
+                        >
+                          <Download className="w-3.5 h-3.5" />
+                          <span>View / Download</span>
+                        </a>
                       </div>
-                      <p className="text-slate-800 font-medium text-sm break-words">
-                        {selectedApplicant.partnershipType || selectedApplicant.type}
+                    ) : (
+                      <p className="text-slate-500 text-xs italic">No document attached.</p>
+                    )}
+                  </div>
+
+                  {/* Inquirer Message */}
+                  {selectedApplicant.message && (
+                    <div className="col-span-1 sm:col-span-2">
+                      <div className="flex items-center gap-1.5 text-slate-500 mb-1 capitalize text-[10px] font-semibold tracking-wider">
+                        <MessageSquare size={12} className="text-slate-400" /> Inquirer Message
+                      </div>
+                      <p className="text-sm text-slate-700 bg-white p-3.5 rounded-xl border border-slate-200 leading-relaxed font-normal whitespace-pre-wrap break-words">
+                        &quot;{selectedApplicant.message}&quot;
                       </p>
                     </div>
                   )}
                 </div>
-
-                {/* Inquirer Message */}
-                {selectedApplicant.message && (
-                  <div>
-                    <div className="flex items-center gap-1.5 text-slate-400 mb-1 capitalize text-[10px] font-bold tracking-widest">
-                      Inquirer Message
-                    </div>
-                    <p className="text-sm text-slate-600 bg-white p-3.5 rounded-xl border border-slate-200 leading-relaxed font-medium whitespace-pre-wrap break-words">
-                      &quot;{selectedApplicant.message}&quot;
-                    </p>
-                  </div>
-                )}
               </div>
 
-              {/* Modal Footer / Quick Reply Actions */}
-              <div className="px-6 py-4 border-t border-slate-100 bg-slate-50/70 flex items-center justify-between">
-                <span className="text-xs text-slate-500 font-normal">
-                  Click to reply directly to {selectedApplicant.name}
-                </span>
-
-                <div className="flex items-center gap-2">
-                  {/* Update Status Button */}
-                  {(() => {
-                    const st = getStatusStyle(selectedApplicant.status);
-                    return (
-                      <div className="relative inline-flex items-center">
-                        <select
-                          value={selectedApplicant.status}
-                          onChange={(e) =>
-                            handleStatusChange(selectedApplicant.fullId, e.target.value)
-                          }
-                          className={`appearance-none flex items-center pl-3.5 pr-8 py-2 text-xs font-bold rounded-3xl border shadow-xs transition-all active:scale-95 cursor-pointer outline-none ${st.bg}`}
-                        >
-                          <option value="Pending" className="bg-white text-slate-800">Pending</option>
-                          <option value="Reviewed" className="bg-white text-slate-800">Reviewed</option>
-                          <option value="Contacted" className="bg-white text-slate-800">Contacted</option>
-                          <option value="Approved" className="bg-white text-slate-800">Approved</option>
-                          <option value="Rejected" className="bg-white text-slate-800">Rejected</option>
-                        </select>
-                        <ChevronDown size={14} className={`absolute right-2.5 pointer-events-none transition-colors ${st.chevron}`} />
-                      </div>
-                    );
-                  })()}
-
-                  {selectedApplicant.phone && (
-                    <a
-                      href={`tel:${selectedApplicant.phone}`}
-                      className="flex items-center gap-1.5 px-4 py-2 text-xs bg-slate-200 text-slate-700 hover:bg-slate-300 font-medium rounded-3xl shadow-xs transition-all active:scale-95"
-                    >
-                      <Phone className="w-3.5 h-3.5 text-slate-500" />
-                      Call
-                    </a>
-                  )}
-
-                  {selectedApplicant.email && (
-                    <a
-                      href={`https://mail.google.com/mail/?view=cm&fs=1&to=${selectedApplicant.email}&su=Response%20from%20BITC%20Regarding%20Partnership&body=Dear%20${encodeURIComponent(
-                        selectedApplicant.name
-                      )}%2C%0A%0AThank%20you%20for%20reaching%20out%20to%20BITC%20regarding%20partnership.%0A%0ABest%20regards%2C%0ABITC%20Team`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 px-4 py-2 text-xs bg-slate-200 text-slate-700 hover:bg-slate-300 font-medium rounded-3xl shadow-xs transition-all active:scale-95"
-                    >
-                      <Send className="w-3.5 h-3.5 text-slate-500" />
-                      Email
-                    </a>
-                  )}
-
-                  <button
-                    type="button"
-                    onClick={(e) => handleDeleteClick(e, selectedApplicant)}
-                    className="flex items-center gap-1.5 px-4 py-2 text-xs bg-red-50 text-red-600 hover:bg-red-600 hover:text-white border border-red-200 font-medium rounded-3xl shadow-xs transition-all active:scale-95 cursor-pointer"
-                    title="Delete Request"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                    Delete
-                  </button>
-                </div>
+              {/* Modal Footer: Delete Button Down */}
+              <div className="px-6 py-3 border-t border-slate-100 bg-white flex justify-end items-center rounded-b-2xl">
+                <button
+                  type="button"
+                  onClick={(e) => handleDeleteClick(e, selectedApplicant)}
+                  className="w-9 h-9 rounded-full bg-red-50 text-red-600 hover:bg-red-600 hover:text-white border border-red-200 transition-all flex items-center justify-center cursor-pointer active:scale-95 shadow-xs"
+                  title="Delete Request"
+                  aria-label="Delete Request"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
               </div>
             </motion.div>
           </div>

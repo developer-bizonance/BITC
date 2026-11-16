@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { readJsonDb, writeJsonDb } from "../dataStore.js";
+import { readJsonDbAsync, writeJsonDbAsync } from "../dataStore.js";
 import { deleteUploadedFile } from "./upload.routes.js";
 
 export interface AlumniCompanyItem {
@@ -10,20 +10,19 @@ export interface AlumniCompanyItem {
   createdAt: string;
 }
 
-// Initial In-Memory Store
-
 const router = Router();
 
 // GET /api/alumni-companies
-router.get("/", (_req: Request, res: Response) => {
+router.get("/", async (_req: Request, res: Response) => {
+  const companies = await readJsonDbAsync<AlumniCompanyItem>("alumni-companies.json");
   return res.json({
     success: true,
-    companies: readJsonDb("alumni-companies.json"),
+    companies,
   });
 });
 
 // POST /api/alumni-companies (Add company)
-router.post("/", (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response) => {
   try {
     const { name, logo, website } = req.body;
 
@@ -39,13 +38,15 @@ router.post("/", (req: Request, res: Response) => {
       createdAt: new Date().toISOString(),
     };
 
-    const db = readJsonDb("alumni-companies.json"); db.push(newCompany); writeJsonDb("alumni-companies.json", db);
+    const db = await readJsonDbAsync<AlumniCompanyItem>("alumni-companies.json");
+    db.push(newCompany);
+    await writeJsonDbAsync("alumni-companies.json", db);
 
     return res.status(201).json({
       success: true,
       message: "Company added successfully",
       company: newCompany,
-      companies: readJsonDb("alumni-companies.json"),
+      companies: db,
     });
   } catch (error: any) {
     return res.status(500).json({ error: error?.message || "Failed to add company" });
@@ -53,17 +54,18 @@ router.post("/", (req: Request, res: Response) => {
 });
 
 // PUT /api/alumni-companies/:id (Update company)
-router.put("/:id", (req: Request, res: Response) => {
+router.put("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { name, logo, website } = req.body;
 
-    const index = readJsonDb("alumni-companies.json").findIndex((c) => c.id === id);
+    const db = await readJsonDbAsync<AlumniCompanyItem>("alumni-companies.json");
+    const index = db.findIndex((c) => c.id === id);
     if (index === -1) {
       return res.status(404).json({ error: "Company not found" });
     }
 
-    const current = readJsonDb("alumni-companies.json")[index];
+    const current = db[index];
     const updated: AlumniCompanyItem = {
       ...current,
       name: name !== undefined ? name.trim() : current.name,
@@ -71,13 +73,14 @@ router.put("/:id", (req: Request, res: Response) => {
       website: website !== undefined ? website.trim() : current.website,
     };
 
-    const db = readJsonDb("alumni-companies.json"); db[index] = updated; writeJsonDb("alumni-companies.json", db);
+    db[index] = updated;
+    await writeJsonDbAsync("alumni-companies.json", db);
 
     return res.json({
       success: true,
       message: "Company updated successfully",
       company: updated,
-      companies: readJsonDb("alumni-companies.json"),
+      companies: db,
     });
   } catch (error: any) {
     return res.status(500).json({ error: error?.message || "Failed to update company" });
@@ -85,24 +88,26 @@ router.put("/:id", (req: Request, res: Response) => {
 });
 
 // DELETE /api/alumni-companies/:id (Remove company)
-router.delete("/:id", (req: Request, res: Response) => {
+router.delete("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const initialLen = readJsonDb("alumni-companies.json").length;
-    const itemToDelete = readJsonDb<AlumniCompanyItem>("alumni-companies.json").find((c) => c.id === id);
+    const db = await readJsonDbAsync<AlumniCompanyItem>("alumni-companies.json");
+    const itemToDelete = db.find((c) => c.id === id);
     if (itemToDelete?.logo) {
       deleteUploadedFile(itemToDelete.logo);
     }
-    const db = readJsonDb("alumni-companies.json").filter((c) => c.id !== id); writeJsonDb("alumni-companies.json", db);
+    const filteredDb = db.filter((c) => c.id !== id);
 
-    if (readJsonDb("alumni-companies.json").length === initialLen) {
+    if (filteredDb.length === db.length) {
       return res.status(404).json({ error: "Company not found" });
     }
+
+    await writeJsonDbAsync("alumni-companies.json", filteredDb);
 
     return res.json({
       success: true,
       message: "Company removed successfully",
-      companies: readJsonDb("alumni-companies.json"),
+      companies: filteredDb,
     });
   } catch (error: any) {
     return res.status(500).json({ error: error?.message || "Failed to delete company" });
@@ -110,7 +115,7 @@ router.delete("/:id", (req: Request, res: Response) => {
 });
 
 // PUT /api/alumni-companies/reorder (Reorder companies)
-router.put("/reorder", (req: Request, res: Response) => {
+router.put("/reorder", async (req: Request, res: Response) => {
   try {
     const { orderedIds } = req.body;
 
@@ -118,30 +123,31 @@ router.put("/reorder", (req: Request, res: Response) => {
       return res.status(400).json({ error: "orderedIds must be an array" });
     }
 
+    const currentDb = await readJsonDbAsync<AlumniCompanyItem>("alumni-companies.json");
     const newOrder: AlumniCompanyItem[] = [];
     const idSet = new Set(orderedIds);
 
     // 1. Add items in the new order
     orderedIds.forEach((id: string) => {
-      const item = readJsonDb("alumni-companies.json").find((c) => c.id === id);
+      const item = currentDb.find((c) => c.id === id);
       if (item) {
         newOrder.push(item);
       }
     });
 
-    // 2. Append any items that were missed (to prevent data loss)
-    readJsonDb("alumni-companies.json").forEach((item) => {
+    // 2. Append any items that were missed
+    currentDb.forEach((item) => {
       if (!idSet.has(item.id)) {
         newOrder.push(item);
       }
     });
 
-    writeJsonDb("alumni-companies.json", newOrder);
+    await writeJsonDbAsync("alumni-companies.json", newOrder);
 
     return res.json({
       success: true,
       message: "Companies reordered successfully",
-      companies: readJsonDb("alumni-companies.json"),
+      companies: newOrder,
     });
   } catch (error: any) {
     return res.status(500).json({ error: error?.message || "Failed to reorder companies" });

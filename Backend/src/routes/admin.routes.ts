@@ -1,8 +1,7 @@
 import { Router, Request, Response } from "express";
 import prisma from "../lib/prisma.js";
 import { usersDb, applicationsDb } from "../lib/userStore.js";
-import { courses as fallbackCourses } from "../data/courses.js";
-import { readJsonDb, writeJsonDb, readJsonDbAsync, writeJsonDbAsync } from "../dataStore.js";
+import { readJsonDbAsync, writeJsonDbAsync } from "../dataStore.js";
 
 const router = Router();
 
@@ -12,7 +11,7 @@ router.get("/stats", async (_req: Request, res: Response) => {
     let totalUsers = 0;
     let totalInquiries = 0;
     let totalApplications = 0;
-    let totalCourses = fallbackCourses.length;
+    let totalCourses = 0;
 
     try {
       totalUsers = await prisma.user.count();
@@ -20,13 +19,16 @@ router.get("/stats", async (_req: Request, res: Response) => {
       const dbAppCount = await prisma.application.count();
       const cmsApps = await readJsonDbAsync("course-applications.json");
       totalApplications = Math.max(dbAppCount, cmsApps.length, applicationsDb.length);
-      const dbCourseCount = await prisma.course.count();
-      if (dbCourseCount > 0) totalCourses = dbCourseCount;
+      totalCourses = await prisma.course.count();
     } catch (e) {
       console.warn("DB stats count fallback:", e);
       totalUsers = usersDb.length;
-      const cmsApps = readJsonDb("course-applications.json");
-      totalApplications = cmsApps.length || applicationsDb.length;
+      try {
+        const cmsApps = await readJsonDbAsync("course-applications.json");
+        totalApplications = cmsApps.length || applicationsDb.length;
+      } catch {
+        totalApplications = applicationsDb.length;
+      }
     }
 
     return res.json({
@@ -65,19 +67,14 @@ router.get("/applications", async (_req: Request, res: Response) => {
     try {
       cmsApps = await readJsonDbAsync<any>("course-applications.json");
     } catch (e) {
-      console.warn("CMS application query error:", e);
-      cmsApps = readJsonDb<any>("course-applications.json");
+      console.warn("CMS application query notice:", e);
     }
 
-    // Combine and normalize all applications
-    const map = new Map<string, any>();
-
-    // 1. Add Prisma DB apps
-    for (const app of dbApps) {
-      const id = app.id;
-      map.set(id, {
-        id,
-        fullId: id,
+    // Combine, normalize, and deduplicate all applications
+    const allCandidates: any[] = [
+      ...dbApps.map((app) => ({
+        id: app.id,
+        fullId: app.id,
         userId: app.userId,
         name: app.name || app.user?.name || "Unknown",
         email: app.email || app.user?.email || "",
@@ -91,49 +88,70 @@ router.get("/applications", async (_req: Request, res: Response) => {
         status: app.status || "UNDER_REVIEW",
         appliedAt: app.appliedAt ? new Date(app.appliedAt).toISOString() : new Date().toISOString(),
         updatedAt: app.updatedAt ? new Date(app.updatedAt).toISOString() : new Date().toISOString(),
+      })),
+      ...cmsApps.map((app) => ({
+        id: app.id || app.fullId,
+        fullId: app.fullId || app.id,
+        userId: app.userId || "",
+        name: app.name || app.userName || "Unknown",
+        email: app.email || app.userEmail || "",
+        phone: app.phone || app.userPhone || "",
+        city: app.city || "",
+        qualification: app.qualification || "",
+        specialization: app.specialization || "",
+        message: app.message || "",
+        courseId: app.courseId || "",
+        courseTitle: app.courseTitle || app.course?.title || "Certification Course",
+        status: app.status || "UNDER_REVIEW",
+        appliedAt: app.appliedAt || app.createdAt || new Date().toISOString(),
+        updatedAt: app.updatedAt || app.appliedAt || new Date().toISOString(),
+      })),
+    ];
+
+    const deduped: any[] = [];
+    for (const app of allCandidates) {
+      const email = String(app.email || "").trim().toLowerCase();
+      const phone = String(app.phone || "").replace(/\D/g, "");
+      const courseId = String(app.courseId || "").trim().toLowerCase();
+      const courseTitle = String(app.courseTitle || "").trim().toLowerCase();
+      const id = String(app.id || app.fullId || "").trim();
+
+      const existingIdx = deduped.findIndex((ex) => {
+        const exId = String(ex.id || ex.fullId || "").trim();
+        if (id && exId && (id === exId || id === String(ex.fullId || "").trim() || String(app.fullId || "").trim() === exId)) {
+          return true;
+        }
+        const exEmail = String(ex.email || "").trim().toLowerCase();
+        const exCourseId = String(ex.courseId || "").trim().toLowerCase();
+        const exCourseTitle = String(ex.courseTitle || "").trim().toLowerCase();
+        const exPhone = String(ex.phone || "").replace(/\D/g, "");
+
+        if (email && exEmail && email === exEmail && (courseId === exCourseId || courseTitle === exCourseTitle)) {
+          if (phone && exPhone && phone === exPhone) return true;
+          const timeDiff = Math.abs(new Date(ex.appliedAt || 0).getTime() - new Date(app.appliedAt || 0).getTime());
+          if (timeDiff < 24 * 60 * 60 * 1000) return true;
+        }
+        return false;
       });
-    }
 
-    // 2. Add or enrich with CMS / JSON apps
-    for (const app of cmsApps) {
-      const key = app.fullId || app.id || `${app.email}-${app.courseId}`;
-      if (map.has(key)) {
-        const existing = map.get(key);
-        if (!existing.city && app.city) existing.city = app.city;
-        if (!existing.qualification && app.qualification) existing.qualification = app.qualification;
-        if (!existing.specialization && app.specialization) existing.specialization = app.specialization;
-        if (!existing.message && app.message) existing.message = app.message;
-        if (app.id && app.id.startsWith("APP-")) existing.id = app.id;
+      if (existingIdx !== -1) {
+        const ex = deduped[existingIdx];
+        deduped[existingIdx] = {
+          ...ex,
+          ...app,
+          city: ex.city || app.city,
+          qualification: ex.qualification || app.qualification,
+          specialization: ex.specialization || app.specialization,
+          message: ex.message || app.message,
+          id: (ex.id && ex.id.startsWith("APP-")) ? ex.id : (app.id && app.id.startsWith("APP-") ? app.id : ex.id),
+          fullId: (ex.fullId && !ex.fullId.startsWith("APP-")) ? ex.fullId : (app.fullId || ex.fullId),
+        };
       } else {
-        map.set(key, {
-          id: app.id || `APP-${Math.floor(1000 + Math.random() * 9000)}`,
-          fullId: app.fullId || app.id,
-          userId: app.userId || "",
-          name: app.name || app.userName || "Unknown",
-          email: app.email || app.userEmail || "",
-          phone: app.phone || app.userPhone || "",
-          city: app.city || "",
-          qualification: app.qualification || "",
-          specialization: app.specialization || "",
-          message: app.message || "",
-          courseId: app.courseId || "",
-          courseTitle: app.courseTitle || app.course?.title || "Certification Course",
-          status: app.status || "UNDER_REVIEW",
-          appliedAt: app.appliedAt || app.createdAt || new Date().toISOString(),
-          updatedAt: app.updatedAt || app.appliedAt || new Date().toISOString(),
-        });
+        deduped.push(app);
       }
     }
 
-    // 3. In-memory fallback if empty
-    if (map.size === 0 && applicationsDb.length > 0) {
-      for (const app of applicationsDb) {
-        const key = app.id || `${app.userEmail}-${app.courseId}`;
-        map.set(key, app);
-      }
-    }
-
-    const unified = Array.from(map.values()).sort((a, b) => {
+    const unified = deduped.sort((a, b) => {
       const timeA = new Date(a.appliedAt || a.createdAt || 0).getTime();
       const timeB = new Date(b.appliedAt || b.createdAt || 0).getTime();
       return timeB - timeA;
@@ -191,13 +209,21 @@ router.patch("/applications", async (req: Request, res: Response) => {
 });
 
 // DELETE /api/admin/applications/:id
-router.delete("/applications/:id", async (req: Request, res: Response) => {
-  const { id } = req.params;
+const handleDeleteApplication = async (req: Request, res: Response) => {
+  const id = req.params.id || req.body?.id || req.query?.id;
+  if (!id) return res.status(400).json({ success: false, error: "Application ID is required" });
+  const cleanId = String(id).trim().toLowerCase();
+
   try {
     // 1. Prisma delete
     try {
       await prisma.application.deleteMany({
-        where: { OR: [{ id }, { id: id.toString() }] },
+        where: {
+          OR: [
+            { id: String(id) },
+            { id: { equals: cleanId, mode: "insensitive" } },
+          ],
+        },
       });
     } catch (e) {
       console.warn("DB DELETE notice:", e);
@@ -206,23 +232,32 @@ router.delete("/applications/:id", async (req: Request, res: Response) => {
     // 2. CMS delete
     try {
       const cmsApps = await readJsonDbAsync<any>("course-applications.json");
-      const filtered = cmsApps.filter(a => a.id !== id && a.fullId !== id);
-      if (filtered.length !== cmsApps.length) {
-        await writeJsonDbAsync("course-applications.json", filtered);
-      }
+      const filtered = cmsApps.filter(a => {
+        const aId = String(a.id || "").trim().toLowerCase();
+        const aFullId = String(a.fullId || "").trim().toLowerCase();
+        return aId !== cleanId && aFullId !== cleanId;
+      });
+      await writeJsonDbAsync("course-applications.json", filtered);
     } catch (e) {
       console.warn("CMS DELETE notice:", e);
     }
 
     // 3. In-memory delete
-    const memIndex = applicationsDb.findIndex(a => a.id === id || (a as any).fullId === id);
+    const memIndex = applicationsDb.findIndex(a => {
+      const aId = String(a.id || "").trim().toLowerCase();
+      const aFullId = String((a as any).fullId || "").trim().toLowerCase();
+      return aId === cleanId || aFullId === cleanId;
+    });
     if (memIndex !== -1) applicationsDb.splice(memIndex, 1);
 
-    return res.json({ success: true });
+    return res.json({ success: true, message: "Application deleted successfully" });
   } catch (err: any) {
     return res.status(500).json({ success: false, error: err?.message || "Failed to delete application" });
   }
-});
+};
+
+router.delete("/applications/:id", handleDeleteApplication);
+router.delete("/applications", handleDeleteApplication);
 
 // GET /api/admin/students
 router.get("/students", async (_req: Request, res: Response) => {

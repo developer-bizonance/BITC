@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Users, Mail, Phone, Calendar, Search, RefreshCw, GraduationCap } from "lucide-react";
-import { getApiUrl, useRecordHighlight } from "../utils";
+import { Users, Mail, Phone, Calendar, Search, RefreshCw, GraduationCap, Trash2 } from "lucide-react";
+import { getApiUrl, getSiteUrl, useRecordHighlight } from "../utils";
+import { WhatsAppButton } from "./uic/WhatsAppButton";
+import DeleteConfirmModal from "./uic/DeleteConfirmModal.jsx";
 
 const EventRegistrations = () => {
   const [registrations, setRegistrations] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [confirmDelete, setConfirmDelete] = useState(null); // { id, name }
+  const [deleting, setDeleting] = useState(false);
 
   const { highlightTarget, isHighlighted } = useRecordHighlight("Events");
 
@@ -16,35 +20,67 @@ const EventRegistrations = () => {
   }, [highlightTarget]);
 
   const apiUrl = getApiUrl();
-  const fallbackUrl = "https://bitc.bizonance.com/api/event-registrations";
+  const fallbackUrl = `${getSiteUrl()}/api/event-registrations`;
 
   const fetchRegistrations = async () => {
     setLoading(true);
     try {
-      let regs = [];
+      const map = new Map();
+      const addList = (items) => {
+        if (!Array.isArray(items)) return;
+        for (const item of items) {
+          if (!item) continue;
+          const key = (item.id || item._id || `${item.email}-${item.eventId || item.createdAt}`).toString().trim();
+          if (key) {
+            if (map.has(key)) {
+              map.set(key, { ...item, ...map.get(key) });
+            } else {
+              map.set(key, item);
+            }
+          }
+        }
+      };
+
+      // 1. Primary backend
       try {
         const res = await fetch(`${apiUrl}/event-registrations`);
         if (res.ok) {
           const data = await res.json();
-          regs = data.registrations || [];
+          addList(data.registrations || (Array.isArray(data) ? data : []));
         }
       } catch (err) {
-        console.warn("Primary event-registrations fetch failed:", err);
+        console.warn("Primary event-registrations notice:", err);
       }
 
-      if (regs.length === 0) {
-        try {
-          const fbRes = await fetch(fallbackUrl);
-          if (fbRes.ok) {
-            const fbData = await fbRes.json();
-            regs = fbData.registrations || [];
-          }
-        } catch (fbErr) {
-          console.warn("Fallback event-registrations fetch failed:", fbErr);
+      // 2. CMS backend
+      try {
+        const cmsRes = await fetch(`${apiUrl}/cms/event-registrations`);
+        if (cmsRes.ok) {
+          const cmsData = await cmsRes.json();
+          addList(Array.isArray(cmsData) ? cmsData : (cmsData.data || cmsData.registrations || []));
         }
+      } catch (cmsErr) {
+        console.warn("CMS event-registrations notice:", cmsErr);
       }
 
-      setRegistrations(regs);
+      // 3. Fallback website
+      try {
+        const fbRes = await fetch(fallbackUrl);
+        if (fbRes.ok) {
+          const fbData = await fbRes.json();
+          addList(fbData.registrations || (Array.isArray(fbData) ? fbData : []));
+        }
+      } catch (fbErr) {
+        console.warn("Fallback event-registrations notice:", fbErr);
+      }
+
+      const merged = Array.from(map.values()).sort((a, b) => {
+        const timeA = new Date(a.createdAt || 0).getTime();
+        const timeB = new Date(b.createdAt || 0).getTime();
+        return timeB - timeA;
+      });
+
+      setRegistrations(merged);
     } catch (err) {
       console.warn("Failed to fetch event registrations:", err);
     } finally {
@@ -55,6 +91,51 @@ const EventRegistrations = () => {
   useEffect(() => {
     fetchRegistrations();
   }, []);
+
+  const handleDelete = (e, id, name) => {
+    if (e && e.stopPropagation) e.stopPropagation();
+    const reg = registrations.find((r) => r.id === id || r._id === id);
+    const registrantName = name || (reg ? reg.name : "") || "this registration";
+    setConfirmDelete({ id, name: registrantName });
+  };
+
+  const confirmAndDelete = async () => {
+    if (!confirmDelete) return;
+    const { id } = confirmDelete;
+    setDeleting(true);
+    try {
+      setRegistrations((prev) => prev.filter((r) => r.id !== id && r._id !== id));
+
+      await Promise.allSettled([
+        fetch(`${apiUrl}/event-registrations/${encodeURIComponent(id)}`, { method: "DELETE" }),
+        fetch(`${apiUrl}/event-registrations?id=${encodeURIComponent(id)}`, { method: "DELETE" }),
+        fetch(`${fallbackUrl}?id=${encodeURIComponent(id)}`, { method: "DELETE" }),
+        (async () => {
+          try {
+            const cmsRes = await fetch(`${apiUrl}/cms/event-registrations`);
+            if (cmsRes.ok) {
+              const list = await cmsRes.json();
+              if (Array.isArray(list)) {
+                const filtered = list.filter((r) => r.id !== id && r._id !== id);
+                if (filtered.length !== list.length) {
+                  await fetch(`${apiUrl}/cms/event-registrations`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ data: filtered }),
+                  });
+                }
+              }
+            }
+          } catch {}
+        })(),
+      ]);
+    } catch (err) {
+      console.error("Failed to delete event registration:", err);
+    } finally {
+      setDeleting(false);
+      setConfirmDelete(null);
+    }
+  };
 
   const filteredRegistrations = registrations.filter((reg) => {
     const q = searchQuery.toLowerCase();
@@ -70,13 +151,25 @@ const EventRegistrations = () => {
   });
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
-      <div className="flex justify-between items-center mb-8">
+    <div className="p-5 md:p-6 pt-6 md:pt-7 max-w-full mx-auto space-y-6 animate-in fade-in duration-200">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-gray-100">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-            <Users className="w-8 h-8 text-blue-600" /> Event Registrations
-          </h1>
-          <p className="text-gray-500 mt-2">View students registered for upcoming events.</p>
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-normal">
+              <Users className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="text-lg font-bold text-gray-900">Event Registrations</h2>
+                <span className="px-2 py-0.5 rounded-full text-[11px] font-normal bg-indigo-50 text-indigo-700 border border-indigo-100">
+                  {registrations.length} Registrations
+                </span>
+              </div>
+              <p className="text-xs text-gray-500 mt-0.5">
+                View students registered for upcoming events
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -85,17 +178,17 @@ const EventRegistrations = () => {
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
           <input
             type="text"
-            placeholder="Search by name, email, or event..."
+            placeholder="Search by name, email ID, contact number, or event..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-sm"
+            className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-sm text-gray-500"
           />
         </div>
         <button
           onClick={fetchRegistrations}
-          className="flex items-center gap-2 px-4 py-2 hover: text-sm whitespace-nowrap hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
+          className="flex items-center justify-center gap-1.5 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 hover:border-blue-300 rounded-full font-medium text-xs shadow-xs transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
         >
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+          <RefreshCw className={`w-3.5 h-3.5 text-blue-700 ${loading ? "animate-spin" : ""}`} />
           Refresh Data
         </button>
       </div>
@@ -116,9 +209,10 @@ const EventRegistrations = () => {
                 <tr>
                   <th className="px-6 py-4">Date</th>
                   <th className="px-6 py-4">Name</th>
-                  <th className="px-6 py-4">Phone</th>
+                  <th className="px-6 py-4">Contact Number</th>
                   <th className="px-6 py-4">Event</th>
-                  <th className="px-6 py-4">Education</th>
+                  <th className="px-6 py-4">Education / Profession</th>
+                  <th className="px-6 py-4 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 text-sm">
@@ -133,11 +227,10 @@ const EventRegistrations = () => {
                   return (
                     <tr
                       key={reg.id}
-                      className={`transition-all duration-700 cursor-pointer ${
-                        isHighlighted(reg)
-                          ? "bg-amber-100/90 ring-2 ring-amber-400 shadow-md border-l-4 border-l-amber-500 scale-[1.005] z-10 animate-pulse"
+                      className={`transition-all duration-700 cursor-pointer ${isHighlighted(reg)
+                          ? "bg-slate-100/80 hover:bg-slate-100"
                           : "hover:bg-slate-50/80"
-                      }`}
+                        }`}
                       data-highlighted={isHighlighted(reg) ? "true" : undefined}
                     >
                       {/* Date */}
@@ -158,9 +251,19 @@ const EventRegistrations = () => {
 
                       {/* Phone */}
                       <td className="px-6 py-5 align-middle whitespace-nowrap">
-                        <p className="text-[12px] text-[#475569] font-medium">
-                          {reg.phone}
-                        </p>
+                        <div className="flex items-center gap-1.5">
+                          <p className="text-[12px] text-[#475569] font-medium">
+                            {reg.phone}
+                          </p>
+                          {reg.phone && (
+                            <WhatsAppButton
+                              phone={reg.phone}
+                              name={reg.name}
+                              message={`Hello ${reg.name}, this is regarding your event registration with BITC (BIZONANCE Industrial Training Centre).`}
+                              size="sm"
+                            />
+                          )}
+                        </div>
                       </td>
 
                       {/* Event */}
@@ -179,17 +282,28 @@ const EventRegistrations = () => {
                         )}
                       </td>
 
-                      {/* Education */}
+                      {/* Education / Profession */}
                       <td className="px-6 py-5 align-middle max-w-[250px]">
-                        {(reg.college || reg.education || reg.course || reg.graduationYear) ? (
+                        {(reg.profession || reg.college || reg.education || reg.course || reg.graduationYear) ? (
                           <div className="flex flex-col text-[12px] text-[#475569] space-y-0.5">
-                            {(reg.college || reg.education) && <span className="font-medium truncate whitespace-normal">{reg.college || reg.education}</span>}
+                            {(reg.profession || reg.college || reg.education) && <span className="font-medium truncate whitespace-normal">{reg.profession || reg.college || reg.education}</span>}
                             {reg.course && <span className="truncate whitespace-normal">Course: {reg.course}</span>}
                             {reg.graduationYear && <span>Year: {reg.graduationYear}</span>}
                           </div>
                         ) : (
                           <span className="text-[#94A3B8] text-[12px]">—</span>
                         )}
+                      </td>
+
+                      {/* Actions */}
+                      <td className="px-6 py-5 text-right align-middle">
+                        <button
+                          onClick={(e) => handleDelete(e, reg.id, reg.name)}
+                          className="w-8 h-8 text-red-500 hover:text-white bg-white hover:bg-red-600 hover:border-red-600 rounded-full border border-slate-200 shadow-xs transition-all cursor-pointer inline-flex items-center justify-center active:scale-95"
+                          title="Delete Registration"
+                        >
+                          <Trash2 size={15} />
+                        </button>
                       </td>
                     </tr>
                   );
@@ -199,6 +313,17 @@ const EventRegistrations = () => {
           </div>
         </div>
       )}
+
+      {/* Centered Delete Confirmation Modal */}
+      <DeleteConfirmModal
+        isOpen={!!confirmDelete}
+        title="Remove Event Registration"
+        itemName={confirmDelete?.name}
+        from="Event Registrations"
+        loading={deleting}
+        onConfirm={confirmAndDelete}
+        onCancel={() => setConfirmDelete(null)}
+      />
     </div>
   );
 };

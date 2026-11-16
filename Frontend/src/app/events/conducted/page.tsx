@@ -1,4 +1,4 @@
-import { resolveImageUrl, getApiBase } from "@/lib/utils";
+import { resolveImageUrl, getApiBase, isUpcomingEventDate, parseEventEndTimestamp } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -43,17 +43,21 @@ export default async function ConductedEventsPage() {
             year: "numeric",
           }),
           rawDate: new Date(e.date).toISOString(),
+          time: e.time || null,
           venue: e.venue || null,
           speaker: e.speaker || null,
+          heading: e.heading || null,
           image: resolveImageUrl(e.imageUrl),
+          rating: e.rating || null,
+          ratingsCount: e.ratingsCount || null,
         }));
         conductedEvents = mappedEvents
-          .filter((e: any) => e.rawDate < now.toISOString())
+          .filter((e: any) => !isUpcomingEventDate(e.rawDate, e.time))
           .sort(
             (a: any, b: any) =>
-              new Date(b.rawDate).getTime() - new Date(a.rawDate).getTime(),
+              parseEventEndTimestamp(b.rawDate, b.time)! - parseEventEndTimestamp(a.rawDate, a.time)!,
           );
-          
+
         conductedEventsByYear = conductedEvents.reduce((acc: Record<string, any[]>, event: any) => {
           const year = new Date(event.rawDate).getFullYear().toString();
           if (!acc[year]) acc[year] = [];
@@ -68,7 +72,7 @@ export default async function ConductedEventsPage() {
   }
   return (
     <div
-      className="flex flex-col min-h-screen bg-slate-50 pt-24 pb-20"
+      className="flex flex-col min-h-screen bg-slate-50 pt-12 sm:pt-16 md:pt-24 pb-12 md:pb-20"
       style={{ zoom: "90%" }}
     >
       <div className="container max-w-[1200px] mx-auto px-4">
@@ -79,22 +83,22 @@ export default async function ConductedEventsPage() {
           >
             <ArrowLeft className="w-4 h-4 mr-2" /> Back to Events
           </Link>
-          <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 leading-[1.2]">
             Conducted{" "}
             <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">
               Events
             </span>
           </h1>
-          <p className="text-lg text-slate-600 mt-4 max-w-2xl">
+          <p className="text-base md:text-lg text-gray-600 mt-4 max-w-2xl leading-relaxed font-normal">
             Take a look back at our successful workshops, hackathons, and industrial visits.
           </p>
         </div>
-        
+
         {sortedYears.length > 0 ? (
           <section id="conducted-events" className="mb-16">
-            <ConductedEventsGridTabs 
-              conductedEventsByYear={conductedEventsByYear} 
-              sortedYears={sortedYears} 
+            <ConductedEventsGridTabs
+              conductedEventsByYear={conductedEventsByYear}
+              sortedYears={sortedYears}
             />
           </section>
         ) : (

@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { readJsonDb, writeJsonDb } from "../dataStore.js";
+import { readJsonDbAsync, writeJsonDbAsync } from "../dataStore.js";
 
 export interface AlumniItem {
   id: string;
@@ -13,20 +13,19 @@ export interface AlumniItem {
   createdAt: string;
 }
 
-// Initial In-Memory Store
-
 const router = Router();
 
 // GET /api/alumni
-router.get("/", (_req: Request, res: Response) => {
+router.get("/", async (_req: Request, res: Response) => {
+  const alumni = await readJsonDbAsync<AlumniItem>("alumni.json");
   return res.json({
     success: true,
-    alumni: readJsonDb("alumni.json"),
+    alumni,
   });
 });
 
 // POST /api/alumni (Add new alumni profile)
-router.post("/", (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response) => {
   try {
     const { name, role, company, photo, batch, linkedin, certification } = req.body;
 
@@ -46,12 +45,14 @@ router.post("/", (req: Request, res: Response) => {
       createdAt: new Date().toISOString(),
     };
 
-    const db = readJsonDb("alumni.json"); db.unshift(newAlumni); writeJsonDb("alumni.json", db);
+    const db = await readJsonDbAsync<AlumniItem>("alumni.json");
+    db.unshift(newAlumni);
+    await writeJsonDbAsync("alumni.json", db);
 
     return res.status(201).json({
       success: true,
       message: "Alumni profile added successfully",
-      alumni: readJsonDb("alumni.json"),
+      alumni: db,
       newAlumni,
     });
   } catch (error: any) {
@@ -60,28 +61,29 @@ router.post("/", (req: Request, res: Response) => {
 });
 
 // PUT /api/alumni/reorder (Reorder alumni)
-router.put("/reorder", (req: Request, res: Response) => {
+router.put("/reorder", async (req: Request, res: Response) => {
   try {
     const { orderedIds } = req.body;
     if (!Array.isArray(orderedIds)) {
       return res.status(400).json({ error: "orderedIds must be an array" });
     }
 
+    const currentDb = await readJsonDbAsync<AlumniItem>("alumni.json");
     const reorderedDb: AlumniItem[] = [];
     for (const id of orderedIds) {
-      const item = readJsonDb("alumni.json").find((m) => m.id === id);
+      const item = currentDb.find((m) => m.id === id);
       if (item) reorderedDb.push(item);
     }
-    for (const item of readJsonDb("alumni.json")) {
+    for (const item of currentDb) {
       if (!orderedIds.includes(item.id)) reorderedDb.push(item);
     }
 
-    writeJsonDb("alumni.json", reorderedDb);
+    await writeJsonDbAsync("alumni.json", reorderedDb);
 
     return res.json({
       success: true,
       message: "Alumni reordered successfully",
-      alumni: readJsonDb("alumni.json"),
+      alumni: reorderedDb,
     });
   } catch (error: any) {
     return res.status(500).json({ error: error?.message || "Failed to reorder alumni" });
@@ -89,17 +91,18 @@ router.put("/reorder", (req: Request, res: Response) => {
 });
 
 // PUT /api/alumni/:id (Update alumni profile)
-router.put("/:id", (req: Request, res: Response) => {
+router.put("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { name, role, company, photo, batch, linkedin, certification } = req.body;
 
-    const index = readJsonDb("alumni.json").findIndex((a) => a.id === id);
+    const db = await readJsonDbAsync<AlumniItem>("alumni.json");
+    const index = db.findIndex((a) => a.id === id);
     if (index === -1) {
       return res.status(404).json({ error: "Alumni profile not found" });
     }
 
-    const current = readJsonDb("alumni.json")[index];
+    const current = db[index];
     const updated: AlumniItem = {
       ...current,
       name: name !== undefined ? name.trim() : current.name,
@@ -111,12 +114,13 @@ router.put("/:id", (req: Request, res: Response) => {
       certification: certification !== undefined ? certification.trim() : current.certification,
     };
 
-    const db = readJsonDb("alumni.json"); db[index] = updated; writeJsonDb("alumni.json", db);
+    db[index] = updated;
+    await writeJsonDbAsync("alumni.json", db);
 
     return res.json({
       success: true,
       message: "Alumni profile updated successfully",
-      alumni: readJsonDb("alumni.json"),
+      alumni: db,
       updatedAlumni: updated,
     });
   } catch (error: any) {
@@ -125,20 +129,22 @@ router.put("/:id", (req: Request, res: Response) => {
 });
 
 // DELETE /api/alumni/:id (Remove alumni profile)
-router.delete("/:id", (req: Request, res: Response) => {
+router.delete("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const initialLen = readJsonDb("alumni.json").length;
-    const db = readJsonDb("alumni.json").filter((a) => a.id !== id); writeJsonDb("alumni.json", db);
+    const currentDb = await readJsonDbAsync<AlumniItem>("alumni.json");
+    const filteredDb = currentDb.filter((a) => a.id !== id);
 
-    if (readJsonDb("alumni.json").length === initialLen) {
+    if (filteredDb.length === currentDb.length) {
       return res.status(404).json({ error: "Alumni profile not found" });
     }
+
+    await writeJsonDbAsync("alumni.json", filteredDb);
 
     return res.json({
       success: true,
       message: "Alumni profile removed successfully",
-      alumni: readJsonDb("alumni.json"),
+      alumni: filteredDb,
     });
   } catch (error: any) {
     return res.status(500).json({ error: error?.message || "Failed to delete alumni" });

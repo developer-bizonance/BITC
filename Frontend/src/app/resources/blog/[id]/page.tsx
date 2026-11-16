@@ -4,22 +4,62 @@ import { ArrowLeft, Calendar, User } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getApiBase, resolveImageUrl } from "@/lib/utils";
 
+import EventDescriptionRenderer from "@/components/events/EventDescriptionRenderer";
+import BlogShareButton from "@/components/BlogShareButton";
+
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
+  const decodedId = decodeURIComponent(id || "");
+  const normalizedId = decodedId.trim().toLowerCase().replace(/[^\w\s-]/g, "").replace(/[\s_]+/g, "-").replace(/^-+|-+$/g, "");
+  const cleanId = normalizedId.replace(/[^a-z0-9]/g, "");
+
   try {
     const apiBase = getApiBase();
-    const res = await fetch(`${apiBase}/blogs/${id}`, { cache: "no-store" });
-    if (res.ok) {
-      const data = await res.json();
-      const blog = data.blog || data;
-      if (blog?.title) {
-        return {
-          title: `${blog.title} | BITC Blog`,
-          description: blog.content ? blog.content.replace(/<[^>]*>/g, "").substring(0, 160) : undefined,
-        };
+    let blog: any = null;
+
+    // 1. Direct query
+    try {
+      const res = await fetch(`${apiBase}/blogs/${encodeURIComponent(decodedId)}`, { cache: "no-store" });
+      if (res.ok) {
+        const data = await res.json();
+        blog = data.blog || data;
       }
+    } catch (_) {}
+
+    // 2. Query all blogs fallback (match by id, slug, title)
+    if (!blog || !blog.title) {
+      try {
+        const res = await fetch(`${apiBase}/blogs`, { cache: "no-store" });
+        if (res.ok) {
+          const data = await res.json();
+          const blogsList = data.blogs || [];
+          blog = blogsList.find((b: any) => {
+            if (!b) return false;
+            const bId = String(b.id || "").toLowerCase();
+            const bSlug = String(b.slug || "").toLowerCase().replace(/[\s_]+/g, "-");
+            const bTitle = String(b.title || "").toLowerCase();
+            const bTitleSlug = bTitle.replace(/[^\w\s-]/g, "").replace(/[\s_]+/g, "-");
+            const bClean = bTitle.replace(/[^a-z0-9]/g, "");
+            return (
+              bId === decodedId.toLowerCase() ||
+              bSlug === decodedId.toLowerCase() ||
+              bSlug === normalizedId ||
+              bTitleSlug === normalizedId ||
+              bTitle === decodedId.toLowerCase() ||
+              (cleanId && bClean === cleanId)
+            );
+          });
+        }
+      } catch (_) {}
     }
-  } catch (_) {}
+
+    if (blog?.title) {
+      return {
+        title: `${blog.title} | BITC Blog`,
+        description: blog.content ? blog.content.replace(/<[^>]*>/g, "").substring(0, 160) : undefined,
+      };
+    }
+  } catch (_) { }
   return {
     title: `Blog Post | BIZONANCE Industrial Training Centre. (BITC)`,
   };
@@ -28,23 +68,44 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 export default async function BlogPostPage({ params }: { params: Promise<{ id: string }> }) {
   let blog: any = null;
   const { id } = await params;
+  const decodedId = decodeURIComponent(id || "");
+  const normalizedId = decodedId.trim().toLowerCase().replace(/[^\w\s-]/g, "").replace(/[\s_]+/g, "-").replace(/^-+|-+$/g, "");
+  const cleanId = normalizedId.replace(/[^a-z0-9]/g, "");
   const apiBase = getApiBase();
 
   try {
-    // Try to get specific blog
-    let res = await fetch(`${apiBase}/blogs/${id}`, { cache: "no-store" });
-    if (res.ok) {
-      const data = await res.json();
-      if (data.blog) blog = data.blog;
-      else blog = data;
-    } else {
-      // Fallback: fetch all and find by id or slug
-      res = await fetch(`${apiBase}/blogs`, { cache: "no-store" });
+    // 1. Direct query
+    try {
+      const res = await fetch(`${apiBase}/blogs/${encodeURIComponent(decodedId)}`, { cache: "no-store" });
       if (res.ok) {
         const data = await res.json();
-        if (data.blogs) {
-          blog = data.blogs.find((b: any) => b.id?.toString() === id || b.slug === id);
-        }
+        if (data.blog) blog = data.blog;
+        else blog = data;
+      }
+    } catch (_) {}
+
+    // 2. Query all blogs fallback (match by id, slug, or title)
+    if (!blog || !blog.title) {
+      const res = await fetch(`${apiBase}/blogs`, { cache: "no-store" });
+      if (res.ok) {
+        const data = await res.json();
+        const blogsList = data.blogs || [];
+        blog = blogsList.find((b: any) => {
+          if (!b) return false;
+          const bId = String(b.id || "").toLowerCase();
+          const bSlug = String(b.slug || "").toLowerCase().replace(/[\s_]+/g, "-");
+          const bTitle = String(b.title || "").toLowerCase();
+          const bTitleSlug = bTitle.replace(/[^\w\s-]/g, "").replace(/[\s_]+/g, "-");
+          const bClean = bTitle.replace(/[^a-z0-9]/g, "");
+          return (
+            bId === decodedId.toLowerCase() ||
+            bSlug === decodedId.toLowerCase() ||
+            bSlug === normalizedId ||
+            bTitleSlug === normalizedId ||
+            bTitle === decodedId.toLowerCase() ||
+            (cleanId && bClean === cleanId)
+          );
+        });
       }
     }
   } catch (error) {
@@ -77,7 +138,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
         )}
 
         <div className="container max-w-[840px] mx-auto px-4 relative z-10 text-center">
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-6 leading-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-[1.2]">
             {blog.title}
           </h1>
           <div className="flex items-center justify-center gap-6 text-sm text-slate-300 font-medium">
@@ -94,44 +155,30 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
       {/* Main Blog Content Section */}
       <section className="py-12 md:py-20">
         <div className="container max-w-[840px] mx-auto px-4">
-          <Link
-            href="/resources/blog"
-            className="inline-flex items-center gap-2 text-primary font-semibold text-sm hover:gap-3 transition-all mb-10"
-          >
-            <ArrowLeft className="w-4 h-4" /> Back to Blogs
-          </Link>
-
-          {/* Featured Cover Image inside article if present and not in banner mode */}
-          {image && (
-            <div className="mb-10 rounded-2xl overflow-hidden border border-slate-100 shadow-md max-h-[460px]">
-              <img
-                src={image}
-                alt={blog.title}
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover"
-              />
-            </div>
-          )}
+          <div className="flex items-center justify-between mb-10">
+            <Link
+              href="/resources/blog"
+              className="inline-flex items-center gap-2 text-primary font-semibold text-sm hover:gap-3 transition-all"
+            >
+              <ArrowLeft className="w-4 h-4" /> Back to Blogs
+            </Link>
+            <BlogShareButton
+              url={`/resources/blog/${decodedId}`}
+              title={blog.title || "BITC Blog Post"}
+              direction="down"
+            />
+          </div>
 
           {/* Authentic Blog Description / Body Content */}
-          <article className="prose prose-slate prose-lg md:prose-xl max-w-none text-slate-800">
+          <article className="max-w-none text-slate-800 space-y-8">
             {blog.content ? (
               blog.content.includes("<") ? (
                 <div
-                  className="space-y-4 leading-relaxed"
+                  className="space-y-4 leading-relaxed prose prose-slate prose-lg md:prose-xl"
                   dangerouslySetInnerHTML={{ __html: blog.content }}
                 />
               ) : (
-                <div className="space-y-6">
-                  {blog.content.split(/\n\s*\n/).map((paragraph: string, i: number) => (
-                    <p
-                      key={`p-${i}`}
-                      className="text-slate-700 text-lg md:text-xl leading-relaxed whitespace-pre-line"
-                    >
-                      {paragraph}
-                    </p>
-                  ))}
-                </div>
+                <EventDescriptionRenderer description={blog.content} mode="all" />
               )
             ) : (
               <p className="italic text-slate-500">No content available for this blog post.</p>

@@ -17,6 +17,7 @@ import {
   Briefcase,
   Award
 } from "lucide-react";
+import { FaLinkedin } from "react-icons/fa";
 
 export const metadata: Metadata = {
   title: "Director's Message",
@@ -37,46 +38,88 @@ export default function DirectorsMessagePage() {
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-400/5 rounded-full blur-[80px] translate-y-1/3 -translate-x-1/4 pointer-events-none" />
 
         <div className="container max-w-[1200px] mx-auto px-4 relative z-10">
-          <div className="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 overflow-hidden border border-slate-100 flex flex-col-reverse lg:flex-row">
+          <div className="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 overflow-hidden border border-slate-100 flex flex-col lg:flex-row">
 
             {/* Text Content */}
-            <div className="flex-1 p-10 md:p-16 flex flex-col justify-center relative">
+            <div className="flex-1 p-6 sm:p-10 md:p-16 flex flex-col justify-center relative">
               <Quote className="absolute top-8 left-8 md:top-12 md:left-12 w-24 h-24 text-slate-50 opacity-50 -z-10" />
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-8 shadow-sm w-fit">
                 <Target className="w-4 h-4" />
-                Message from the Director
+                Director Message
               </div>
-              <h1 className="text-4xl md:text-5xl font-black text-slate-900 leading-[1.15] mb-6">
+              <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-slate-900 leading-[1.15] mb-6">
                 A Vision for <br />
                 <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#0052D4_0%,#4364F7_50%,#6FB1FC_100%)]">Transformative Education</span>
               </h1>
-              <p className="text-xl text-slate-600 leading-relaxed mb-8 font-medium max-w-[90%]">
-                Every decision at BITC is driven by a single belief — that education should empower students to build meaningful careers, not just earn degrees.
+              <p className="text-base md:text-lg text-slate-600 leading-relaxed mb-6 font-normal max-w-[90%]">
+                Every decision at BITC is driven by a single belief that education should empower students to build meaningful careers, not just earn degrees.
               </p>
 
-              <div className="mt-auto pt-8 border-t border-slate-100">
-                <h4 className="text-xl font-medium text-gray-600 mb-2.5">Pratik D. Gawande</h4>
+              {/* Desktop Signature (Shown in left column) */}
+              <div className="mt-auto pt-8 border-t border-slate-100 hidden lg:block">
+                <div className="flex items-center gap-2.5 mb-2.5">
+                  <h4 className="text-xl font-medium text-gray-600">Pratik D. Gawande</h4>
+                  <a
+                    href="https://www.linkedin.com/in/pratik-d-gawande-bb718788/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center text-[#0A66C2] hover:text-[#004182] hover:scale-110 transition-transform p-1 rounded-full hover:bg-blue-50"
+                    title="Connect on LinkedIn"
+                    aria-label="Connect with Pratik D. Gawande on LinkedIn"
+                  >
+                    <FaLinkedin className="w-5 h-5" />
+                  </a>
+                </div>
                 <div className="space-y-1.5 text-sm font-semibold text-slate-600">
-                  <p className="flex items-center gap-2">
+                  <p className="flex items-center gap-2 whitespace-nowrap">
                     <span className="w-2 h-2 rounded-full bg-primary flex-shrink-0" />
-                    Director, BIZONANCE Industrial Training Centre
+                    <span>Director, BIZONANCE Industrial Training Centre</span>
                   </p>
-                  <p className="flex items-center gap-2">
+                  <p className="flex items-center gap-2 whitespace-nowrap">
                     <span className="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0" />
-                    Founder &amp; CEO, BIZONANCE INDIA PVT. LTD.
+                    <span>Founder &amp; CEO, BIZONANCE INDIA PVT. LTD.</span>
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Image */}
-            <div className="lg:w-[45%] xl:w-[50%] relative min-h-[400px] lg:min-h-[500px]">
-              <img
-                src="/profile.png"
-                alt="Director"
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-white via-white/10 to-transparent lg:block hidden" />
+            {/* Image Column */}
+            <div className="lg:w-[45%] xl:w-[50%] flex flex-col">
+              <div className="relative min-h-[360px] sm:min-h-[420px] lg:min-h-[500px] flex-1">
+                <img
+                  src="/profile.png"
+                  alt="Director"
+                  className="absolute inset-0 w-full h-full object-cover object-top"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-white via-white/10 to-transparent lg:block hidden" />
+              </div>
+
+              {/* Mobile Signature (Shown right under the image on mobile) */}
+              <div className="px-4 py-4 sm:p-6 bg-white border-t border-slate-100 lg:hidden">
+                <div className="flex items-center gap-2.5 mb-2">
+                  <h4 className="text-lg sm:text-xl font-medium text-gray-700">Pratik D. Gawande</h4>
+                  <a
+                    href="https://www.linkedin.com/in/pratik-d-gawande-bb718788/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center text-[#0A66C2] hover:text-[#004182] hover:scale-110 transition-transform p-1 rounded-full hover:bg-blue-50"
+                    title="Connect on LinkedIn"
+                    aria-label="Connect with Pratik D. Gawande on LinkedIn"
+                  >
+                    <FaLinkedin className="w-5 h-5" />
+                  </a>
+                </div>
+                <div className="space-y-1 text-[11px] min-[360px]:text-[12px] min-[390px]:text-[13px] sm:text-sm font-semibold text-slate-600">
+                  <p className="flex items-center gap-1.5 sm:gap-2 whitespace-nowrap">
+                    <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-primary flex-shrink-0" />
+                    <span>Director, BIZONANCE Industrial Training Centre</span>
+                  </p>
+                  <p className="flex items-center gap-1.5 sm:gap-2 whitespace-nowrap">
+                    <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-blue-500 flex-shrink-0" />
+                    <span>Founder &amp; CEO, BIZONANCE INDIA PVT. LTD.</span>
+                  </p>
+                </div>
+              </div>
             </div>
 
           </div>
@@ -87,10 +130,10 @@ export default function DirectorsMessagePage() {
       {/* ── WELCOME MESSAGE ── */}
       <section className="py-16 md:py-24 bg-white">
         <div className="container max-w-[900px] mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-8 text-center">Why BITC Was <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Created</span></h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-8 text-center">Why BITC Was <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Created</span></h2>
           <div className="prose prose-lg max-w-none text-base md:text-lg text-slate-700 leading-relaxed space-y-6 text-justify">
             <p>
-              I have spent over a decade working with industries and watching fresh graduates struggle—not because they lacked intelligence, but because they lacked exposure to the real world. The gap between what colleges teach and what companies expect has been growing every year.
+              I have spent over a decade working with industries and watching fresh graduates struggle not because they lacked intelligence, but because they lacked exposure to the real world. The gap between what colleges teach and what companies expect has been growing every year.
             </p>
             <p>
               <strong>BITC was created to close that gap.</strong> We believe the future of education lies in practical, industry-integrated learning. Our students don't just attend classes—they work on live projects, interact with mentors from the industry, participate in workshops, and gain the confidence to perform from day one.
@@ -125,7 +168,7 @@ export default function DirectorsMessagePage() {
               <Card key={i} className="bg-white border border-slate-200/80 shadow-sm hover:shadow-md transition-all">
                 <CardContent className="p-7">
                   <item.icon className="w-10 h-10 text-primary mb-5" />
-                  <h3 className="text-lg font-medium text-gray-600 mb-2">{item.title}</h3>
+                  <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
                   <p className="text-slate-600 leading-relaxed text-sm">{item.desc}</p>
                 </CardContent>
               </Card>
@@ -139,15 +182,15 @@ export default function DirectorsMessagePage() {
         <div className="container max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-16">
             <p className="text-primary font-bold text-sm uppercase tracking-widest mb-3">Director&apos;s Vision</p>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Where BITC is <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Heading</span></h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Where BITC is <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Heading</span></h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-primary/5 border border-primary/10 rounded-[2rem] p-8 md:p-10 text-center">
-              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
-                <Target className="w-8 h-8 text-primary" />
+            <div className="bg-blue-50 border border-blue-100 rounded-[2rem] p-8 md:p-10 text-center">
+              <div className="w-16 h-16 rounded-full bg-blue-500/10 flex items-center justify-center mx-auto mb-6">
+                <Target className="w-8 h-8 text-blue-600" />
               </div>
-              <h3 className="text-xl font-medium text-gray-600 mb-2">Short-term <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Milestones</span></h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Short-term <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Milestones</span></h3>
               <p className="text-gray-600 leading-relaxed text-sm">
                 Become one of India's most recognized industry-integrated Training Centers with 50,000+ students trained, 500+ industry partnerships, and presence across multiple cities.
               </p>
@@ -157,17 +200,17 @@ export default function DirectorsMessagePage() {
               <div className="w-16 h-16 rounded-full bg-blue-500/10 flex items-center justify-center mx-auto mb-6">
                 <TrendingUp className="w-8 h-8 text-blue-600" />
               </div>
-              <h3 className="text-xl font-medium text-gray-600 mb-2">Long-term <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Aspiration</span></h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Long-term <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Aspiration</span></h3>
               <p className="text-gray-600 leading-relaxed text-sm">
                 Build a global learning ecosystem with international certifications, AI-powered learning platforms, startup incubation, and research partnerships with leading universities.
               </p>
             </div>
 
-            <div className="bg-purple-50 border border-purple-100 rounded-[2rem] p-8 md:p-10 text-center">
-              <div className="w-16 h-16 rounded-full bg-purple-500/10 flex items-center justify-center mx-auto mb-6">
-                <Globe className="w-8 h-8 text-purple-600" />
+            <div className="bg-blue-50 border border-blue-100 rounded-[2rem] p-8 md:p-10 text-center">
+              <div className="w-16 h-16 rounded-full bg-blue-500/10 flex items-center justify-center mx-auto mb-6">
+                <Globe className="w-8 h-8 text-blue-600" />
               </div>
-              <h3 className="text-xl font-medium text-gray-600 mb-2">Future <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Expansion</span></h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Future <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Expansion</span></h3>
               <p className="text-gray-600 leading-relaxed text-sm">
                 Launch innovation labs, digital campuses, entrepreneurship programs, and international partnerships to empower learners beyond borders.
               </p>
@@ -181,7 +224,7 @@ export default function DirectorsMessagePage() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[850px] mx-auto px-4 text-center relative z-10">
           <Quote className="w-9 h-9 text-primary/40 mx-auto mb-4" />
-          <p className="text-2xl md:text-3xl lg:text-4xl font-extrabold leading-snug mb-6 text-slate-900 tracking-tight max-w-[850px] mx-auto">
+          <p className="text-2xl md:text-3xl lg:text-4xl font-bold leading-snug mb-6 text-slate-900 max-w-[850px] mx-auto">
             "Education should prepare students for{" "}
             <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">
               life
@@ -191,8 +234,20 @@ export default function DirectorsMessagePage() {
 
           {/* Signature */}
           <div className="border-t border-slate-300/80 pt-4 inline-block">
-            <p className="text-base font-bold text-slate-900">Director</p>
-            <p className="text-xs text-slate-600 font-medium">BIZONANCE industrial training centre</p>
+            <div className="flex items-center justify-center gap-2">
+              <p className="text-base font-bold text-slate-900">Pratik D. Gawande</p>
+              <a
+                href="https://www.linkedin.com/in/pratik-d-gawande-bb718788/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center text-[#0A66C2] hover:text-[#004182] hover:scale-110 transition-transform p-0.5 rounded-full hover:bg-blue-50"
+                title="Connect on LinkedIn"
+                aria-label="Connect with Pratik D. Gawande on LinkedIn"
+              >
+                <FaLinkedin className="w-4 h-4" />
+              </a>
+            </div>
+            <p className="text-xs text-slate-600 font-medium">BIZONANCE Industrial Training Centre</p>
             <p className="text-primary font-bold italic mt-1 text-base">— BITC</p>
           </div>
         </div>

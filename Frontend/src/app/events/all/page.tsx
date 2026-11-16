@@ -1,4 +1,4 @@
-import { resolveImageUrl, getApiBase } from "@/lib/utils";
+import { resolveImageUrl, getApiBase, eventSlug, isUpcomingEventDate, parseEventStartTimestamp, parseEventEndTimestamp } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -7,10 +7,12 @@ import {
   CalendarDays,
   MapPin,
   Users,
+  Clock,
   ChevronRight,
   ArrowLeft,
 } from "lucide-react";
 import EventRegistrationModal from "@/components/events/EventRegistrationModal";
+import EventCard from "@/components/events/EventCard";
 export const metadata: Metadata = {
   title: "All Events | BIZONANCE Industrial Training Centre. (BITC)",
   description:
@@ -40,21 +42,25 @@ export default async function AllEventsPage() {
             year: "numeric",
           }),
           rawDate: new Date(e.date).toISOString(),
+          time: e.time || null,
           venue: e.venue || null,
           speaker: e.speaker || null,
+          heading: e.heading || null,
           image: resolveImageUrl(e.imageUrl),
+          rating: e.rating || null,
+          ratingsCount: e.ratingsCount || null,
         }));
         upcomingEvents = mappedEvents
-          .filter((e: any) => e.rawDate >= now.toISOString())
+          .filter((e: any) => isUpcomingEventDate(e.rawDate, e.time))
           .sort(
             (a: any, b: any) =>
-              new Date(a.rawDate).getTime() - new Date(b.rawDate).getTime(),
+              parseEventStartTimestamp(a.rawDate, a.time) - parseEventStartTimestamp(b.rawDate, b.time),
           );
         conductedEvents = mappedEvents
-          .filter((e: any) => e.rawDate < now.toISOString())
+          .filter((e: any) => !isUpcomingEventDate(e.rawDate, e.time))
           .sort(
             (a: any, b: any) =>
-              new Date(b.rawDate).getTime() - new Date(a.rawDate).getTime(),
+              parseEventEndTimestamp(b.rawDate, b.time)! - parseEventEndTimestamp(a.rawDate, a.time)!,
           );
       }
     }
@@ -63,7 +69,7 @@ export default async function AllEventsPage() {
   }
   return (
     <div
-      className="flex flex-col min-h-screen bg-slate-50 pt-24 pb-20"
+      className="flex flex-col min-h-screen bg-slate-50 pt-12 sm:pt-16 md:pt-24 pb-12 md:pb-20"
       style={{ zoom: "90%" }}
     >
       {" "}
@@ -78,14 +84,14 @@ export default async function AllEventsPage() {
             {" "}
             <ArrowLeft className="w-4 h-4 mr-2" /> Back to Events{" "}
           </Link>{" "}
-          <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 leading-[1.2]">
             {" "}
             All{" "}
             <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">
               Events
             </span>{" "}
           </h1>{" "}
-          <p className="text-lg text-slate-600 mt-4 max-w-2xl">
+          <p className="text-base md:text-lg text-gray-600 mt-4 max-w-2xl leading-relaxed font-normal">
             {" "}
             Browse through our complete collection of upcoming opportunities and
             past successful events.{" "}
@@ -116,10 +122,6 @@ export default async function AllEventsPage() {
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />{" "}
-                      <div className="absolute top-4 left-4 z-20 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full text-[11px] font-medium text-slate-900 shadow-sm uppercase tracking-wider">
-                        {" "}
-                        {event.category}{" "}
-                      </div>{" "}
                     </div>
                   ) : null}{" "}
                   <CardContent className="p-6 md:p-8 flex flex-col flex-1">
@@ -127,43 +129,36 @@ export default async function AllEventsPage() {
                     <h3 className="text-xl font-medium text-gray-600 mb-5 line-clamp-2 leading-tight group-hover:text-primary transition-colors">
                       {event.title}
                     </h3>{" "}
-                    <div className="space-y-3.5 mb-8 flex-1">
-                      {" "}
-                      <div className="flex items-start gap-3 text-sm text-gray-600">
-                        {" "}
-                        <CalendarDays className="w-4.5 h-4.5 text-primary shrink-0 mt-0.5" />{" "}
-                        <div className="font-semibold text-slate-800">
-                          {event.date}
-                        </div>{" "}
-                      </div>{" "}
-                      {event.venue && (
-                        <div className="flex items-center gap-3 text-sm text-gray-600">
-                          {" "}
-                          <MapPin className="w-4.5 h-4.5 text-primary shrink-0" />{" "}
-                          <span className="text-slate-700">
-                            {event.venue}
-                          </span>{" "}
-                        </div>
-                      )}{" "}
+                    <div className="space-y-3 mb-8 flex-1">
                       {event.speaker && (
                         <div className="flex items-center gap-3 text-sm text-gray-600">
-                          {" "}
-                          <Users className="w-4.5 h-4.5 text-primary shrink-0" />{" "}
-                          <span className="text-slate-700">
-                            Industry expert:{" "}
-                            <span className="font-semibold">
-                              {event.speaker}
-                            </span>
-                          </span>{" "}
+                          <Users className="w-4.5 h-4.5 text-primary shrink-0" />
+                          <span className="font-semibold text-slate-800">{event.speaker}</span>
                         </div>
-                      )}{" "}
+                      )}
+                      <div className="flex items-start gap-3 text-sm text-gray-600">
+                        <CalendarDays className="w-4.5 h-4.5 text-primary shrink-0 mt-0.5" />
+                        <div className="font-semibold text-slate-800">{event.date}</div>
+                      </div>
+                      {event.time && (
+                        <div className="flex items-center gap-3 text-sm text-gray-600">
+                          <Clock className="w-4.5 h-4.5 text-primary shrink-0" />
+                          <span className="text-slate-700">{event.time}</span>
+                        </div>
+                      )}
+                      {event.venue && (
+                        <div className="flex items-center gap-3 text-sm text-gray-600">
+                          <MapPin className="w-4.5 h-4.5 text-primary shrink-0" />
+                          <span className="text-slate-700">{event.venue}</span>
+                        </div>
+                      )}
                     </div>{" "}
                     <div className="flex items-center justify-end pt-5 border-t border-gray-100 mt-auto">
                       {" "}
                       <EventRegistrationModal
                         eventId={event.id}
                         eventName={event.title}
-                        triggerClassName="w-full bg-slate-50 hover:bg-primary hover:text-black text-slate-900 font-medium transition-all duration-300 rounded-full py-6 shadow-none hover:shadow-lg hover:shadow-primary/20"
+                        triggerClassName="w-full bg-slate-50 hover:bg-primary hover:text-white text-slate-600 font-normal transition-all duration-300 rounded-full py-6 shadow-none hover:shadow-lg hover:shadow-primary/20"
                         triggerText="Register Now"
                       />
                     </div>{" "}
@@ -198,10 +193,6 @@ export default async function AllEventsPage() {
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />{" "}
-                      <div className="absolute top-4 left-4 z-20 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full text-[11px] font-medium text-slate-900 shadow-sm uppercase tracking-wider">
-                        {" "}
-                        {event.category}{" "}
-                      </div>{" "}
                     </div>
                   ) : null}{" "}
                   <CardContent className="p-6 md:p-8 flex flex-col flex-1">
@@ -209,42 +200,35 @@ export default async function AllEventsPage() {
                     <h3 className="text-xl font-medium text-gray-600 mb-5 line-clamp-2 leading-tight group-hover:text-primary transition-colors">
                       {event.title}
                     </h3>{" "}
-                    <div className="space-y-3.5 mb-8 flex-1">
-                      {" "}
-                      <div className="flex items-start gap-3 text-sm text-gray-600">
-                        {" "}
-                        <CalendarDays className="w-4.5 h-4.5 text-primary shrink-0 mt-0.5" />{" "}
-                        <div className="font-semibold text-slate-800">
-                          {event.date}
-                        </div>{" "}
-                      </div>{" "}
-                      {event.venue && (
-                        <div className="flex items-center gap-3 text-sm text-gray-600">
-                          {" "}
-                          <MapPin className="w-4.5 h-4.5 text-primary shrink-0" />{" "}
-                          <span className="text-slate-700">
-                            {event.venue}
-                          </span>{" "}
-                        </div>
-                      )}{" "}
+                    <div className="space-y-3 mb-8 flex-1">
                       {event.speaker && (
                         <div className="flex items-center gap-3 text-sm text-gray-600">
-                          {" "}
-                          <Users className="w-4.5 h-4.5 text-primary shrink-0" />{" "}
-                          <span className="text-slate-700">
-                            Industry expert:{" "}
-                            <span className="font-semibold">
-                              {event.speaker}
-                            </span>
-                          </span>{" "}
+                          <Users className="w-4.5 h-4.5 text-primary shrink-0" />
+                          <span className="font-semibold text-slate-800">{event.speaker}</span>
                         </div>
-                      )}{" "}
+                      )}
+                      <div className="flex items-start gap-3 text-sm text-gray-600">
+                        <CalendarDays className="w-4.5 h-4.5 text-primary shrink-0 mt-0.5" />
+                        <div className="font-semibold text-slate-800">{event.date}</div>
+                      </div>
+                      {event.time && (
+                        <div className="flex items-center gap-3 text-sm text-gray-600">
+                          <Clock className="w-4.5 h-4.5 text-primary shrink-0" />
+                          <span className="text-slate-700">{event.time}</span>
+                        </div>
+                      )}
+                      {event.venue && (
+                        <div className="flex items-center gap-3 text-sm text-gray-600">
+                          <MapPin className="w-4.5 h-4.5 text-primary shrink-0" />
+                          <span className="text-slate-700">{event.venue}</span>
+                        </div>
+                      )}
                     </div>{" "}
                     <div className="flex items-center justify-end pt-5 border-t border-gray-100 mt-auto">
                       {" "}
-                      <Link href={`/events/${event.id}`} className="w-full">
+                      <Link href={`/events/${event.slug || eventSlug(event.title, event.id)}`} className="w-full">
                         {" "}
-                        <Button className="w-full text-black font-medium transition-all duration-300 rounded-full py-6 shadow-none hover:shadow-lg hover:shadow-orange-500/20 bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:-translate-y-0.5">
+                        <Button className="w-full text-slate-800 font-normal transition-all duration-300 rounded-full py-6 shadow-none hover:shadow-lg hover:shadow-orange-500/20 bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] hover:-translate-y-0.5">
                           {" "}
                           View Details{" "}
                           <ChevronRight className="w-4 h-4 ml-1" />{" "}

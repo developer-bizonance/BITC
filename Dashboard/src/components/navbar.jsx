@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import bizologo from "../assets/bizonance_logo.png";
-import { LogOut, Menu, HelpCircle } from "lucide-react";
+import { LogOut, Menu } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import NotificationCenter from "./NotificationCenter.jsx";
 

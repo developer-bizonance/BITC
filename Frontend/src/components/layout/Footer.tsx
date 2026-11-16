@@ -60,13 +60,15 @@ export function Footer() {
             <div className="lg:col-span-4 flex flex-col justify-between gap-3.5 sm:gap-4 h-full">
               <div className="space-y-4">
                 <div className="flex items-center">
-                  <Image
-                    src="/BITC.svg"
-                    alt="BITC Logo"
-                    width={260}
-                    height={85}
-                    className="h-[26px] sm:h-[29px] w-auto object-contain ml-1"
-                  />
+                  <Link href="/" className="inline-flex items-center">
+                    <Image
+                      src="/bizonance_logo.png"
+                      alt="BIZONANCE Logo"
+                      width={140}
+                      height={140}
+                      className="h-14 sm:h-16 w-auto object-contain"
+                    />
+                  </Link>
                 </div>
                 <p className="text-[12.5px] sm:text-[14px] leading-relaxed text-slate-600 font-normal pr-0 sm:pr-2">
                   Empowering future professionals with industry-ready skills. We bridge academic learning and industry requirements with cutting-edge tech education.
@@ -119,14 +121,14 @@ export function Footer() {
             </div>
 
             {/* 2. Links Grid: IMP LINKS, COMPANY & CERTIFICATIONS (Col 5-9) */}
-            <div className="lg:col-span-5 grid grid-cols-2 sm:flex sm:justify-between sm:gap-4 lg:gap-2 xl:gap-6 pt-1">
+            <div className="lg:col-span-5 grid grid-cols-2 sm:flex sm:justify-between gap-6 sm:gap-4 lg:gap-2 xl:gap-6 pt-1">
               {/* Imp Links Column */}
               <div>
-                <h4 className="font-medium text-gray-600 mb-3 sm:mb-4 text-[13px] sm:text-[14px]  tracking-wide">Links</h4>
+                <h4 className="font-medium text-gray-600 mb-3 sm:mb-4 text-[13px] sm:text-[14px] tracking-wide">Links</h4>
                 <ul className="space-y-2.5 text-[12px] sm:text-[13px] font-normal">
                   {impLinks.map((item) => (
                     <li key={item.name}>
-                      <Link href={item.href} className="hover:text-primary transition-colors text-slate-600 hover:translate-x-0.5 inline-flex items-center whitespace-nowrap">
+                      <Link href={item.href} className="hover:text-primary transition-colors text-slate-600 hover:translate-x-0.5 inline-flex items-center">
                         {item.name}
                       </Link>
                     </li>
@@ -136,11 +138,11 @@ export function Footer() {
 
               {/* Certifications Column */}
               <div>
-                <h4 className="font-medium text-gray-600 mb-3 sm:mb-4 text-[13px] sm:text-[14px]  tracking-wide">Certifications</h4>
+                <h4 className="font-medium text-gray-600 mb-3 sm:mb-4 text-[13px] sm:text-[14px] tracking-wide">Certifications</h4>
                 <ul className="space-y-2.5 text-[12px] sm:text-[13px] font-normal">
                   {programLinks.map((item) => (
                     <li key={item.name}>
-                      <Link href={item.href} className="hover:text-primary transition-colors text-slate-600 hover:translate-x-0.5 inline-flex items-center whitespace-nowrap">
+                      <Link href={item.href} className="hover:text-primary transition-colors text-slate-600 hover:translate-x-0.5 inline-flex items-center">
                         {item.name}
                       </Link>
                     </li>
@@ -150,11 +152,11 @@ export function Footer() {
 
               {/* Company Column */}
               <div>
-                <h4 className="font-medium text-gray-600 mb-3 sm:mb-4 text-[13px] sm:text-[14px]  tracking-wide">Company</h4>
+                <h4 className="font-medium text-gray-600 mb-3 sm:mb-4 text-[13px] sm:text-[14px] tracking-wide">Company</h4>
                 <ul className="space-y-2.5 text-[12px] sm:text-[13px] font-normal">
                   {companyLinks.map((item) => (
                     <li key={item.name}>
-                      <Link href={item.href} className="hover:text-primary transition-colors text-slate-600 hover:translate-x-0.5 inline-flex items-center whitespace-nowrap">
+                      <Link href={item.href} className="hover:text-primary transition-colors text-slate-600 hover:translate-x-0.5 inline-flex items-center">
                         {item.name}
                       </Link>
                     </li>
@@ -168,10 +170,10 @@ export function Footer() {
 
               {/* Company Legal Badge */}
               <div className="w-full sm:w-auto lg:self-end rounded-2xl border border-orange-200 bg-orange-50 px-3.5 py-2.5 text-left sm:px-4 sm:py-3 sm:text-right shadow-2xs">
-                <p className="text-[12px] sm:text-[13px] font-semibold text-[#111] whitespace-nowrap">BIZONANCE industrial training centre</p>
-                <p className="text-[10.5px] sm:text-[11px] font-medium text-orange-600 whitespace-nowrap">A Unit of BIZONANCE India Private Limited</p>
-                <p className="mt-0.5 text-[10.5px] text-[#888] sm:text-[11px] whitespace-nowrap">CIN: U74999MH2017PTC301018</p>
-                <p className="text-[10.5px] text-[#888] sm:text-[11px] whitespace-nowrap">Registered Trademark · IP India</p>
+                <p className="text-[12px] sm:text-[13px] font-semibold text-[#111]">BIZONANCE Industrial Training Centre</p>
+                <p className="text-[10.5px] sm:text-[11px] font-medium text-orange-600">A Unit of BIZONANCE India Private Limited</p>
+                <p className="mt-0.5 text-[10.5px] text-[#888] sm:text-[11px]">CIN: U74999MH2017PTC301018</p>
+                <p className="text-[10.5px] text-[#888] sm:text-[11px]">Registered Trademark · IP India</p>
               </div>
 
             </div>

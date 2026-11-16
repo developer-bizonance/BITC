@@ -160,18 +160,36 @@ router.get("/", async (_req: Request, res: Response) => {
 router.get("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const normalizedId = normalizeSlug(decodeURIComponent(id));
+    const rawId = decodeURIComponent(id).trim();
+    const normalizedId = normalizeSlug(rawId);
+    const cleanId = normalizedId.replace(/[^a-z0-9]/g, "");
 
     const fileBlogs = (await readJsonDbAsync("blogs.json")) || [];
-    const fileBlog = fileBlogs.find(
-      (b: any) => String(b.id) === id || normalizeSlug(b.slug) === normalizedId
-    );
+    const fileBlog = fileBlogs.find((b: any) => {
+      if (!b) return false;
+      const bId = String(b.id || "").toLowerCase();
+      const bSlug = normalizeSlug(b.slug);
+      const bTitleSlug = normalizeSlug(b.title);
+      const bClean = bTitleSlug.replace(/[^a-z0-9]/g, "");
+      return (
+        bId === rawId.toLowerCase() ||
+        bSlug === normalizedId ||
+        bTitleSlug === normalizedId ||
+        (cleanId && bClean === cleanId)
+      );
+    });
 
     let dbBlog: any = null;
     try {
       dbBlog = await prisma.blog.findFirst({
         where: {
-          OR: [{ id }, { slug: id }, { slug: normalizedId }],
+          OR: [
+            { id: rawId },
+            { slug: rawId },
+            { slug: normalizedId },
+            { title: { equals: rawId.replace(/-/g, " "), mode: "insensitive" } },
+            { title: { equals: rawId, mode: "insensitive" } },
+          ],
         },
       });
     } catch (e) {

@@ -17,7 +17,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default async function FAQsPage() {
-  let faqs: {q: string; a: string}[] = [];
+  let faqs: { q: string; a: string }[] = [];
   try {
     const res = await fetch(`${getApiBase()}/faq`, { cache: 'no-store' });
     if (res.ok) {
@@ -32,11 +32,11 @@ export default async function FAQsPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      <section className="bg-white pt-16 pb-8 text-slate-900 text-center">
+      <section className="bg-white pt-12 sm:pt-16 pb-6 sm:pb-8 text-slate-900 text-center">
         <div className="container max-w-[1200px] mx-auto px-4">
           <HelpCircle className="w-12 h-12 text-primary mx-auto mb-4" />
-          <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight mb-4">Frequently Asked <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Questions</span></h1>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto font-medium">Find answers to common questions about our certifications, placements, and admission process.</p>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-[1.2] mb-4">Frequently Asked <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Questions</span></h1>
+          <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed font-normal">Find answers to common questions about our certifications, placements, and admission process.</p>
         </div>
       </section>
 
@@ -45,10 +45,10 @@ export default async function FAQsPage() {
           <Accordion className="w-full">
             {faqs.map((faq, i) => (
               <AccordionItem key={i} value={`item-${i}`} className="border-b border-slate-200">
-                <AccordionTrigger className="text-left text-base font-bold text-slate-900 py-6 hover:text-primary hover:no-underline">
+                <AccordionTrigger className="text-left text-base font-medium text-slate-700 py-6 hover:text-primary hover:no-underline">
                   {faq.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-slate-600 leading-relaxed pb-6 text-[15px]">
+                <AccordionContent className="text-slate-500 leading-relaxed pb-6 text-[15px]">
                   {faq.a}
                 </AccordionContent>
               </AccordionItem>
@@ -62,8 +62,8 @@ export default async function FAQsPage() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="container max-w-[800px] mx-auto px-4 text-center relative z-10">
           <h2 className="text-3xl font-bold text-slate-900 mb-4">Still Have <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Questions?</span></h2>
-          <p className="text-slate-600 mb-8 text-lg font-medium">Our team is available to help clarify any doubts regarding programs, fees, or placements.</p>
-          <Link href="/contact" className="inline-flex h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-black font-medium items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-lg gap-2">
+          <p className="text-base md:text-lg text-gray-600 mb-8 leading-relaxed font-normal">Our team is available to help clarify any doubts regarding programs, fees, or placements.</p>
+          <Link href="/contact" className="inline-flex w-full sm:w-auto h-12 sm:h-14 px-8 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-800 font-normal items-center justify-center hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] transition-all shadow-lg gap-2">
             Contact Support <ArrowRight className="w-5 h-5" />
           </Link>
         </div>

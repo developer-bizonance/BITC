@@ -1,26 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
-import { Mail, Phone, MapPin, Send, MessageSquare, CheckCircle2, AlertCircle, Loader2, Clock, Navigation, ExternalLink } from "lucide-react";
+import { Mail, Phone, MapPin, Send, MessageSquare, CheckCircle2, AlertCircle, Loader2, Clock, Navigation, ExternalLink, ArrowRight, ChevronDown } from "lucide-react";
 import { getApiBase } from "@/lib/utils";
 
-const DEFAULT_ENQUIRY_TYPES = [
-  "Academic Collaboration (MOU)",
-  "Technical Workshop",
-  "Faculty Development Certification (FDP)",
-  "Industry Visit",
-  "Corporate Training",
-  "Employee Upskill",
-  "Leadership Certification",
-  "Hiring Partners / Industry Partnership",
-  "Placement & Student Recruitment",
-  "Scholarship Application",
-  "Certification & Certification Inquiry",
-  "Other Enquiry"
-];
+function ContactContent() {
+  const searchParams = useSearchParams();
+  const paramEnquiry = searchParams.get("enquiry") || searchParams.get("type") || searchParams.get("enquiryType") || "";
 
-export default function ContactPage() {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -33,24 +22,51 @@ export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [enquiryTypes, setEnquiryTypes] = useState<string[]>(DEFAULT_ENQUIRY_TYPES);
+  const [enquiryTypes, setEnquiryTypes] = useState<string[]>([]);
+  const [loadingTypes, setLoadingTypes] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchTypes = async () => {
       try {
+        setLoadingTypes(true);
         const res = await fetch(`${getApiBase()}/cms/enquiryTypes`);
         if (res.ok) {
           const data = await res.json();
-          if (Array.isArray(data) && data.length > 0) {
-            setEnquiryTypes(data);
+          if (Array.isArray(data)) {
+            // Deduplicate to guarantee clean list and unique keys
+            const unique = Array.from(
+              new Set(data.map((t: string) => (typeof t === "string" ? t.trim() : "")).filter(Boolean))
+            );
+            setEnquiryTypes(unique);
           }
         }
       } catch (e) {
         console.error("Failed to fetch dynamic enquiry types", e);
+      } finally {
+        setLoadingTypes(false);
       }
     };
     fetchTypes();
   }, []);
+
+  useEffect(() => {
+    if (paramEnquiry && enquiryTypes.length > 0) {
+      const matched = enquiryTypes.find((t) => t.toLowerCase() === paramEnquiry.toLowerCase()) || paramEnquiry;
+      setFormData((prev) => ({
+        ...prev,
+        enquiryType: matched,
+      }));
+
+      // Scroll directly to the contact form
+      const timer = setTimeout(() => {
+        const formEl = document.getElementById("contact-form");
+        if (formEl) {
+          formEl.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [paramEnquiry, enquiryTypes]);
 
   const validateField = (field: string, value: string): string => {
     switch (field) {
@@ -68,9 +84,9 @@ export default function ContactPage() {
 
       case "phone":
         const cleanPhone = value.replace(/[^0-9]/g, "");
-        if (!value.trim()) return "Mobile number is required.";
-        if (cleanPhone.length !== 10) return "Mobile number must be exactly 10 digits.";
-        if (!/^[6-9]\d{9}$/.test(cleanPhone)) return "Mobile number must start with 6, 7, 8, or 9.";
+        if (!value.trim()) return "Contact number is required.";
+        if (cleanPhone.length !== 10) return "Contact number must be exactly 10 digits.";
+        if (!/^[6-9]\d{9}$/.test(cleanPhone)) return "Contact number must start with 6, 7, 8, or 9.";
         return "";
 
       case "city":
@@ -83,8 +99,8 @@ export default function ContactPage() {
         return "";
 
       case "message":
-        if (!value.trim()) return "Message is required.";
-        if (value.trim().length < 5) return "Message must be at least 5 characters long.";
+        if (!value.trim()) return "Your message is required.";
+        if (value.trim().length < 5) return "Your message must be at least 5 characters long.";
         return "";
 
       default:
@@ -134,21 +150,54 @@ export default function ContactPage() {
     setErrorMessage(null);
 
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      let success = false;
+      let errorMsg = "";
 
-      const result = await response.json();
-
-      if (!response.ok || result.error) {
-        throw new Error(result.error || "Failed to send message. Please try again.");
+      // 1. Submit directly to Central Backend API (primary store)
+      try {
+        const apiBase = getApiBase();
+        const contactEndpoint = apiBase.endsWith("/contact")
+          ? apiBase
+          : `${apiBase.replace(/\/$/, "")}/contact`;
+        const res = await fetch(contactEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+        if (res.ok) {
+          success = true;
+        } else {
+          const d = await res.json().catch(() => ({}));
+          errorMsg = d.error || "";
+        }
+      } catch (apiErr) {
+        console.warn("Direct contact API notice:", apiErr);
       }
 
-      setSubmitted(true);
+      // 2. Fallback to local Next.js route ONLY IF backend failed
+      if (!success) {
+        try {
+          const localRes = await fetch("/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData),
+          });
+          if (localRes.ok) {
+            success = true;
+          } else {
+            const d = await localRes.json().catch(() => ({}));
+            errorMsg = d.error || errorMsg;
+          }
+        } catch (localErr) {
+          console.warn("Local contact API notice:", localErr);
+        }
+      }
+
+      if (success) {
+        setSubmitted(true);
+      } else {
+        throw new Error(errorMsg || "Failed to send message. Please try again.");
+      }
     } catch (err: any) {
       setErrorMessage(err.message || "An unexpected error occurred. Please try again.");
     } finally {
@@ -162,10 +211,10 @@ export default function ContactPage() {
       <section className="relative flex w-full items-center justify-center overflow-hidden bg-white px-4 py-6 sm:min-h-[calc(100vh-80px)] sm:px-6 sm:py-16 lg:min-h-[calc(100vh-85px)] lg:py-20">
         <div className="relative mx-auto flex w-full max-w-7xl flex-col-reverse items-center gap-6 sm:gap-10 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex w-full flex-col justify-center text-center lg:w-[46%] lg:flex-none lg:text-left animate-in fade-in slide-in-from-left-8 duration-700">
-            <h1 className="text-2xl font-bold leading-tight text-[#111] sm:text-3xl md:text-4xl xl:text-5xl">
-              <span>Get in Touch With <span className="bg-gradient-to-r from-[#ff7b00] to-[#f4b400] bg-clip-text text-transparent">BITC</span></span>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 leading-[1.2]">
+              <span>Get in Touch with <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">BITC</span></span>
               <br />
-              <span className="text-[#111]">We're Here to Help.</span>
+              <span>We're Here to Help.</span>
             </h1>
             <p className="mt-4 max-w-xl mx-auto lg:mx-0 text-sm leading-relaxed text-[#666] sm:mt-5 sm:text-base lg:text-lg">
               Whether you have a question about our certifications, need career guidance, or want to explore partnership opportunities — our team is ready to assist you.
@@ -193,10 +242,10 @@ export default function ContactPage() {
       </section>
 
       {/* 2. Form & Cards Section */}
-      <section className="bg-white px-4 py-8 sm:px-6 sm:py-16 border-t border-slate-100">
+      <section id="contact-form" className="bg-white px-4 py-8 sm:px-6 sm:py-16 border-t border-slate-100 scroll-mt-20">
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 text-center sm:mb-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h2 className="mt-4 text-2xl font-bold text-[#111] sm:mt-5 sm:text-4xl md:text-5xl">Contact <span className="bg-gradient-to-r from-[#ff7b00] to-[#f4b400] bg-clip-text text-transparent">Us</span></h2>
+            <h2 className="mt-4 text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 leading-[1.2]">Contact <span className="text-transparent bg-clip-text bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)]">Us</span></h2>
             <p className="mx-auto mt-3 max-w-2xl text-sm text-[#666] sm:text-base">
               Fill out the form below and our team will get back to you within 24 hours.
             </p>
@@ -204,7 +253,71 @@ export default function ContactPage() {
 
           <div className="flex flex-col gap-5 sm:gap-8 lg:flex-row lg:items-start">
 
-            {/* Left: Contact Form */}
+            {/* Left: Contact Cards */}
+            <div className="flex h-full flex-col gap-3 sm:gap-4 lg:w-[360px] shrink-0">
+
+              <div className="flex items-start gap-3.5 rounded-2xl border border-gray-200/80 bg-white p-4 shadow-md sm:gap-4 sm:p-5 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-[100ms]">
+                <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white shadow-md border border-gray-100/80 sm:h-12 sm:w-12 p-2.5 sm:p-2.5">
+                  <Image src="/icons/map.png" alt="Corporate Office" width={48} height={48} className="h-full w-full object-contain" />
+                </div>
+                <div>
+                  <p className="mb-1 text-xs font-bold text-[#888]">Corporate Office</p>
+                  <p className="text-sm leading-relaxed font-semibold text-[#111]">BIZONANCE Industrial Training Centre</p>
+                  <p className="text-sm leading-relaxed text-[#555]">Near Delhi Public School, Ravi Kiran Colony, Saturna, Amravati MH 444605</p>
+                  <a href="https://www.google.com/maps/dir/?api=1&destination=BIZONANCE+INDIA+PVT.+LTD.+Near+Delhi+Public+School+Saturna+Amravati" target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-orange-50 border border-orange-200/80 px-3 py-1.5 text-xs font-bold text-orange-600 hover:bg-orange-100 transition-colors">
+                    <Navigation className="w-3.5 h-3.5" />
+                    <span>Get Directions</span>
+                    <ExternalLink className="w-3 h-3 opacity-70" />
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3.5 rounded-2xl border border-gray-200/80 bg-white p-4 shadow-md sm:gap-4 sm:p-5 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-[180ms]">
+                <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white shadow-md border border-gray-100/80 sm:h-12 sm:w-12 p-2.5 sm:p-2.5">
+                  <Image src="/icons/call.png" alt="Learner Support" width={48} height={48} className="h-full w-full object-contain" />
+                </div>
+                <div>
+                  <p className="mb-1 text-xs font-bold text-[#888]">Learner's Support</p>
+                  <p className="text-sm leading-relaxed font-semibold text-[#111]">+91 89567 27311</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3.5 rounded-2xl border border-gray-200/80 bg-white p-4 shadow-md sm:gap-4 sm:p-5 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-[260ms]">
+                <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white shadow-md border border-gray-100/80 sm:h-12 sm:w-12 p-2.5 sm:p-2.5">
+                  <Image src="/icons/Mail.png" alt="Official Email" width={48} height={48} className="h-full w-full object-contain" />
+                </div>
+                <div>
+                  <p className="mb-1 text-xs font-bold text-[#888]">Official Email</p>
+                  <p className="text-sm leading-relaxed font-semibold text-[#111]">info@bizonance.in</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3.5 rounded-2xl border border-gray-200/80 bg-white p-4 shadow-md sm:gap-4 sm:p-5 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-[340ms]">
+                <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white shadow-md border border-gray-100/80 sm:h-12 sm:w-12 p-1 sm:p-1.5">
+                  <Image src="/icons/clock.png" alt="Working Hours" width={48} height={48} className="h-full w-full object-contain" />
+                </div>
+                <div>
+                  <p className="mb-1 text-xs font-bold text-[#888]">Working Hours</p>
+                  <p className="text-sm leading-relaxed font-semibold text-[#111]">Mon – Sat: 10:00 AM – 7:00 PM</p>
+                  <div className="mt-1.5">
+                    <span className="inline-flex items-center gap-1.5 rounded-md bg-red-50 border border-red-200/80 px-2.5 py-0.5 text-xs font-bold text-red-600 shadow-xs">
+                      <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                      Sunday: Closed
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-gray-200 bg-white p-4 sm:p-5 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-[500ms]">
+                <p className="text-xs font-bold text-orange-600">Company info</p>
+                <p className="mt-2 text-sm font-semibold text-[#111]">BIZONANCE INDIA PRIVATE LIMITED</p>
+                <p className="mt-1 text-xs text-[#777]">CIN: U74999MH2017PTC301018</p>
+                <p className="text-xs text-[#777]">Registered Trademark · IP India</p>
+              </div>
+
+            </div>
+
+            {/* Right: Contact Form */}
             <div className="flex-1 w-full animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
               {submitted ? (
                 <div className="rounded-2xl border border-gray-200/80 bg-white p-8 sm:p-12 shadow-xl shadow-slate-200/60 flex flex-col items-center justify-center text-center min-h-[400px]">
@@ -236,12 +349,11 @@ export default function ContactPage() {
                   )}
 
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-bold text-slate-700">Name <span className="text-red-500">*</span></label>
+                    <label className="text-xs font-medium text-slate-600">Name <span className="text-red-500">*</span></label>
                     <input
                       required
                       type="text"
-                      placeholder="Enter your full name"
-                      className={`w-full rounded-xl border px-4 py-3 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100 ${fieldErrors.fullName ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-white'}`}
+                      className={`w-full rounded-xl border px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100 ${fieldErrors.fullName ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-white'}`}
                       value={formData.fullName}
                       onChange={(e) => handleChange("fullName", e.target.value)}
                       onBlur={() => handleBlur("fullName")}
@@ -251,12 +363,11 @@ export default function ContactPage() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-bold text-slate-700">Email <span className="text-red-500">*</span></label>
+                      <label className="text-xs font-medium text-slate-600">Email Id <span className="text-red-500">*</span></label>
                       <input
                         required
                         type="email"
-                        placeholder="your@email.com"
-                        className={`w-full rounded-xl border px-4 py-3 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100 ${fieldErrors.email ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-white'}`}
+                        className={`w-full rounded-xl border px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100 ${fieldErrors.email ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-white'}`}
                         value={formData.email}
                         onChange={(e) => handleChange("email", e.target.value)}
                         onBlur={() => handleBlur("email")}
@@ -264,15 +375,14 @@ export default function ContactPage() {
                       {fieldErrors.email && <p className="text-xs text-red-500 font-medium">{fieldErrors.email}</p>}
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-bold text-slate-700">Contact <span className="text-red-500">*</span></label>
+                      <label className="text-xs font-medium text-slate-600">Contact Number <span className="text-red-500">*</span></label>
                       <input
                         required
                         type="tel"
                         inputMode="numeric"
                         pattern="[0-9]{10}"
                         maxLength={10}
-                        placeholder="10-digit mobile number"
-                        className={`w-full rounded-xl border px-4 py-3 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100 ${fieldErrors.phone ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-white'}`}
+                        className={`w-full rounded-xl border px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100 ${fieldErrors.phone ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-white'}`}
                         value={formData.phone}
                         onChange={(e) => handleChange("phone", e.target.value)}
                         onBlur={() => handleBlur("phone")}
@@ -287,12 +397,11 @@ export default function ContactPage() {
                   </div>
 
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-bold text-slate-700">City <span className="text-red-500">*</span></label>
+                    <label className="text-xs font-medium text-slate-600">City <span className="text-red-500">*</span></label>
                     <input
                       required
                       type="text"
-                      placeholder="e.g. Pune, Mumbai"
-                      className={`w-full rounded-xl border px-4 py-3 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100 ${fieldErrors.city ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-white'}`}
+                      className={`w-full rounded-xl border px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100 ${fieldErrors.city ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-white'}`}
                       value={formData.city}
                       onChange={(e) => handleChange("city", e.target.value)}
                       onBlur={() => handleBlur("city")}
@@ -301,39 +410,36 @@ export default function ContactPage() {
                   </div>
 
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-bold text-slate-700">Enquiry Type <span className="text-red-500">*</span></label>
+                    <label className="text-xs font-medium text-slate-600">Enquiry Type <span className="text-red-500">*</span></label>
                     <div className="relative">
                       <select
                         required
-                        className={`w-full appearance-none rounded-xl border px-4 py-3 pr-10 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100 ${formData.enquiryType === "" ? 'text-gray-400' : 'text-slate-900'} ${fieldErrors.enquiryType ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-white'}`}
+                        className={`w-full appearance-none rounded-xl border px-4 py-3 pr-10 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100 ${
+                          formData.enquiryType === "" ? 'text-gray-400' : 'text-slate-800 font-medium'
+                        } ${fieldErrors.enquiryType ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50 focus:bg-white'}`}
                         value={formData.enquiryType}
                         onChange={(e) => handleChange("enquiryType", e.target.value)}
                         onBlur={() => handleBlur("enquiryType")}
                       >
-                        <option value="" disabled>Select enquiry type</option>
-                        {enquiryTypes.map((type) => (
-                          <option key={type} value={type} className="text-slate-900">{type}</option>
+                        <option value="" disabled className="text-gray-400">{loadingTypes ? "Loading enquiry types..." : "Select enquiry type"}</option>
+                        {enquiryTypes.map((type, idx) => (
+                          <option key={`${type}-${idx}`} value={type} className="text-slate-800">{type}</option>
                         ))}
                       </select>
-                      <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
-                        <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                      </div>
+                      <ChevronDown className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                     </div>
                     {fieldErrors.enquiryType && <p className="text-xs text-red-500 font-medium">{fieldErrors.enquiryType}</p>}
                   </div>
 
                   <div className="flex flex-col gap-1.5">
                     <div className="flex items-center justify-between">
-                      <label className="text-xs font-bold text-slate-700">Message <span className="text-red-500">*</span></label>
+                      <label className="text-xs font-medium text-slate-600">Your Message <span className="text-red-500">*</span></label>
                       <span className="text-[11px] font-medium text-[#999]">{formData.message.length} chars</span>
                     </div>
                     <textarea
                       required
                       rows={4}
-                      placeholder="Tell us how we can help you..."
-                      className={`w-full resize-none rounded-xl border px-4 py-3 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100 ${fieldErrors.message ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-white'}`}
+                      className={`w-full resize-none rounded-xl border px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100 ${fieldErrors.message ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-white'}`}
                       value={formData.message}
                       onChange={(e) => handleChange("message", e.target.value)}
                       onBlur={() => handleBlur("message")}
@@ -344,89 +450,41 @@ export default function ContactPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="group flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-yellow-400 py-3.5 text-sm font-medium text-black shadow-lg shadow-orange-300/40 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl sm:py-4 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                    className="group flex w-full h-10 items-center justify-center gap-2 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-800 text-sm font-normal hover:shadow-lg hover:shadow-orange-500/25 hover:-translate-y-0.5 transition-all cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                   >
                     {loading ? (
                       <>
-                        <Loader2 className="w-5 h-5 animate-spin" />
+                        <Loader2 className="w-4 h-4 animate-spin mr-1" />
                         Sending...
                       </>
                     ) : (
                       <>
                         <Send className="w-4 h-4" />
                         Send Message
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-right transition-transform group-hover:translate-x-1" aria-hidden="true">
-                          <path d="M5 12h14"></path>
-                          <path d="m12 5 7 7-7 7"></path>
-                        </svg>
+                        <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                       </>
                     )}
                   </button>
                 </form>
               )}
             </div>
-
-            {/* Right: Contact Cards */}
-            <div className="flex h-full flex-col gap-3 sm:gap-4 lg:w-[360px]">
-
-              <div className="flex items-start gap-3.5 rounded-2xl border border-gray-200/80 bg-white p-4 shadow-md sm:gap-4 sm:p-5 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-[100ms]">
-                <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white shadow-md border border-gray-100/80 sm:h-12 sm:w-12 p-2.5 sm:p-2.5">
-                  <Image src="/icons/map.png" alt="Corporate Office" width={48} height={48} className="h-full w-full object-contain" />
-                </div>
-                <div>
-                  <p className="mb-1 text-xs font-bold text-[#888]">Corporate Office</p>
-                  <p className="text-sm leading-relaxed font-semibold text-[#111]">BIZONANCE industrial training centre</p>
-                  <p className="text-sm leading-relaxed text-[#555]">Near Delhi Public School, Ravi Kiran Colony, Saturna, Amravati MH 444605</p>
-                  <a href="https://www.google.com/maps/dir/?api=1&destination=BIZONANCE+INDIA+PVT.+LTD.+Near+Delhi+Public+School+Saturna+Amravati" target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-orange-50 border border-orange-200/80 px-3 py-1.5 text-xs font-bold text-orange-600 hover:bg-orange-100 transition-colors">
-                    <Navigation className="w-3.5 h-3.5" />
-                    <span>Get Directions</span>
-                    <ExternalLink className="w-3 h-3 opacity-70" />
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3.5 rounded-2xl border border-gray-200/80 bg-white p-4 shadow-md sm:gap-4 sm:p-5 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-[180ms]">
-                <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white shadow-md border border-gray-100/80 sm:h-12 sm:w-12 p-2.5 sm:p-2.5">
-                  <Image src="/icons/call.png" alt="Customer Support" width={48} height={48} className="h-full w-full object-contain" />
-                </div>
-                <div>
-                  <p className="mb-1 text-xs font-bold text-[#888]">Customer Support</p>
-                  <p className="text-sm leading-relaxed font-semibold text-[#111]">+91 89567 27311</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3.5 rounded-2xl border border-gray-200/80 bg-white p-4 shadow-md sm:gap-4 sm:p-5 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-[260ms]">
-                <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white shadow-md border border-gray-100/80 sm:h-12 sm:w-12 p-2.5 sm:p-2.5">
-                  <Image src="/icons/Mail.png" alt="Official Email" width={48} height={48} className="h-full w-full object-contain" />
-                </div>
-                <div>
-                  <p className="mb-1 text-xs font-bold text-[#888]">Official Email</p>
-                  <p className="text-sm leading-relaxed font-semibold text-[#111]">info@bizonance.in</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3.5 rounded-2xl border border-gray-200/80 bg-white p-4 shadow-md sm:gap-4 sm:p-5 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-[340ms]">
-                <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white shadow-md border border-gray-100/80 sm:h-12 sm:w-12 p-1 sm:p-1.5">
-                  <Image src="/icons/clock.png" alt="Working Hours" width={48} height={48} className="h-full w-full object-contain" />
-                </div>
-                <div>
-                  <p className="mb-1 text-xs font-bold text-[#888]">Working Hours</p>
-                  <p className="text-sm leading-relaxed font-semibold text-[#111]">Mon – Sat: 10:00 AM – 7:00 PM</p>
-                  <p className="text-sm leading-relaxed text-[#555]">Sunday: Closed</p>
-                </div>
-              </div>
-
-              <div className="rounded-2xl border border-gray-200 bg-white p-4 sm:p-5 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-[500ms]">
-                <p className="text-xs font-bold text-orange-600">Company info</p>
-                <p className="mt-2 text-sm font-semibold text-[#111]">BIZONANCE INDIA PRIVATE LIMITED</p>
-                <p className="mt-1 text-xs text-[#777]">CIN: U74999MH2017PTC301018</p>
-                <p className="text-xs text-[#777]">Registered Trademark · IP India</p>
-              </div>
-
-            </div>
           </div>
         </div>
       </section>
     </main>
+  );
+}
+
+export default function ContactPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-white flex items-center justify-center">
+          <Loader2 className="w-8 h-8 animate-spin text-orange-500" />
+        </div>
+      }
+    >
+      <ContactContent />
+    </Suspense>
   );
 }

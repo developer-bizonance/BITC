@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Plus, Trash2, Pencil, RefreshCw, X, Download } from "lucide-react";
 import { getApiUrl } from "../utils";
+import DeleteConfirmModal from "./uic/DeleteConfirmModal.jsx";
 
 const Downloads = () => {
   const [downloads, setDownloads] = useState([]);
@@ -10,6 +11,8 @@ const Downloads = () => {
   const [editingId, setEditingId] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [notification, setNotification] = useState(null);
+  const [confirmDelete, setConfirmDelete] = useState(null); // { id, title }
+  const [deleting, setDeleting] = useState(false);
 
   const [form, setForm] = useState({ title: "", description: "", fileUrl: "" });
   const [editForm, setEditForm] = useState({ title: "", description: "", fileUrl: "" });
@@ -69,8 +72,14 @@ const Downloads = () => {
     }
   };
 
-  const handleDelete = async (id, title) => {
-    if (!window.confirm(`Are you sure you want to remove "${title}"?`)) return;
+  const handleDelete = (id, title) => {
+    setConfirmDelete({ id, title });
+  };
+
+  const confirmAndDelete = async () => {
+    if (!confirmDelete) return;
+    const { id, title } = confirmDelete;
+    setDeleting(true);
     try {
       const res = await fetch(`${apiUrl}/downloads/${id}`, { method: "DELETE" });
       const data = await res.json();
@@ -82,6 +91,9 @@ const Downloads = () => {
       }
     } catch (err) {
       showNotification("Network error", "error");
+    } finally {
+      setDeleting(false);
+      setConfirmDelete(null);
     }
   };
 
@@ -120,30 +132,35 @@ const Downloads = () => {
   };
 
   return (
-    <div className="p-5 md:p-6 max-w-7xl mx-auto space-y-4">
+    <div className="p-5 md:p-6 pt-6 md:pt-7 max-w-full mx-auto space-y-6 animate-in fade-in duration-200">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-3 border-b border-slate-200 gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-gray-100">
         <div>
-          <h2 className="text-xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
-            <Download className="w-5 h-5 text-blue-600" /> Downloads Management
-          </h2>
-          <p className="text-xs text-slate-500 mt-0.5">Manage downloadable PDF resources, syllabi, and forms</p>
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-normal">
+              <Download className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="text-lg font-bold text-gray-900">Downloads Management</h2>
+                <span className="px-2 py-0.5 rounded-full text-[11px] font-normal bg-amber-50 text-amber-700 border border-amber-100">
+                  {downloads.length} Active
+                </span>
+              </div>
+              <p className="text-xs text-gray-500 mt-0.5">
+                Manage downloadable PDF resources, syllabi, and forms
+              </p>
+            </div>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={fetchDownloads}
-            className="p-2 bg-white border border-slate-200 text-slate-600 rounded-xl hover:bg-slate-50 hover:text-blue-600 transition-colors shadow-2xs cursor-pointer"
-            title="Refresh"
-          >
-            <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin text-blue-600" : ""}`} />
-          </button>
-          <button
-            onClick={() => setIsAddOpen(true)}
-            className="flex items-center gap-1.5 px-3.5 py-2 hover: text-xs cursor-pointer bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95"
-          >
-            <Plus className="w-4 h-4" /> Add Download
-          </button>
-        </div>
+
+        <button
+          onClick={() => setIsAddOpen(true)}
+          className="flex items-center justify-center gap-1.5 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 hover:border-blue-300 rounded-full font-medium text-xs shadow-xs transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
+        >
+          <Plus className="w-3.5 h-3.5" />
+          Add New Download
+        </button>
       </div>
 
       {notification && (
@@ -194,10 +211,10 @@ const Downloads = () => {
                   </button>
                   <button
                     onClick={() => handleDelete(dl.id, dl.title)}
-                    className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                    className="w-8 h-8 text-red-500 hover:text-white bg-white hover:bg-red-600 hover:border-red-600 rounded-full border border-slate-200 shadow-xs transition-all cursor-pointer inline-flex items-center justify-center active:scale-95"
                     title="Delete Download"
                   >
-                    <Trash2 className="w-3.5 h-3.5" />
+                    <Trash2 size={15} />
                   </button>
                 </div>
               </div>
@@ -219,23 +236,23 @@ const Downloads = () => {
             <div className="p-6 overflow-y-auto">
               <form id="add-dl-form" onSubmit={handleAdd} className="space-y-5">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Title</label>
-                  <input type="text" required value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium text-sm" placeholder="e.g. Admission Brochure 2025" />
+                  <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">Title</label>
+                  <input type="text" required value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-normal text-sm text-gray-500" />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Description (Optional)</label>
-                  <textarea rows={2} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium text-sm" placeholder="Brief description..."></textarea>
+                  <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">Description (Optional)</label>
+                  <textarea rows={2} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-normal text-sm text-gray-500"></textarea>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">File URL</label>
-                  <input type="text" required value={form.fileUrl} onChange={(e) => setForm({ ...form, fileUrl: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium text-sm" placeholder="e.g. /downloads/file.pdf or https://..." />
+                  <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">File URL</label>
+                  <input type="text" required value={form.fileUrl} onChange={(e) => setForm({ ...form, fileUrl: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-normal text-sm text-gray-500" />
                 </div>
               </form>
             </div>
             <div className="px-6 py-4 border-t border-gray-100 flex justify-end gap-3 bg-gray-50">
-              <button type="button" onClick={() => setIsAddOpen(false)} className="px-5 py-2.5 text-sm hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">Cancel</button>
-              <button type="submit" form="add-dl-form" disabled={submitting} className="px-5 py-2.5 text-sm hover: disabled:opacity-70 flex items-center gap-2 hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">
-                {submitting ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />} Add Download
+              <button type="button" onClick={() => setIsAddOpen(false)} className="px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 rounded-full font-medium text-xs transition-all cursor-pointer active:scale-95 disabled:opacity-50">Cancel</button>
+              <button type="submit" form="add-dl-form" disabled={submitting} className="inline-flex items-center justify-center gap-2 px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 rounded-full font-medium text-xs shadow-xs transition-all cursor-pointer hover:scale-[1.02] active:scale-95 disabled:opacity-50">
+                {submitting ? <RefreshCw className="w-4 h-4 animate-spin shrink-0" /> : <Plus className="w-4 h-4 shrink-0" />} <span>Save Changes</span>
               </button>
             </div>
           </div>
@@ -255,28 +272,39 @@ const Downloads = () => {
             <div className="p-6 overflow-y-auto">
               <form id="edit-dl-form" onSubmit={handleEdit} className="space-y-5">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Title</label>
-                  <input type="text" required value={editForm.title} onChange={(e) => setEditForm({ ...editForm, title: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium text-sm" />
+                  <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">Title</label>
+                  <input type="text" required value={editForm.title} onChange={(e) => setEditForm({ ...editForm, title: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-normal text-sm text-gray-500" />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Description (Optional)</label>
-                  <textarea rows={2} value={editForm.description} onChange={(e) => setEditForm({ ...editForm, description: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium text-sm"></textarea>
+                  <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">Description (Optional)</label>
+                  <textarea rows={2} value={editForm.description} onChange={(e) => setEditForm({ ...editForm, description: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-normal text-sm text-gray-500"></textarea>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">File URL</label>
-                  <input type="text" required value={editForm.fileUrl} onChange={(e) => setEditForm({ ...editForm, fileUrl: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium text-sm" />
+                  <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">File URL</label>
+                  <input type="text" required value={editForm.fileUrl} onChange={(e) => setEditForm({ ...editForm, fileUrl: e.target.value })} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-normal text-sm text-gray-500" />
                 </div>
               </form>
             </div>
             <div className="px-6 py-4 border-t border-gray-100 flex justify-end gap-3 bg-gray-50">
-              <button type="button" onClick={() => setIsEditOpen(false)} className="px-5 py-2.5 text-sm hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">Cancel</button>
-              <button type="submit" form="edit-dl-form" disabled={submitting} className="px-5 py-2.5 text-sm hover: disabled:opacity-70 flex items-center gap-2 hover: bg-blue-400/30 text-slate-900 hover:bg-blue-400/40 font-medium rounded-3xl shadow-md transition-all active:scale-95">
-                {submitting ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Pencil className="w-4 h-4" />} Save Changes
+              <button type="button" onClick={() => setIsEditOpen(false)} className="px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 rounded-full font-medium text-xs transition-all cursor-pointer active:scale-95 disabled:opacity-50">Cancel</button>
+              <button type="submit" form="edit-dl-form" disabled={submitting} className="inline-flex items-center justify-center gap-2 px-6 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 hover:text-blue-950 border border-blue-200 rounded-full font-medium text-xs shadow-xs transition-all cursor-pointer hover:scale-[1.02] active:scale-95 disabled:opacity-50">
+                {submitting ? <RefreshCw className="w-4 h-4 animate-spin shrink-0" /> : <Pencil className="w-4 h-4 shrink-0" />} <span>Save Changes</span>
               </button>
             </div>
           </div>
         </div>
       )}
+
+      {/* Centered Delete Confirmation Modal */}
+      <DeleteConfirmModal
+        isOpen={!!confirmDelete}
+        title="Remove Download"
+        itemName={confirmDelete?.title}
+        from="Downloads"
+        loading={deleting}
+        onConfirm={confirmAndDelete}
+        onCancel={() => setConfirmDelete(null)}
+      />
     </div>
   );
 };
