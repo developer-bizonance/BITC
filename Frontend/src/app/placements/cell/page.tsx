@@ -217,7 +217,7 @@ export default function PlacementCellPage() {
             Take the first step towards a successful career. Get in touch with the BITC Placement Cell today.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link href="/contact?enquiry=Placement%20%26%20Student%20Recruitment#contact-form">
+            <Link href="/contact?enquiry=BITC%20Placement#contact-form">
               <Button className="w-full sm:w-auto h-14 px-10 rounded-full bg-[linear-gradient(to_right,#ffcc00_0%,#ff9900_100%)] text-slate-800 hover:bg-[linear-gradient(to_right,#ff9900_0%,#ffcc00_100%)] text-lg font-normal shadow-xl shadow-primary/20 hover:-translate-y-1 transition-all border-0">
                 Contact placement officer
               </Button>

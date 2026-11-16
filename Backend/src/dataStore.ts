@@ -127,7 +127,23 @@ async function queryRelationalTable<T>(key: string): Promise<T[] | null> {
           console.warn("[dataStore] Failed to read enquiryTypes.json from CmsData:", cmsErr);
         }
         const rows = await prisma.enquiryType.findMany({ orderBy: { createdAt: "asc" } });
-        return rows.map((r) => r.name) as any;
+        if (rows.length > 0) {
+          return rows.map((r) => r.name) as any;
+        }
+        return [
+          "Technical Workshop",
+          "Academic Collaboration (MOU)",
+          "Faculty Development Program (FDP)",
+          "Industry Visit",
+          "Corporate Training",
+          "Employee Upskill",
+          "BITC Placement",
+          "Leadership Program",
+          "Hiring Partners",
+          "Scholarship Application",
+          "Certification Inquiry",
+          "Other Enquiry"
+        ] as any;
       }
       case "events.json": {
         try {

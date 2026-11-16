@@ -6,6 +6,55 @@ import Image from "next/image";
 import { Mail, Phone, MapPin, Send, MessageSquare, CheckCircle2, AlertCircle, Loader2, Clock, Navigation, ExternalLink, ArrowRight, ChevronDown } from "lucide-react";
 import { getApiBase } from "@/lib/utils";
 
+const DEFAULT_ENQUIRY_TYPES = [
+  "Technical Workshop",
+  "Academic Collaboration (MOU)",
+  "Faculty Development Program (FDP)",
+  "Industry Visit",
+  "Corporate Training",
+  "Employee Upskill",
+  "BITC Placement",
+  "Leadership Program",
+  "Hiring Partners",
+  "Scholarship Application",
+  "Certification Inquiry",
+  "Other Enquiry",
+];
+
+function findMatchingEnquiryType(types: string[], query: string): string {
+  if (!query || !query.trim()) return "";
+  const qTrim = query.trim();
+  const qLower = qTrim.toLowerCase();
+
+  // 1. Exact match (case insensitive, trimmed)
+  const exact = types.find((t) => t.trim().toLowerCase() === qLower);
+  if (exact) return exact;
+
+  // 2. Normalized match (alphanumeric only)
+  const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
+  const qNorm = norm(qTrim);
+  const normalizedMatch = types.find((t) => norm(t) === qNorm);
+  if (normalizedMatch) return normalizedMatch;
+
+  // 3. Substring match
+  const substringMatch = types.find((t) => {
+    const tLower = t.toLowerCase();
+    return tLower.includes(qLower) || qLower.includes(tLower);
+  });
+  if (substringMatch) return substringMatch;
+
+  // 4. Token / Keyword match (e.g. "placement" in "Placement & Student Recruitment" matches "BITC Placement")
+  const qWords = qLower.split(/[\s&/_-]+/).filter((w) => w.length >= 4);
+  const tokenMatch = types.find((t) => {
+    const tLower = t.toLowerCase();
+    return qWords.some((word) => tLower.includes(word));
+  });
+  if (tokenMatch) return tokenMatch;
+
+  // 5. Fallback to original query
+  return qTrim;
+}
+
 function ContactContent() {
   const searchParams = useSearchParams();
   const paramEnquiry = searchParams.get("enquiry") || searchParams.get("type") || searchParams.get("enquiryType") || "";
@@ -22,40 +71,47 @@ function ContactContent() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [enquiryTypes, setEnquiryTypes] = useState<string[]>([]);
-  const [loadingTypes, setLoadingTypes] = useState<boolean>(true);
+  const [enquiryTypes, setEnquiryTypes] = useState<string[]>(DEFAULT_ENQUIRY_TYPES);
+  const [loadingTypes, setLoadingTypes] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchTypes = async () => {
       try {
-        setLoadingTypes(true);
         const res = await fetch(`${getApiBase()}/cms/enquiryTypes`);
         if (res.ok) {
           const data = await res.json();
-          if (Array.isArray(data)) {
+          if (Array.isArray(data) && data.length > 0) {
             // Deduplicate to guarantee clean list and unique keys
             const unique = Array.from(
               new Set(data.map((t: string) => (typeof t === "string" ? t.trim() : "")).filter(Boolean))
             );
-            setEnquiryTypes(unique);
+            if (unique.length > 0) {
+              setEnquiryTypes((prev) => {
+                // Merge dynamically fetched types while preserving any custom matched query param
+                const merged = Array.from(new Set([...unique, ...prev.filter((p) => !DEFAULT_ENQUIRY_TYPES.includes(p))]));
+                return merged;
+              });
+            }
           }
         }
       } catch (e) {
         console.error("Failed to fetch dynamic enquiry types", e);
-      } finally {
-        setLoadingTypes(false);
       }
     };
     fetchTypes();
   }, []);
 
   useEffect(() => {
-    if (paramEnquiry && enquiryTypes.length > 0) {
-      const matched = enquiryTypes.find((t) => t.toLowerCase() === paramEnquiry.toLowerCase()) || paramEnquiry;
-      setFormData((prev) => ({
-        ...prev,
-        enquiryType: matched,
-      }));
+    if (paramEnquiry) {
+      const matched = findMatchingEnquiryType(enquiryTypes, paramEnquiry);
+      if (matched) {
+        // Ensure matched is in enquiryTypes so <select> can render and show it
+        setEnquiryTypes((prev) => (prev.includes(matched) ? prev : [...prev, matched]));
+        setFormData((prev) => ({
+          ...prev,
+          enquiryType: matched,
+        }));
+      }
 
       // Scroll directly to the contact form
       const timer = setTimeout(() => {
@@ -425,6 +481,9 @@ function ContactContent() {
                         {enquiryTypes.map((type, idx) => (
                           <option key={`${type}-${idx}`} value={type} className="text-slate-800">{type}</option>
                         ))}
+                        {formData.enquiryType && !enquiryTypes.includes(formData.enquiryType) && (
+                          <option value={formData.enquiryType} className="text-slate-800">{formData.enquiryType}</option>
+                        )}
                       </select>
                       <ChevronDown className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                     </div>
