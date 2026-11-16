@@ -127,7 +127,7 @@ export default async function SuccessStoriesPage() {
                 Explore Certifications
               </Button>
             </Link>
-            <Link href="/contact">
+            <Link href="/contact?enquiry=BITC%20Placement#contact-form">
               <Button variant="outline" className="h-14 px-10 rounded-full border-blue-200/80 text-slate-600 hover:bg-white hover:border-blue-300 text-lg font-normal hover:-translate-y-1 transition-all w-full sm:w-auto bg-white/80 backdrop-blur-sm shadow-sm">
                 Contact Us
               </Button>

@@ -102,8 +102,32 @@ function ContactContent() {
   }, []);
 
   useEffect(() => {
-    if (paramEnquiry) {
-      const matched = findMatchingEnquiryType(enquiryTypes, paramEnquiry);
+    // 1. Check URL query param first
+    let targetQuery = paramEnquiry;
+
+    // 2. If no query param, check document.referrer to auto-detect where user came from
+    if (!targetQuery && typeof document !== "undefined" && document.referrer) {
+      try {
+        const refUrl = new URL(document.referrer);
+        const path = refUrl.pathname.toLowerCase();
+        if (path.includes("/placement")) {
+          targetQuery = "BITC Placement";
+        } else if (path.includes("/partner")) {
+          targetQuery = "Hiring Partners";
+        } else if (path.includes("/event")) {
+          targetQuery = "Technical Workshop";
+        } else if (path.includes("/scholarship")) {
+          targetQuery = "Scholarship Application";
+        } else if (path.includes("/certificat") || path.includes("/course")) {
+          targetQuery = "Certification Inquiry";
+        }
+      } catch (e) {
+        // ignore invalid URL
+      }
+    }
+
+    if (targetQuery) {
+      const matched = findMatchingEnquiryType(enquiryTypes, targetQuery);
       if (matched) {
         // Ensure matched is in enquiryTypes so <select> can render and show it
         setEnquiryTypes((prev) => (prev.includes(matched) ? prev : [...prev, matched]));
