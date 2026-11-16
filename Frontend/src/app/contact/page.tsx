@@ -6,23 +6,8 @@ import Image from "next/image";
 import { Mail, Phone, MapPin, Send, MessageSquare, CheckCircle2, AlertCircle, Loader2, Clock, Navigation, ExternalLink, ArrowRight, ChevronDown } from "lucide-react";
 import { getApiBase } from "@/lib/utils";
 
-const DEFAULT_ENQUIRY_TYPES = [
-  "Technical Workshop",
-  "Academic Collaboration (MOU)",
-  "Faculty Development Program (FDP)",
-  "Industry Visit",
-  "Corporate Training",
-  "Employee Upskill",
-  "BITC Placement",
-  "Leadership Program",
-  "Hiring Partners",
-  "Scholarship Application",
-  "Certification Inquiry",
-  "Other Enquiry",
-];
-
 function findMatchingEnquiryType(types: string[], query: string): string {
-  if (!query || !query.trim()) return "";
+  if (!query || !query.trim() || !types || types.length === 0) return "";
   const qTrim = query.trim();
   const qLower = qTrim.toLowerCase();
 
@@ -51,8 +36,7 @@ function findMatchingEnquiryType(types: string[], query: string): string {
   });
   if (tokenMatch) return tokenMatch;
 
-  // 5. Fallback to original query
-  return qTrim;
+  return "";
 }
 
 function ContactContent() {
@@ -71,37 +55,36 @@ function ContactContent() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [enquiryTypes, setEnquiryTypes] = useState<string[]>(DEFAULT_ENQUIRY_TYPES);
-  const [loadingTypes, setLoadingTypes] = useState<boolean>(false);
+  const [enquiryTypes, setEnquiryTypes] = useState<string[]>([]);
+  const [loadingTypes, setLoadingTypes] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchTypes = async () => {
       try {
+        setLoadingTypes(true);
         const res = await fetch(`${getApiBase()}/cms/enquiryTypes`);
         if (res.ok) {
           const data = await res.json();
-          if (Array.isArray(data) && data.length > 0) {
-            // Deduplicate to guarantee clean list and unique keys
+          if (Array.isArray(data)) {
+            // Deduplicate to guarantee clean list and unique keys from dashboard
             const unique = Array.from(
               new Set(data.map((t: string) => (typeof t === "string" ? t.trim() : "")).filter(Boolean))
             );
-            if (unique.length > 0) {
-              setEnquiryTypes((prev) => {
-                // Merge dynamically fetched types while preserving any custom matched query param
-                const merged = Array.from(new Set([...unique, ...prev.filter((p) => !DEFAULT_ENQUIRY_TYPES.includes(p))]));
-                return merged;
-              });
-            }
+            setEnquiryTypes(unique);
           }
         }
       } catch (e) {
-        console.error("Failed to fetch dynamic enquiry types", e);
+        console.error("Failed to fetch dynamic enquiry types from dashboard", e);
+      } finally {
+        setLoadingTypes(false);
       }
     };
     fetchTypes();
   }, []);
 
   useEffect(() => {
+    if (enquiryTypes.length === 0) return;
+
     // 1. Check URL query param first
     let targetQuery = paramEnquiry;
 
@@ -129,8 +112,6 @@ function ContactContent() {
     if (targetQuery) {
       const matched = findMatchingEnquiryType(enquiryTypes, targetQuery);
       if (matched) {
-        // Ensure matched is in enquiryTypes so <select> can render and show it
-        setEnquiryTypes((prev) => (prev.includes(matched) ? prev : [...prev, matched]));
         setFormData((prev) => ({
           ...prev,
           enquiryType: matched,
@@ -505,9 +486,6 @@ function ContactContent() {
                         {enquiryTypes.map((type, idx) => (
                           <option key={`${type}-${idx}`} value={type} className="text-slate-800">{type}</option>
                         ))}
-                        {formData.enquiryType && !enquiryTypes.includes(formData.enquiryType) && (
-                          <option value={formData.enquiryType} className="text-slate-800">{formData.enquiryType}</option>
-                        )}
                       </select>
                       <ChevronDown className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                     </div>
