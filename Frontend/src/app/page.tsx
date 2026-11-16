@@ -52,7 +52,7 @@ export default function Home() {
 
 
       {/* 1. Hero Section */}
-      <section className="relative w-full bg-white lg:min-h-[calc(100vh-62px)] py-6 sm:py-8 lg:py-10 overflow-hidden flex items-center justify-center">
+      <section className="relative w-full bg-white min-h-[calc(100dvh-64px)] lg:min-h-[calc(100vh-62px)] py-6 sm:py-8 lg:py-10 pb-16 sm:pb-20 lg:pb-10 overflow-hidden flex items-center justify-center">
         {/* Subtle background glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] opacity-25 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent pointer-events-none" />
 
@@ -105,7 +105,7 @@ export default function Home() {
 
 
       {/* 2.5. Our Academic Partners */}
-      <AcademicPartners />
+      <AcademicPartners className="mt-8 sm:mt-12 md:mt-0 pt-8 sm:pt-12 md:pt-12" />
 
       {/* 5. Featured Certifications */}
       <section id="featured-certifications" className="py-12 md:py-20 bg-white">
